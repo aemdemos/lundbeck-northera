@@ -24,5 +24,5 @@ Fixes #IssueID
 
 > If applicable, also describe how the PR reviewer can verify your expected changes, including anything that should NOT change.
 
-- Before: https://main--ise-boilerplate--aemdemos.aem.page/
-- After: https://BranchName--ise-boilerplate--aemdemos.aem.page/
+- Before: https://main--lundbeck-northera--aemdemos.aem.page/
+- After: https://BranchName--lundbeck-northera--aemdemos.aem.page/
