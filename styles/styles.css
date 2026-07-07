@@ -127,16 +127,6 @@
   src: local('Arial Bold'), local('Arial-BoldMT'), local('Arial'); /* @libs */
 }
 
-body { /* @libs */
-  display: none; /* @libs */
-  margin: 0; /* @libs */
-  background-color: var(--background-color); /* @libs */
-  color: var(--text-color); /* @libs */
-  font-family: var(--body-font-family); /* @libs */
-  font-size: var(--body-font-size-s); /* @libs */
-  line-height: var(--body-line-height); /* @libs */
-}
-
 body.appear { /* @libs */
   display: block; /* @libs */
 }
@@ -514,13 +504,6 @@ main > .section > div { /* @libs */
   padding: 0 15px; /* @libs */
 }
 
-/* section metadata - accent (light blue help strip) */
-main .section.accent { /* @libs */
-  background-color: var(--accent-bg); /* @libs */
-  margin: 0; /* @libs */
-  padding: 20px 0; /* @libs */
-}
-
 main .section.accent > div { /* @libs */
   display: flex; /* @libs */
   align-items: center; /* @libs */
@@ -543,14 +526,6 @@ main .section.accent img { /* @libs */
 main .section.light,
 main .section.highlight { /* @libs */
   background-color: var(--light-color); /* @libs */
-  margin: 0; /* @libs */
-  padding: var(--section-padding-vertical) 0; /* @libs */
-}
-
-/* section metadata - dark (teal) */
-main .section.dark { /* @libs */
-  background-color: var(--brand-primary); /* @libs */
-  color: var(--background-color); /* @libs */
   margin: 0; /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
