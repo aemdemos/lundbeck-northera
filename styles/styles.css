@@ -181,38 +181,6 @@ body {
   line-height: 1.6;
 }
 
-h2 { /* @libs */
-  font-size: var(--heading-font-size-xl); /* @libs */
-  line-height: var(--heading-line-height); /* @libs */
-  color: var(--brand-primary); /* @libs */
-}
-
-h3 { /* @libs */
-  font-size: var(--heading-font-size-l); /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
-  line-height: 1.6; /* @libs */
-  color: var(--text-color); /* @libs */
-  margin-bottom: 0; /* @libs */
-}
-
-h4 { /* @libs */
-  font-size: var(--heading-font-size-m); /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
-  line-height: 1.5; /* @libs */
-}
-
-h5 { /* @libs */
-  font-size: var(--heading-font-size-s); /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
-  line-height: 1.22; /* @libs */
-  color: var(--brand-primary-dark); /* @libs */
-}
-
-h6 { /* @libs */
-  font-size: var(--heading-font-size-xs); /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
-}
-
 h1,
 h2,
 h3,
@@ -230,7 +198,6 @@ h6 {
 
 h1 {
   font-size: var(--heading-font-size-xxl);
-  font-weight: 700;
   line-height: 1.2;
 }
 
@@ -586,15 +553,6 @@ main .section.dark { /* @libs */
   color: var(--background-color); /* @libs */
   margin: 0; /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
-}
-
-main .section.dark h1,
-main .section.dark h2,
-main .section.dark h3,
-main .section.dark h4,
-main .section.dark h5,
-main .section.dark h6 { /* @libs */
-  color: var(--background-color); /* @libs */
 }
 
 main .section.dark a { /* @libs */
