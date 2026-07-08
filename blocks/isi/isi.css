@@ -216,3 +216,53 @@ main .isi a:hover { /* @boilerplate */
     padding: 0 var(--isi-bar-content-padding-x-desktop); /* @boilerplate */
   }
 }
+
+/* ── Wide ≥ 1200px — ISI becomes a right-hand rail ────────────────
+   Source (northera-stage) renders a 10/2 two-column layout at ≥1200px:
+   main content left (~83%) + a persistent full ISI rail right (~17%,
+   border-left). Below 1200px the ISI reverts to the fixed bottom bar. */
+@media (width >= 1200px) {
+  main:has(> .section.isi-container) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(210px, 17%, 264px);
+    align-items: start;
+    column-gap: 0;
+  }
+
+  main:has(> .section.isi-container) > .section:not(.isi-container) {
+    grid-column: 1;
+  }
+
+  main:has(> .section.isi-container) > .section.isi-container {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    align-self: stretch;
+    margin: 0;
+    padding: 0;
+    border-top: 0;
+    border-left: 1px solid #a2a2a2;
+  }
+
+  /* rail content sits in a scrollable-with-page column with its own gutter */
+  main:has(> .section.isi-container) > .section.isi-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 16px;
+  }
+
+  /* full ISI content is always visible in the rail */
+  main:has(> .section.isi-container) .isi .isi-inline {
+    padding-bottom: 0;
+  }
+
+  /* the trailing abbreviated "Please see…" default-content belongs to the
+     bottom bar, not the rail — hide it in the desktop rail */
+  main:has(> .section.isi-container) > .section.isi-container > .default-content-wrapper {
+    display: none;
+  }
+
+  /* the fixed bottom bar is replaced by the rail at this width */
+  .isi-bar {
+    display: none;
+  }
+}
