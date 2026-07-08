@@ -95,6 +95,7 @@
   --section-padding-vertical: 40px;
   --icon-size: 24px;
   --h1-max-width: 16em;
+  --section-margin-top:30px;
 
   /* nav heights */
   --nav-height: 200px;
@@ -387,15 +388,6 @@ main p.img-pair-desktop {
   display: none;
 }
 
-@media (width >= 768px) {
-  main p.img-pair-mobile {
-    display: none;
-  }
-
-  main p.img-pair-desktop {
-    display: block;
-  }
-}
 
 /* tooltip — authorable via [[tooltip]<a href="#" title="...">text</a>] bracket syntax */
 .tooltip {
@@ -674,19 +666,21 @@ main .section.highlight { /* @libs */
    centered white h2, side padding 25px, bottom padding 40px) */
 main .section.reminders {
   background-color: var(--brand-blue);
-  margin: 0;
+  margin-top: var(--section-margin-top);
   padding: 0 25px 40px;
 }
 
 main .section.reminders > div {
   max-width: var(--max-width-site);
+  padding: 0;
 }
 
 main .section.reminders h2 {
   color: #fff;
   text-align: center;
-  padding-top: 48px;
   margin: 0;
+  font-size: var(--heading-font-size-s);
+  padding-top: 30px;
 }
 
 main .section.reminders p {
@@ -770,11 +764,60 @@ main .section.stats-callout h4 {
   color: var(--brand-primary);
 }
 
+
+main .section.dark {
+  background-color: var(--dark-color);
+  color: var(--background-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.dark h1,
+main .section.dark h2,
+main .section.dark h3,
+main .section.dark h4,
+main .section.dark h5,
+main .section.dark h6 {
+  color: var(--background-color);
+}
+
+main .section.accent {
+  background-color: var(--heading-color);
+  color: var(--background-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.accent h1,
+main .section.accent h2,
+main .section.accent h3,
+main .section.accent h4,
+main .section.accent h5,
+main .section.accent h6 {
+  color: var(--background-color);
+}
+
+
 @media (width >= 576px) {
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 540px;
   }
 }
+
+@media (width >= 768px) {
+  main p.img-pair-mobile {
+    display: none;
+  }
+
+  main p.img-pair-desktop {
+    display: block;
+  }
+
+  main .section.reminders > div {
+    width: 83.33333333%;
+  }
+}
+
 
 @media (width >= 900px) {
   :root {
@@ -847,36 +890,4 @@ main .section.stats-callout > div:not(.bg-image) {
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
   }
-}
-
-main .section.dark {
-  background-color: var(--dark-color);
-  color: var(--background-color);
-  margin: 0;
-  padding: 40px 0;
-}
-
-main .section.dark h1,
-main .section.dark h2,
-main .section.dark h3,
-main .section.dark h4,
-main .section.dark h5,
-main .section.dark h6 {
-  color: var(--background-color);
-}
-
-main .section.accent {
-  background-color: var(--heading-color);
-  color: var(--background-color);
-  margin: 0;
-  padding: 40px 0;
-}
-
-main .section.accent h1,
-main .section.accent h2,
-main .section.accent h3,
-main .section.accent h4,
-main .section.accent h5,
-main .section.accent h6 {
-  color: var(--background-color);
 }

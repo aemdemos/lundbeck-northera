@@ -73,7 +73,7 @@
   border: 0;
   background-color: transparent;
   display: block;
-  padding: 30px 0 35px;
+  padding: 30px 0;
 }
 
 .cards.reminders > ul > li + li {
@@ -83,15 +83,16 @@
 /* image: centered on top (mobile) */
 .cards.reminders .cards-card-image {
   text-align: center;
-  margin: 0 0 20px;
+  margin: auto;
+  width: 115px;
 }
 
 .cards.reminders > ul > li img {
-  width: 115px;
   height: auto;
   aspect-ratio: unset;
   object-fit: contain;
   display: inline-block;
+  margin-bottom: 20px;
 }
 
 /* text: white, centered (mobile) */
@@ -99,13 +100,14 @@
   color: #fff;
   text-align: center;
   margin: 0;
+  font-weight: 400;
 }
 
 .cards.reminders .cards-card-body p {
   color: #fff;
-  font-size: 18px;
-  line-height: 30px;
-  margin: 0 0 10px;
+  font-size: var(--body-font-size-s);
+  margin: 0;
+  text-align: left;
 }
 
 .cards.reminders .cards-card-body ul {
@@ -122,21 +124,30 @@
 }
 
 /* ≥768px — row layout: icon left, text right, left-aligned */
-@media (width >= 768px) {
+@media (width > 768px) {
   .cards.reminders > ul > li {
     display: flex;
     flex-direction: row;
     align-items: center;
+    padding: 25px 0;
+  }
+
+  .cards.reminders > ul > li img {
+    margin: 0;
+    width: 120px;
+    max-width: none;
+  }
+
+  .cards.reminders .cards-card-body p {
+    font-size: var(--body-font-size-m);
+    line-height: 30px;
   }
 
   .cards.reminders .cards-card-image {
     flex: 0 0 100px;
     margin: 0;
     text-align: left;
-  }
-
-  .cards.reminders > ul > li img {
-    width: 100px;
+    width: 120px;
   }
 
   .cards.reminders .cards-card-body {
