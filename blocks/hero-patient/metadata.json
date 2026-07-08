@@ -1,0 +1,39 @@
+{
+  "variantName": "hero-patient",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-06-03T18:45:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.northera.com/",
+    "originPage": "homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "patient-story-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "eyebrow + heading + subheading + CTA",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "pharmaceutical patient story pages",
+      "condition awareness landing pages",
+      "motivational hero sections with real patient photography"
+    ],
+    "notSuitableFor": [
+      "product feature pages without photography",
+      "minimalist text-only heroes",
+      "corporate pages without patient imagery"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-03T18:45:00.000Z"
+  }
+}

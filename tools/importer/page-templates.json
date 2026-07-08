@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "description": "NORTHERA main homepage with banner, hero, CTA cards, and ISI content",
+      "urls": [
+        "https://www.northera.com/"
+      ],
+      "blocks": [
+        {
+          "name": "columns-banner",
+          "instances": [
+            ".responsivegrid.ask-for-northera"
+          ]
+        },
+        {
+          "name": "hero-patient",
+          "instances": [
+            ".random-hero.cmp-hero-banner__desktop"
+          ]
+        },
+        {
+          "name": "cards-cta",
+          "instances": [
+            ".cmp-layout-quicklinks .image-text-cta"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Ask for NORTHERA Banner",
+          "selector": ".responsivegrid.ask-for-northera",
+          "style": null,
+          "blocks": [
+            "columns-banner"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Hero with Patient Stories",
+          "selector": ".cmp-layout__herobanner",
+          "style": null,
+          "blocks": [
+            "hero-patient"
+          ],
+          "defaultContent": [
+            ".text.cmp-text__home_page"
+          ]
+        },
+        {
+          "id": "section-3",
+          "name": "Quick Links Cards",
+          "selector": ".cmp-layout-quicklinks",
+          "style": "dark-teal",
+          "blocks": [
+            "cards-cta"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-4",
+          "name": "ISI Reference Bar",
+          "selector": ".isi-mobile-wrap",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            ".isi-mobile-wrap .cq-dd-fragment p"
+          ]
+        },
+        {
+          "id": "section-5",
+          "name": "ISI Full Content",
+          "selector": ".cmp-layout-isi__phone",
+          "style": "isi",
+          "blocks": [],
+          "defaultContent": [
+            ".cmp-isi__use",
+            ".cmp-isi__importantsafety",
+            ".cmp-isi__warningbox"
+          ]
+        }
+      ]
+    }
+  ]
+}

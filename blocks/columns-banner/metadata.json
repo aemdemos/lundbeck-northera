@@ -1,0 +1,39 @@
+{
+  "variantName": "columns-banner",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-06-03T18:45:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.northera.com/",
+    "originPage": "homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "informational-banner",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "icon + heading + paragraph",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "prescription reminder banners",
+      "icon + text informational strips",
+      "call-to-action banners with small icon and text"
+    ],
+    "notSuitableFor": [
+      "multi-column content layouts",
+      "image-heavy side-by-side content",
+      "comparison layouts"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-03T18:45:00.000Z"
+  }
+}
