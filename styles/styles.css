@@ -79,7 +79,7 @@
 
   /* heading sizes (mobile-first — source mobile: h1 20/24, h2 18/22) */
   --heading-font-size-xxl: 20px;
-  --heading-font-size-xl: 18px;
+  --heading-font-size-xl: 30px;
   --heading-font-size-l: 25px;
   --heading-font-size-m: 20px;
   --heading-font-size-s: 18px;
@@ -175,7 +175,6 @@ body {
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-s);
   line-height: var(--body-line-height);
-  -webkit-font-smoothing: antialiased;
 }
 
 body.appear { /* @libs */
@@ -232,10 +231,10 @@ h2 {
 }
 
 h3 {
-  font-size: var(--heading-font-size-l);
+  font-size: var(--heading-font-size-xl);
   font-family: var(--body-font-family);
   font-weight: 500;
-  line-height: 1.12;
+  line-height: 1.1;
   color: var(--brand-primary);
   margin-bottom: 0;
 }
@@ -274,8 +273,9 @@ blockquote {
 /* body copy on white uses brand blue on the source */
 main p {
   font-size: var(--body-font-size-ms);
-  line-height: 1.875;
-  color: var(--brand-primary);
+  line-height: 20px;
+  color: var(--brand-grey);
+  margin-bottom: 30px;
 }
 
 code,
@@ -597,7 +597,7 @@ main > .section { /* @libs */
 main > .section > div:not(.bg-image) {
   max-width: var(--max-width-site);
   margin: auto;
-  padding: 0 var(--spacing-m);
+  padding: 0 var(--spacing-s);
 }
 
 /* Section metadata: background image sits behind content */
