@@ -670,6 +670,29 @@ main .section.highlight { /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
 
+/* section metadata - reminders (source .cmp-image__textlist: brand-blue,
+   centered white h2, side padding 25px, bottom padding 40px) */
+main .section.reminders {
+  background-color: var(--brand-blue);
+  margin: 0;
+  padding: 0 25px 40px;
+}
+
+main .section.reminders > div {
+  max-width: var(--max-width-site);
+}
+
+main .section.reminders h2 {
+  color: #fff;
+  text-align: center;
+  padding-top: 48px;
+  margin: 0;
+}
+
+main .section.reminders p {
+  color: #fff;
+}
+
 main .section.dark a { /* @libs */
   color: var(--background-color); /* @libs */
 }

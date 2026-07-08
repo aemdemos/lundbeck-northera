@@ -56,6 +56,97 @@
   order: 1; /* @boilerplate */
 }
 
+/* ══════════════════════════════════════════════════════════════
+   "reminders" variant — source .cmp-image__textlist teasers.
+   Brand-blue section background (from section-metadata style
+   "reminders"); white text. Mobile default = stacked (image on top,
+   centered; text below, centered). At ≥768px each card becomes a row
+   (icon left ~100px, text right, left-aligned).
+   ══════════════════════════════════════════════════════════════ */
+.cards.reminders > ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.cards.reminders > ul > li {
+  border: 0;
+  background-color: transparent;
+  display: block;
+  padding: 30px 0 35px;
+}
+
+.cards.reminders > ul > li + li {
+  border-top: 1px solid #fff;
+}
+
+/* image: centered on top (mobile) */
+.cards.reminders .cards-card-image {
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.cards.reminders > ul > li img {
+  width: 115px;
+  height: auto;
+  aspect-ratio: unset;
+  object-fit: contain;
+  display: inline-block;
+}
+
+/* text: white, centered (mobile) */
+.cards.reminders .cards-card-body {
+  color: #fff;
+  text-align: center;
+  margin: 0;
+}
+
+.cards.reminders .cards-card-body p {
+  color: #fff;
+  font-size: 18px;
+  line-height: 30px;
+  margin: 0 0 10px;
+}
+
+.cards.reminders .cards-card-body ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.cards.reminders .cards-card-body li {
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  text-align: left;
+  list-style-type: none;
+}
+
+/* ≥768px — row layout: icon left, text right, left-aligned */
+@media (width >= 768px) {
+  .cards.reminders > ul > li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cards.reminders .cards-card-image {
+    flex: 0 0 100px;
+    margin: 0;
+    text-align: left;
+  }
+
+  .cards.reminders > ul > li img {
+    width: 100px;
+  }
+
+  .cards.reminders .cards-card-body {
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    margin-left: 50px;
+  }
+}
+
 @media (width >= 992px) {
   .cards.cards-2-cols > ul {
     grid-template-columns: repeat(2, 1fr);
