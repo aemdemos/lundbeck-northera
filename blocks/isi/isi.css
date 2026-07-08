@@ -165,4 +165,214 @@ main .isi a:hover {
     font-size: 16px;
     line-height: 19px;
   }
+
+  /* the fixed bottom bar is replaced by the right rail at this width */
+  .isi-bar {
+    display: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Fixed bottom bar (< 1200px)
+   Source: .cmp-layout-isi__phone / .cmp-layout-isi__desktop (fixed, bottom)
+   Persistent bar with collapsed "USE" / "IMPORTANT SAFETY INFORMATION"
+   rows + a peek of the warning box; each expands into a scrollable panel.
+   Hidden (.isi-bar-hidden) when the in-flow ISI scrolls into view.
+   ══════════════════════════════════════════════════════════════ */
+.isi-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 20;
+  background-color: #fff;
+  border-top: 1px solid var(--isi-divider-color);
+  box-shadow: 0 -2px 6px rgb(0 0 0 / 12%);
+  max-height: 40vh;
+  overflow: hidden;
+}
+
+.isi-bar.isi-bar-hidden {
+  display: none;
+}
+
+.isi-bar-inner {
+  max-width: var(--max-width-site);
+  margin: 0 auto;
+}
+
+/* each collapsible section */
+.isi-bar-section {
+  border-bottom: 1px solid var(--isi-divider-color);
+}
+
+.isi-bar-section:last-child {
+  border-bottom: 0;
+}
+
+.isi-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 25px;
+  cursor: pointer;
+}
+
+.isi-bar-title {
+  font-family: var(--isi-heading-font);
+  font-weight: 400;
+  font-size: 18px;
+  color: var(--isi-heading-color);
+  text-transform: uppercase;
+}
+
+/* +/- toggle button (source: cyan square with glyph) */
+.isi-bar-toggle {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--brand-cyan);
+  box-shadow: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.isi-bar-toggle:hover,
+.isi-bar-toggle:focus {
+  background-color: var(--brand-cyan);
+  box-shadow: none;
+}
+
+.isi-bar-toggle-icon,
+.isi-bar-toggle-icon::before,
+.isi-bar-toggle-icon::after {
+  position: absolute;
+  background-color: #fff;
+}
+
+.isi-bar-toggle-icon {
+  inset: 0;
+  background: none;
+}
+
+.isi-bar-toggle-icon::before,
+.isi-bar-toggle-icon::after {
+  content: '';
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  transform: translate(-50%, -50%);
+}
+
+/* vertical stroke → makes the "+" ; removed when open → "−" */
+.isi-bar-toggle-icon::after {
+  width: 2px;
+  height: 12px;
+}
+
+.isi-bar-section.open .isi-bar-toggle-icon::after {
+  opacity: 0;
+}
+
+/* collapsed peek of the warning box under the Important Safety header */
+.isi-bar-peek {
+  padding: 0 25px 12px;
+  max-height: 90px;
+  overflow: hidden;
+}
+
+.isi-bar-peek .isi-warningbox {
+  border: 2px solid #000;
+  padding: 8px 8px 2px;
+  margin: 0;
+}
+
+.isi-bar-peek .isi-warningbox p {
+  font-family: var(--isi-body-font);
+  font-size: 14px;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* expandable full panel (hidden until section.open) */
+.isi-bar-panel {
+  display: none;
+  padding: 0 25px 25px;
+  overflow-y: auto;
+  max-height: calc(40vh - 50px);
+}
+
+.isi-bar-section.open .isi-bar-panel {
+  display: block;
+}
+
+/* when a section is open, hide the sibling collapsed rows + peek so the
+   open panel takes the bar (source: single expanded section) */
+.isi-bar-expanded .isi-bar-section:not(.open) {
+  display: none;
+}
+
+.isi-bar-expanded .isi-bar-peek {
+  display: none;
+}
+
+.isi-bar-expanded {
+  max-height: 80vh;
+}
+
+.isi-bar-panel p {
+  font-family: var(--isi-body-font);
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--isi-body-color);
+  margin: 0 0 10px;
+}
+
+.isi-bar-panel ul {
+  padding-left: 15px;
+  margin: 0 0 10px;
+}
+
+.isi-bar-panel li {
+  position: relative;
+  list-style: none;
+  font-family: var(--isi-body-font);
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--isi-body-color);
+  margin-bottom: 10px;
+}
+
+.isi-bar-section--use .isi-bar-panel li::before {
+  content: '-';
+  position: absolute;
+  text-indent: -10px;
+}
+
+.isi-bar-section--important .isi-bar-panel li::before {
+  content: '\2022';
+  color: var(--isi-bullet-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.isi-bar-panel .isi-warningbox {
+  border: 2px solid #000;
+  padding: 10px 10px 2px;
+  margin-bottom: 10px;
+}
+
+.isi-bar-panel .isi-warningbox p:first-child {
+  text-align: center;
+}
+
+.isi-bar-panel a {
+  color: var(--link-color);
+  text-decoration: underline;
+  word-break: break-word;
 }

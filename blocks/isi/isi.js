@@ -1,49 +1,150 @@
 /**
  * ISI (Important Safety Information) block.
  *
- * Authored as two rows:
- *   Row 1 – abbreviated content (the "Please see…" line shown in the source's
- *           fixed bar). Hidden here; the full content is shown in-flow.
- *   Row 2 – full inline content.
+ * Authored as two blocks in one section (source parity):
+ *   • "Use" block                    → .isi--use
+ *   • "Important Safety Information"  → .isi--important
+ * Each block has two rows:
+ *   Row 1 – abbreviated "Please see…" content (source fixed-bar line)
+ *   Row 2 – full inline content
  *
- * Placement (CSS): the ISI block(s) render in normal flow at the bottom of the
- * page by default, and become a right-hand rail at ≥1200px — matching the
- * source's `.cmp-layout-isi__desktop` behavior (full content always visible).
- *
- * This decorator adds semantic hooks so the CSS can replicate the source visuals:
- *   • `.isi--use`        – the "Use" block
- *   • `.isi--important`  – the "Important Safety Information" block
- *   • `.isi-abbr`        – abbreviated row (hidden)
- *   • `.isi-full`        – full-content row
- *   • `.isi-warningbox`  – the boxed "WARNING: SUPINE HYPERTENSION" callout
+ * Placement:
+ *   • In normal flow at the bottom of the page (full content), and
+ *   • a persistent FIXED BOTTOM BAR (< 1200px) that shows the collapsed
+ *     "USE" / "IMPORTANT SAFETY INFORMATION" rows with +/- toggles and a
+ *     peek of the boxed warning. Clicking a toggle expands that section into
+ *     a full scrollable panel. The bar hides once the in-flow ISI scrolls
+ *     into view and reappears on scroll-up (source behavior).
+ *   • At ≥ 1200px the bar is hidden and the ISI section becomes a right rail
+ *     (see isi.css).
  *
  * @param {HTMLElement} block
  */
+
+const BAR_ID = 'isi-bar';
+
+function getOrCreateBar() {
+  let bar = document.getElementById(BAR_ID);
+  if (bar) return bar;
+
+  bar = document.createElement('div');
+  bar.id = BAR_ID;
+  bar.className = 'isi-bar';
+  bar.setAttribute('aria-label', 'Important Safety Information');
+  const inner = document.createElement('div');
+  inner.className = 'isi-bar-inner';
+  bar.append(inner);
+  document.body.append(bar);
+  return bar;
+}
+
+function makeToggle() {
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'isi-bar-toggle';
+  toggle.setAttribute('aria-expanded', 'false');
+  const icon = document.createElement('span');
+  icon.className = 'isi-bar-toggle-icon';
+  toggle.append(icon);
+  return toggle;
+}
+
+/**
+ * Build one collapsible section in the fixed bar for this ISI block.
+ * @param {HTMLElement} bar
+ * @param {string} variant 'use' | 'important'
+ * @param {string} label heading text
+ * @param {HTMLElement} fullRow the block's full-content row (cloned into the panel)
+ */
+function addBarSection(bar, variant, label, fullRow) {
+  const inner = bar.querySelector('.isi-bar-inner');
+  const section = document.createElement('section');
+  section.className = `isi-bar-section isi-bar-section--${variant}`;
+  section.dataset.isi = variant;
+
+  const header = document.createElement('div');
+  header.className = 'isi-bar-header';
+  const title = document.createElement('span');
+  title.className = 'isi-bar-title';
+  title.textContent = label;
+  const toggle = makeToggle();
+  toggle.setAttribute('aria-label', `Expand ${label}`);
+  header.append(title, toggle);
+
+  const panel = document.createElement('div');
+  panel.className = 'isi-bar-panel';
+  // clone the full content into the expandable panel
+  panel.innerHTML = fullRow.innerHTML;
+  // remove the duplicate leading label paragraph inside the clone (kept in header)
+  const firstStrong = panel.querySelector('p strong, p b');
+  if (firstStrong && new RegExp(`^${label}`, 'i').test(firstStrong.textContent.trim())) {
+    const p = firstStrong.closest('p');
+    if (p) p.remove();
+  }
+
+  section.append(header, panel);
+
+  // collapsed peek: the important-safety section shows its warning box peeking
+  if (variant === 'important') {
+    const box = panel.querySelector('.isi-warningbox');
+    if (box) {
+      const peek = document.createElement('div');
+      peek.className = 'isi-bar-peek';
+      peek.innerHTML = box.outerHTML;
+      header.after(peek);
+    }
+  }
+
+  const setOpen = (open) => {
+    section.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', `${open ? 'Collapse' : 'Expand'} ${label}`);
+    bar.classList.toggle('isi-bar-expanded', open);
+    if (open) {
+      // only one section open at a time
+      inner.querySelectorAll('.isi-bar-section.open').forEach((s) => {
+        if (s !== section) s.classList.remove('open');
+      });
+    }
+  };
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setOpen(!section.classList.contains('open'));
+    if (!inner.querySelector('.isi-bar-section.open')) bar.classList.remove('isi-bar-expanded');
+  });
+
+  inner.append(section);
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length === 0) return;
 
-  /* ── 1. Split authored rows ─────────────────────────────────── */
   const [abbreviatedRow, inlineRow] = rows;
   if (abbreviatedRow) abbreviatedRow.classList.add('isi-abbr');
   if (inlineRow) inlineRow.classList.add('isi-full');
-
   const contentRow = inlineRow || abbreviatedRow;
 
-  /* ── 2. Tag the block variant (Use vs Important Safety) ─────── */
+  /* Tag the block variant + resolve its label */
   const text = (contentRow.textContent || '').trim();
+  let variant = '';
+  let label = '';
   if (/^\s*Use\b/i.test(text)) {
+    variant = 'use';
+    label = 'USE';
     block.classList.add('isi--use');
   } else if (/IMPORTANT SAFETY INFORMATION/i.test(text)) {
+    variant = 'important';
+    label = 'IMPORTANT SAFETY INFORMATION';
     block.classList.add('isi--important');
   }
 
-  /* ── 3. Wrap the boxed supine-hypertension warning ──────────── */
+  /* Wrap the boxed supine-hypertension warning (in-flow content) */
   const paragraphs = [...contentRow.querySelectorAll('p')];
   const warningStart = paragraphs.find((p) => /^\s*WARNING:/i.test(p.textContent));
-  if (warningStart) {
+  if (warningStart && !warningStart.closest('.isi-warningbox')) {
     const boxItems = [warningStart];
-    // include the immediately-following explanatory paragraph(s) until a list/heading
     let next = warningStart.nextElementSibling;
     while (next && next.tagName === 'P' && !/IMPORTANT SAFETY INFORMATION/i.test(next.textContent)) {
       boxItems.push(next);
@@ -53,5 +154,32 @@ export default function decorate(block) {
     box.className = 'isi-warningbox';
     warningStart.before(box);
     boxItems.forEach((el) => box.append(el));
+  }
+
+  /* Build the fixed bottom bar section for this block */
+  if (variant) {
+    const bar = getOrCreateBar();
+    addBarSection(bar, variant, label, contentRow);
+  }
+
+  /* Hide the bar once the in-flow ISI section scrolls into view (source behavior) */
+  const section = block.closest('.section');
+  if (section && !section.dataset.isiObserved) {
+    section.dataset.isiObserved = 'true';
+    const bar = document.getElementById(BAR_ID);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!bar) return;
+        if (entry.isIntersecting) {
+          bar.classList.add('isi-bar-hidden');
+          bar.classList.remove('isi-bar-expanded');
+          bar.querySelectorAll('.isi-bar-section.open').forEach((s) => s.classList.remove('open'));
+        } else {
+          bar.classList.remove('isi-bar-hidden');
+        }
+      },
+      { threshold: 0 },
+    );
+    observer.observe(section);
   }
 }
