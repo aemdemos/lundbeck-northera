@@ -127,30 +127,37 @@ main .isi a:hover {
    at ~17% (2 cols) with a left border.
    ══════════════════════════════════════════════════════════════ */
 @media (width >= 1200px) {
+  /* Source layout: main content (~83%) on the left, the full ISI rail (~17%)
+     pinned to the top-right with a left border. The rail is the LAST element
+     in DOM order, so a float:right would drop below the content; instead we
+     absolutely-position the rail to the top-right and reserve its gutter with
+     right padding on the content sections. The rail sizes to its own content
+     (no grid row-stretch → no empty gap). */
   main:has(> .section.isi-container) {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(220px, 18%, 280px);
-    align-items: start;
-    column-gap: 0;
+    display: block;
+    position: relative;
   }
 
   main:has(> .section.isi-container) > .section:not(.isi-container) {
-    grid-column: 1;
+    width: 83%;
+    box-sizing: border-box;
   }
 
   main:has(> .section.isi-container) > .section.isi-container {
-    grid-column: 2;
-    grid-row: 1 / -1;
-    align-self: stretch;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 17%;
     margin: 0;
     padding: 0;
     border-left: 1px solid var(--isi-rail-border-color);
+    box-sizing: border-box;
   }
 
   main:has(> .section.isi-container) > .section.isi-container > div {
     max-width: none;
     margin: 0;
-    padding: var(--isi-rail-padding);
+    padding: 0;
   }
 
   /* the trailing abbreviated "Please see…" default content is for the
@@ -159,11 +166,33 @@ main .isi a:hover {
     display: none;
   }
 
-  /* smaller rail text so it fits the narrow column (source rail uses 16px) */
+  /* rail text sizing (source rail uses 16px) */
   main:has(> .section.isi-container) .isi p,
   main:has(> .section.isi-container) .isi li {
     font-size: 16px;
     line-height: 19px;
+  }
+
+  /* ── "Use" block: label + fixed-height 250px inner-scroll body ──
+     (source: .cmp-isi__use .text:last-child { height:250px; overflow-y:scroll }) */
+  main:has(> .section.isi-container) .isi.isi--use {
+    border-bottom: 1px solid var(--isi-divider-color);
+    padding: 20px 15px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi--use .isi-use-label {
+    margin: 0 0 10px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi--use .isi-use-body {
+    height: 250px;
+    overflow-y: scroll;
+  }
+
+  /* ── "Important Safety" block: auto height, own margin-top ── */
+  main:has(> .section.isi-container) .isi.isi--important {
+    margin-top: 20px;
+    padding: 0 15px 20px;
   }
 
   /* the fixed bottom bar is replaced by the right rail at this width */

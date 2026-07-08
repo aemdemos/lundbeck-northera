@@ -134,6 +134,20 @@ export default function decorate(block) {
     variant = 'use';
     label = 'USE';
     block.classList.add('isi--use');
+    /* Source: the "Use" label sits above a fixed-height (250px) inner-scroll
+       body. Split the label from the rest and wrap the body so CSS can make
+       just the body scroll (desktop rail). */
+    const contentCell = contentRow.firstElementChild || contentRow;
+    const kids = [...contentCell.children];
+    const labelEl = kids[0];
+    const bodyEls = kids.slice(1);
+    if (labelEl) labelEl.classList.add('isi-use-label');
+    if (bodyEls.length) {
+      const body = document.createElement('div');
+      body.className = 'isi-use-body';
+      labelEl.after(body);
+      bodyEls.forEach((el) => body.append(el));
+    }
   } else if (/IMPORTANT SAFETY INFORMATION/i.test(text)) {
     variant = 'important';
     label = 'IMPORTANT SAFETY INFORMATION';
