@@ -1,99 +1,57 @@
 /**
  * ISI (Important Safety Information) block.
  *
- * Authored with two rows:
- *   Row 1 – abbreviated content shown in the persistent fixed bottom bar.
- *   Row 2 – full inline content rendered in-page when the section scrolls into view.
+ * Authored as two rows:
+ *   Row 1 – abbreviated content (the "Please see…" line shown in the source's
+ *           fixed bar). Hidden here; the full content is shown in-flow.
+ *   Row 2 – full inline content.
  *
- * Behaviour:
- *   • When the ISI **section** is outside the viewport the fixed bar is visible.
- *   • Clicking the "+" expands the bar (adds `.full`); clicking "−" collapses it.
- *   • Once the section scrolls into view the bar hides and the inline content displays.
+ * Placement (CSS): the ISI block(s) render in normal flow at the bottom of the
+ * page by default, and become a right-hand rail at ≥1200px — matching the
+ * source's `.cmp-layout-isi__desktop` behavior (full content always visible).
+ *
+ * This decorator adds semantic hooks so the CSS can replicate the source visuals:
+ *   • `.isi--use`        – the "Use" block
+ *   • `.isi--important`  – the "Important Safety Information" block
+ *   • `.isi-abbr`        – abbreviated row (hidden)
+ *   • `.isi-full`        – full-content row
+ *   • `.isi-warningbox`  – the boxed "WARNING: SUPINE HYPERTENSION" callout
  *
  * @param {HTMLElement} block
  */
 export default function decorate(block) {
   const rows = [...block.children];
-  if (rows.length < 2) return;
+  if (rows.length === 0) return;
 
   /* ── 1. Split authored rows ─────────────────────────────────── */
-  const abbreviatedRow = rows[0];
-  const inlineRow = rows[1];
+  const [abbreviatedRow, inlineRow] = rows;
+  if (abbreviatedRow) abbreviatedRow.classList.add('isi-abbr');
+  if (inlineRow) inlineRow.classList.add('isi-full');
 
-  /* Mark the inline row so CSS can control its visibility */
-  inlineRow.classList.add('isi-inline');
+  const contentRow = inlineRow || abbreviatedRow;
 
-  /* ── 2. Build the fixed bottom bar ──────────────────────────── */
-  const bar = document.createElement('div');
-  bar.className = 'isi-bar';
-  bar.setAttribute('aria-label', 'Important Safety Information');
+  /* ── 2. Tag the block variant (Use vs Important Safety) ─────── */
+  const text = (contentRow.textContent || '').trim();
+  if (/^\s*Use\b/i.test(text)) {
+    block.classList.add('isi--use');
+  } else if (/IMPORTANT SAFETY INFORMATION/i.test(text)) {
+    block.classList.add('isi--important');
+  }
 
-  /* Move the abbreviated content into the bar */
-  const barContent = document.createElement('div');
-  barContent.className = 'isi-bar-content';
-
-  /* Re-parent abbreviated children into the bar content wrapper */
-  const abbrCells = [...abbreviatedRow.children];
-  abbrCells.forEach((cell) => {
-    cell.classList.add('isi-bar-col');
-    barContent.append(cell);
-  });
-
-  /* Toggle button (+/−) */
-  const toggle = document.createElement('button');
-  toggle.className = 'isi-bar-toggle';
-  toggle.setAttribute('aria-expanded', 'false');
-  toggle.setAttribute('aria-label', 'Expand safety information');
-  toggle.type = 'button';
-  const icon = document.createElement('span');
-  icon.className = 'isi-bar-toggle-icon';
-  toggle.append(icon);
-
-  bar.append(barContent);
-  bar.append(toggle);
-
-  /* Remove the now-empty abbreviated row from the block */
-  abbreviatedRow.remove();
-
-  /* Append bar to <body> so it sits outside the page flow */
-  document.body.append(bar);
-
-  /* ── 3. Expand / collapse toggle ────────────────────────────── */
-  toggle.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const expanded = bar.classList.toggle('full');
-    toggle.setAttribute('aria-expanded', String(expanded));
-    toggle.setAttribute(
-      'aria-label',
-      expanded ? 'Collapse safety information' : 'Expand safety information',
-    );
-  });
-
-  /* Clicking anywhere on the collapsed bar also expands it */
-  bar.addEventListener('click', () => {
-    if (!bar.classList.contains('full')) {
-      bar.classList.add('full');
-      toggle.setAttribute('aria-expanded', 'true');
-      toggle.setAttribute('aria-label', 'Collapse safety information');
+  /* ── 3. Wrap the boxed supine-hypertension warning ──────────── */
+  const paragraphs = [...contentRow.querySelectorAll('p')];
+  const warningStart = paragraphs.find((p) => /^\s*WARNING:/i.test(p.textContent));
+  if (warningStart) {
+    const boxItems = [warningStart];
+    // include the immediately-following explanatory paragraph(s) until a list/heading
+    let next = warningStart.nextElementSibling;
+    while (next && next.tagName === 'P' && !/IMPORTANT SAFETY INFORMATION/i.test(next.textContent)) {
+      boxItems.push(next);
+      next = next.nextElementSibling;
     }
-  });
-
-  /* ── 4. IntersectionObserver – show/hide the bar ────────────── */
-  const section = block.closest('.section');
-  if (!section) return;
-
-  const observer = new IntersectionObserver(
-    ([entry]) => {
-      if (entry.isIntersecting) {
-        bar.classList.add('isi-bar-hidden');
-        bar.classList.remove('full');
-        toggle.setAttribute('aria-expanded', 'false');
-      } else {
-        bar.classList.remove('isi-bar-hidden');
-      }
-    },
-    { threshold: 0 },
-  );
-
-  observer.observe(section);
+    const box = document.createElement('div');
+    box.className = 'isi-warningbox';
+    warningStart.before(box);
+    boxItems.forEach((el) => box.append(el));
+  }
 }
