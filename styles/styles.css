@@ -380,17 +380,19 @@ button:disabled:hover {
   display: none;
 }
 
-/* titration chart: vertical (mobile) by default, horizontal at 768+ */
-main .titration-chart-desktop {
+/* responsive image pairs: the CMS delivers two consecutive image-only
+   paragraphs (first = mobile variant, second = desktop variant). scripts.js
+   tags them; show one per breakpoint (swap at 768px). */
+main p.img-pair-desktop {
   display: none;
 }
 
 @media (width >= 768px) {
-  main .titration-chart-mobile {
+  main p.img-pair-mobile {
     display: none;
   }
 
-  main .titration-chart-desktop {
+  main p.img-pair-desktop {
     display: block;
   }
 }
