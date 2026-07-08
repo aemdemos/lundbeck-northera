@@ -1,0 +1,35 @@
+@import url('./columns-banner-tokens.css');
+
+.columns-banner > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-banner img {
+  width: 100%;
+}
+
+.columns-banner > div > div {
+  order: 1;
+}
+
+.columns-banner > div > .columns-banner-img-col {
+  order: 0;
+}
+
+.columns-banner > div > .columns-banner-img-col img {
+  display: block;
+}
+
+@media (width >= 900px) {
+  .columns-banner > div {
+    align-items: center;
+    flex-direction: unset;
+    gap: var(--columns-banner-gap);
+  }
+
+  .columns-banner > div > div {
+    flex: 1;
+    order: unset;
+  }
+}
