@@ -380,6 +380,21 @@ button:disabled:hover {
   display: none;
 }
 
+/* titration chart: vertical (mobile) by default, horizontal at 768+ */
+main .titration-chart-desktop {
+  display: none;
+}
+
+@media (width >= 768px) {
+  main .titration-chart-mobile {
+    display: none;
+  }
+
+  main .titration-chart-desktop {
+    display: block;
+  }
+}
+
 /* tooltip — authorable via [[tooltip]<a href="#" title="...">text</a>] bracket syntax */
 .tooltip {
   cursor: help;
