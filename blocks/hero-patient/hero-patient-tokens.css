@@ -1,0 +1,7 @@
+/* hero-patient design tokens */
+:root {
+  --hero-patient-padding: 32px 16px;
+  --hero-patient-padding-desktop: 64px 32px;
+  --hero-patient-min-height: 400px;
+  --hero-patient-heading-max-width: 600px;
+}

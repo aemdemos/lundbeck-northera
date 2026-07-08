@@ -1,0 +1,39 @@
+{
+  "variantName": "cards-cta",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-06-03T18:45:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.northera.com/",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "minimal",
+    "purpose": "navigation-cta",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "heading + description + CTA link",
+    "buttonCount": 1,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "navigation card panels with CTA buttons",
+      "feature highlight cards without images",
+      "quick-link sections on dark backgrounds"
+    ],
+    "notSuitableFor": [
+      "product cards with images",
+      "article/blog cards with thumbnails",
+      "team member cards"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-06-03T18:45:00.000Z"
+  }
+}
