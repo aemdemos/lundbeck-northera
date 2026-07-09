@@ -20,13 +20,13 @@ main .isi {
 }
 
 /* "Use" block has a bottom divider between it and Important Safety */
-main .isi.isi--use {
+main .isi.isi-use {
   border-bottom: var(--isi-divider-width) solid var(--isi-divider-color);
   padding-bottom: var(--isi-block-padding-y);
   margin-bottom: 0;
 }
 
-main .isi.isi--important {
+main .isi.isi-important {
   padding-top: var(--isi-block-padding-y);
 }
 
@@ -47,15 +47,15 @@ main .isi p strong {
   font-weight: 400;
 }
 
-main .isi.isi--use p:first-child b,
-main .isi.isi--use p:first-child strong {
+main .isi.isi-use p:first-child b,
+main .isi.isi-use p:first-child strong {
   font-size: var(--isi-use-heading-font-size);
   line-height: 22px;
   display: inline-block;
 }
 
-main .isi.isi--important p:first-child b,
-main .isi.isi--important p:first-child strong {
+main .isi.isi-important p:first-child b,
+main .isi.isi-important p:first-child strong {
   font-size: var(--isi-important-heading-font-size);
 }
 
@@ -76,14 +76,14 @@ main .isi li {
 }
 
 /* "Use" block: dash bullets */
-main .isi.isi--use li::before {
+main .isi.isi-use li::before {
   content: '-';
   text-indent: -10px;
   position: absolute;
 }
 
 /* "Important Safety" block: brand-blue round bullets */
-main .isi.isi--important li::before {
+main .isi.isi-important li::before {
   content: '\2022';
   color: var(--isi-bullet-color);
   font-weight: bold;
@@ -108,98 +108,21 @@ main .isi .isi-warningbox p b,
 main .isi .isi-warningbox p strong {
   color: var(--isi-body-color);
   font-family: var(--isi-heading-font);
+  font-size: var(--isi-warningbox-font-size);
+  font-weight: 700;
 }
 
 /* ── Links ──────────────────────────────────────────────────── */
 main .isi a {
   color: var(--link-color);
   text-decoration: underline;
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 main .isi a:hover {
   text-decoration: underline;
 }
 
-/* ══════════════════════════════════════════════════════════════
-   Wide ≥ 1200px — the ISI section becomes a right-hand rail.
-   Source renders main content at ~83% (10 cols) and the full ISI
-   at ~17% (2 cols) with a left border.
-   ══════════════════════════════════════════════════════════════ */
-@media (width >= 1200px) {
-  /* Source layout: main content (~83%) on the left, the full ISI rail (~17%)
-     pinned to the top-right with a left border. The rail is the LAST element
-     in DOM order, so a float:right would drop below the content; instead we
-     absolutely-position the rail to the top-right and reserve its gutter with
-     right padding on the content sections. The rail sizes to its own content
-     (no grid row-stretch → no empty gap). */
-  main:has(> .section.isi-container) {
-    display: block;
-    position: relative;
-  }
-
-  main:has(> .section.isi-container) > .section:not(.isi-container) {
-    width: 83%;
-    box-sizing: border-box;
-  }
-
-  main:has(> .section.isi-container) > .section.isi-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 17%;
-    margin: 0;
-    padding: 0;
-    border-left: 1px solid var(--isi-rail-border-color);
-    box-sizing: border-box;
-  }
-
-  main:has(> .section.isi-container) > .section.isi-container > div {
-    max-width: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* the trailing abbreviated "Please see…" default content is for the
-     bottom placement only — hide it in the desktop rail */
-  main:has(> .section.isi-container) > .section.isi-container > .default-content-wrapper {
-    display: none;
-  }
-
-  /* rail text sizing (source rail uses 16px) */
-  main:has(> .section.isi-container) .isi p,
-  main:has(> .section.isi-container) .isi li {
-    font-size: 16px;
-    line-height: 19px;
-  }
-
-  /* ── "Use" block: label + fixed-height 250px inner-scroll body ──
-     (source: .cmp-isi__use .text:last-child { height:250px; overflow-y:scroll }) */
-  main:has(> .section.isi-container) .isi.isi--use {
-    border-bottom: 1px solid var(--isi-divider-color);
-    padding: 20px 15px;
-  }
-
-  main:has(> .section.isi-container) .isi.isi--use .isi-use-label {
-    margin: 0 0 10px;
-  }
-
-  main:has(> .section.isi-container) .isi.isi--use .isi-use-body {
-    height: 250px;
-    overflow-y: scroll;
-  }
-
-  /* ── "Important Safety" block: auto height, own margin-top ── */
-  main:has(> .section.isi-container) .isi.isi--important {
-    margin-top: 20px;
-    padding: 0 15px 20px;
-  }
-
-  /* the fixed bottom bar is replaced by the right rail at this width */
-  .isi-bar {
-    display: none;
-  }
-}
 
 /* ══════════════════════════════════════════════════════════════
    Fixed bottom bar (< 1200px)
@@ -321,10 +244,11 @@ main .isi a:hover {
 
 .isi-bar-peek .isi-warningbox p {
   font-family: var(--isi-body-font);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.3;
   margin: 0;
 }
+
 
 /* expandable full panel (hidden until section.open) */
 .isi-bar-panel {
@@ -354,7 +278,7 @@ main .isi a:hover {
 
 .isi-bar-panel p {
   font-family: var(--isi-body-font);
-  font-size: 16px;
+  font-size: var(--isi-body-font-size);
   line-height: 1.4;
   color: var(--isi-body-color);
   margin: 0 0 10px;
@@ -369,19 +293,19 @@ main .isi a:hover {
   position: relative;
   list-style: none;
   font-family: var(--isi-body-font);
-  font-size: 16px;
-  line-height: 1.3;
+  font-size: var(--isi-body-font-size);
+  line-height: var(--isi-body-line-height);
   color: var(--isi-body-color);
   margin-bottom: 10px;
 }
 
-.isi-bar-section--use .isi-bar-panel li::before {
+.isi-bar-section-use .isi-bar-panel li::before {
   content: '-';
   position: absolute;
   text-indent: -10px;
 }
 
-.isi-bar-section--important .isi-bar-panel li::before {
+.isi-bar-section-important .isi-bar-panel li::before {
   content: '\2022';
   color: var(--isi-bullet-color);
   font-weight: bold;
@@ -403,5 +327,86 @@ main .isi a:hover {
 .isi-bar-panel a {
   color: var(--link-color);
   text-decoration: underline;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   Wide ≥ 1200px — the ISI section becomes a right-hand rail.
+   Source renders main content at ~83% (10 cols) and the full ISI
+   at ~17% (2 cols) with a left border.
+   ══════════════════════════════════════════════════════════════ */
+@media (width >= 1200px) {
+  /* Source layout: main content (~83%) on the left, the full ISI rail (~17%)
+     pinned to the top-right with a left border. The rail is the LAST element
+     in DOM order, so a float:right would drop below the content; instead we
+     absolutely-position the rail to the top-right and reserve its gutter with
+     right padding on the content sections. The rail sizes to its own content
+     (no grid row-stretch → no empty gap). */
+  main:has(> .section.isi-container) {
+    display: block;
+    position: relative;
+  }
+
+  main:has(> .section.isi-container) > .section:not(.isi-container) {
+    width: 83%;
+    box-sizing: border-box;
+  }
+
+  main:has(> .section.isi-container) > .section.isi-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16.6667%;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--isi-rail-border-color);
+    box-sizing: border-box;
+  }
+
+  main:has(> .section.isi-container) > .section.isi-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* the trailing abbreviated "Please see…" default content is for the
+     bottom placement only — hide it in the desktop rail */
+  main:has(> .section.isi-container) > .section.isi-container > .default-content-wrapper {
+    display: none;
+  }
+
+  /* rail text sizing (source rail uses 16px) */
+  main:has(> .section.isi-container) .isi p,
+  main:has(> .section.isi-container) .isi li {
+    font-size: var(--isi-body-font-size);
+    line-height: var(--isi-body-line-height);
+  }
+
+  /* ── "Use" block: label + fixed-height 250px inner-scroll body ──
+     (source: .cmp-isi__use .text:last-child { height:250px; overflow-y:scroll }) */
+  main:has(> .section.isi-container) .isi.isi-use {
+    border-bottom: 1px solid var(--isi-divider-color);
+    padding: 20px 15px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-label {
+    margin: 0 0 10px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-body {
+    height: 250px;
+    overflow-y: scroll;
+  }
+
+  /* ── "Important Safety" block: auto height, own margin-top ── */
+  main:has(> .section.isi-container) .isi.isi-important {
+    margin-top: 20px;
+    padding: 0 15px 20px;
+  }
+
+  /* the fixed bottom bar is replaced by the right rail at this width */
+  .isi-bar {
+    display: none;
+  }
 }

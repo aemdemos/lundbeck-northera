@@ -59,7 +59,7 @@ function makeToggle() {
 function addBarSection(bar, variant, label, fullRow) {
   const inner = bar.querySelector('.isi-bar-inner');
   const section = document.createElement('section');
-  section.className = `isi-bar-section isi-bar-section--${variant}`;
+  section.className = `isi-bar-section isi-bar-section-${variant}`;
   section.dataset.isi = variant;
 
   const header = document.createElement('div');
@@ -74,10 +74,15 @@ function addBarSection(bar, variant, label, fullRow) {
   const panel = document.createElement('div');
   panel.className = 'isi-bar-panel';
   // clone the full content into the expandable panel
-  panel.innerHTML = fullRow.innerHTML;
+  [...fullRow.children].forEach((child) => {
+    panel.append(child.cloneNode(true));
+  });
   // remove the duplicate leading label paragraph inside the clone (kept in header)
   const firstStrong = panel.querySelector('p strong, p b');
-  if (firstStrong && new RegExp(`^${label}`, 'i').test(firstStrong.textContent.trim())) {
+  if (
+    firstStrong
+    && firstStrong.textContent.trim().toLowerCase().startsWith(label.toLowerCase())
+  ) {
     const p = firstStrong.closest('p');
     if (p) p.remove();
   }
@@ -90,7 +95,7 @@ function addBarSection(bar, variant, label, fullRow) {
     if (box) {
       const peek = document.createElement('div');
       peek.className = 'isi-bar-peek';
-      peek.innerHTML = box.outerHTML;
+      peek.append(box.cloneNode(true));
       header.after(peek);
     }
   }
@@ -117,6 +122,78 @@ function addBarSection(bar, variant, label, fullRow) {
   inner.append(section);
 }
 
+function setupUseBody(contentRow) {
+  const contentCell = contentRow.firstElementChild || contentRow;
+  const kids = [...contentCell.children];
+  const labelEl = kids[0];
+  const bodyEls = kids.slice(1);
+
+  if (labelEl) labelEl.classList.add('isi-use-label');
+  if (!bodyEls.length) return;
+
+  const body = document.createElement('div');
+  body.className = 'isi-use-body';
+  labelEl.after(body);
+  bodyEls.forEach((el) => body.append(el));
+}
+
+function resolveVariant(block, contentRow) {
+  const text = (contentRow.textContent || '').trim();
+
+  if (/^\s*Use\b/i.test(text)) {
+    block.classList.add('isi-use');
+    setupUseBody(contentRow);
+    return { variant: 'use', label: 'USE' };
+  }
+
+  if (/IMPORTANT SAFETY INFORMATION/i.test(text)) {
+    block.classList.add('isi-important');
+    return { variant: 'important', label: 'IMPORTANT SAFETY INFORMATION' };
+  }
+
+  return { variant: '', label: '' };
+}
+
+function wrapWarningBox(contentRow) {
+  const paragraphs = [...contentRow.querySelectorAll('p')];
+  const warningStart = paragraphs.find((p) => /^\s*WARNING:/i.test(p.textContent));
+  if (!warningStart || warningStart.closest('.isi-warningbox')) return;
+
+  const boxItems = [warningStart];
+  let next = warningStart.nextElementSibling;
+  while (next && next.tagName === 'P' && !/IMPORTANT SAFETY INFORMATION/i.test(next.textContent)) {
+    boxItems.push(next);
+    next = next.nextElementSibling;
+  }
+
+  const box = document.createElement('div');
+  box.className = 'isi-warningbox';
+  warningStart.before(box);
+  boxItems.forEach((el) => box.append(el));
+}
+
+function observeSectionVisibility(block) {
+  const section = block.closest('.section');
+  if (!section || section.dataset.isiObserved) return;
+
+  section.dataset.isiObserved = 'true';
+  const bar = document.getElementById(BAR_ID);
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (!bar) return;
+      if (entry.isIntersecting) {
+        bar.classList.add('isi-bar-hidden');
+        bar.classList.remove('isi-bar-expanded');
+        bar.querySelectorAll('.isi-bar-section.open').forEach((s) => s.classList.remove('open'));
+      } else {
+        bar.classList.remove('isi-bar-hidden');
+      }
+    },
+    { threshold: 0 },
+  );
+  observer.observe(section);
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length === 0) return;
@@ -126,49 +203,8 @@ export default function decorate(block) {
   if (inlineRow) inlineRow.classList.add('isi-full');
   const contentRow = inlineRow || abbreviatedRow;
 
-  /* Tag the block variant + resolve its label */
-  const text = (contentRow.textContent || '').trim();
-  let variant = '';
-  let label = '';
-  if (/^\s*Use\b/i.test(text)) {
-    variant = 'use';
-    label = 'USE';
-    block.classList.add('isi--use');
-    /* Source: the "Use" label sits above a fixed-height (250px) inner-scroll
-       body. Split the label from the rest and wrap the body so CSS can make
-       just the body scroll (desktop rail). */
-    const contentCell = contentRow.firstElementChild || contentRow;
-    const kids = [...contentCell.children];
-    const labelEl = kids[0];
-    const bodyEls = kids.slice(1);
-    if (labelEl) labelEl.classList.add('isi-use-label');
-    if (bodyEls.length) {
-      const body = document.createElement('div');
-      body.className = 'isi-use-body';
-      labelEl.after(body);
-      bodyEls.forEach((el) => body.append(el));
-    }
-  } else if (/IMPORTANT SAFETY INFORMATION/i.test(text)) {
-    variant = 'important';
-    label = 'IMPORTANT SAFETY INFORMATION';
-    block.classList.add('isi--important');
-  }
-
-  /* Wrap the boxed supine-hypertension warning (in-flow content) */
-  const paragraphs = [...contentRow.querySelectorAll('p')];
-  const warningStart = paragraphs.find((p) => /^\s*WARNING:/i.test(p.textContent));
-  if (warningStart && !warningStart.closest('.isi-warningbox')) {
-    const boxItems = [warningStart];
-    let next = warningStart.nextElementSibling;
-    while (next && next.tagName === 'P' && !/IMPORTANT SAFETY INFORMATION/i.test(next.textContent)) {
-      boxItems.push(next);
-      next = next.nextElementSibling;
-    }
-    const box = document.createElement('div');
-    box.className = 'isi-warningbox';
-    warningStart.before(box);
-    boxItems.forEach((el) => box.append(el));
-  }
+  const { variant, label } = resolveVariant(block, contentRow);
+  wrapWarningBox(contentRow);
 
   /* Build the fixed bottom bar section for this block */
   if (variant) {
@@ -177,23 +213,5 @@ export default function decorate(block) {
   }
 
   /* Hide the bar once the in-flow ISI section scrolls into view (source behavior) */
-  const section = block.closest('.section');
-  if (section && !section.dataset.isiObserved) {
-    section.dataset.isiObserved = 'true';
-    const bar = document.getElementById(BAR_ID);
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!bar) return;
-        if (entry.isIntersecting) {
-          bar.classList.add('isi-bar-hidden');
-          bar.classList.remove('isi-bar-expanded');
-          bar.querySelectorAll('.isi-bar-section.open').forEach((s) => s.classList.remove('open'));
-        } else {
-          bar.classList.remove('isi-bar-hidden');
-        }
-      },
-      { threshold: 0 },
-    );
-    observer.observe(section);
-  }
+  observeSectionVisibility(block);
 }
