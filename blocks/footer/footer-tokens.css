@@ -180,3 +180,105 @@
        margin-top: 16px;
      }
    ===================================================================== */
+
+/* =====================================================================
+   NORTHERA (www.northera.com) — active site overrides
+   ---------------------------------------------------------------------
+   Shape: navy link BAND on top with links stacked vertically & centered
+   (they do NOT collapse to a single row on desktop), then a white legal
+   band with disclaimer copy on the left and the Lundbeck logo on the
+   right. Links are a <ul><li> list (not the boilerplate <p>-per-link),
+   so a few site selectors below cover the list structure the shared
+   footer.css doesn't style. Do NOT edit footer.css — keep changes here.
+
+   Reference values (from live site getComputedStyle):
+     link band bg   #1f4763    link color   #02bded (no hover change)
+     link font      gotham 700, 16px mobile / 18px desktop
+     legal color    #000, 15px, line-height 19px
+     logo width     167px
+   ===================================================================== */
+footer {
+  --footer-linkbar-background: #1f4763; /* navy band */
+  --footer-linkbar-padding: 0;
+  --footer-linkbar-inner-padding: 0;
+  --footer-link-text-align: center;
+  --footer-link-color: #02bded;
+  --footer-link-hover-color: #02bded; /* no hover change */
+  --footer-link-hover-decoration: none;
+  --footer-link-font-size: 16px; /* mobile */
+  --footer-link-font-size-desktop: 18px;
+  --footer-link-font-weight: 700;
+  --footer-link-line-height: 1.2;
+  --footer-legal-color: #000;
+  --footer-legal-font-size: 15px;
+  --footer-legal-line-height: 19px;
+  --footer-logo-width: 167px;
+}
+
+/* link list is a <ul><li> — style the list to match the boilerplate band */
+footer .footer .section:first-child ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer .section:first-child li {
+  padding: 13px 0;
+  text-align: var(--footer-link-text-align);
+}
+
+/* the second (legal) section holds disclaimer copy + logo; on desktop the
+   logo sits to the right of the copy, otherwise it stacks below */
+footer .footer .section:last-child .default-content-wrapper {
+  max-width: var(--footer-max-width);
+  margin: 0 auto;
+  padding: var(--footer-body-padding-mobile);
+}
+
+footer .footer .section:last-child p {
+  color: var(--footer-legal-color);
+  font-size: var(--footer-legal-font-size);
+  line-height: var(--footer-legal-line-height);
+  margin-bottom: var(--footer-legal-margin-bottom);
+}
+
+footer .footer .section:last-child p:has(img) {
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+footer .footer .section:last-child img {
+  width: var(--footer-logo-width);
+  height: auto;
+}
+
+@media (width >= 768px) {
+  /* desktop: links spread across the band in a single equal-column row */
+  footer .footer .section:first-child ul {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+
+  footer .footer .section:first-child li {
+    padding: 22px 0;
+  }
+
+  footer .footer .section:last-child .default-content-wrapper {
+    position: relative;
+    padding: var(--footer-body-padding);
+  }
+
+  /* disclaimer copy stays stacked on the left, leaving room for the logo */
+  footer .footer .section:last-child p:not(:has(img)) {
+    padding-right: 220px;
+  }
+
+  /* logo pinned to the right of the legal band */
+  footer .footer .section:last-child p:has(img) {
+    position: absolute;
+    top: 40px;
+    right: 15px;
+    margin: 0;
+  }
+}
