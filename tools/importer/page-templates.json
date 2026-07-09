@@ -4,85 +4,121 @@
   },
   "templates": [
     {
-      "name": "homepage",
-      "description": "NORTHERA main homepage with banner, hero, CTA cards, and ISI content",
+      "name": "content-page",
       "urls": [
-        "https://www.northera.com/"
+        "https://northera-stage.d.lundbeckus.com/about-northera/taking-northera"
       ],
+      "representativeUrl": "https://northera-stage.d.lundbeckus.com/about-northera/taking-northera",
+      "coverageGaps": [],
+      "description": "Standard patient content page: hero/title + intro, Brightcove video with transcript accordion, image+text blocks, patient quote, icon step callouts (reminders), and safety/ISI content. Represents the largest template group on the site.",
       "blocks": [
         {
-          "name": "columns-banner",
+          "name": "embed",
           "instances": [
-            ".responsivegrid.ask-for-northera"
+            "div.container.responsivegrid.cmp-video_bglightblue",
+            "div.brightcoveplayer"
           ]
         },
         {
-          "name": "hero-patient",
+          "name": "accordion",
           "instances": [
-            ".random-hero.cmp-hero-banner__desktop"
+            "div.accordion.panelcontainer",
+            "div.cmp-accordion"
           ]
         },
         {
-          "name": "cards-cta",
+          "name": "quote",
           "instances": [
-            ".cmp-layout-quicklinks .image-text-cta"
+            "div.cmp-imagetext__verticalmiddle div.cmp-text"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "div#importantreminders.cmp-container",
+            "div.cmp-image__textlist.cmp-layout-imagetext_teaser"
+          ],
+          "section": "image-left"
+        },
+        {
+          "name": "isi",
+          "instances": [
+            "div.responsivegrid.cmp-layout-isi__phone .experiencefragment",
+            "div.cmp-isi__use"
           ]
         }
       ],
       "sections": [
         {
-          "id": "section-1",
-          "name": "Ask for NORTHERA Banner",
-          "selector": ".responsivegrid.ask-for-northera",
-          "style": null,
-          "blocks": [
-            "columns-banner"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "section-2",
-          "name": "Hero with Patient Stories",
-          "selector": ".cmp-layout__herobanner",
-          "style": null,
-          "blocks": [
-            "hero-patient"
-          ],
-          "defaultContent": [
-            ".text.cmp-text__home_page"
-          ]
-        },
-        {
-          "id": "section-3",
-          "name": "Quick Links Cards",
-          "selector": ".cmp-layout-quicklinks",
-          "style": "dark-teal",
-          "blocks": [
-            "cards-cta"
-          ],
-          "defaultContent": []
-        },
-        {
-          "id": "section-4",
-          "name": "ISI Reference Bar",
-          "selector": ".isi-mobile-wrap",
+          "id": "rc2-intro-titration",
+          "name": "Page intro + What is titration",
+          "selector": "div.responsivegrid.taking-northera",
           "style": null,
           "blocks": [],
           "defaultContent": [
-            ".isi-mobile-wrap .cq-dd-fragment p"
+            "div.text#text-bd5bcb4f2e.cmp-text",
+            "div.image .cmp-image img[alt='What is titration Chart']",
+            "div.text#text-800d58805d.cmp-text"
           ]
         },
         {
-          "id": "section-5",
-          "name": "ISI Full Content",
-          "selector": ".cmp-layout-isi__phone",
-          "style": "isi",
+          "id": "rc2-video-transcript",
+          "name": "Titration explainer video + Read the transcript",
+          "selector": "div.container.responsivegrid.cmp-video_bglightblue.cmp-videobutton__center",
+          "style": null,
+          "blocks": ["embed", "accordion"],
+          "defaultContent": []
+        },
+        {
+          "id": "rc2-patient-quote",
+          "name": "Patient quote (Gail)",
+          "selector": "div.responsivegrid.cmp-imagetext__verticalmiddle",
+          "style": null,
+          "blocks": ["quote"],
+          "defaultContent": []
+        },
+        {
+          "id": "rc2-capsules-imagetext",
+          "name": "Capsules image + text; How will I know",
+          "selector": "div#container-fb2722e6a6.cmp-container",
+          "style": null,
           "blocks": [],
           "defaultContent": [
-            ".cmp-isi__use",
-            ".cmp-isi__importantsafety",
-            ".cmp-isi__warningbox"
+            "div.text#text-6db7af3a52.cmp-text h3",
+            "div.image .cmp-image img[alt='Northera is available in 100 mg, 200 mg, and 300 mg capsules']",
+            "div.text#text-52a784a6ed.cmp-text h5",
+            "div.text#text-f14587ed4d.cmp-text p",
+            "div.text#text-c8faa85d77.cmp-text"
           ]
+        },
+        {
+          "id": "rc2-important-reminders",
+          "name": "Important reminders when taking NORTHERA",
+          "selector": "div#importantreminders.cmp-container",
+          "style": null,
+          "blocks": ["cards"],
+          "defaultContent": [
+            "div.text#text-470fe187bf.cmp-text h2",
+            "div.text#text-ad410d480e.cmp-text p"
+          ]
+        },
+        {
+          "id": "rc2-safety-side-effects",
+          "name": "NORTHERA safety and side effects",
+          "selector": "div.responsivegrid.cmp-bullet__list",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "div.text#text-a2e3534927.cmp-text"
+          ]
+        },
+        {
+          "id": "rc2-isi",
+          "name": "Important Safety Information",
+          "selector": "div.responsivegrid.cmp-layout-isi__phone",
+          "style": null,
+          "blocks": ["isi"],
+          "defaultContent": []
         }
       ]
     }

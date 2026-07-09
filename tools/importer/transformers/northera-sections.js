@@ -2,48 +2,61 @@
 /* global WebImporter */
 
 /**
- * Transformer: NORTHERA section breaks and section metadata.
- * Creates section boundaries (<hr>) and Section Metadata blocks based on template sections.
- * All selectors verified from captured DOM (migration-work/cleaned.html).
+ * Transformer: NORTHERA (Lundbeck) section breaks.
  *
- * Template sections:
- *   1. "Ask for NORTHERA Banner" - .responsivegrid.ask-for-northera (no style)
- *   2. "Hero with Patient Stories" - .cmp-layout__herobanner (no style)
- *   3. "Quick Links Cards" - .cmp-layout-quicklinks (style: "dark-teal")
- *   4. "ISI Reference Bar" - .isi-mobile-wrap (no style)
- *   5. "ISI Full Content" - .cmp-layout-isi__phone (style: "isi")
+ * Inserts EDS section breaks (`<hr>`) at the boundaries between the logical
+ * sections defined for the content-page template in page-templates.json, so
+ * the imported document has correct section structure.
+ *
+ * Runs in afterTransform only. Section boundaries are driven by
+ * `payload.template.sections`; the section `selector` values were verified
+ * against migration-work/cleaned.html for
+ * https://northera-stage.d.lundbeckus.com/about-northera/taking-northera.
+ *
+ * For each section that declares a `style`, a `Section Metadata` block is
+ * emitted. All 7 sections currently have `style: null` (they render on white),
+ * so no Section Metadata is added — the brand-blue background of the
+ * "important reminders" cards block is left to block CSS.
  */
+
 const TransformHook = { beforeTransform: 'beforeTransform', afterTransform: 'afterTransform' };
 
 export default function transform(hookName, element, payload) {
   if (hookName === TransformHook.afterTransform) {
-    const { document } = payload;
-    const sections = payload.template && payload.template.sections;
-    if (!sections || sections.length < 2) return;
+    const template = payload && payload.template;
+    const sections = template && Array.isArray(template.sections) ? template.sections : [];
+    if (sections.length < 2) return;
 
-    // Process sections in reverse order to avoid shifting DOM positions
-    const reversedSections = [...sections].reverse();
+    const doc = element.ownerDocument;
 
-    reversedSections.forEach((section, reverseIndex) => {
-      const originalIndex = sections.length - 1 - reverseIndex;
-      const sectionEl = element.querySelector(section.selector);
+    // Process in reverse so inserted nodes never shift the position of
+    // sections we have not handled yet.
+    for (let i = sections.length - 1; i >= 0; i -= 1) {
+      const section = sections[i];
+      if (!section || !section.selector) continue;
 
-      if (!sectionEl) return;
+      const target = element.querySelector(section.selector);
+      if (!target) continue;
 
-      // Add Section Metadata block after the section element if it has a style
+      // Section Metadata block (only when a style is declared).
       if (section.style) {
-        const sectionMetadata = WebImporter.Blocks.createBlock(document, {
+        const meta = WebImporter.Blocks.createBlock(doc, {
           name: 'Section Metadata',
           cells: { style: section.style },
         });
-        sectionEl.after(sectionMetadata);
+        if (target.nextSibling) {
+          target.parentNode.insertBefore(meta, target.nextSibling);
+        } else {
+          target.parentNode.appendChild(meta);
+        }
       }
 
-      // Insert <hr> before the section element (except for the first section)
-      if (originalIndex > 0) {
-        const hr = document.createElement('hr');
-        sectionEl.before(hr);
+      // Section break before every section except the first, when there is
+      // preceding content to break away from.
+      if (i > 0 && target.parentNode) {
+        const hr = doc.createElement('hr');
+        target.parentNode.insertBefore(hr, target);
       }
-    });
+    }
   }
 }
