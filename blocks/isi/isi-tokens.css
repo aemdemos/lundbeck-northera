@@ -12,10 +12,12 @@
   --isi-list-item-margin-bottom: 10px;
   --isi-title-line-height: 22px;
   --isi-font-weight-bold: 700;
+  --isi-link-color: #02bded;
 
   /* headings ("Use", "IMPORTANT SAFETY INFORMATION") */
   --isi-heading-color: var(--brand-blue);
   --isi-heading-font: "Gotham-Black", "Helvetica Neue",helvetica,arial,sans-serif;
+  --isi-text-bold-font: "Gotham-Bold", "Helvetica Neue",helvetica,arial,sans-serif;
   --isi-use-heading-font-size: 20px;
   --isi-important-heading-font-size: 18px;
 
