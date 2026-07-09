@@ -242,6 +242,11 @@ main .isi a:hover {
   display: none;
 }
 
+/* source "CLOSE X" overlay button — hidden except in the desktop expanded state */
+.isi-close {
+  display: none;
+}
+
 .isi-bar-section.open .isi-bar-toggle-icon::after {
   opacity: 0;
 }
@@ -530,8 +535,55 @@ main .isi a:hover {
     justify-content: center;
   }
 
-  main:has(> .section.isi-container) .isi-desktop-toggle[aria-expanded='true'] .isi-bar-toggle-icon::after {
-    opacity: 0;
+  /* In the expanded overlay the CLOSE X button handles closing, so the
+     "+"/"−" toggle glyph is hidden (source shows only CLOSE X, no "−"). */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-desktop-toggle {
+    display: none;
+  }
+
+  /* ── "CLOSE X" button (source: button.cmp-isi-model__btn-close) ──
+     Shown only in the expanded full-page overlay, pinned top-right.
+     Exact source styling: brand-blue "CLOSE" label in Gotham-Black 20px,
+     followed by a cyan (#02bded) square with a white "X". */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 40px;
+    z-index: 31;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--brand-blue);
+    font-family: var(--heading-heavy-font-family);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: none;
+    cursor: pointer;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close:hover,
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close:focus {
+    background: none;
+    box-shadow: none;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close .isi-close-x {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    margin-left: 6px;
+    background-color: var(--brand-cyan);
+    color: #fff;
+    font-family: var(--heading-heavy-font-family);
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    box-sizing: border-box;
   }
 
   main .isi .isi-warningbox {
