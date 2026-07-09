@@ -238,6 +238,7 @@ footer .footer .section:last-child .default-content-wrapper {
 footer .footer .section:last-child p {
   color: var(--footer-legal-color);
   font-size: var(--footer-legal-font-size);
+  font-weight: 400; /* Gotham-Book — matches source (not the inherited 500) */
   line-height: var(--footer-legal-line-height);
   margin-bottom: var(--footer-legal-margin-bottom);
 }
@@ -269,9 +270,10 @@ footer .footer .section:last-child img {
     padding: var(--footer-body-padding);
   }
 
-  /* disclaimer copy stays stacked on the left, leaving room for the logo */
+  /* disclaimer copy stays stacked on the left in a ~800px column (matches
+     source), leaving room for the logo on the right */
   footer .footer .section:last-child p:not(:has(img)) {
-    padding-right: 220px;
+    max-width: 800px;
   }
 
   /* logo pinned to the right of the legal band */
