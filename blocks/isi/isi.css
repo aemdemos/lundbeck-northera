@@ -59,6 +59,7 @@ main .isi.isi-use p:first-child strong {
 main .isi.isi-important p:first-child b,
 main .isi.isi-important p:first-child strong {
   font-size: var(--isi-important-heading-font-size);
+  font-weight: var(--isi-font-weight-bold);
 }
 
 /* ── Lists ──────────────────────────────────────────────────── */
@@ -228,6 +229,10 @@ main .isi a:hover {
   height: 12px;
 }
 
+.isi-desktop-toggle {
+  display: none;
+}
+
 .isi-bar-section.open .isi-bar-toggle-icon::after {
   opacity: 0;
 }
@@ -381,10 +386,31 @@ main .isi a:hover {
     box-sizing: border-box;
   }
 
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section:not(.isi-container) {
+    display: none;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    padding: 20px 0 30px;
+    border-left: 0;
+    background-color: #fff;
+    z-index: 30;
+    overflow-y: auto;
+  }
+
   main:has(> .section.isi-container) > .section.isi-container > div {
     max-width: none;
     margin: 0;
     padding: 0;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container > div {
+    max-width: var(--max-width-site);
+    margin: 0 auto;
+    padding: 0 25px;
   }
 
   /* the trailing abbreviated "Please see…" default content is for the
@@ -419,6 +445,11 @@ main .isi a:hover {
     overflow-y: scroll;
   }
 
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi.isi-use .isi-use-body {
+    height: auto;
+    overflow-y: visible;
+  }
+
   /* ── "Important Safety" block: auto height, own margin-top ── */
   main:has(> .section.isi-container) .isi.isi-important {
     margin-top: 20px;
@@ -428,6 +459,23 @@ main .isi a:hover {
   /* the fixed bottom bar is replaced by the right rail at this width */
   .isi-bar {
     display: none;
+  }
+
+  main:has(> .section.isi-container) .isi-desktop-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  main:has(> .section.isi-container) .isi-desktop-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  main:has(> .section.isi-container) .isi-desktop-toggle[aria-expanded='true'] .isi-bar-toggle-icon::after {
+    opacity: 0;
   }
 
   main .isi .isi-warningbox {

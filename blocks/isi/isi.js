@@ -194,6 +194,41 @@ function observeSectionVisibility(block) {
   observer.observe(section);
 }
 
+function setupDesktopExpandToggle(block, variant) {
+  if (variant !== 'use') return;
+
+  const section = block.closest('.section.isi-container');
+  if (!section || section.dataset.isiDesktopToggle) return;
+  section.dataset.isiDesktopToggle = 'true';
+
+  const toggle = makeToggle();
+  toggle.classList.add('isi-desktop-toggle');
+  toggle.setAttribute('aria-label', 'Expand Important Safety Information');
+
+  const headingRow = block.querySelector('.isi-full .isi-use-label')
+    || block.querySelector('.isi-full p');
+  if (headingRow) {
+    headingRow.classList.add('isi-desktop-toggle-row');
+    headingRow.append(toggle);
+  } else {
+    block.prepend(toggle);
+  }
+
+  const setExpanded = (expanded) => {
+    section.classList.toggle('isi-desktop-expanded', expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.setAttribute(
+      'aria-label',
+      expanded ? 'Collapse Important Safety Information' : 'Expand Important Safety Information',
+    );
+  };
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setExpanded(!section.classList.contains('isi-desktop-expanded'));
+  });
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length === 0) return;
@@ -211,6 +246,8 @@ export default function decorate(block) {
     const bar = getOrCreateBar();
     addBarSection(bar, variant, label, contentRow);
   }
+
+  setupDesktopExpandToggle(block, variant);
 
   /* Hide the bar once the in-flow ISI section scrolls into view (source behavior) */
   observeSectionVisibility(block);
