@@ -1,0 +1,58 @@
+/* survey design tokens — mobile-first defaults; tablet+ overrides live in the
+   width >= 600px block of survey.css */
+:root {
+  /* palette */
+  --survey-navy: var(--heading-color); /* #245778 navy hero band */
+  --survey-navy-text: #1f4763; /* question + button text */
+  --survey-cyan: var(--accent-color); /* #02bded inputs + buttons */
+  --survey-amber: #f5a623; /* active/done progress circle */
+  --survey-track: #d9d9d9; /* inactive progress track + circle */
+
+  /* intro (navy hero band) */
+  --survey-intro-bg: var(--survey-navy);
+  --survey-intro-color: #fff;
+  --survey-intro-padding: 2.5rem 1.5rem;
+  --survey-intro-heading-margin: 0 0 1.5rem;
+  --survey-content-max-width: 900px;
+
+  /* progress indicator */
+  --survey-progress-gap: 3rem;
+  --survey-progress-padding: 1.5rem;
+  --survey-progress-track-height: 2px;
+  --survey-progress-step-size: 44px;
+  --survey-progress-step-color: #fff;
+  --survey-progress-step-font-size: 1.25rem;
+  --survey-progress-step-font-weight: 700;
+
+  /* steps / questions */
+  --survey-panel-padding: 1rem 1.5rem;
+  --survey-question-color: var(--survey-navy-text);
+  --survey-question-font-size: 1.5rem;
+  --survey-question-font-weight: 700;
+  --survey-question-margin: 0 0 0.25rem;
+  --survey-help-color: var(--survey-navy-text);
+  --survey-help-margin: 0 0 1.5rem;
+
+  /* options */
+  --survey-options-gap: 1rem;
+  --survey-options-gap-desktop: 1.5rem 2.5rem;
+  --survey-option-gap: 0.75rem;
+  --survey-option-input-size: 24px;
+  --survey-option-input-accent: var(--survey-cyan);
+  --survey-option-line-height: 1.4;
+
+  /* controls */
+  --survey-controls-gap: 1.5rem;
+  --survey-controls-padding: 1.5rem;
+  --survey-button-bg: var(--survey-cyan);
+  --survey-button-color: var(--survey-navy-text);
+  --survey-button-padding: 1rem 3.5rem;
+  --survey-button-font-family: var(--body-font-family);
+  --survey-button-font-weight: 700;
+  --survey-button-font-size: 1.125rem;
+  --survey-button-hover-opacity: 0.85;
+  --survey-button-disabled-opacity: 0.4;
+
+  /* motion */
+  --survey-transition: opacity 0.2s;
+}

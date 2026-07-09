@@ -1,0 +1,162 @@
+@import url('./survey-tokens.css');
+
+.survey {
+  padding: 0 0 2rem;
+}
+
+/* ===== Intro (navy hero band) ===== */
+.survey .survey-intro {
+  background-color: var(--survey-intro-bg);
+  color: var(--survey-intro-color);
+  padding: var(--survey-intro-padding);
+  text-align: center;
+}
+
+.survey .survey-intro h1 {
+  color: var(--survey-intro-color);
+  margin: var(--survey-intro-heading-margin);
+}
+
+.survey .survey-intro p {
+  max-width: var(--survey-content-max-width);
+  margin: 0 auto;
+  color: var(--survey-intro-color);
+}
+
+/* ===== Progress indicator ===== */
+.survey .survey-progress {
+  display: flex;
+  justify-content: center;
+  gap: var(--survey-progress-gap);
+  list-style: none;
+  margin: 0;
+  padding: var(--survey-progress-padding);
+  position: relative;
+}
+
+.survey .survey-progress::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  right: 10%;
+  height: var(--survey-progress-track-height);
+  background-color: var(--survey-track);
+  z-index: 0;
+}
+
+.survey .survey-progress-step {
+  position: relative;
+  z-index: 1;
+  width: var(--survey-progress-step-size);
+  height: var(--survey-progress-step-size);
+  border-radius: 50%;
+  background-color: var(--survey-amber);
+  color: var(--survey-progress-step-color);
+  font-weight: var(--survey-progress-step-font-weight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--survey-progress-step-font-size);
+}
+
+.survey .survey-progress-step:not(.active, .done) {
+  background-color: var(--survey-track);
+}
+
+/* ===== Steps ===== */
+.survey .survey-panel {
+  max-width: var(--survey-content-max-width);
+  margin: 0 auto;
+  padding: var(--survey-panel-padding);
+}
+
+.survey .survey-step {
+  display: none;
+}
+
+.survey .survey-step.active {
+  display: block;
+}
+
+.survey .survey-question {
+  font-size: var(--survey-question-font-size);
+  font-weight: var(--survey-question-font-weight);
+  color: var(--survey-question-color);
+  margin: var(--survey-question-margin);
+}
+
+.survey .survey-help {
+  margin: var(--survey-help-margin);
+  color: var(--survey-help-color);
+}
+
+.survey .survey-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--survey-options-gap);
+}
+
+.survey .survey-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--survey-option-gap);
+}
+
+.survey .survey-option input {
+  width: var(--survey-option-input-size);
+  height: var(--survey-option-input-size);
+  flex: 0 0 auto;
+  accent-color: var(--survey-option-input-accent);
+  margin-top: 2px;
+}
+
+.survey .survey-option label {
+  cursor: pointer;
+  line-height: var(--survey-option-line-height);
+}
+
+/* ===== Controls ===== */
+.survey .survey-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--survey-controls-gap);
+  padding: var(--survey-controls-padding);
+}
+
+.survey .survey-controls button {
+  background-color: var(--survey-button-bg);
+  color: var(--survey-button-color);
+  border: none;
+  border-radius: 0;
+  padding: var(--survey-button-padding);
+  font-family: var(--survey-button-font-family);
+  font-weight: var(--survey-button-font-weight);
+  font-size: var(--survey-button-font-size);
+  cursor: pointer;
+  transition: var(--survey-transition);
+}
+
+.survey .survey-controls button:hover {
+  opacity: var(--survey-button-hover-opacity);
+}
+
+.survey .survey-controls button:disabled {
+  opacity: var(--survey-button-disabled-opacity);
+  cursor: not-allowed;
+}
+
+/* ===== Tablet+ ===== */
+@media (width >= 600px) {
+  .survey .survey-options {
+    flex-flow: row wrap;
+    gap: var(--survey-options-gap-desktop);
+  }
+
+  .survey .survey-option {
+    flex: 0 1 auto;
+  }
+}
