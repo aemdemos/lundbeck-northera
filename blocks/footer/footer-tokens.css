@@ -205,8 +205,8 @@ footer {
   --footer-link-color: #02bded;
   --footer-link-hover-color: #02bded; /* no hover change */
   --footer-link-hover-decoration: none;
-  --footer-link-font-size: 16px; /* mobile */
-  --footer-link-font-size-desktop: 18px;
+  --footer-link-font-size: 16px; /* mobile + tablet (< 992px, matches source) */
+  --footer-link-font-size-desktop: 16px; /* bumped to 18px at >= 992px below */
   --footer-link-font-weight: 700;
   --footer-link-line-height: 1.2;
   --footer-legal-color: #000;
@@ -253,16 +253,13 @@ footer .footer .section:last-child img {
   height: auto;
 }
 
-@media (width >= 768px) {
-  /* desktop: links spread across the band in a single equal-column row */
-  footer .footer .section:first-child ul {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
-  }
-
-  footer .footer .section:first-child li {
-    padding: 22px 0;
+/* ≥ 992px (matches source): links stay stacked & centered but grow to 18px;
+   logo moves beside the disclaimer copy (pinned right) instead of below it. */
+@media (width >= 992px) {
+  /* `ul a` raises specificity above the boilerplate's desktop font rule
+     (which is @imported after this file and would otherwise win) */
+  footer .footer .section:first-child ul a {
+    font-size: 18px;
   }
 
   footer .footer .section:last-child .default-content-wrapper {
@@ -270,8 +267,7 @@ footer .footer .section:last-child img {
     padding: var(--footer-body-padding);
   }
 
-  /* disclaimer copy stays stacked on the left in a ~800px column (matches
-     source), leaving room for the logo on the right */
+  /* disclaimer copy constrained to ~800px so the logo has room on the right */
   footer .footer .section:last-child p:not(:has(img)) {
     max-width: 800px;
   }
@@ -282,5 +278,19 @@ footer .footer .section:last-child img {
     top: 40px;
     right: 15px;
     margin: 0;
+  }
+}
+
+/* ≥ 1280px (matches source): links spread across the band in a single
+   equal-column row. */
+@media (width >= 1280px) {
+  footer .footer .section:first-child ul {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+  }
+
+  footer .footer .section:first-child li {
+    padding: 22px 0;
   }
 }
