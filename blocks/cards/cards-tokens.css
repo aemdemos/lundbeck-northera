@@ -10,4 +10,22 @@
   --cards-image-object-fit: cover; /* @boilerplate */
   --cards-image-side-width: 30%; /* @boilerplate */
   --cards-text-font-size-s: 16px;
+
+  /* resource variant — source .cmp-layout__patientsupport download cards */
+  --cards-resource-gap: 40px;
+  --cards-resource-gap-desktop: 90px;
+  --cards-resource-thumb-width: 138px;
+  --cards-resource-img-text-gap: var(--spacing-m, 24px);
+  --cards-resource-title-color: var(--brand-blue);
+  --cards-resource-title-size: var(--heading-font-size-m, 20px);
+  --cards-resource-title-size-desktop: 24px;
+  --cards-resource-title-line-height: 28px;
+  --cards-resource-desc-color: var(--brand-grey);
+  --cards-resource-desc-size: var(--body-font-size-s, 16px);
+  --cards-resource-desc-size-desktop: var(--body-font-size-m, 18px);
+  --cards-resource-desc-line-height: 20px;
+  --cards-resource-desc-line-height-desktop: 30px;
+  --cards-resource-cta-color: var(--brand-cyan);
+  --cards-resource-cta-size: var(--body-font-size-s, 16px);
+  --cards-resource-cta-size-desktop: var(--body-font-size-m, 18px);
 }
