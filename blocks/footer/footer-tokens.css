@@ -42,257 +42,277 @@
      └────────────┴─────────────┴───────────────┴──────────────┴────────────┘
    ===================================================================== */
 
-:root { /* @boilerplate */
-  /* ---- global frame --------------------------------------------------
-     --footer-background  : body background behind the legal/logo section.
-     --footer-font-family : base footer font (override per brand font). */
-  --footer-max-width: var(--max-width-site); /* 1140px content width */ /* @boilerplate */
-  --footer-background: var(--background-color); /* white body */ /* @boilerplate */
-  --footer-text-color: var(--text-color); /* @boilerplate */
-  --footer-font-family: var(--body-font-family); /* proxima-nova */ /* @boilerplate */
-  --footer-font-size: var(--body-font-size-ms); /* @boilerplate */
-
-  /* ---- link section --------------------------------------------------
-     Vyepti renders this as a full-width coloured BAND (set
-     --footer-linkbar-background to a brand colour). For sites with a plain
-     inline link list (Onfi/Xenazine/Sabril), set the band background to
-     `transparent`, drop the band padding, and set the link color to the
-     brand link colour instead of #fff. */
-  --footer-linkbar-background: var(--brand-teal); /* #046183; use transparent for no band */ /* @boilerplate */
-  --footer-linkbar-padding: 20px 0 22px; /* outer band padding; 0 when no band */ /* @boilerplate */
-  --footer-linkbar-inner-padding: 0 15px; /* gutter inside the max-width wrapper */ /* @boilerplate */
-  --footer-link-text-align: center; /* center on band; left for inline lists */ /* @boilerplate */
-  --footer-link-color: #fff; /* link text on the band */ /* @boilerplate */
-  --footer-link-hover-color: var(--brand-teal-light); /* #7ebcc6 */ /* @boilerplate */
-  --footer-link-decoration: none; /* @boilerplate */
-  --footer-link-hover-decoration: none; /* set to underline for plain-list sites */ /* @boilerplate */
-  --footer-link-font-size: 14px; /* mobile */ /* @boilerplate */
-  --footer-link-font-size-desktop: 16px; /* @boilerplate */
-  --footer-link-font-weight: 600; /* @boilerplate */
-  --footer-link-line-height: 22px; /* @boilerplate */
-  --footer-link-gap: 40px; /* horizontal space between links (desktop row) */ /* @boilerplate */
-  --footer-link-mobile-gap: 10px; /* vertical gap when stacked on mobile */ /* @boilerplate */
-  --footer-transition: 0.2s ease; /* @boilerplate */
-
-  /* ---- body section (legal + logo) ---------------------------------- */
-  --footer-body-padding: 40px 15px 28px; /* @boilerplate */
-  --footer-body-padding-mobile: 24px 15px 28px; /* @boilerplate */
-
-  /* legal column (column 1) */
-  --footer-legal-color: #484848; /* @boilerplate */
-  --footer-legal-font-size: 14px; /* @boilerplate */
-  --footer-legal-line-height: 20px; /* @boilerplate */
-  --footer-legal-margin-bottom: 16px; /* @boilerplate */
-  --footer-legal-width: 58.3333%; /* desktop 2-col split: legal vs right col */ /* @boilerplate */
-
-  /* right column (column 2) */
-  --footer-right-width: 41.6667%; /* @boilerplate */
-
-  /* ---- "For assistance, call" label (Vyepti only) ------------------- */
-  --footer-assist-color: #484848; /* @boilerplate */
-  --footer-assist-font-size: 17px; /* desktop */ /* @boilerplate */
-  --footer-assist-font-size-mobile: 14px; /* @boilerplate */
-  --footer-assist-line-height: 21px; /* @boilerplate */
-  --footer-assist-font-weight: 700; /* @boilerplate */
-  --footer-assist-margin-right: 11px; /* gap to the phone pill (desktop) */ /* @boilerplate */
-  --footer-mobile-assist-gap: 12px; /* gap between label and pill (mobile) */ /* @boilerplate */
-  --footer-assist-mobile-margin-bottom: 15px; /* gap above legal copy (mobile) */ /* @boilerplate */
-
-  /* ---- phone pill (Vyepti only) ------------------------------------- */
-  --footer-phone-background: #bf2c58; /* @boilerplate */
-  --footer-phone-hover-background: var(--brand-rose-dark); /* #9a2346 */ /* @boilerplate */
-  --footer-phone-color: #fff; /* @boilerplate */
-  --footer-phone-font-size: 16px; /* @boilerplate */
-  --footer-phone-font-weight: 700; /* @boilerplate */
-  --footer-phone-line-height: 22px; /* @boilerplate */
-  --footer-phone-padding: 20px 21px 20px 45px; /* @boilerplate */
-  --footer-phone-radius: 30px; /* @boilerplate */
-  --footer-phone-icon-size: 16px 19px; /* @boilerplate */
-  --footer-phone-icon-position: 19px 24px; /* @boilerplate */
-
-  /* inline phone-handset glyph (white), cropped tight to a 16x19 box so it
-     fills the icon area. Swap the path/colour for a different brand icon. */
-  --footer-phone-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 19" fill="white"><path d="M3.6 0c-.5 0-1 .2-1.5.5C1 1.3 0 2.6 0 4.2c0 1.4.4 3 1.2 4.7.8 1.7 2 3.4 3.5 5 1.6 1.6 3.3 2.7 5 3.5 1.7.8 3.3 1.2 4.7 1.2h.1c.4 0 .8-.2 1.1-.5.3-.3.4-.7.4-1.1v-2.6c0-.7-.5-1.3-1.2-1.5l-3-.7c-.6-.1-1.2 0-1.6.5l-1 1c-1-.6-2-1.3-2.8-2.2-.9-.8-1.6-1.8-2.2-2.8l1-1c.5-.4.6-1 .5-1.6l-.7-3C4.8.5 4.2 0 3.6 0Z"/></svg>'); /* @boilerplate */
-
-  /* ---- social icons + company logo (column 2) ----------------------- */
-  --footer-social-row-margin-top: 27px; /* space above the social/logo row */ /* @boilerplate */
-  --footer-social-icon-width: 27px; /* @boilerplate */
-  --footer-social-icon-gap: 13px; /* edge gap between social icons */ /* @boilerplate */
-  --footer-logo-width: 160px; /* Lundbeck logo width (Onfi uses ~114px) */ /* @boilerplate */
-
-  /* logo sits 27px from the last social icon; the icon already emits a 13px
-     right margin, so this adds the remaining 14px */
-  --footer-logo-margin-left: 14px; /* @boilerplate */
-} /* @boilerplate */
-
-/* =====================================================================
-   SITE-SPECIFIC OVERRIDES (extension layer)
-   ---------------------------------------------------------------------
-   Add rules here that the shared footer.css doesn't cover for a given
-   site. The Vyepti reference needs none. Examples a cloning developer
-   might add (kept here as commented guidance):
-
-   Onfi — gray panel, teal inline links, no band:
-     :root {
-       --footer-linkbar-background: #d4d5d5;
-       --footer-linkbar-padding: 30px 0;
-       --footer-link-color: #008c99;
-       --footer-link-hover-decoration: underline;
-       --footer-legal-font-size: 16px;
-       --footer-logo-width: 114px;
-       --footer-font-family: "Avenir LT W01_55 Roman", avenir, sans-serif;
-     }
-
-   Xenazine / Sabril — transparent, plain inline link list, no band:
-     :root {
-       --footer-linkbar-background: transparent;
-       --footer-linkbar-padding: 0;
-       --footer-link-text-align: left;
-       --footer-link-color: #454545;   (Sabril: #652d89)
-       --footer-link-hover-decoration: underline;
-     }
-
-   Vyepti HCP (www.vyeptihcp.com) — open-sans, top divider rule, logo +
-   inline bold muted-teal links, legal copy below. No band/phone/social.
-   Link row sits left-aligned beneath the logo; links are 16px/700 #41748d
-   with a 40px gap, legal copy is 14px #484848. The divider rule above the
-   footer is the one extra selector the shared structure doesn't provide,
-   so it lives in the override block below.
-     :root {
-       --footer-font-family: open-sans, sans-serif;
-       --footer-linkbar-background: transparent;
-       --footer-linkbar-padding: 0;
-       --footer-link-text-align: left;
-       --footer-link-color: var(--brand-teal-muted);   (#41748d)
-       --footer-link-hover-color: var(--brand-teal);
-       --footer-link-font-size: 16px;
-       --footer-link-font-size-desktop: 16px;
-       --footer-link-font-weight: 700;
-       --footer-link-line-height: 24px;
-       --footer-legal-color: #484848;
-       --footer-legal-font-size: 14px;
-       --footer-legal-line-height: 18px;
-     }
-     :root { --footer-divider: 1px solid #a4a4a4; }   (token consumed below)
-     footer .footer .section:first-child {
-       border-top: var(--footer-divider, none);
-       padding-top: 16px;
-       margin-top: 16px;
-     }
-   ===================================================================== */
-
-/* =====================================================================
-   NORTHERA (www.northera.com) — active site overrides
-   ---------------------------------------------------------------------
-   Shape: navy link BAND on top with links stacked vertically & centered
-   (they do NOT collapse to a single row on desktop), then a white legal
-   band with disclaimer copy on the left and the Lundbeck logo on the
-   right. Links are a <ul><li> list (not the boilerplate <p>-per-link),
-   so a few site selectors below cover the list structure the shared
-   footer.css doesn't style. Do NOT edit footer.css — keep changes here.
-
-   Reference values (from live site getComputedStyle):
-     link band bg   #1f4763    link color   #02bded (no hover change)
-     link font      gotham 700, 16px mobile / 18px desktop
-     legal color    #000, 15px, line-height 19px
-     logo width     167px
-   ===================================================================== */
-footer {
-  --footer-linkbar-background: #1f4763; /* navy band */
-  --footer-linkbar-padding: 0;
-  --footer-linkbar-inner-padding: 0;
-  --footer-link-text-align: center;
-  --footer-link-color: #02bded;
-  --footer-link-hover-color: #02bded; /* no hover change */
-  --footer-link-hover-decoration: none;
-  --footer-link-font-size: 16px; /* mobile + tablet (< 992px, matches source) */
-  --footer-link-font-size-desktop: 16px; /* bumped to 18px at >= 992px below */
-  --footer-link-font-weight: 700;
-  --footer-link-line-height: 1.2;
-  --footer-legal-color: #000;
-  --footer-legal-font-size: 15px;
-  --footer-legal-line-height: 19px;
-  --footer-legal-margin-bottom: 20px;
-  --footer-logo-width: 167px;
-}
-
-/* link list is a <ul><li> — style the list to match the boilerplate band */
-footer .footer .section:first-child ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-footer .footer .section:first-child li {
-  padding: 13px 0;
-  line-height: var(--footer-link-line-height);
+   :root { /* @boilerplate */
+    /* ---- global frame --------------------------------------------------
+       --footer-background  : body background behind the legal/logo section.
+       --footer-font-family : base footer font (override per brand font). */
+    --footer-max-width: var(--max-width-site); /* 1140px content width */ /* @boilerplate */
+    --footer-background: var(--background-color); /* white body */ /* @boilerplate */
+    --footer-text-color: var(--text-color); /* @boilerplate */
+    --footer-font-family: var(--body-font-family); /* proxima-nova */ /* @boilerplate */
+    --footer-font-size: var(--body-font-size-ms); /* @boilerplate */
   
-}
-
-/* the second (legal) section holds disclaimer copy + logo; on desktop the
-   logo sits to the right of the copy, otherwise it stacks below */
-footer .footer .section:last-child .default-content-wrapper {
-  max-width: var(--footer-max-width);
-  margin: 0 auto;
-  padding: var(--footer-body-padding-mobile);
-}
-
-footer .footer .section:last-child p {
-  color: var(--footer-legal-color);
-  font-size: var(--footer-legal-font-size);
-  font-weight: 400; /* Gotham-Book — matches source (not the inherited 500) */
-  line-height: var(--footer-legal-line-height);
-  margin-bottom: var(--footer-legal-margin-bottom);
-}
-
-footer .footer .section:last-child p:nth-of-type(2) {
-  margin-bottom: 0;
-}
-
-footer .footer .section:last-child p:has(img) {
-  margin-top: 16px;
-  margin-bottom: 0;
-}
-
-footer .footer .section:last-child img {
-  width: var(--footer-logo-width);
-  height: auto;
-}
-
-/* ≥ 992px (matches source): links stay stacked & centered but grow to 18px;
-   logo moves beside the disclaimer copy (pinned right) instead of below it. */
-@media (width >= 992px) {
-  /* `ul a` raises specificity above the boilerplate's desktop font rule
-     (which is @imported after this file and would otherwise win) */
-  footer .footer .section:first-child ul a {
-    font-size: 18px;
+    /* ---- link section --------------------------------------------------
+       Vyepti renders this as a full-width coloured BAND (set
+       --footer-linkbar-background to a brand colour). For sites with a plain
+       inline link list (Onfi/Xenazine/Sabril), set the band background to
+       `transparent`, drop the band padding, and set the link color to the
+       brand link colour instead of #fff. */
+    --footer-linkbar-background: var(--brand-teal); /* #046183; use transparent for no band */ /* @boilerplate */
+    --footer-linkbar-padding: 20px 0 22px; /* outer band padding; 0 when no band */ /* @boilerplate */
+    --footer-linkbar-inner-padding: 0 15px; /* gutter inside the max-width wrapper */ /* @boilerplate */
+    --footer-link-text-align: center; /* center on band; left for inline lists */ /* @boilerplate */
+    --footer-link-color: #fff; /* link text on the band */ /* @boilerplate */
+    --footer-link-hover-color: var(--brand-teal-light); /* #7ebcc6 */ /* @boilerplate */
+    --footer-link-decoration: none; /* @boilerplate */
+    --footer-link-hover-decoration: none; /* set to underline for plain-list sites */ /* @boilerplate */
+    --footer-link-font-size: 14px; /* mobile */ /* @boilerplate */
+    --footer-link-font-size-desktop: 16px; /* @boilerplate */
+    --footer-link-font-weight: 600; /* @boilerplate */
+    --footer-link-line-height: 22px; /* @boilerplate */
+    --footer-link-gap: 40px; /* horizontal space between links (desktop row) */ /* @boilerplate */
+    --footer-link-mobile-gap: 10px; /* vertical gap when stacked on mobile */ /* @boilerplate */
+    --footer-transition: 0.2s ease; /* @boilerplate */
+  
+    /* ---- body section (legal + logo) ---------------------------------- */
+    --footer-body-padding: 40px 15px 28px; /* @boilerplate */
+    --footer-body-padding-mobile: 24px 15px 28px; /* @boilerplate */
+  
+    /* legal column (column 1) */
+    --footer-legal-color: #484848; /* @boilerplate */
+    --footer-legal-font-size: 14px; /* @boilerplate */
+    --footer-legal-line-height: 20px; /* @boilerplate */
+    --footer-legal-margin-bottom: 16px; /* @boilerplate */
+    --footer-legal-width: 58.3333%; /* desktop 2-col split: legal vs right col */ /* @boilerplate */
+  
+    /* right column (column 2) */
+    --footer-right-width: 41.6667%; /* @boilerplate */
+  
+    /* ---- "For assistance, call" label (Vyepti only) ------------------- */
+    --footer-assist-color: #484848; /* @boilerplate */
+    --footer-assist-font-size: 17px; /* desktop */ /* @boilerplate */
+    --footer-assist-font-size-mobile: 14px; /* @boilerplate */
+    --footer-assist-line-height: 21px; /* @boilerplate */
+    --footer-assist-font-weight: 700; /* @boilerplate */
+    --footer-assist-margin-right: 11px; /* gap to the phone pill (desktop) */ /* @boilerplate */
+    --footer-mobile-assist-gap: 12px; /* gap between label and pill (mobile) */ /* @boilerplate */
+    --footer-assist-mobile-margin-bottom: 15px; /* gap above legal copy (mobile) */ /* @boilerplate */
+  
+    /* ---- phone pill (Vyepti only) ------------------------------------- */
+    --footer-phone-background: #bf2c58; /* @boilerplate */
+    --footer-phone-hover-background: var(--brand-rose-dark); /* #9a2346 */ /* @boilerplate */
+    --footer-phone-color: #fff; /* @boilerplate */
+    --footer-phone-font-size: 16px; /* @boilerplate */
+    --footer-phone-font-weight: 700; /* @boilerplate */
+    --footer-phone-line-height: 22px; /* @boilerplate */
+    --footer-phone-padding: 20px 21px 20px 45px; /* @boilerplate */
+    --footer-phone-radius: 30px; /* @boilerplate */
+    --footer-phone-icon-size: 16px 19px; /* @boilerplate */
+    --footer-phone-icon-position: 19px 24px; /* @boilerplate */
+  
+    /* inline phone-handset glyph (white), cropped tight to a 16x19 box so it
+       fills the icon area. Swap the path/colour for a different brand icon. */
+    --footer-phone-icon-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 19" fill="white"><path d="M3.6 0c-.5 0-1 .2-1.5.5C1 1.3 0 2.6 0 4.2c0 1.4.4 3 1.2 4.7.8 1.7 2 3.4 3.5 5 1.6 1.6 3.3 2.7 5 3.5 1.7.8 3.3 1.2 4.7 1.2h.1c.4 0 .8-.2 1.1-.5.3-.3.4-.7.4-1.1v-2.6c0-.7-.5-1.3-1.2-1.5l-3-.7c-.6-.1-1.2 0-1.6.5l-1 1c-1-.6-2-1.3-2.8-2.2-.9-.8-1.6-1.8-2.2-2.8l1-1c.5-.4.6-1 .5-1.6l-.7-3C4.8.5 4.2 0 3.6 0Z"/></svg>'); /* @boilerplate */
+  
+    /* ---- social icons + company logo (column 2) ----------------------- */
+    --footer-social-row-margin-top: 27px; /* space above the social/logo row */ /* @boilerplate */
+    --footer-social-icon-width: 27px; /* @boilerplate */
+    --footer-social-icon-gap: 13px; /* edge gap between social icons */ /* @boilerplate */
+    --footer-logo-width: 160px; /* Lundbeck logo width (Onfi uses ~114px) */ /* @boilerplate */
+  
+    /* logo sits 27px from the last social icon; the icon already emits a 13px
+       right margin, so this adds the remaining 14px */
+    --footer-logo-margin-left: 14px; /* @boilerplate */
+  } /* @boilerplate */
+  
+  /* =====================================================================
+     SITE-SPECIFIC OVERRIDES (extension layer)
+     ---------------------------------------------------------------------
+     Add rules here that the shared footer.css doesn't cover for a given
+     site. The Vyepti reference needs none. Examples a cloning developer
+     might add (kept here as commented guidance):
+  
+     Onfi — gray panel, teal inline links, no band:
+       :root {
+         --footer-linkbar-background: #d4d5d5;
+         --footer-linkbar-padding: 30px 0;
+         --footer-link-color: #008c99;
+         --footer-link-hover-decoration: underline;
+         --footer-legal-font-size: 16px;
+         --footer-logo-width: 114px;
+         --footer-font-family: "Avenir LT W01_55 Roman", avenir, sans-serif;
+       }
+  
+     Xenazine / Sabril — transparent, plain inline link list, no band:
+       :root {
+         --footer-linkbar-background: transparent;
+         --footer-linkbar-padding: 0;
+         --footer-link-text-align: left;
+         --footer-link-color: #454545;   (Sabril: #652d89)
+         --footer-link-hover-decoration: underline;
+       }
+  
+     Vyepti HCP (www.vyeptihcp.com) — open-sans, top divider rule, logo +
+     inline bold muted-teal links, legal copy below. No band/phone/social.
+     Link row sits left-aligned beneath the logo; links are 16px/700 #41748d
+     with a 40px gap, legal copy is 14px #484848. The divider rule above the
+     footer is the one extra selector the shared structure doesn't provide,
+     so it lives in the override block below.
+       :root {
+         --footer-font-family: open-sans, sans-serif;
+         --footer-linkbar-background: transparent;
+         --footer-linkbar-padding: 0;
+         --footer-link-text-align: left;
+         --footer-link-color: var(--brand-teal-muted);   (#41748d)
+         --footer-link-hover-color: var(--brand-teal);
+         --footer-link-font-size: 16px;
+         --footer-link-font-size-desktop: 16px;
+         --footer-link-font-weight: 700;
+         --footer-link-line-height: 24px;
+         --footer-legal-color: #484848;
+         --footer-legal-font-size: 14px;
+         --footer-legal-line-height: 18px;
+       }
+       :root { --footer-divider: 1px solid #a4a4a4; }   (token consumed below)
+       footer .footer .section:first-child {
+         border-top: var(--footer-divider, none);
+         padding-top: 16px;
+         margin-top: 16px;
+       }
+     ===================================================================== */
+  
+  /* =====================================================================
+     NORTHERA (www.northera.com) — active site overrides
+     ---------------------------------------------------------------------
+     Authored shape (single footer section):
+       • a <ul> of utility links rendered as a navy BAND, then
+       • a `columns divider` block holding legal copy (left) + Lundbeck
+         logo (right). The columns block supplies the 2-column + divider
+         layout at >= 768px; the rules below only add the band, link
+         styling, legal type, and logo sizing. Do NOT edit footer.css.
+  
+     Reference values (from live site getComputedStyle):
+       link band bg   #1f4763    link color   #02bded (no hover change)
+       link font      gotham 700, 16px mobile / 18px desktop
+       legal color    #000, 15px, line-height 19px
+       logo width     167px
+     ===================================================================== */
+  footer {
+    /* keep the section wrapper transparent — the navy is applied only to the
+       <ul> band below, since links + legal now live in ONE section */
+    --footer-linkbar-background: transparent;
+    --footer-navy-band: #1f4763; /* navy link band */
+    --footer-link-color: #02bded;
+    --footer-link-hover-color: #02bded; /* no hover change */
+    --footer-link-hover-decoration: none;
+    --footer-link-font-family: gotham-bold, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
+    --footer-link-line-height: 1.2;
+    --footer-legal-color: #000;
+    --footer-legal-font-size: 15px;
+    --footer-legal-line-height: 19px;
+    --footer-legal-font-family: gotham-book, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
+    --footer-logo-width: 167px;
   }
-
-  footer .footer .section:last-child .default-content-wrapper {
-    position: relative;
-    padding: var(--footer-body-padding);
+  
+  /* ===== Navy utility-link band (the authored <ul>) =====
+     background goes on the wrapper so the band is full-bleed; the <ul> stays
+     centered with the site max-width inside it. */
+  footer .footer .section:first-child .default-content-wrapper:has(> ul) {
+    max-width: none;
+    width: 100%;
+    margin-inline: 0;
+    padding-inline: 0;
+    background-color: var(--footer-navy-band);
   }
-
-  /* disclaimer copy constrained to ~800px so the logo has room on the right */
-  footer .footer .section:last-child p:not(:has(img)) {
-    max-width: 800px;
+  
+  footer .footer .default-content-wrapper ul {
+    width: 100%;
+    max-width: var(--footer-max-width);
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
   }
-
-  /* logo pinned to the right of the legal band */
-  footer .footer .section:last-child p:has(img) {
-    position: absolute;
-    top: 40px;
-    right: 15px;
+  
+  footer .footer .default-content-wrapper ul li {
+    padding: 13px 0;
+    line-height: var(--footer-link-line-height);
+    text-align: center;
+  }
+  
+  footer .footer .default-content-wrapper ul li p {
     margin: 0;
+    line-height: var(--footer-link-line-height);
   }
-}
+  
+  footer .footer .default-content-wrapper ul a {
+    font-family: var(--footer-link-font-family);
+    color: var(--footer-link-color);
+    font-size: 16px; /* mobile */
+    font-weight: 400;
+    line-height: var(--footer-link-line-height);
+    text-decoration: none;
+  }
+  
+  footer .footer .default-content-wrapper ul a:hover {
+    color: var(--footer-link-hover-color);
+    text-decoration: none;
+  }
+  
+  /* ===== Legal band (columns block: legal copy | logo) ===== */
+  footer .footer .columns.divider {
+    max-width: var(--footer-max-width);
+    margin: 0 auto;
+    padding: var(--footer-body-padding-mobile);
+  }
+  
+  /* `.columns-wrapper` raises specificity above the boilerplate link-band rule
+     (footer .footer .section:first-child p) that would otherwise force these
+     legal paragraphs to inline-block and sit them side by side. */
+  footer .footer .columns-wrapper .columns.divider p {
+    display: block;
+    font-family: var(--footer-legal-font-family);
+    color: var(--footer-legal-color);
+    font-size: var(--footer-legal-font-size);
+    font-weight: 400; /* Gotham-Book — matches source */
+    line-height: var(--footer-legal-line-height);
+    margin-bottom: var(--footer-legal-margin-bottom);
+  }
+  
+  /* no gap below the 2nd (copyright) paragraph — doc code sits directly beneath it.
+     Must beat footer.css:97 (`.columns-container … p:not(:last-child)`) on specificity. */
+  footer .footer .columns-wrapper .columns.divider > div > :first-child p:nth-of-type(2) {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  
+  footer .footer .columns.divider img {
+    width: var(--footer-logo-width);
+    height: auto;
+  }
+  
+  /* ===== >= 992px: links grow to 18px; band spread across a single row ===== */
+  @media (width >= 992px) {
+    footer .footer .default-content-wrapper ul {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 1fr;
+    }
+  
+    footer .footer .default-content-wrapper ul a {
+      font-size: 18px;
+    }
+  
+    footer .footer .columns.divider {
+      padding: var(--footer-body-padding);
+    }
 
-/* ≥ 1280px (matches source): links spread across the band in a single
-   equal-column row. */
-@media (width >= 1280px) {
-  footer .footer .section:first-child ul {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > :first-child {
+      flex: 1 1 auto;
+    }
+  
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > :nth-child(2) {
+      flex: 0 0 auto;
+      justify-content: flex-start;
+    }
   }
-}
+  
