@@ -40,4 +40,7 @@
 
   /* rail (≥1200px) */
   --isi-rail-padding: 16px;
+
+  /* content+rail unit cap (source .cmp-layout-main-section: 1680px, centered) */
+  --isi-layout-max-width: 1680px;
 }
