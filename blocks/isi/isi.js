@@ -194,6 +194,71 @@ function observeSectionVisibility(block) {
   observer.observe(section);
 }
 
+/**
+ * Builds the source "CLOSE X" control (button.cmp-isi-model__btn-close):
+ *   CLOSE <span aria-hidden="true">X</span>
+ * Shown only in the expanded full-page (desktop) state.
+ */
+function makeCloseButton() {
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'isi-close';
+  btn.setAttribute('aria-label', 'Close');
+  btn.append(document.createTextNode('CLOSE '));
+  const x = document.createElement('span');
+  x.setAttribute('aria-hidden', 'true');
+  x.className = 'isi-close-x';
+  x.textContent = 'X';
+  btn.append(x);
+  return btn;
+}
+
+function setupDesktopExpandToggle(block, variant) {
+  if (variant !== 'use') return;
+
+  const section = block.closest('.section.isi-container');
+  if (!section || section.dataset.isiDesktopToggle) return;
+  section.dataset.isiDesktopToggle = 'true';
+
+  // Collapsed affordance: the "+" open control (source rail glyph).
+  const toggle = makeToggle();
+  toggle.classList.add('isi-desktop-toggle');
+  toggle.setAttribute('aria-label', 'Expand Important Safety Information');
+
+  const headingRow = block.querySelector('.isi-full .isi-use-label')
+    || block.querySelector('.isi-full p');
+  if (headingRow) {
+    headingRow.classList.add('isi-desktop-toggle-row');
+    headingRow.append(toggle);
+  } else {
+    block.prepend(toggle);
+  }
+
+  // Expanded affordance: the exact source "CLOSE X" button (top-right of the
+  // full-page overlay). Hidden until the section is expanded (see isi.css).
+  const closeBtn = makeCloseButton();
+  section.append(closeBtn);
+
+  const setExpanded = (expanded) => {
+    section.classList.toggle('isi-desktop-expanded', expanded);
+    toggle.setAttribute('aria-expanded', String(expanded));
+    toggle.setAttribute(
+      'aria-label',
+      expanded ? 'Collapse Important Safety Information' : 'Expand Important Safety Information',
+    );
+  };
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setExpanded(!section.classList.contains('isi-desktop-expanded'));
+  });
+
+  closeBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setExpanded(false);
+  });
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length === 0) return;
@@ -211,6 +276,8 @@ export default function decorate(block) {
     const bar = getOrCreateBar();
     addBarSection(bar, variant, label, contentRow);
   }
+
+  setupDesktopExpandToggle(block, variant);
 
   /* Hide the bar once the in-flow ISI section scrolls into view (source behavior) */
   observeSectionVisibility(block);

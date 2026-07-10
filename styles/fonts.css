@@ -10,6 +10,38 @@
  */
 
 @font-face {
+  font-family: gotham-book;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Gotham-Book.woff') format('woff');
+}
+
+@font-face {
+  font-family: gotham-medium;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Gotham-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: gotham-bold;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Gotham-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: gotham-black;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Gotham-Black.woff') format('woff');
+}
+
+@font-face {
   font-family: gotham-fallback;
   font-style: normal;
   font-weight: 400;
