@@ -584,6 +584,10 @@ main .icon.icon-bullet { /* @libs */
 /* sections */
 main > .section { /* @libs */
   margin: 0; /* @libs */
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 main > .section > div:not(.bg-image) {
@@ -885,6 +889,10 @@ main .section.stats-callout > div:not(.bg-image) {
 @media (width >= 1200px) {
   header { /* @libs */
     height: var(--nav-height); /* @libs */
+  }
+
+  main > .section {
+    max-width: 1400px;
   }
 
   main .section.stats-callout > div:not(.bg-image) {
