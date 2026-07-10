@@ -9,7 +9,7 @@
 
 /* the abbreviated "Please see…" row is only used for the source fixed bar;
    the full content is shown in-flow, so hide the abbreviated row. */
-main .isi .isi-abbr {
+   main .isi .isi-abbr {
   display: none;
 }
 
@@ -17,6 +17,7 @@ main .isi .isi-abbr {
 main .isi {
   padding: 0 var(--isi-section-padding-x);
   color: var(--isi-body-color);
+  font-family: var(--isi-body-font);
 }
 
 /* "Use" block has a bottom divider between it and Important Safety */
@@ -52,11 +53,22 @@ main .isi.isi-use p:first-child strong {
   font-size: var(--isi-use-heading-font-size);
   line-height: 22px;
   display: inline-block;
+  font-weight: var(--isi-font-weight-bold);
 }
 
 main .isi.isi-important p:first-child b,
 main .isi.isi-important p:first-child strong {
   font-size: var(--isi-important-heading-font-size);
+  font-weight: var(--isi-font-weight-bold);
+}
+
+main .isi.isi-important .isi-full > div > p:nth-last-of-type(-n + 2) b,
+main .isi.isi-important .isi-full > div > p:nth-last-of-type(-n + 2) strong {
+ color: #000;
+ font-size: 17px;
+ line-height: 19px;
+ font-family: var(--isi-text-bold-font);
+ font-weight: var(--isi-font-weight-bold);
 }
 
 /* ── Lists ──────────────────────────────────────────────────── */
@@ -100,7 +112,6 @@ main .isi .isi-warningbox {
 }
 
 main .isi .isi-warningbox p:first-child {
-  text-align: center;
   margin-bottom: 10px;
 }
 
@@ -114,7 +125,7 @@ main .isi .isi-warningbox p strong {
 
 /* ── Links ──────────────────────────────────────────────────── */
 main .isi a {
-  color: var(--link-color);
+  color: var(--isi-link-color);
   text-decoration: underline;
   overflow-wrap: anywhere;
 }
@@ -138,7 +149,7 @@ main .isi a:hover {
   background-color: #fff;
   border-top: 1px solid var(--isi-divider-color);
   box-shadow: 0 -2px 6px rgb(0 0 0 / 12%);
-  max-height: 40vh;
+  max-height: 52vh;
   overflow: hidden;
 }
 
@@ -165,16 +176,18 @@ main .isi a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 25px;
+  padding: 20px 25px;
   cursor: pointer;
+  font-family: var(--isi-heading-font);
 }
 
 .isi-bar-title {
-  font-family: var(--isi-heading-font);
-  font-weight: 400;
-  font-size: 18px;
+  font-family: var(--isi-important-heading-font-size);
+  font-weight: 700;
+  font-size: var(--isi-use-heading-font-size);
   color: var(--isi-heading-color);
   text-transform: uppercase;
+  line-height: var( --isi-title-line-height);
 }
 
 /* +/- toggle button (source: cyan square with glyph) */
@@ -225,27 +238,38 @@ main .isi a:hover {
   height: 12px;
 }
 
+.isi-desktop-toggle {
+  display: none;
+}
+
+/* source "CLOSE X" overlay button — hidden except in the desktop expanded state */
+.isi-close {
+  display: none;
+}
+
 .isi-bar-section.open .isi-bar-toggle-icon::after {
   opacity: 0;
 }
 
 /* collapsed peek of the warning box under the Important Safety header */
 .isi-bar-peek {
-  padding: 0 25px 12px;
+  padding: 0 25px;
   max-height: 90px;
   overflow: hidden;
+  margin-bottom: 30px;
 }
 
 .isi-bar-peek .isi-warningbox {
   border: 2px solid #000;
-  padding: 8px 8px 2px;
+  padding: 2px 10px;
   margin: 0;
+  height: 80px;
 }
 
 .isi-bar-peek .isi-warningbox p {
-  font-family: var(--isi-body-font);
-  font-size: 16px;
-  line-height: 1.3;
+  font-family: var(--isi-heading-font);
+  font-size: 18px;
+  line-height: 22px;
   margin: 0;
 }
 
@@ -262,6 +286,11 @@ main .isi a:hover {
   display: block;
 }
 
+.isi-bar-expanded .isi-bar-section {
+  border-bottom: none;
+}
+
+
 /* when a section is open, hide the sibling collapsed rows + peek so the
    open panel takes the bar (source: single expanded section) */
 .isi-bar-expanded .isi-bar-section:not(.open) {
@@ -273,13 +302,20 @@ main .isi a:hover {
 }
 
 .isi-bar-expanded {
-  max-height: 80vh;
+  inset: 0;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+}
+
+.isi-bar-expanded .isi-bar-panel {
+  max-height: calc(100vh - 80px);
+  max-height: calc(100dvh - 80px);
 }
 
 .isi-bar-panel p {
-  font-family: var(--isi-body-font);
-  font-size: var(--isi-body-font-size);
-  line-height: 1.4;
+  font-family: var(--isi-heading-font);
+  line-height: 19px;
   color: var(--isi-body-color);
   margin: 0 0 10px;
 }
@@ -293,7 +329,7 @@ main .isi a:hover {
   position: relative;
   list-style: none;
   font-family: var(--isi-body-font);
-  font-size: var(--isi-body-font-size);
+  font-size: var(--isi-warningbox-font-size);
   line-height: var(--isi-body-line-height);
   color: var(--isi-body-color);
   margin-bottom: 10px;
@@ -316,8 +352,12 @@ main .isi a:hover {
 
 .isi-bar-panel .isi-warningbox {
   border: 2px solid #000;
-  padding: 10px 10px 2px;
-  margin-bottom: 10px;
+  padding: 10px 10px 0;
+  margin-bottom: 30px;
+  font-family: var(--isi-heading-font);
+  font-size: var(--isi-warningbox-font-size);
+  font-weight: 700;
+  line-height: 19px;
 }
 
 .isi-bar-panel .isi-warningbox p:first-child {
@@ -325,7 +365,7 @@ main .isi a:hover {
 }
 
 .isi-bar-panel a {
-  color: var(--link-color);
+  color: var(--isi-link-color);
   text-decoration: underline;
   overflow-wrap: anywhere;
 }
@@ -364,10 +404,33 @@ main .isi a:hover {
     box-sizing: border-box;
   }
 
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section:not(.isi-container) {
+    display: none;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container {
+    position: fixed;
+    width: 95%;
+    border-left: 0;
+    background-color: #fff;
+    z-index: 30;
+    right: 0;
+    top: 0;
+    overflow-y: auto;
+    height: 100%;
+    padding: 50px 15% 30px 50px;
+  }
+
   main:has(> .section.isi-container) > .section.isi-container > div {
     max-width: none;
     margin: 0;
     padding: 0;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container > div {
+    max-width: var(--max-width-site);
+    margin: 0 auto;
+    padding: 0 25px;
   }
 
   /* the trailing abbreviated "Please see…" default content is for the
@@ -381,6 +444,8 @@ main .isi a:hover {
   main:has(> .section.isi-container) .isi li {
     font-size: var(--isi-body-font-size);
     line-height: var(--isi-body-line-height);
+    margin-top:0;
+    margin-bottom: 10px;
   }
 
   /* ── "Use" block: label + fixed-height 250px inner-scroll body ──
@@ -388,6 +453,7 @@ main .isi a:hover {
   main:has(> .section.isi-container) .isi.isi-use {
     border-bottom: 1px solid var(--isi-divider-color);
     padding: 20px 15px;
+    
   }
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-label {
@@ -396,17 +462,140 @@ main .isi a:hover {
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-body {
     height: 250px;
+    padding-right: 10px;
     overflow-y: scroll;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--isi-divider-color) #f2f2f2;
+    box-shadow: inset -2px 0 0 #f2f2f2;
   }
 
-  /* ── "Important Safety" block: auto height, own margin-top ── */
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar-track {
+    background: #f2f2f2;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar-thumb {
+    background-color: var(--isi-divider-color);
+    border-radius: 4px;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi.isi-use .isi-use-body {
+    height: auto;
+    overflow-y: visible;
+    box-shadow: none;
+  }
+
+  /* ── "Important Safety" block: fixed-height scroll body in desktop rail ── */
   main:has(> .section.isi-container) .isi.isi-important {
     margin-top: 20px;
     padding: 0 15px 20px;
+    padding-right: 10px;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--isi-divider-color) #f2f2f2;
+    box-shadow: inset -2px 0 0 #f2f2f2;
+    overflow-y: scroll;
+    width: 90%;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar-track {
+    background: #f2f2f2;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar-thumb {
+    background-color: var(--isi-divider-color);
+    border-radius: 4px;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi.isi-important {
+    height: auto;
+    padding-right: 15px;
+    overflow-y: visible;
+    box-shadow: none;
   }
 
   /* the fixed bottom bar is replaced by the right rail at this width */
   .isi-bar {
     display: none;
+  }
+
+  main:has(> .section.isi-container) .isi-desktop-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  main:has(> .section.isi-container) .isi-desktop-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* In the expanded overlay the CLOSE X button handles closing, so the
+     "+"/"−" toggle glyph is hidden (source shows only CLOSE X, no "−"). */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-desktop-toggle {
+    display: none;
+  }
+
+  /* ── "CLOSE X" button (source: button.cmp-isi-model__btn-close) ──
+     Shown only in the expanded full-page overlay, pinned top-right.
+     Exact source styling: brand-blue "CLOSE" label in Gotham-Black 20px,
+     followed by a cyan (#02bded) square with a white "X". */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 40px;
+    z-index: 31;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--brand-blue);
+    font-family: var(--heading-heavy-font-family);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: none;
+    cursor: pointer;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close:hover,
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close:focus {
+    background: none;
+    box-shadow: none;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close .isi-close-x {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    margin-left: 6px;
+    background-color: var(--brand-cyan);
+    color: #fff;
+    font-family: var(--heading-heavy-font-family);
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  main .isi .isi-warningbox {
+    padding: 10px 5px 0;
+  }
+ 
+  main .isi .isi-warningbox p b, main .isi .isi-warningbox p strong {
+    line-height: 19px;
   }
 }
