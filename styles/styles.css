@@ -583,7 +583,6 @@ main .icon.icon-bullet { /* @libs */
 
 /* sections */
 main > .section { /* @libs */
-  margin: 0; /* @libs */
   margin-right: auto;
   margin-left: auto;
   padding-left: 15px;
@@ -893,6 +892,7 @@ main .section.stats-callout > div:not(.bg-image) {
 
   main > .section {
     max-width: 1400px;
+    margin-left: 0;
   }
 
   main .section.stats-callout > div:not(.bg-image) {
