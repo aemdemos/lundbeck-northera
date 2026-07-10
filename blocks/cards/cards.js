@@ -21,7 +21,7 @@ export default function decorate(block) {
   });
 
   const cardCount = ul.children.length;
-  if (cardCount === 2 || cardCount === 3) {
+  if (!block.classList.contains('pharmacy') && (cardCount === 2 || cardCount === 3)) {
     block.classList.add(`cards-${cardCount}-cols`);
   }
 

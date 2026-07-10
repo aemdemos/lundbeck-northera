@@ -158,6 +158,68 @@
   }
 }
 
+/* ══════════════════════════════════════════════════════════════
+   "pharmacy" variant — source .lu-cmp-teaser specialty-pharmacy rows
+   (patient-support/your-northera-prescription). Vertical stack of
+   full-width rows; each row = logo on the left, name + phone/fax on
+   the right. Borderless, transparent, no dividers.
+   Source: h2 #3a6f8f 20px Gotham-Bold; p #58595b 16px Gotham-Medium;
+   logo column ~217px; row padding 5px 15px.
+   ══════════════════════════════════════════════════════════════ */
+.cards.pharmacy > ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.cards.pharmacy > ul > li {
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 25px;
+  padding: 5px 15px;
+}
+
+.cards.pharmacy .cards-card-image {
+  flex: 0 0 200px;
+  line-height: 0;
+}
+
+.cards.pharmacy > ul > li img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: unset;
+  object-fit: contain;
+}
+
+.cards.pharmacy .cards-card-body {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+}
+
+.cards.pharmacy .cards-card-body h2 {
+  color: #3a6f8f;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 36px;
+  margin: 10px 0;
+  text-align: left;
+}
+
+.cards.pharmacy .cards-card-body p {
+  color: #58595b;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  margin: 0;
+  text-align: left;
+}
+
 @media (width >= 992px) {
   .cards.cards-2-cols > ul {
     grid-template-columns: repeat(2, 1fr);
