@@ -212,6 +212,7 @@ footer {
   --footer-legal-color: #000;
   --footer-legal-font-size: 15px;
   --footer-legal-line-height: 19px;
+  --footer-legal-margin-bottom: 20px;
   --footer-logo-width: 167px;
 }
 
@@ -224,7 +225,8 @@ footer .footer .section:first-child ul {
 
 footer .footer .section:first-child li {
   padding: 13px 0;
-  text-align: var(--footer-link-text-align);
+  line-height: var(--footer-link-line-height);
+  
 }
 
 /* the second (legal) section holds disclaimer copy + logo; on desktop the
@@ -241,6 +243,10 @@ footer .footer .section:last-child p {
   font-weight: 400; /* Gotham-Book — matches source (not the inherited 500) */
   line-height: var(--footer-legal-line-height);
   margin-bottom: var(--footer-legal-margin-bottom);
+}
+
+footer .footer .section:last-child p:nth-of-type(2) {
+  margin-bottom: 0;
 }
 
 footer .footer .section:last-child p:has(img) {
@@ -288,9 +294,5 @@ footer .footer .section:last-child img {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
-  }
-
-  footer .footer .section:first-child li {
-    padding: 22px 0;
   }
 }
