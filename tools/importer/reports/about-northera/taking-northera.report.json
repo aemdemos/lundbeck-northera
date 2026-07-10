@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "url": "https://lundbeck-admin:pH6Uuj5k9w8i@northera-stage.d.lundbeckus.com/about-northera/taking-northera",
+  "path": "about-northera/taking-northera",
+  "timestamp": "2026-07-08T08:52:34.185Z",
+  "title": "Taking Northera, Titration and Safety | NORTHERA® (droxidopa)",
+  "template": "content-page",
+  "blocks": [
+    "embed",
+    "embed",
+    "accordion",
+    "accordion",
+    "quote",
+    "cards",
+    "cards",
+    "isi",
+    "isi",
+    "isi"
+  ]
+}

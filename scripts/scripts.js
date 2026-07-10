@@ -1002,6 +1002,31 @@ function decorateNestedSections(main) {
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
+/**
+ * Tags responsive image pairs authored as two consecutive image-only
+ * paragraphs (e.g. a portrait/mobile chart followed by a wide/desktop chart).
+ * The first paragraph is shown on mobile, the second at ≥768px (see styles.css).
+ * No content/authoring change is required — detection is purely structural.
+ * @param {HTMLElement} main The main container element
+ */
+function decorateResponsiveImagePairs(main) {
+  const isImageOnlyPara = (el) => el
+    && el.tagName === 'P'
+    && el.children.length === 1
+    && el.firstElementChild.tagName === 'PICTURE'
+    && el.textContent.trim() === '';
+
+  main.querySelectorAll('p').forEach((p) => {
+    if (p.classList.contains('img-pair-mobile') || p.classList.contains('img-pair-desktop')) return;
+    if (!isImageOnlyPara(p)) return;
+    const next = p.nextElementSibling;
+    if (!isImageOnlyPara(next)) return;
+    // two consecutive image-only paragraphs → responsive pair
+    p.classList.add('img-pair-mobile');
+    next.classList.add('img-pair-desktop');
+  });
+}
+
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateIconsAndBullets(main);
@@ -1012,6 +1037,7 @@ export function decorateMain(main) {
   decorateButtons(main);
   a11yLinks(main);
   decorateSpanTags(main);
+  decorateResponsiveImagePairs(main);
 }
 
 /**
