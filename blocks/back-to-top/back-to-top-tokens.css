@@ -3,8 +3,9 @@
 :root {
   --back-to-top-width: 64px;
   --back-to-top-height: 64px;
-  --back-to-top-offset-right: 5px;
-  --back-to-top-top: 300px;
+  --back-to-top-offset-right: 0;
   --back-to-top-bottom: 5px;
-  --back-to-top-z-index: 100;
+  --back-to-top-opacity: 0.4;
+  --back-to-top-opacity-hover: 0.8;
+  --back-to-top-z-index: 2147483647;
 }

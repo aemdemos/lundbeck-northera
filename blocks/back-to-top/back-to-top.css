@@ -12,30 +12,33 @@
   right: var(--back-to-top-offset-right);
   bottom: var(--back-to-top-bottom);
   z-index: var(--back-to-top-z-index);
+  display: block;
   width: var(--back-to-top-width);
   height: var(--back-to-top-height);
+  margin: 0;
   padding: 0;
   border: 0;
   border-radius: 0;
+  box-shadow: none;
   overflow: visible;
   background-color: transparent;
-  background-image: url('/icons/back-to-top-square.svg');
+  background-image: url('/icons/back-to-top-square.png');
   background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .back-to-top.block button.visible {
-  opacity: 1;
+  opacity: var(--back-to-top-opacity);
   visibility: visible;
 }
 
-.back-to-top.block button:hover,
-.back-to-top.block button:focus {
+.back-to-top.block button.visible:hover,
+.back-to-top.block button.visible:focus {
+  opacity: var(--back-to-top-opacity-hover);
   cursor: pointer;
   background-color: transparent;
   border-color: transparent;
+  box-shadow: none;
 }

@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg">
-  <title>Back to top</title>
-  <rect width="64" height="64" fill="#02bded"/>
-  <path d="M32 20 L44 34 H37 V44 H27 V34 H20 Z" fill="#ffffff"/>
-</svg>
