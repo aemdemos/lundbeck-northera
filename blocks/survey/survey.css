@@ -29,20 +29,11 @@
   justify-content: center;
   gap: var(--survey-progress-gap);
   list-style: none;
-  margin: 0;
-  padding: var(--survey-progress-padding);
+  /* pull up so the circles straddle the navy/white seam (their center sits
+     on the intro band's bottom edge, matching the source) */
+  margin: calc(var(--survey-progress-step-size) / -2 - var(--survey-progress-track-height) / 2) 0 0;
+  padding: 0 var(--survey-progress-inline-padding) var(--survey-progress-bottom-padding);
   position: relative;
-}
-
-.survey .survey-progress::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  right: 10%;
-  height: var(--survey-progress-track-height);
-  background-color: var(--survey-track);
-  z-index: 0;
 }
 
 .survey .survey-progress-step {
@@ -103,20 +94,65 @@
 .survey .survey-option {
   display: flex;
   align-items: flex-start;
-  gap: var(--survey-option-gap);
 }
 
+/* visually hide the native input; the custom box mirrors its state */
 .survey .survey-option input {
-  width: var(--survey-option-input-size);
-  height: var(--survey-option-input-size);
-  flex: 0 0 auto;
-  accent-color: var(--survey-option-input-accent);
-  margin-top: 2px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .survey .survey-option label {
+  display: flex;
+  align-items: center;
+  gap: var(--survey-option-gap);
   cursor: pointer;
   line-height: var(--survey-option-line-height);
+}
+
+.survey .survey-option-box {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--survey-box-size);
+  height: var(--survey-box-size);
+  background-color: var(--survey-box-bg);
+  border: var(--survey-box-border);
+  border-radius: var(--survey-box-radius);
+}
+
+/* checkmark (hidden until checked) */
+.survey .survey-option-box::after {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 10px;
+  height: 20px;
+  border: solid var(--survey-box-check-color);
+  border-width: 0 3px 3px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+  opacity: 0;
+}
+
+.survey .survey-option input:checked + label .survey-option-box {
+  background-color: var(--survey-box-checked-bg);
+  border-color: var(--survey-box-checked-border-color);
+}
+
+.survey .survey-option input:checked + label .survey-option-box::after {
+  opacity: 1;
+}
+
+.survey .survey-option input:focus-visible + label .survey-option-box {
+  outline: 2px solid var(--survey-navy);
+  outline-offset: 2px;
 }
 
 /* ===== Controls ===== */
@@ -136,6 +172,7 @@
   font-family: var(--survey-button-font-family);
   font-weight: var(--survey-button-font-weight);
   font-size: var(--survey-button-font-size);
+  box-shadow: var(--survey-button-shadow);
   cursor: pointer;
   transition: var(--survey-transition);
 }

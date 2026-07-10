@@ -42,8 +42,16 @@ function buildOptions(question, index) {
 
     const optLabel = document.createElement('label');
     optLabel.setAttribute('for', id);
-    optLabel.textContent = label;
 
+    // custom visual box (native input is visually hidden); checkmark drawn in CSS
+    const box = document.createElement('span');
+    box.className = 'survey-option-box';
+
+    const text = document.createElement('span');
+    text.className = 'survey-option-text';
+    text.textContent = label;
+
+    optLabel.append(box, text);
     item.append(input, optLabel);
     list.append(item);
   });
@@ -133,6 +141,7 @@ export default function decorate(block) {
   controls.append(back, next);
   block.append(controls);
 
+  const progress = block.querySelector('.survey-progress');
   const progressSteps = [...block.querySelectorAll('.survey-progress-step')];
   let current = 0;
 
@@ -142,6 +151,11 @@ export default function decorate(block) {
       step.classList.toggle('active', i === current);
       step.classList.toggle('done', i < current);
     });
+    // amber track fills from the start up to the active step's center
+    if (progress && questions.length > 1) {
+      const pct = (current / (questions.length - 1)) * 100;
+      progress.style.setProperty('--survey-progress-fill', `${pct}%`);
+    }
     back.disabled = current === 0;
     next.textContent = current === questions.length - 1 ? 'VIEW YOUR RESULTS' : 'NEXT';
   };

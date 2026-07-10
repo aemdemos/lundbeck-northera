@@ -4,8 +4,9 @@
   /* palette */
   --survey-navy: var(--heading-color); /* #245778 navy hero band */
   --survey-navy-text: #1f4763; /* question + button text */
-  --survey-cyan: var(--accent-color); /* #02bded inputs + buttons */
-  --survey-amber: #f5a623; /* active/done progress circle */
+  --survey-navy-shadow: #19527f; /* button 3D drop shadow */
+  --survey-cyan: var(--accent-color); /* #02bded buttons */
+  --survey-amber: #f6af1a; /* active/done progress circle + checked box */
   --survey-track: #d9d9d9; /* inactive progress track + circle */
 
   /* intro (navy hero band) */
@@ -17,7 +18,8 @@
 
   /* progress indicator */
   --survey-progress-gap: 3rem;
-  --survey-progress-padding: 1.5rem;
+  --survey-progress-inline-padding: 1.5rem; /* left/right gutter for the track */
+  --survey-progress-bottom-padding: 2.5rem; /* space below circles before the question */
   --survey-progress-track-height: 2px;
   --survey-progress-step-size: 44px;
   --survey-progress-step-color: #fff;
@@ -37,9 +39,16 @@
   --survey-options-gap: 1rem;
   --survey-options-gap-desktop: 1.5rem 2.5rem;
   --survey-option-gap: 0.75rem;
-  --survey-option-input-size: 24px;
-  --survey-option-input-accent: var(--survey-cyan);
   --survey-option-line-height: 1.4;
+
+  /* custom checkbox / radio box */
+  --survey-box-size: 44px;
+  --survey-box-bg: #fff;
+  --survey-box-border: 1px solid #939393;
+  --survey-box-radius: 10px;
+  --survey-box-checked-bg: var(--survey-amber);
+  --survey-box-checked-border-color: var(--survey-amber);
+  --survey-box-check-color: #fff;
 
   /* controls */
   --survey-controls-gap: 1.5rem;
@@ -52,6 +61,13 @@
   --survey-button-font-size: 1.125rem;
   --survey-button-hover-opacity: 0.85;
   --survey-button-disabled-opacity: 0.4;
+  /* stacked 3D drop shadow (navy), matches source */
+  --survey-button-shadow:
+    1px 1px 0 0 var(--survey-navy-shadow),
+    2px 2px 0 0 var(--survey-navy-shadow),
+    3px 3px 0 0 var(--survey-navy-shadow),
+    4px 4px 0 0 var(--survey-navy-shadow),
+    5px 5px 0 0 var(--survey-navy-shadow);
 
   /* motion */
   --survey-transition: opacity 0.2s;
