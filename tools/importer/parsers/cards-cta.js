@@ -9,6 +9,26 @@
  * Selector: .cmp-layout-quicklinks .image-text-cta
  * Generated: 2026-06-03
  */
+
+/**
+ * Normalize a link href: strip any embedded basic-auth credentials and convert
+ * same-host absolute URLs to root-relative paths. Keeps external links intact.
+ */
+function normalizeHref(raw) {
+  if (!raw) return '';
+  try {
+    const u = new URL(raw, 'https://northera-stage.d.lundbeckus.com');
+    if (/(^|\.)northera-stage\.d\.lundbeckus\.com$/.test(u.hostname)) {
+      return `${u.pathname}${u.search}${u.hash}`;
+    }
+    u.username = '';
+    u.password = '';
+    return u.toString();
+  } catch (e) {
+    return raw;
+  }
+}
+
 export default function parse(element, { document }) {
   // Find the parent container to collect all cards for a single Cards block.
   const container = element.closest('.cmp-layout-quicklinks') || element.parentElement;
@@ -35,7 +55,7 @@ export default function parse(element, { document }) {
 
     // Extract the CTA link - use .href property for full URL resolution
     const linkEl = card.querySelector('a.cmp-imagetext__link, a[href]');
-    const href = linkEl ? (linkEl.href || linkEl.getAttribute('href') || '') : '';
+    const href = normalizeHref(linkEl ? (linkEl.href || linkEl.getAttribute('href') || '') : '');
 
     // Extract the CTA button label text
     const buttonTextEl = card.querySelector('.cmp-label-text, button span, .cmp-text-cta button');
