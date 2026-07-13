@@ -1,5 +1,13 @@
 @import url('./cards-tokens.css');
 
+main > .section:has(.cards.resource) {
+padding: 0;
+}
+
+main > .section > div:has(.cards.resource) {
+padding: 0;
+}
+
 .cards > ul { /* @boilerplate */
   list-style: none; /* @boilerplate */
   margin: 0; /* @boilerplate */
@@ -72,20 +80,17 @@
 .cards.reminders > ul > li {
   border: 0;
   background-color: transparent;
-  display: block;
-  padding: 30px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 25px 0;
 }
 
 .cards.reminders > ul > li + li {
   border-top: 1px solid #fff;
 }
 
-/* image: centered on top (mobile) */
-.cards.reminders .cards-card-image {
-  text-align: center;
-  margin: auto;
-  width: 115px;
-}
+
 
 .cards.reminders > ul > li img {
   height: auto;
@@ -93,19 +98,25 @@
   object-fit: contain;
   display: inline-block;
   margin-bottom: 20px;
+  width: 120px;
+  max-width: none;
 }
 
 /* text: white, centered (mobile) */
 .cards.reminders .cards-card-body {
   color: #fff;
-  text-align: center;
-  margin: 0;
+  text-align: left;
+  margin-left: 50px;
   font-weight: 400;
+  min-width: 0;
+  flex: 1;
 }
+
 
 .cards.reminders .cards-card-body p {
   color: #fff;
-  font-size: var(--body-font-size-s);
+  font-size: var(--body-font-size-m);
+  line-height: 30px;
   margin: 0;
   text-align: left;
 }
@@ -123,40 +134,16 @@
   list-style-type: none;
 }
 
-/* ≥768px — row layout: icon left, text right, left-aligned */
-@media (width > 768px) {
-  .cards.reminders > ul > li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 25px 0;
-  }
-
-  .cards.reminders > ul > li img {
-    margin: 0;
-    width: 120px;
-    max-width: none;
-  }
-
-  .cards.reminders .cards-card-body p {
-    font-size: var(--body-font-size-m);
-    line-height: 30px;
-  }
 
   .cards.reminders .cards-card-image {
-    flex: 0 0 100px;
-    margin: 0;
-    text-align: left;
-    width: 120px;
+   flex: 0 0 100px;
+   text-align: center;
+   margin: auto;
+   width: 115px;
   }
 
-  .cards.reminders .cards-card-body {
-    flex: 1;
-    min-width: 0;
-    text-align: left;
-    margin-left: 50px;
-  }
-}
+
+
 
 /* ══════════════════════════════════════════════════════════════
    "pharmacy" variant — source .lu-cmp-teaser specialty-pharmacy rows
@@ -338,6 +325,14 @@
 }
 
 @media (width >= 768px) {
+      main > .section:has(.cards.resource) {
+   padding: 0;
+  }
+
+  main > .section > div:has(.cards.resource) {
+    padding: 0 10%;
+  }
+
   .cards.resource > ul {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--cards-resource-gap-desktop);

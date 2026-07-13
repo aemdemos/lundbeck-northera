@@ -91,7 +91,7 @@
   --spacing-l: 32px;
 
   /* layout */
-  --max-width-site: 1200px;
+  --max-width-site: 1680px;
   --section-padding-vertical: 40px;
   --icon-size: 24px;
   --h1-max-width: 16em;
@@ -800,13 +800,6 @@ main .section.accent h6 {
   color: var(--background-color);
 }
 
-main > .section:has(.cards.resource) {
-padding: 0;
-}
-
-main > .section > div:has(.cards.resource) {
-padding: 0;
-}
 
 @media (width >= 576px) {
   main .section.stats-callout > div:not(.bg-image) {
@@ -825,14 +818,6 @@ padding: 0;
 
   main .section.reminders > div {
     width: 83.3333%;
-  }
-
-  main > .section:has(.cards.resource) {
-   padding: 0;
-  }
-
-  main > .section > div:has(.cards.resource) {
-    padding: 0 10%;
   }
 }
 
@@ -864,9 +849,6 @@ padding: 0;
       padding: var(--section-padding-vertical) 0;
     }
 
-    main > .section > div { /* @libs */
-      max-width: 720px; /* @libs */
-    }
   
     main .section.stats-callout > div:not(.bg-image) {
       max-width: 720px;

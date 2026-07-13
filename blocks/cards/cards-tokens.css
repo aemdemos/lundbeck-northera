@@ -43,6 +43,7 @@
   --cards-resource-cta-icon-url: url("/icons/download.png");
   --cards-resource-cta-icon-width: 36px;
   --cards-resource-cta-icon-height: 30px;
+  
   /* icon is absolutely pinned at left:10px (source .cmp-label-icon::before);
      the label carries padding-left:35px to clear it. */
   --cards-resource-cta-icon-left: 10px;

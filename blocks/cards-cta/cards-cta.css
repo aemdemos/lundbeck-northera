@@ -10,6 +10,16 @@
 
 /* The source renders the banner background as authored default content (a
    stray picture) placed before the block — hide it; the bg is applied here. */
+
+main > .section:has(.cards-cta) {
+padding: 0;
+}   
+
+main > .section > div:has(.cards-cta) {
+  padding: 0;
+}
+
+
 .cards-cta-container .default-content-wrapper:has(> p > picture:only-child) {
   display: none;
 }
@@ -23,8 +33,7 @@
 
 .cards-cta > ul > li {
   border: 0;
-  margin: 0 0 var(--cards-cta-margin-bottom);
-  padding: var(--cards-cta-padding);
+  padding: 40px 15px 30px;
   background-color: var(--cards-cta-bg-color);
   background-image: var(--cards-cta-bg-image);
   background-size: 100% 100%;
@@ -33,7 +42,7 @@
 }
 
 .cards-cta .cards-card-body {
-  margin: 0;
+  margin: 0 15px;
 }
 
 .cards-cta .cards-card-body h3 {
@@ -43,6 +52,7 @@
   line-height: var(--cards-cta-title-line-height);
   margin: 0;
   text-align: left;
+  padding: 0 0 20px;
 }
 
 .cards-cta .cards-card-body p {
@@ -52,11 +62,11 @@
   line-height: var(--cards-cta-desc-line-height);
   margin: 0;
   text-align: left;
+  padding-bottom:30px;
 }
 
-/* CTA button — site standard cyan button (no icon) */
-.cards-cta .cards-card-body p:last-child:has(a) {
-  margin-top: var(--cards-cta-button-margin-top);
+.cards-cta .cards-card-body p:last-child {
+  padding-bottom: 0;
 }
 
 .cards-cta .cards-card-body a {
