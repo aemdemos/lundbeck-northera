@@ -32,11 +32,13 @@ function isResultsPage() {
 }
 
 function surveyPageUrl() {
-  return window.location.pathname.replace(/\/results\/?$/, '') || '/';
+  const { pathname } = window.location;
+  return pathname.replace(/\/results\/?$/, '') || '/';
 }
 
 function resultsPageUrl() {
-  const path = window.location.pathname.replace(/\/$/, '');
+  const { pathname } = window.location;
+  const path = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
   return `${path}/results`;
 }
 
@@ -473,8 +475,11 @@ function decorateQuiz(block) {
     progress.classList.toggle('survey-progress-complete', current === questions.length - 1);
   };
 
-  const currentHasSelection = () => [...steps[current].querySelectorAll('input')]
-    .some((input) => input.checked);
+  const currentHasSelection = () => {
+    const step = steps.at(current);
+    if (!step) return false;
+    return [...step.querySelectorAll('input')].some((input) => input.checked);
+  };
 
   const updateButtons = () => {
     const onLast = current === questions.length - 1;
@@ -495,8 +500,11 @@ function decorateQuiz(block) {
     updateButtons();
   };
 
-  const selectionsFor = (index) => [...steps[index].querySelectorAll('input:checked')]
-    .map((input) => input.value);
+  const selectionsFor = (index) => {
+    const step = steps.at(index);
+    if (!step) return [];
+    return [...step.querySelectorAll('input:checked')].map((input) => input.value);
+  };
 
   const goToResults = () => {
     const payload = {
