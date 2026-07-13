@@ -24,21 +24,25 @@ main > .section > div:has(.cards-cta) {
   display: none;
 }
 
+/* The teal banner background sits on the <ul> so it spans the whole block —
+   whether it holds one full-width card or two side-by-side cards. */
 .cards-cta > ul {
   list-style: none;
   margin: 0;
-  padding: 0;
-  display: block;
-}
-
-.cards-cta > ul > li {
-  border: 0;
   padding: 40px 15px 30px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
   background-color: var(--cards-cta-bg-color);
   background-image: var(--cards-cta-bg-image);
   background-size: 100% 100%;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.cards-cta > ul > li {
+  border: 0;
+  background: none;
 }
 
 .cards-cta .cards-card-body {
@@ -94,8 +98,14 @@ main > .section > div:has(.cards-cta) {
 }
 
 @media (width >= 900px) {
-  .cards-cta > ul > li {
+  .cards-cta > ul {
     padding: var(--cards-cta-padding-desktop);
+  }
+
+  /* two side-by-side cards share the banner (source: two 50% quicklink CTAs) */
+  .cards-cta > ul:has(> li:nth-child(2)) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 90px;
   }
 
   .cards-cta .cards-card-body h3 {
