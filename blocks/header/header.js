@@ -150,7 +150,8 @@ function decorateMain(brandSection, navSection) {
   [...topList.querySelectorAll(':scope > li')].forEach((li) => {
     const item = document.createElement('li');
     item.className = 'nav-link-item';
-    const topLink = li.querySelector(':scope > a');
+    // Top link may be a direct child or wrapped in a <p> (as delivered by DA).
+    const topLink = li.querySelector(':scope > a, :scope > p > a');
     const subList = li.querySelector(':scope > ul');
 
     if (topLink) item.append(topLink.cloneNode(true));
