@@ -1,26 +1,68 @@
-/* header design tokens (layout only; colors/typography use global tokens) */
-:root { /* @boilerplate */
-  --nav-height: 200px;
-  --header-nav-max-width-mobile: 510px;
-  --header-nav-max-width-tablet: 690px;
-  --header-nav-max-width-desktop: 930px;
-  --header-nav-max-width-max: 1110px;
-  --header-white-text-color: #fff;
-  --header-text-color: #484848;
+/* header design tokens — extracted from northera-stage source header.
+   Colors/fonts reference global brand tokens; header-specific values are literal
+   where the source uses a header-only value. */
+:root {
+  /* layout */
+  --header-height: 143px;
+  --header-utility-height: 41px;
+  --header-main-height: 102px;
+  --header-max-width: var(--max-width-site, 1200px);
+  --header-side-padding: 40px;
 
-  /* font */
-  --header-font-weight-xs: 500;
-  --header-font-weight-s: 600;
-  --header-font-weight-medium: 700;
-  --header-font-weight-bold: 800;
-  --header-font-size-xs: 14px;
-  --header-font-size-s: 16px;
-  --header-font-size-m: 18px;
-  --header-padding-container: 15px;
+  /* background — source: horizontal gradient dark-navy to brand-blue */
+  --header-gradient: linear-gradient(90deg, #0e314d 0%, var(--brand-blue, #245778) 65%);
 
-  /* line heights */
-  --header-line-height-xs: 14px;
-  --header-line-height-s: 18px;
-  --header-line-height-m: 22px;
-  --header-line-height-l: 24px;
+  /* utility bar (row 0) */
+  --header-util-link-color: #fff;
+  --header-util-link-font: var(--body-font-family);
+  --header-util-link-size: 17px;
+  --header-util-link-weight: 400;
+  --header-util-divider-color: #fff;
+  --header-util-gap: 20px;
+
+  /* main nav (row 1) */
+  --header-nav-link-color: #fff;
+  --header-nav-link-font: var(--body-font-family);
+  --header-nav-link-size: 16px;
+  --header-nav-link-weight: 400;
+  --header-nav-link-gap: 36px;
+  --header-logo-width: 177px;
+
+  /* dropdown panel */
+  --header-dropdown-bg: #e8ecf0;
+  --header-dropdown-width: 245px;
+  --header-dropdown-link-color: var(--brand-blue, #245778);
+  --header-dropdown-link-size: 16px;
+  --header-dropdown-link-font: var(--body-font-family);
+  --header-dropdown-item-padding: 14px 20px;
+  --header-dropdown-divider: 1px solid #d5dde3;
+  --header-dropdown-hover-bg: #dbe3ea;
+  --header-dropdown-chevron-color: var(--brand-blue, #245778);
+
+  /* search icon */
+  --header-search-icon-color: var(--brand-cyan, #02bded);
+
+  /* mobile — source switches to hamburger at ≤1200px; desktop nav at ≥1201px */
+  --header-mobile-breakpoint: 1200px;
+  --header-desktop-breakpoint: 1201px;
+  --header-mobile-logo-width: 144px;
+  --header-mobile-utility-height: 60px;
+  --header-mobile-utility-link-size: 12px;
+  --header-mobile-utility-link-line: 20px;
+  --header-mobile-main-height: 103px;
+  --header-mobile-logo-margin: 10px 0 0 25px;
+  --header-mobile-hamburger-height: 53px;
+  --header-mobile-menu-bg: #fff;
+  --header-mobile-item-color: var(--brand-blue, #245778);
+  --header-mobile-item-size: 18px;
+  --header-mobile-item-padding: 22px 15px;
+  --header-mobile-item-divider: 1px solid var(--brand-blue, #245778);
+  --header-mobile-subitem-bg: #a7dfed;
+  --header-mobile-subitem-color: var(--brand-blue, #245778);
+  --header-mobile-subitem-size: 16px;
+  --header-mobile-subitem-padding: 15px 25px;
+  --header-mobile-subitem-divider: 1px solid #a2a2a2;
+  --header-hamburger-bg: var(--brand-cyan, #02bded);
+  --header-hamburger-bar-color: var(--brand-blue, #245778);
+  --header-hamburger-x-color: var(--brand-blue-dark, #1f4763);
 }
