@@ -241,7 +241,8 @@
 
 .cards.resource > ul > li {
   border: 0;
-  background-color: transparent;
+  background-color: var(--cards-resource-box-background);
+  padding: var(--cards-resource-box-padding);
   display: block;
 }
 
@@ -341,6 +342,7 @@
     grid-template-columns: var(--cards-resource-thumb-width) 1fr;
     column-gap: var(--cards-resource-img-text-gap);
     align-items: start;
+    padding: var(--cards-resource-box-padding-desktop);
   }
 
   .cards.resource .cards-card-image {
