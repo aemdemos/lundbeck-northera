@@ -59,8 +59,7 @@
   --survey-button-font-family: var(--body-font-family);
   --survey-button-font-weight: 700;
   --survey-button-font-size: 1.125rem;
-  --survey-button-hover-opacity: 0.85;
-  --survey-button-disabled-opacity: 0.4;
+  --survey-button-hover-bg: #019fc7; /* darker cyan on hover */
   /* stacked 3D drop shadow (navy), matches source */
   --survey-button-shadow:
     1px 1px 0 0 var(--survey-navy-shadow),
@@ -69,6 +68,15 @@
     4px 4px 0 0 var(--survey-navy-shadow),
     5px 5px 0 0 var(--survey-navy-shadow);
 
+  /* pressed: button shifts onto its shadow (smaller stack) */
+  --survey-button-shadow-active:
+    1px 1px 0 0 var(--survey-navy-shadow),
+    2px 2px 0 0 var(--survey-navy-shadow);
+
+  /* results view */
+  --survey-results-answer-color: #c8102e; /* red selected-answer text */
+  --survey-results-row-alt-bg: #f2f5f7; /* light tint on alternating rows */
+
   /* motion */
-  --survey-transition: opacity 0.2s;
+  --survey-transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
 }

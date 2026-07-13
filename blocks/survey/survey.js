@@ -145,19 +145,118 @@ export default function decorate(block) {
   const progressSteps = [...block.querySelectorAll('.survey-progress-step')];
   let current = 0;
 
+  // amber track fills from the left up to the center of the active circle.
+  // Measure with bounding rects (relative to the progress box) and defer to
+  // the next frame so layout/fonts are ready — offsetLeft reads 0 pre-layout.
+  const updateFill = () => {
+    if (!progress) return;
+    const activeCircle = progressSteps[current];
+    if (!activeCircle) return;
+    requestAnimationFrame(() => {
+      const progRect = progress.getBoundingClientRect();
+      const circleRect = activeCircle.getBoundingClientRect();
+      const fill = (circleRect.left + circleRect.width / 2) - progRect.left;
+      progress.style.setProperty('--survey-progress-fill', `${fill}px`);
+    });
+  };
+
   const render = () => {
     steps.forEach((step, i) => step.classList.toggle('active', i === current));
     progressSteps.forEach((step, i) => {
       step.classList.toggle('active', i === current);
       step.classList.toggle('done', i < current);
     });
-    // amber track fills from the start up to the active step's center
-    if (progress && questions.length > 1) {
-      const pct = (current / (questions.length - 1)) * 100;
-      progress.style.setProperty('--survey-progress-fill', `${pct}%`);
-    }
-    back.disabled = current === 0;
+    updateFill();
     next.textContent = current === questions.length - 1 ? 'VIEW YOUR RESULTS' : 'NEXT';
+  };
+
+  const currentHasSelection = () => [...steps[current].querySelectorAll('input')]
+    .some((input) => input.checked);
+
+  // collect the checked option labels for a given step index
+  const selectionsFor = (index) => [...steps[index].querySelectorAll('input:checked')]
+    .map((input) => input.value);
+
+  // Build the results view: navy hero with actions, then each question with the
+  // chosen answer(s) highlighted. Rendered on "VIEW YOUR RESULTS".
+  const buildResults = () => {
+    const results = document.createElement('div');
+    results.className = 'survey-results';
+
+    const hero = document.createElement('div');
+    hero.className = 'survey-results-hero';
+    const heading = document.createElement('h2');
+    heading.className = 'survey-results-title';
+    heading.textContent = 'Symptomatic nOH Survey: your results';
+    hero.append(heading);
+
+    const actions = document.createElement('div');
+    actions.className = 'survey-results-actions';
+    const download = document.createElement('button');
+    download.type = 'button';
+    download.className = 'survey-results-download';
+    download.textContent = 'DOWNLOAD AND PRINT MY RESULTS';
+    download.addEventListener('click', () => window.print());
+    const email = document.createElement('button');
+    email.type = 'button';
+    email.className = 'survey-results-email';
+    email.textContent = 'EMAIL MY RESULTS';
+    email.addEventListener('click', () => {
+      const body = questions.map((q, i) => {
+        const answers = selectionsFor(i).join(', ') || '—';
+        return `${q.prompt}\n${answers}`;
+      }).join('\n\n');
+      const subject = 'Symptomatic nOH Survey: my results';
+      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+    actions.append(download, email);
+    hero.append(actions);
+
+    // "Print full Prescribing Information" — reuse the PI link found on the page
+    const piLink = document.querySelector('main a[href$=".pdf"], main a[href*="Prescribing" i]');
+    const piHref = piLink ? piLink.getAttribute('href') : '';
+    if (piHref) {
+      const pi = document.createElement('a');
+      pi.className = 'survey-results-pi';
+      pi.href = piHref;
+      pi.target = '_blank';
+      pi.rel = 'noopener';
+      pi.textContent = 'Print full Prescribing Information';
+      hero.append(pi);
+    }
+
+    results.append(hero);
+
+    const list = document.createElement('ol');
+    list.className = 'survey-results-list';
+    questions.forEach((question, index) => {
+      const item = document.createElement('li');
+      item.className = 'survey-results-item';
+
+      const q = document.createElement('p');
+      q.className = 'survey-results-question';
+      q.textContent = question.prompt;
+
+      const a = document.createElement('p');
+      a.className = 'survey-results-answer';
+      const answers = selectionsFor(index);
+      a.textContent = answers.length ? answers.join(', ') : 'No answer selected';
+
+      item.append(q, a);
+      list.append(item);
+    });
+    results.append(list);
+
+    return results;
+  };
+
+  const showResults = () => {
+    if (block.querySelector('.survey-results')) return;
+    block.classList.add('survey-complete');
+    const results = buildResults();
+    // place results after the intro, replacing the interactive survey view
+    intro.after(results);
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   back.addEventListener('click', () => {
@@ -168,13 +267,21 @@ export default function decorate(block) {
   });
 
   next.addEventListener('click', () => {
+    if (!currentHasSelection()) return;
     if (current < questions.length - 1) {
       current += 1;
       render();
     } else {
-      block.classList.add('survey-complete');
+      showResults();
     }
   });
+
+  window.addEventListener('resize', updateFill);
+  // recompute the amber fill once the progress bar has a measurable width
+  if (progress && 'ResizeObserver' in window) {
+    const ro = new ResizeObserver(updateFill);
+    ro.observe(progress);
+  }
 
   render();
 }
