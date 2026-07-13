@@ -25,7 +25,19 @@
   --cards-resource-desc-size-desktop: var(--body-font-size-m, 18px);
   --cards-resource-desc-line-height: 20px;
   --cards-resource-desc-line-height-desktop: 30px;
-  --cards-resource-cta-color: var(--brand-cyan);
-  --cards-resource-cta-size: var(--body-font-size-s, 16px);
-  --cards-resource-cta-size-desktop: var(--body-font-size-m, 18px);
+
+  /* resource CTA — site standard cyan button (see --button-* tokens) with a
+     left download icon. Source: bg #02bded, text #1f4763 Gotham-Black 18px,
+     padding 15px 30px, stacked cyan-shadow, 36x30 download icon on the left. */
+  --cards-resource-cta-background: var(--button-primary-background, #02bded);
+  --cards-resource-cta-color: var(--brand-blue-dark);
+  --cards-resource-cta-font-family: var(--heading-heavy-font-family);
+  --cards-resource-cta-font-size: var(--body-font-size-m, 18px);
+  --cards-resource-cta-padding: 15px 30px;
+  --cards-resource-cta-shadow: var(--button-shadow);
+  --cards-resource-cta-hover-shadow: var(--button-hover-shadow);
+  --cards-resource-cta-icon-url: url("/icons/download.png");
+  --cards-resource-cta-icon-width: 36px;
+  --cards-resource-cta-icon-height: 30px;
+  --cards-resource-cta-icon-gap: 12px;
 }
