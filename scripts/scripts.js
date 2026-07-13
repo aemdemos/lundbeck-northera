@@ -200,6 +200,49 @@ function a11yLinks(main) {
 }
 
 /**
+ * Hosts considered "local" — links to these open in the same tab.
+ */
+const LOCAL_HOSTS = new Set(['localhost', 'northera.com', 'www.northera.com']);
+const LOCAL_HOST_SUFFIXES = ['.page', '.live', '.northera.com'];
+
+/**
+ * @param {URL} url
+ * @returns {boolean} true when the URL points at a first-party/local host
+ */
+function isLocalUrl(url) {
+  const host = url.hostname.toLowerCase();
+  if (host === window.location.hostname.toLowerCase()) return true;
+  if (LOCAL_HOSTS.has(host)) return true;
+  return LOCAL_HOST_SUFFIXES.some((suffix) => host.endsWith(suffix));
+}
+
+/**
+ * Opens external links in a new tab. First-party links to local hosts keep
+ * their default same-tab behavior. In-page anchors and non-http(s) schemes
+ * (mailto:, tel:, etc.) are left untouched.
+ * @param {Element} element The container element
+ */
+export function decorateExternalLinks(element) {
+  element.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#')) return;
+
+    let url;
+    try {
+      url = new URL(href, window.location.href);
+    } catch {
+      return;
+    }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+
+    if (isLocalUrl(url)) return;
+
+    a.setAttribute('target', '_blank');
+    a.setAttribute('rel', 'noopener noreferrer');
+  });
+}
+
+/**
  * Decorates formatted links to style them as buttons.
  * @param {HTMLElement} main The main container element
  */
@@ -959,6 +1002,31 @@ function decorateNestedSections(main) {
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
+/**
+ * Tags responsive image pairs authored as two consecutive image-only
+ * paragraphs (e.g. a portrait/mobile chart followed by a wide/desktop chart).
+ * The first paragraph is shown on mobile, the second at ≥768px (see styles.css).
+ * No content/authoring change is required — detection is purely structural.
+ * @param {HTMLElement} main The main container element
+ */
+function decorateResponsiveImagePairs(main) {
+  const isImageOnlyPara = (el) => el
+    && el.tagName === 'P'
+    && el.children.length === 1
+    && el.firstElementChild.tagName === 'PICTURE'
+    && el.textContent.trim() === '';
+
+  main.querySelectorAll('p').forEach((p) => {
+    if (p.classList.contains('img-pair-mobile') || p.classList.contains('img-pair-desktop')) return;
+    if (!isImageOnlyPara(p)) return;
+    const next = p.nextElementSibling;
+    if (!isImageOnlyPara(next)) return;
+    // two consecutive image-only paragraphs → responsive pair
+    p.classList.add('img-pair-mobile');
+    next.classList.add('img-pair-desktop');
+  });
+}
+
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateIconsAndBullets(main);
@@ -969,6 +1037,7 @@ export function decorateMain(main) {
   decorateButtons(main);
   a11yLinks(main);
   decorateSpanTags(main);
+  decorateResponsiveImagePairs(main);
 }
 
 /**

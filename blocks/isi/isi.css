@@ -1,218 +1,609 @@
 @import url('./isi-tokens.css');
 
-/* ── In-page ISI section (matches vyepti.com full-width divider) ─ */
-main .section.isi-container { /* @boilerplate */
-  border-top: var(--isi-section-border-width) solid var(--isi-section-border-color); /* @boilerplate */
+/* ══════════════════════════════════════════════════════════════
+   ISI (Important Safety Information)
+   Source: northera-stage .cmp-isi__use / .cmp-isi__importantsafety
+   Layout: in normal flow at the bottom of the page by default;
+           right-hand rail at ≥1200px.
+   ══════════════════════════════════════════════════════════════ */
+
+/* the abbreviated "Please see…" row is only used for the source fixed bar;
+   the full content is shown in-flow, so hide the abbreviated row. */
+   main .isi .isi-abbr {
+  display: none;
 }
 
-/* ── In-page inline content (Row 2) ───────────────────────────── */
-main .isi .isi-inline { /* @boilerplate */
-  display: block; /* @boilerplate */
-  padding-bottom: var(--isi-inline-padding-bottom); /* @boilerplate */
+/* block padding (source: .cmp-isi__use / .cmp-isi__importantsafety padding: 0 25px) */
+main .isi {
+  padding: 0 var(--isi-section-padding-x);
+  color: var(--isi-body-color);
+  font-family: var(--isi-body-font);
 }
 
-main .isi .isi-inline > div { /* @boilerplate */
-  padding: 0; /* @boilerplate */
+/* "Use" block has a bottom divider between it and Important Safety */
+main .isi.isi-use {
+  border-bottom: var(--isi-divider-width) solid var(--isi-divider-color);
+  padding-bottom: var(--isi-block-padding-y);
+  margin-bottom: 0;
 }
 
-main .isi p,
-main .isi li { /* @boilerplate */
-  font-size: var(--isi-body-font-size); /* @boilerplate */
-  color: var(--isi-text-color); /* @boilerplate */
-  line-height: var(--isi-line-height); /* @boilerplate */
+main .isi.isi-important {
+  padding-top: var(--isi-block-padding-y);
 }
 
-main .isi li { /* @boilerplate */
-  line-height: var(--isi-list-line-height); /* @boilerplate */
-  margin-bottom: var(--isi-list-item-margin-bottom); /* @boilerplate */
-  padding-top: var(--isi-list-item-padding-y); /* @boilerplate */
-  padding-bottom: var(--isi-list-item-padding-y); /* @boilerplate */
+/* ── Typography ─────────────────────────────────────────────── */
+main .isi p {
+  font-family: var(--isi-body-font);
+  font-size: var(--isi-body-font-size);
+  line-height: var(--isi-body-line-height);
+  color: var(--isi-body-color);
+  margin-bottom: 0;
 }
 
-main .isi h3 { /* @boilerplate */
-  color: var(--isi-heading-color); /* @boilerplate */
-  font-size: var(--isi-heading-font-size); /* @boilerplate */
-  font-weight: var(--isi-heading-font-weight); /* @boilerplate */
-  line-height: var(--isi-heading-line-height); /* @boilerplate */
-  margin-bottom: var(--isi-heading-margin-bottom); /* @boilerplate */
+/* section labels ("Use", "IMPORTANT SAFETY INFORMATION") */
+main .isi p b,
+main .isi p strong {
+  color: var(--isi-heading-color);
+  font-family: var(--isi-heading-font);
+  font-weight: 400;
 }
 
-main .isi a { /* @boilerplate */
-  text-decoration: underline; /* @boilerplate */
+main .isi.isi-use p:first-child b,
+main .isi.isi-use p:first-child strong {
+  font-size: var(--isi-use-heading-font-size);
+  line-height: 22px;
+  display: inline-block;
+  font-weight: var(--isi-font-weight-bold);
 }
 
-main .isi a:hover { /* @boilerplate */
-  text-decoration: underline; /* @boilerplate */
+main .isi.isi-important p:first-child b,
+main .isi.isi-important p:first-child strong {
+  font-size: var(--isi-important-heading-font-size);
+  font-weight: var(--isi-font-weight-bold);
 }
 
-/* ── Fixed bottom bar (abbreviated content – Row 1) ──────────── */
-.isi-bar { /* @boilerplate */
-  position: fixed; /* @boilerplate */
-  bottom: 0; /* @boilerplate */
-  left: 0; /* @boilerplate */
-  right: 0; /* @boilerplate */
-  z-index: var(--isi-bar-z-index); /* @boilerplate */
-  background-color: var(--isi-bar-background); /* @boilerplate */
-  border-top: var(--isi-bar-border-width) solid var(--isi-bar-border-color); /* @boilerplate */
-  height: var(--isi-bar-height); /* @boilerplate */
-  overflow: hidden; /* @boilerplate */
-  padding: var(--isi-bar-padding); /* @boilerplate */
-  transition: height var(--isi-bar-height-transition-duration) var(--isi-bar-height-transition-easing); /* @boilerplate */
-  color: var(--isi-text-color); /* @boilerplate */
-  cursor: pointer; /* @boilerplate */
+main .isi.isi-important .isi-full > div > p:nth-last-of-type(-n + 2) b,
+main .isi.isi-important .isi-full > div > p:nth-last-of-type(-n + 2) strong {
+ color: #000;
+ font-size: 17px;
+ line-height: 19px;
+ font-family: var(--isi-text-bold-font);
+ font-weight: var(--isi-font-weight-bold);
 }
 
-.isi-bar.isi-bar-hidden { /* @boilerplate */
-  display: none; /* @boilerplate */
+/* ── Lists ──────────────────────────────────────────────────── */
+main .isi ul {
+  padding-left: 15px;
+  margin-top: 10px;
 }
 
-/* Expanded state */
-.isi-bar.full { /* @boilerplate */
-  height: auto; /* @boilerplate */
-  max-height: var(--isi-bar-expanded-max-height); /* @boilerplate */
-  overflow-y: auto; /* @boilerplate */
-  z-index: var(--isi-bar-expanded-z-index); /* @boilerplate */
-  cursor: default; /* @boilerplate */
+main .isi li {
+  position: relative;
+  list-style-type: none;
+  font-family: var(--isi-body-font);
+  font-size: var(--isi-list-font-size);
+  color: var(--isi-body-color);
+  line-height: var(--isi-list-line-height);
+  margin-bottom: var(--isi-list-item-margin-bottom);
 }
 
-/* Inner content wrapper – two-column on desktop */
-.isi-bar-content { /* @boilerplate */
-  max-width: var(--isi-content-max-width); /* @boilerplate */
-  margin: 0 auto; /* @boilerplate */
-  display: flex; /* @boilerplate */
-  flex-wrap: wrap; /* @boilerplate */
-  gap: var(--isi-bar-content-gap); /* @boilerplate */
+/* "Use" block: dash bullets */
+main .isi.isi-use li::before {
+  content: '-';
+  text-indent: -10px;
+  position: absolute;
 }
 
-.isi-bar-col { /* @boilerplate */
-  flex: 1 1 var(--isi-bar-col-flex-basis); /* @boilerplate */
-  min-width: 0; /* @boilerplate */
+/* "Important Safety" block: brand-blue round bullets */
+main .isi.isi-important li::before {
+  content: '\2022';
+  color: var(--isi-bullet-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
 }
 
-.isi-bar-col h3 { /* @boilerplate */
-  color: var(--isi-bar-heading-color, var(--isi-heading-color)); /* @boilerplate */
-  font-size: var(--isi-heading-font-size); /* @boilerplate */
-  font-weight: var(--isi-heading-font-weight); /* @boilerplate */
-  line-height: var(--isi-heading-line-height); /* @boilerplate */
-  padding-bottom: var(--isi-bar-heading-padding-bottom); /* @boilerplate */
-  margin: 0; /* @boilerplate */
+/* ── Boxed supine-hypertension warning ──────────────────────── */
+main .isi .isi-warningbox {
+  border: var(--isi-warningbox-border);
+  padding: var(--isi-warningbox-padding);
+  margin-bottom: var(--isi-warningbox-margin-bottom);
 }
 
-.isi-bar-col p { /* @boilerplate */
-  font-size: var(--body-font-size-s); /* @boilerplate */
-  line-height: var(--isi-bar-paragraph-line-height); /* @boilerplate */
-  padding-bottom: var(--isi-bar-paragraph-padding-bottom); /* @boilerplate */
-  margin: 0; /* @boilerplate */
+main .isi .isi-warningbox p:first-child {
+  margin-bottom: 10px;
 }
 
-.isi-bar-col p b,
-.isi-bar-col p strong { /* @boilerplate */
-  font-weight: var(--isi-heading-font-weight); /* @boilerplate */
+main .isi .isi-warningbox p b,
+main .isi .isi-warningbox p strong {
+  color: var(--isi-body-color);
+  font-family: var(--isi-heading-font);
+  font-size: var(--isi-warningbox-font-size);
+  font-weight: 700;
 }
 
-.isi-bar-col ul { /* @boilerplate */
-  padding-left: var(--isi-bar-list-padding-left); /* @boilerplate */
-  margin: 0 0 var(--isi-bar-list-margin-bottom); /* @boilerplate */
+/* ── Links ──────────────────────────────────────────────────── */
+main .isi a {
+  color: var(--isi-link-color);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
 }
 
-.isi-bar-col li { /* @boilerplate */
-  font-size: var(--body-font-size-s); /* @boilerplate */
-  line-height: var(--isi-list-line-height); /* @boilerplate */
-  margin-bottom: var(--isi-list-item-margin-bottom); /* @boilerplate */
+main .isi a:hover {
+  text-decoration: underline;
 }
 
-.isi-bar-col a { /* @boilerplate */
-  color: var(--link-color); /* @boilerplate */
-  font-weight: var(--isi-bar-link-font-weight); /* @boilerplate */
-  font-size: var(--body-font-size-s); /* @boilerplate */
-  text-decoration: underline; /* @boilerplate */
+
+/* ══════════════════════════════════════════════════════════════
+   Fixed bottom bar (< 1200px)
+   Source: .cmp-layout-isi__phone / .cmp-layout-isi__desktop (fixed, bottom)
+   Persistent bar with collapsed "USE" / "IMPORTANT SAFETY INFORMATION"
+   rows + a peek of the warning box; each expands into a scrollable panel.
+   Hidden (.isi-bar-hidden) when the in-flow ISI scrolls into view.
+   ══════════════════════════════════════════════════════════════ */
+.isi-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 20;
+  background-color: #fff;
+  border-top: 1px solid var(--isi-divider-color);
+  box-shadow: 0 -2px 6px rgb(0 0 0 / 12%);
+  max-height: 52vh;
+  overflow: hidden;
 }
 
-.isi-bar-col a:hover { /* @boilerplate */
-  color: var(--link-hover-color); /* @boilerplate */
-  text-decoration: underline; /* @boilerplate */
+.isi-bar.isi-bar-hidden {
+  display: none;
 }
 
-/* ── Toggle button (+/−) ─────────────────────────────────────── */
-.isi-bar-toggle { /* @boilerplate */
-  position: absolute; /* @boilerplate */
-  right: var(--isi-toggle-right); /* @boilerplate */
-  top: var(--isi-toggle-top); /* @boilerplate */
-  background: none; /* @boilerplate */
-  border: var(--isi-toggle-border-width) solid var(--isi-toggle-color); /* @boilerplate */
-  border-radius: 50%; /* @boilerplate */
-  width: var(--isi-toggle-size); /* @boilerplate */
-  height: var(--isi-toggle-size); /* @boilerplate */
-  padding: 0; /* @boilerplate */
-  cursor: pointer; /* @boilerplate */
-  display: flex; /* @boilerplate */
-  align-items: center; /* @boilerplate */
-  justify-content: center; /* @boilerplate */
-  color: var(--isi-toggle-color); /* @boilerplate */
-  transition: color var(--isi-toggle-transition-duration), border-color var(--isi-toggle-transition-duration); /* @boilerplate */
-  z-index: var(--isi-toggle-z-index); /* @boilerplate */
+.isi-bar-inner {
+  max-width: var(--max-width-site);
+  margin: 0 auto;
 }
 
-.isi-bar-toggle:hover { /* @boilerplate */
-  color: var(--isi-toggle-hover-color); /* @boilerplate */
-  border-color: var(--isi-toggle-hover-color); /* @boilerplate */
-  background: none; /* @boilerplate */
+/* each collapsible section */
+.isi-bar-section {
+  border-bottom: 1px solid var(--isi-divider-color);
 }
 
-/* Plus icon (collapsed) */
-.isi-bar-toggle-icon { /* @boilerplate */
-  display: block; /* @boilerplate */
-  width: var(--isi-toggle-icon-size); /* @boilerplate */
-  height: var(--isi-toggle-icon-size); /* @boilerplate */
-  position: relative; /* @boilerplate */
+.isi-bar-section:last-child {
+  border-bottom: 0;
+}
+
+.isi-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 25px;
+  cursor: pointer;
+  font-family: var(--isi-heading-font);
+}
+
+.isi-bar-title {
+  font-family: var(--isi-important-heading-font-size);
+  font-weight: 700;
+  font-size: var(--isi-use-heading-font-size);
+  color: var(--isi-heading-color);
+  text-transform: uppercase;
+  line-height: var( --isi-title-line-height);
+}
+
+/* +/- toggle button (source: cyan square with glyph) */
+.isi-bar-toggle {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: var(--brand-cyan);
+  box-shadow: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.isi-bar-toggle:hover,
+.isi-bar-toggle:focus {
+  background-color: var(--brand-cyan);
+  box-shadow: none;
+}
+
+.isi-bar-toggle-icon,
+.isi-bar-toggle-icon::before,
+.isi-bar-toggle-icon::after {
+  position: absolute;
+  background-color: #fff;
+}
+
+.isi-bar-toggle-icon {
+  inset: 0;
+  background: none;
 }
 
 .isi-bar-toggle-icon::before,
-.isi-bar-toggle-icon::after { /* @boilerplate */
-  content: ''; /* @boilerplate */
-  position: absolute; /* @boilerplate */
-  background-color: currentcolor; /* @boilerplate */
-  border-radius: var(--isi-toggle-icon-bar-radius); /* @boilerplate */
+.isi-bar-toggle-icon::after {
+  content: '';
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 2px;
+  transform: translate(-50%, -50%);
 }
 
-/* Horizontal bar (always visible) */
-.isi-bar-toggle-icon::before { /* @boilerplate */
-  top: 50%; /* @boilerplate */
-  left: 0; /* @boilerplate */
-  width: 100%; /* @boilerplate */
-  height: var(--isi-toggle-icon-bar-thickness); /* @boilerplate */
-  transform: translateY(-50%); /* @boilerplate */
+/* vertical stroke → makes the "+" ; removed when open → "−" */
+.isi-bar-toggle-icon::after {
+  width: 2px;
+  height: 12px;
 }
 
-/* Vertical bar (hidden when expanded → becomes minus) */
-.isi-bar-toggle-icon::after { /* @boilerplate */
-  left: 50%; /* @boilerplate */
-  top: 0; /* @boilerplate */
-  width: var(--isi-toggle-icon-bar-thickness); /* @boilerplate */
-  height: 100%; /* @boilerplate */
-  transform: translateX(-50%); /* @boilerplate */
-  transition: opacity var(--isi-toggle-transition-duration); /* @boilerplate */
+.isi-desktop-toggle {
+  display: none;
 }
 
-.isi-bar.full .isi-bar-toggle-icon::after { /* @boilerplate */
-  opacity: 0; /* @boilerplate */
+/* source "CLOSE X" overlay button — hidden except in the desktop expanded state */
+.isi-close {
+  display: none;
 }
 
-/* ── Mobile ≤ 768px ──────────────────────────────────────────── */
-@media (width <= 768px) { /* @boilerplate */
-  .isi-bar-content { /* @boilerplate */
-    flex-direction: column; /* @boilerplate */
-    padding: 0 var(--isi-bar-content-padding-x-mobile); /* @boilerplate */
+.isi-bar-section.open .isi-bar-toggle-icon::after {
+  opacity: 0;
+}
+
+/* collapsed peek of the warning box under the Important Safety header */
+.isi-bar-peek {
+  padding: 0 25px;
+  max-height: 90px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.isi-bar-peek .isi-warningbox {
+  border: 2px solid #000;
+  padding: 2px 10px;
+  margin: 0;
+  height: 80px;
+}
+
+.isi-bar-peek .isi-warningbox p {
+  font-family: var(--isi-heading-font);
+  font-size: 18px;
+  line-height: 22px;
+  margin: 0;
+}
+
+
+/* expandable full panel (hidden until section.open) */
+.isi-bar-panel {
+  display: none;
+  padding: 0 25px 25px;
+  overflow-y: auto;
+  max-height: calc(40vh - 50px);
+}
+
+.isi-bar-section.open .isi-bar-panel {
+  display: block;
+}
+
+.isi-bar-expanded .isi-bar-section {
+  border-bottom: none;
+}
+
+
+/* when a section is open, hide the sibling collapsed rows + peek so the
+   open panel takes the bar (source: single expanded section) */
+.isi-bar-expanded .isi-bar-section:not(.open) {
+  display: none;
+}
+
+.isi-bar-expanded .isi-bar-peek {
+  display: none;
+}
+
+.isi-bar-expanded {
+  inset: 0;
+  height: 100vh;
+  height: 100dvh;
+  max-height: none;
+}
+
+.isi-bar-expanded .isi-bar-panel {
+  max-height: calc(100vh - 80px);
+  max-height: calc(100dvh - 80px);
+}
+
+.isi-bar-panel p {
+  font-family: var(--isi-heading-font);
+  line-height: 19px;
+  color: var(--isi-body-color);
+  margin: 0 0 10px;
+}
+
+.isi-bar-panel ul {
+  padding-left: 15px;
+  margin: 0 0 10px;
+}
+
+.isi-bar-panel li {
+  position: relative;
+  list-style: none;
+  font-family: var(--isi-body-font);
+  font-size: var(--isi-warningbox-font-size);
+  line-height: var(--isi-body-line-height);
+  color: var(--isi-body-color);
+  margin-bottom: 10px;
+}
+
+.isi-bar-section-use .isi-bar-panel li::before {
+  content: '-';
+  position: absolute;
+  text-indent: -10px;
+}
+
+.isi-bar-section-important .isi-bar-panel li::before {
+  content: '\2022';
+  color: var(--isi-bullet-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+}
+
+.isi-bar-panel .isi-warningbox {
+  border: 2px solid #000;
+  padding: 10px 10px 0;
+  margin-bottom: 30px;
+  font-family: var(--isi-heading-font);
+  font-size: var(--isi-warningbox-font-size);
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.isi-bar-panel .isi-warningbox p:first-child {
+  text-align: center;
+}
+
+.isi-bar-panel a {
+  color: var(--isi-link-color);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   Wide ≥ 1200px — the ISI section becomes a right-hand rail.
+   Source renders main content at ~83% (10 cols) and the full ISI
+   at ~17% (2 cols) with a left border.
+   ══════════════════════════════════════════════════════════════ */
+@media (width >= 1200px) {
+  /* Source layout: main content (~83%) on the left, the full ISI rail (~17%)
+     pinned to the top-right with a left border. The rail is the LAST element
+     in DOM order, so a float:right would drop below the content; instead we
+     absolutely-position the rail to the top-right and reserve its gutter with
+     right padding on the content sections. The rail sizes to its own content
+     (no grid row-stretch → no empty gap). */
+
+  /* the content+rail unit is capped at 1680px and centered (source:
+     .cmp-layout-main-section is 1680 wide, margin auto — content 1400 / rail 280). */
+  main:has(> .section.isi-container) {
+    display: block;
+    position: relative;
+    max-width: var(--isi-layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .isi-bar-col { /* @boilerplate */
-    flex: 1 1 100%; /* @boilerplate */
+  main:has(> .section.isi-container) > .section:not(.isi-container) {
+    width: 83.3333%;
+    margin-left: 0;
+    margin-right: 0;
+    box-sizing: border-box;
   }
-}
 
-/* ── Desktop ≥ 900px ─────────────────────────────────────────── */
-@media (width >= 992px) { /* @boilerplate */
-  .isi-bar-content { /* @boilerplate */
-    padding: 0 var(--isi-bar-content-padding-x-desktop); /* @boilerplate */
+  main:has(> .section.isi-container) > .section.isi-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 16.6667%;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--isi-rail-border-color);
+    box-sizing: border-box;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section:not(.isi-container) {
+    display: none;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container {
+    position: fixed;
+    width: 95%;
+    border-left: 0;
+    background-color: #fff;
+    z-index: 30;
+    right: 0;
+    top: 0;
+    overflow-y: auto;
+    height: 100%;
+    padding: 50px 15% 30px 50px;
+  }
+
+  main:has(> .section.isi-container) > .section.isi-container > div {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container > div {
+    max-width: var(--max-width-site);
+    margin: 0 auto;
+    padding: 0 25px;
+  }
+
+  /* the trailing abbreviated "Please see…" default content is for the
+     bottom placement only — hide it in the desktop rail */
+  main:has(> .section.isi-container) > .section.isi-container > .default-content-wrapper {
+    display: none;
+  }
+
+  /* rail text sizing (source rail uses 16px) */
+  main:has(> .section.isi-container) .isi p,
+  main:has(> .section.isi-container) .isi li {
+    font-size: var(--isi-body-font-size);
+    line-height: var(--isi-body-line-height);
+    margin-top:0;
+    margin-bottom: 10px;
+  }
+
+  /* ── "Use" block: label + fixed-height 250px inner-scroll body ──
+     (source: .cmp-isi__use .text:last-child { height:250px; overflow-y:scroll }) */
+  main:has(> .section.isi-container) .isi.isi-use {
+    border-bottom: 1px solid var(--isi-divider-color);
+    padding: 20px 15px;
+    
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-label {
+    margin: 0 0 10px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-body {
+    height: 250px;
+    padding-right: 10px;
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--isi-divider-color) #f2f2f2;
+    box-shadow: inset -2px 0 0 #f2f2f2;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar-track {
+    background: #f2f2f2;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar-thumb {
+    background-color: var(--isi-divider-color);
+    border-radius: 4px;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi.isi-use .isi-use-body {
+    height: auto;
+    overflow-y: visible;
+    box-shadow: none;
+  }
+
+  /* ── "Important Safety" block: fixed-height scroll body in desktop rail ── */
+  main:has(> .section.isi-container) .isi.isi-important {
+    margin-top: 20px;
+    padding: 0 15px 20px;
+    padding-right: 10px;
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    scrollbar-color: var(--isi-divider-color) #f2f2f2;
+    box-shadow: inset -2px 0 0 #f2f2f2;
+    overflow-y: scroll;
+    width: 90%;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar-track {
+    background: #f2f2f2;
+  }
+
+  main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar-thumb {
+    background-color: var(--isi-divider-color);
+    border-radius: 4px;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi.isi-important {
+    height: auto;
+    padding-right: 15px;
+    overflow-y: visible;
+    box-shadow: none;
+  }
+
+  /* the fixed bottom bar is replaced by the right rail at this width */
+  .isi-bar {
+    display: none;
+  }
+
+  main:has(> .section.isi-container) .isi-desktop-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  main:has(> .section.isi-container) .isi-desktop-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* In the expanded overlay the CLOSE X button handles closing, so the
+     "+"/"−" toggle glyph is hidden (source shows only CLOSE X, no "−"). */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-desktop-toggle {
+    display: none;
+  }
+
+  /* ── "CLOSE X" button (source: button.cmp-isi-model__btn-close) ──
+     Shown only in the expanded full-page overlay, pinned top-right.
+     Exact source styling: brand-blue "CLOSE" label in Gotham-Black 20px,
+     followed by a cyan (#02bded) square with a white "X". */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close {
+    display: block;
+    position: fixed;
+    top: 20px;
+    right: 40px;
+    z-index: 31;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--brand-blue);
+    font-family: var(--heading-heavy-font-family);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: none;
+    cursor: pointer;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close:hover,
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close:focus {
+    background: none;
+    box-shadow: none;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi-close .isi-close-x {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    padding: 5px;
+    margin-left: 6px;
+    background-color: var(--brand-cyan);
+    color: #fff;
+    font-family: var(--heading-heavy-font-family);
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  main .isi .isi-warningbox {
+    padding: 10px 5px 0;
+  }
+ 
+  main .isi .isi-warningbox p b, main .isi .isi-warningbox p strong {
+    line-height: 19px;
   }
 }

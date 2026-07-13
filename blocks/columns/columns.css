@@ -107,7 +107,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   }
 
   .columns.divider.columns-2-cols > div > :nth-child(2) {
-    border-inline-start: var(--columns-divider-width) solid var(--columns-divider-color);
     padding-inline-start: var(--columns-divider-spacing);
   }
   

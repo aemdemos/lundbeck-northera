@@ -1,39 +1,78 @@
-@font-face {
-  font-family: gotham;
-  font-style: normal;
-  font-weight: 900;
-  font-display: swap;
-  src: url('../fonts/Gotham-Black.woff') format('woff');
-}
+/* stylelint-disable max-line-length */
+
+/*
+ * Source site (northera-stage.d.lundbeckus.com) uses the Gotham family
+ * (Gotham-Book / -Medium / -Bold / -Black) served via cloud.typography.com
+ * (Hoefler&Co). That font is licensed and cannot be self-hosted here, so
+ * these declarations provide size-adjusted Arial fallbacks that closely match
+ * Gotham's metrics to minimise layout shift. To use the real webfont, add the
+ * licensed cloud.typography <link> (or licensed woff2 files) for this domain.
+ */
 
 @font-face {
-  font-family: gotham;
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url('../fonts/Gotham-Bold.woff') format('woff');
-}
-
-@font-face {
-  font-family: gotham;
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-  src: url('../fonts/Gotham-Medium.woff') format('woff');
-}
-
-@font-face {
-  font-family: gotham;
+  font-family: gotham-book;
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('../fonts/Gotham-Book.woff') format('woff');
+  src: url('/fonts/Gotham-Book.woff') format('woff');
 }
 
 @font-face {
-  font-family: gotham;
+  font-family: gotham-medium;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-display: swap;
-  src: url('../fonts/Gotham-Light.woff') format('woff');
+  src: url('/fonts/Gotham-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: gotham-bold;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Gotham-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: gotham-black;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Gotham-Black.woff') format('woff');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 400;
+  size-adjust: 96%;
+  ascent-override: 95%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 500;
+  size-adjust: 96%;
+  ascent-override: 95%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 700;
+  size-adjust: 98%;
+  ascent-override: 95%;
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 900;
+  size-adjust: 100%;
+  ascent-override: 95%;
+  src: local('Arial Black'), local('Arial-Black'), local('Arial Bold'), local('Arial');
 }

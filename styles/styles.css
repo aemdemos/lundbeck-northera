@@ -1,130 +1,181 @@
-:root {
-  /* colors */
-  --background-color: #fff;
-  --light-color: #f3f5f8;
-  --dark-color: #0e314d;
-  --text-color: #333;
-  --heading-color: #245778;
-  --link-color: #0188bf;
-  --link-hover-color: #02bded;
-  --accent-color: #02bded;
-  --accent-secondary-color: #f6af1a;
-  --overlay-background-color: #e8ecf0;
-  --border-color: #dbe4ea;
-  --muted-text-color: #58595b;
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
 
-  /* fonts */
-  --body-font-family: gotham, gotham-fallback, arial, helvetica, sans-serif;
-  --heading-font-family: gotham, gotham-fallback, arial, helvetica, sans-serif;
+ /*
+ * Design tokens — two tiers:
+ *   Tier 1 (this :root) = global semantic tokens; the surface a theme/customer overrides.
+ *   Tier 2 = component tokens in blocks/{name}/{name}-tokens.css, which reference these.
+ *
+ * Migration marker — a trailing  @boilerplate  comment marks a line that is still untouched
+ *   boilerplate, NOT yet reviewed against the customer. EVERY rule line across the boilerplate's
+ *   CSS carries it (declarations and selector/at-rule opening lines alike). It is TRANSIENT
+ *   scaffolding, not permanent metadata:
+ *     - As the customer's styling is applied, each line is either rewritten or consciously kept,
+ *       and EITHER WAY its marker is DELETED. Never "flip" it — just remove it.
+ *     - When no markers remain, migration is complete and this is plain CSS again.
+ *   A Claude Code hook (.claude/hooks/check-boilerplate-markers.mjs) flags any line you edit but
+ *   leave marked — but only in a customer migration; it stays silent in the aemdemos/ise-boilerplate
+ *   source repo, where keeping markers on edits is correct. Audit remaining work (anchored on the
+ *   marker token, so prose is not counted):
+ *     grep -rn  '/\* @boilerplate' styles/ blocks/   (every untouched line)
+ *     grep -rc  '/\* @boilerplate' styles/ blocks/   (remaining count per file)
+ */
+:root {
+  /* northera brand colors (source: clientlibs-northera.min.css) */
+  --brand-blue: #245778;
+  --brand-blue-dark: #1f4763;
+  --brand-cyan: #02bded;
+  --brand-cyan-shadow: #19527f;
+  --brand-grey: #58595b;
+
+  /* semantic brand aliases */
+  --brand-primary: var(--brand-blue);
+  --brand-primary-light: #4a7c9d;
+  --brand-primary-dark: var(--brand-blue-dark);
+  --brand-secondary: var(--brand-cyan);
+  --brand-secondary-dark: var(--brand-cyan-shadow);
+  --accent-bg: #e8ecf0;
+  --card-bg-light: #f5f5f5;
+
+  /* semantic colors */
+  --background-color: #fff;
+  --light-color: #f5f5f5;
+  --dark-color: var(--brand-blue);
+  --text-color: #333;
+  --text-color-light: #58595b;
+  --link-color: var(--brand-blue);
+  --link-hover-color: var(--brand-cyan-shadow);
+  --overlay-background-color: #e8ecf0;
+  --error-color: #a94442;
+  --section-divider-width: 1px;
+  --section-divider-color: #e5e5e5;
+  --section-padding: 24px;
+
+  /* fonts — Gotham (cloud.typography), Arial-metric fallback */
+  --body-font-family: gotham-medium, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
+  --heading-font-family: gotham-bold, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
+  --heading-heavy-font-family: gotham-black, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
+  --body-line-height: 1.43;
+  --heading-font-weight: 700;
+  --heading-line-height: 1.2;
+  --font-weight-bold: 700;
+  --block-margin-top: 0.8em;
+  --block-margin-bottom: 0.25em;
 
   /* body sizes */
-  --body-font-size-m: 16px;
-  --body-font-size-s: 14px;
-  --body-font-size-xs: 12px;
+  --body-font-size-m: 18px;
+  --body-font-size-ms: 16px;
+  --body-font-size-s: 16px;
+  --body-font-size-xs: 14px;
 
-  /* heading sizes */
-  --heading-font-size-xxl: 36px;
-  --heading-font-size-xl: 28px;
-  --heading-font-size-l: 24px;
+  /* heading sizes (mobile-first — source mobile: h1 20/24, h2 18/22) */
+  --heading-font-size-xxl: 20px;
+  --heading-font-size-xl: 30px;
+  --heading-font-size-l: 25px;
   --heading-font-size-m: 20px;
   --heading-font-size-s: 18px;
   --heading-font-size-xs: 16px;
 
+  /* spacing scale */
+  --spacing-s: 16px;
+  --spacing-m: 24px;
+  --spacing-l: 32px;
+
   /* layout */
-  --max-width-site: 1140px; /* @libs */
-  --section-padding-vertical: 40px; /* @libs */
-  --icon-size: 24px; /* @libs */
-  --h1-max-width: 14em; /* @libs */
+  --max-width-site: 1200px;
+  --section-padding-vertical: 40px;
+  --icon-size: 24px;
+  --h1-max-width: 16em;
+  --section-margin-top:30px;
 
   /* nav heights */
-  --nav-height: 80px;
+  --nav-height: 200px;
+  --nav-brand-row-height-mobile: 97px;
   --breadcrumbs-height: 34px;
   --header-height: var(--nav-height);
 
-  /* spacing */
-  --spacing-xs: 5px;
-  --spacing-s: 10px;
-  --spacing-m: 15px;
-  --spacing-l: 20px;
-  --spacing-xl: 40px;
-  --spacing-xxl: 60px;
-
   /* fixed-width / code */
-  --fixed-font-family: menlo, consolas, monospace; /* @libs */
+  --fixed-font-family: menlo, consolas, monospace;
 
-  /* button tokens — shared */
-  --button-margin: 0; /* @libs */
-  --button-border-radius: 100px; /* @libs */
-  --button-border-width: 2px; /* @libs */
-  --button-padding: 19px 25px; /* @libs */
-  --button-font-size: 18px; /* @libs */
-  --button-font-weight: 700; /* @libs */
-  --button-line-height: 1.25; /* @libs */
-  --button-transition: 0.2s ease-in-out; /* @libs */
+  /* button tokens — shared (source: .cmp-button — cyan fill, no radius, stacked shadow) */
+  --button-margin: 0;
+  --button-border-radius: 0;
+  --button-border-width: 0;
+  --button-padding: 20px 55px;
+  --button-font-size: 18px;
+  --button-font-weight: 400;
+  --button-line-height: 1.2;
+  --button-transition: 0.2s ease-in-out;
+  --button-font-family: var(--heading-heavy-font-family);
+  --button-shadow: 1px 1px 0 var(--brand-cyan-shadow), 2px 2px 0 var(--brand-cyan-shadow), 3px 3px 0 var(--brand-cyan-shadow), 4px 4px 0 var(--brand-cyan-shadow), 5px 5px 0 var(--brand-cyan-shadow);
+  --button-hover-shadow: 1px 1px 0 var(--brand-cyan), 2px 2px 0 var(--brand-cyan), 3px 3px 0 var(--brand-cyan), 4px 4px 0 var(--brand-cyan), 5px 5px 0 var(--brand-cyan);
 
   /* button icon (arrow on link buttons) */
-  --button-icon-width: 22px; /* @libs */
-  --button-icon-height: 10px; /* @libs */
-  --button-icon-gap: 8px; /* @libs */
-  --button-icon-opacity-hover: 0.5; /* @libs */
-  --button-icon-url: url("/icons/arrow-right.svg"); /* @libs */
+  --button-icon-width: 22px;
+  --button-icon-height: 10px;
+  --button-icon-gap: 8px;
+  --button-icon-opacity-hover: 0.5;
+  --button-icon-url: url("/icons/arrow-right.svg");
 
-  /* primary — filled CTA */
-  --button-primary-background: var(--brand-secondary); /* @libs */
-  --button-primary-hover-background: var(--brand-secondary-dark); /* @libs */
-  --button-primary-color: var(--background-color); /* @libs */
-  --button-primary-border-color: var(--brand-secondary); /* @libs */
-  --button-primary-hover-border-color: var(--brand-secondary-dark); /* @libs */
-  --button-primary-hover-color: var(--background-color); /* @libs */
+  /* primary — filled cyan CTA */
+  --button-primary-background: var(--brand-cyan);
+  --button-primary-hover-background: var(--brand-cyan-shadow);
+  --button-primary-color: var(--brand-blue-dark);
+  --button-primary-border-color: var(--brand-cyan);
+  --button-primary-hover-border-color: var(--brand-cyan-shadow);
+  --button-primary-hover-color: #fff;
 
   /* secondary — outline / ghost */
-  --button-secondary-background: transparent; /* @libs */
-  --button-secondary-hover-background: transparent; /* @libs */
-  --button-secondary-color: var(--brand-primary); /* @libs */
-  --button-secondary-border-color: var(--brand-primary); /* @libs */
-  --button-secondary-hover-color: var(--brand-primary-light); /* @libs */
-  --button-secondary-hover-border-color: var(--brand-primary-light); /* @libs */
+  --button-secondary-background: transparent;
+  --button-secondary-hover-background: var(--brand-blue);
+  --button-secondary-color: var(--brand-blue);
+  --button-secondary-border-color: var(--brand-blue);
+  --button-secondary-hover-color: #fff;
+  --button-secondary-hover-border-color: var(--brand-blue);
 
   /* accent — high-impact filled CTA */
-  --button-accent-background: var(--brand-primary); /* @libs */
-  --button-accent-hover-background: var(--brand-primary-light); /* @libs */
-  --button-accent-color: var(--background-color); /* @libs */
-  --button-accent-border-color: var(--brand-primary); /* @libs */
-  --button-accent-hover-border-color: var(--brand-primary-light); /* @libs */
-  --button-accent-hover-color: var(--background-color); /* @libs */
+  --button-accent-background: var(--brand-blue);
+  --button-accent-hover-background: var(--brand-blue-dark);
+  --button-accent-color: #fff;
+  --button-accent-border-color: var(--brand-blue);
+  --button-accent-hover-border-color: var(--brand-blue-dark);
+  --button-accent-hover-color: #fff;
 
   /* disabled (native button elements) */
-  --button-disabled-background: var(--light-color); /* @libs */
-  --button-disabled-border-color: var(--light-color); /* @libs */
-  --button-disabled-color: var(--text-color-light); /* @libs */
+  --button-disabled-background: var(--light-color);
+  --button-disabled-border-color: var(--light-color);
+  --button-disabled-color: var(--text-color-light);
 
   /* on dark sections */
-  --button-on-dark-background: var(--background-color); /* @libs */
-  --button-on-dark-border-color: var(--background-color); /* @libs */
-  --button-on-dark-color: var(--brand-primary); /* @libs */
-  --button-on-dark-hover-opacity: 0.9; /* @libs */
-  --button-on-dark-secondary-background: transparent; /* @libs */
-  --button-on-dark-secondary-border-color: var(--background-color); /* @libs */
-  --button-on-dark-secondary-color: var(--background-color); /* @libs */
-  --button-on-dark-secondary-hover-background: var(--background-color); /* @libs */
-  --button-on-dark-secondary-hover-border-color: var(--background-color); /* @libs */
-  --button-on-dark-secondary-hover-color: var(--brand-primary); /* @libs */
-
+  --button-on-dark-background: var(--brand-cyan);
+  --button-on-dark-border-color: var(--brand-cyan);
+  --button-on-dark-color: var(--brand-blue-dark);
+  --button-on-dark-hover-opacity: 0.9;
+  --button-on-dark-secondary-background: transparent;
+  --button-on-dark-secondary-border-color: #fff;
+  --button-on-dark-secondary-color: #fff;
+  --button-on-dark-secondary-hover-background: #fff;
+  --button-on-dark-secondary-hover-border-color: #fff;
+  --button-on-dark-secondary-hover-color: var(--brand-blue);
 }
 
-/* fallback font for proxima-nova */
-@font-face { /* @libs */
-  font-family: proxima-nova-fallback; /* @libs */
-  font-weight: 400; /* @libs */
-  size-adjust: 98%; /* @libs */
-  src: local('Arial'); /* @libs */
-}
-
-@font-face { /* @libs */
-  font-family: proxima-nova-fallback; /* @libs */
-  font-weight: 700; /* @libs */
-  size-adjust: 98%; /* @libs */
-  src: local('Arial Bold'), local('Arial-BoldMT'), local('Arial'); /* @libs */
+body {
+  display: none;
+  margin: 0;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  line-height: var(--body-line-height);
 }
 
 body.appear { /* @libs */
@@ -137,38 +188,18 @@ body.appear { /* @libs */
   --link-color: var(--brand-secondary);
 }
 
-header { /* @libs */
-  height: var(--header-height); /* @libs */
+header {
+  height: var(--header-height);
 }
 
-/* fallback font */
-@font-face {
-  font-family: gotham-fallback;
-  size-adjust: 100%;
-  src: local('Arial');
+header .header,
+footer .footer {
+  visibility: hidden;
 }
 
-@media (width >= 900px) {
-  :root {
-    /* heading sizes */
-    --heading-font-size-xxl: 50px;
-    --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 24px;
-    --heading-font-size-s: 20px;
-    --heading-font-size-xs: 18px;
-  }
-}
-
-body {
-  display: none;
-  margin: 0;
-  background-color: var(--background-color);
-  color: var(--text-color);
-  font-family: var(--body-font-family);
-  font-size: var(--body-font-size-m);
-  font-weight: 500;
-  line-height: 1.6;
+header .header[data-block-status="loaded"],
+footer .footer[data-block-status="loaded"] {
+  visibility: visible;
 }
 
 h1,
@@ -177,39 +208,57 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: 0.8em;
-  margin-bottom: 0.25em;
+  margin-top: var(--block-margin-top);
+  margin-bottom: var(--block-margin-bottom);
   font-family: var(--heading-font-family);
-  font-weight: 700;
-  line-height: 1.25;
-  color: var(--heading-color);
+  font-weight: var(--heading-font-weight);
+  line-height: var(--heading-line-height);
   scroll-margin: 40px;
+  color: var(--brand-primary);
 }
 
 h1 {
   font-size: var(--heading-font-size-xxl);
   line-height: 1.2;
+  color: var(--brand-primary);
+  margin-top: 0;
+  max-width: var(--h1-max-width);
 }
 
 h2 {
   font-size: var(--heading-font-size-xl);
+  line-height: 1.2;
+  color: var(--brand-primary);
 }
 
 h3 {
-  font-size: var(--heading-font-size-l);
-  font-weight: 900;
+  font-size: var(--heading-font-size-xl);
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--brand-primary);
+  margin-bottom: 0;
 }
 
 h4 {
   font-size: var(--heading-font-size-m);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  color: var(--brand-primary);
 }
 
 h5 {
   font-size: var(--heading-font-size-s);
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--text-color);
 }
 
 h6 {
   font-size: var(--heading-font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color);
 }
 
 p,
@@ -217,15 +266,23 @@ dl,
 ol,
 ul,
 pre,
-blockquote { /* @libs */
-  margin-top: var(--block-margin-top); /* @libs */
-  margin-bottom: var(--block-margin-bottom); /* @libs */
+blockquote {
+  margin-top: var(--block-margin-top);
+  margin-bottom: var(--block-margin-bottom);
+}
+
+/* body copy on white uses brand blue on the source */
+main p {
+  font-size: var(--body-font-size-ms);
+  line-height: 20px;
+  color: var(--brand-grey);
+  margin-bottom: 30px;
 }
 
 code,
-pre { /* @libs */
-  font-family: var(--fixed-font-family); /* @libs */
-  font-size: var(--body-font-size-s); /* @libs */
+pre {
+  font-family: var(--fixed-font-family);
+  font-size: var(--body-font-size-s);
 }
 
 pre { /* @libs */
@@ -236,45 +293,124 @@ pre { /* @libs */
   white-space: pre; /* @libs */
 }
 
-main > div { /* @libs */
-  margin: 40px 16px; /* @libs */
+main > div {
+  margin: 40px 16px;
 }
 
 input,
 textarea,
 select,
-button { /* @libs */
-  font: inherit; /* @libs */
+button {
+  font: inherit;
 }
 
 /* links */
-a { /* @libs */
-  color: var(--link-color); /* @libs */
-  text-decoration: none; /* @libs */
-  font-weight: var(--font-weight-bold); /* @libs */
-  overflow-wrap: break-word; /* @libs */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
+  overflow-wrap: break-word;
 }
 
-a:hover { /* @libs */
-  color: var(--link-hover-color); /* @libs */
-  text-decoration: none; /* @libs */
+a:hover {
+  color: var(--link-hover-color);
+  text-decoration: underline;
 }
 
-/* buttons — shared structure */
+/* buttons — shared structure (source: .cmp-button, cyan fill, stacked shadow) */
 a.button,
 button {
   box-sizing: border-box;
   display: inline-block;
   max-width: 100%;
-  margin: 12px 0;
-  border: 2px solid transparent;
-  border-radius: 0;
-  padding: 10px 30px;
-  font-family: var(--body-font-family);
+  margin: var(--button-margin);
+  padding: var(--button-padding);
+  border: var(--button-border-width) solid transparent;
+  border-radius: var(--button-border-radius);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
   font-style: normal;
-  font-weight: 500;
-  font-size: var(--body-font-size-s);
-  line-height: 1.4;
+  font-weight: var(--button-font-weight);
+  line-height: var(--button-line-height);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: var(--button-shadow);
+  transition: var(--button-transition);
+}
+
+a.button:focus {
+  outline: 0;
+}
+
+/* primary — filled cyan CTA (native button elements default here) */
+a.button.primary,
+button {
+  background-color: var(--button-primary-background);
+  border-color: var(--button-primary-border-color);
+  color: var(--button-primary-color);
+}
+
+a.button.primary:hover,
+a.button.primary:focus,
+button:hover,
+button:focus {
+  background-color: var(--button-primary-hover-background);
+  border-color: var(--button-primary-hover-border-color);
+  color: var(--button-primary-hover-color);
+  box-shadow: var(--button-hover-shadow);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button:disabled,
+button:disabled:hover {
+  background-color: var(--button-disabled-background);
+  border-color: var(--button-disabled-border-color);
+  color: var(--button-disabled-color);
+  box-shadow: none;
+  cursor: unset;
+}
+
+/* responsive visibility utilities (authorable via [hide-mobile] / [hide-desktop] bracket spans) */
+
+.hide-mobile {
+  display: none;
+}
+
+/* responsive image pairs: the CMS delivers two consecutive image-only
+   paragraphs (first = mobile variant, second = desktop variant). scripts.js
+   tags them; show one per breakpoint (swap at 768px). */
+main p.img-pair-desktop {
+  display: none;
+}
+
+
+/* tooltip — authorable via [[tooltip]<a href="#" title="...">text</a>] bracket syntax */
+.tooltip {
+  cursor: help;
+  text-decoration: underline dotted;
+  position: relative;
+}
+
+/* popup box — positioned below the trigger */
+.tooltip::after {
+  content: attr(data-tooltip);
+  display: none;
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  max-width: 200px;
+  background: #000;
+  padding: 4px 14px;
+  border-radius: 4px;
+  font-size: 13.5px;
+  line-height: 1.3;
   text-align: center;
   text-decoration: none;
   background-color: var(--accent-secondary-color);
@@ -302,17 +438,12 @@ button:focus {
 
 /* secondary — outline / ghost (default for unclassified link buttons) */
 a.button.secondary,
+a.button:not(.primary, .accent),
 button.secondary {
-  background-color: unset;
-  border: 2px solid var(--heading-color);
-  color: var(--heading-color);
-}
-
-a.button.secondary:hover,
-button.secondary:hover {
-  background-color: var(--heading-color);
-  color: var(--background-color);
-  opacity: 1;
+  background-color: var(--button-secondary-background);
+  border: 2px solid var(--button-secondary-border-color);
+  color: var(--button-secondary-color);
+  box-shadow: none;
 }
 
 a.button.secondary:hover,
@@ -320,28 +451,29 @@ a.button.secondary:focus,
 a.button:not(.primary, .accent):hover,
 a.button:not(.primary, .accent):focus,
 button.secondary:hover,
-button.secondary:focus { /* @libs */
-  background-color: var(--button-secondary-hover-background); /* @libs */
-  border-color: var(--button-secondary-hover-border-color); /* @libs */
-  color: var(--button-secondary-hover-color); /* @libs */
-  text-decoration: none; /* @libs */
-  cursor: pointer; /* @libs */
+button.secondary:focus {
+  background-color: var(--button-secondary-hover-background);
+  border-color: var(--button-secondary-hover-border-color);
+  color: var(--button-secondary-hover-color);
+  box-shadow: none;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* accent — high-impact filled CTA */
-a.button.accent { /* @libs */
-  background-color: var(--button-accent-background); /* @libs */
-  border-color: var(--button-accent-border-color); /* @libs */
-  color: var(--button-accent-color); /* @libs */
+a.button.accent {
+  background-color: var(--button-accent-background);
+  border-color: var(--button-accent-border-color);
+  color: var(--button-accent-color);
 }
 
 a.button.accent:hover,
-a.button.accent:focus { /* @libs */
-  background-color: var(--button-accent-hover-background); /* @libs */
-  border-color: var(--button-accent-hover-border-color); /* @libs */
-  color: var(--button-accent-hover-color); /* @libs */
-  text-decoration: none; /* @libs */
-  cursor: pointer; /* @libs */
+a.button.accent:focus {
+  background-color: var(--button-accent-hover-background);
+  border-color: var(--button-accent-hover-border-color);
+  color: var(--button-accent-hover-color);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* arrow icon on link buttons */
@@ -451,13 +583,16 @@ main .icon.icon-bullet { /* @libs */
 
 /* sections */
 main > .section { /* @libs */
-  margin: 0; /* @libs */
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-main > .section > div:not(.bg-image) { /* @boilerplate */
-  max-width: var(--max-width-site); /* @boilerplate */
-  margin: auto; /* @boilerplate */
-  padding: 0 var(--spacing-m); /* @boilerplate */
+main > .section > div:not(.bg-image) {
+  max-width: var(--max-width-site);
+  margin: auto;
+  padding: 0 var(--spacing-s);
 }
 
 /* Section metadata: background image sits behind content */
@@ -528,6 +663,31 @@ main .section.highlight { /* @libs */
   background-color: var(--light-color); /* @libs */
   margin: 0; /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
+}
+
+/* section metadata - reminders (source .cmp-image__textlist: brand-blue,
+   centered white h2, side padding 25px, bottom padding 40px) */
+main .section.reminders {
+  background-color: var(--brand-blue);
+  margin-top: var(--section-margin-top);
+  padding: 0 25px 40px;
+}
+
+main .section.reminders > div {
+  max-width: var(--max-width-site);
+  padding: 0;
+}
+
+main .section.reminders h2 {
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  font-size: var(--heading-font-size-s);
+  padding-top: 30px;
+}
+
+main .section.reminders p {
+  color: #fff;
 }
 
 main .section.dark a { /* @libs */
@@ -607,25 +767,74 @@ main .section.stats-callout h4 {
   color: var(--brand-primary);
 }
 
+
+main .section.dark {
+  background-color: var(--dark-color);
+  color: var(--background-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.dark h1,
+main .section.dark h2,
+main .section.dark h3,
+main .section.dark h4,
+main .section.dark h5,
+main .section.dark h6 {
+  color: var(--background-color);
+}
+
+main .section.accent {
+  background-color: var(--heading-color);
+  color: var(--background-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.accent h1,
+main .section.accent h2,
+main .section.accent h3,
+main .section.accent h4,
+main .section.accent h5,
+main .section.accent h6 {
+  color: var(--background-color);
+}
+
+
 @media (width >= 576px) {
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 540px;
   }
 }
 
-@media (width >= 768px) { /* @libs */
-  :root { /* @libs */
-    /* heading sizes scale up on desktop */
-    --body-font-size-m: 24px; /* @libs */
-    --body-font-size-ms: 18px; /* @libs */
-    --body-font-size-s: 16px; /* @libs */
-    --body-font-size-xs: 14px; /* @libs */
-    --heading-font-size-xxl: 56px; /* @libs */
-    --heading-font-size-xl: 24px; /* @libs */
-    --heading-font-size-l: 24px; /* @libs */
-    --heading-font-size-m: 18px; /* @libs */
-    --heading-font-size-s: 18px; /* @libs */
-    --heading-font-size-xs: 16px; /* @libs */
+@media (width >= 768px) {
+  main p.img-pair-mobile {
+    display: none;
+  }
+
+  main p.img-pair-desktop {
+    display: block;
+  }
+
+  main .section.reminders > div {
+    width: 83.3333%;
+  }
+}
+
+
+@media (width >= 900px) {
+  :root {
+    /* heading sizes scale up on desktop (source: h1 50/60, h2 30/36) */
+    --body-font-size-m: 18px;
+    --body-font-size-ms: 16px;
+    --body-font-size-s: 16px;
+    --body-font-size-xs: 14px;
+    --heading-font-size-xxl: 50px;
+    --heading-font-size-xl: 30px;
+    --heading-font-size-l: 25px;
+    --heading-font-size-m: 20px;
+    --heading-font-size-s: 18px;
+    --heading-font-size-xs: 16px;
   }
 
     .hide-desktop {
@@ -663,8 +872,8 @@ main > .section > div { /* @libs */
   padding: 0 32px; /* @libs */
 }
 
-main > .section > div:not(.bg-image) { /* @boilerplate */
-  padding: 0 var(--spacing-l); /* @boilerplate */
+main > .section > div:not(.bg-image) {
+  padding: 0 var(--spacing-l);
 }
 
 main .section.stats-callout > div:not(.bg-image) {
@@ -684,36 +893,4 @@ main .section.stats-callout > div:not(.bg-image) {
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
   }
-}
-
-main .section.dark {
-  background-color: var(--dark-color);
-  color: var(--background-color);
-  margin: 0;
-  padding: 40px 0;
-}
-
-main .section.dark h1,
-main .section.dark h2,
-main .section.dark h3,
-main .section.dark h4,
-main .section.dark h5,
-main .section.dark h6 {
-  color: var(--background-color);
-}
-
-main .section.accent {
-  background-color: var(--heading-color);
-  color: var(--background-color);
-  margin: 0;
-  padding: 40px 0;
-}
-
-main .section.accent h1,
-main .section.accent h2,
-main .section.accent h3,
-main .section.accent h4,
-main .section.accent h5,
-main .section.accent h6 {
-  color: var(--background-color);
 }
