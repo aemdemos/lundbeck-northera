@@ -1,11 +1,12 @@
 /* survey design tokens — mobile-first defaults; tablet+ overrides live in the
    width >= 600px block of survey.css */
 :root {
-  /* palette */
-  --survey-navy: var(--heading-color); /* #245778 navy hero band */
+  /* palette — fall back to concrete brand values so the block renders even if
+     global tokens (--heading-color / --accent-color) are unavailable */
+  --survey-navy: var(--heading-color, #245778); /* navy hero band */
   --survey-navy-text: #1f4763; /* question + button text */
   --survey-navy-shadow: #19527f; /* button 3D drop shadow */
-  --survey-cyan: var(--accent-color); /* #02bded buttons */
+  --survey-cyan: var(--accent-color, #02bded); /* cyan buttons */
   --survey-amber: #f6af1a; /* active/done progress circle + checked box */
   --survey-track: #d9d9d9; /* inactive progress track + circle */
 
@@ -59,7 +60,9 @@
   --survey-button-font-family: var(--body-font-family);
   --survey-button-font-weight: 700;
   --survey-button-font-size: 1.125rem;
-  --survey-button-hover-bg: #019fc7; /* darker cyan on hover */
+  --survey-button-hover-bg: var(--survey-navy-shadow); /* navy fill on hover (matches source) */
+  --survey-button-hover-color: #fff;
+
   /* stacked 3D drop shadow (navy), matches source */
   --survey-button-shadow:
     1px 1px 0 0 var(--survey-navy-shadow),

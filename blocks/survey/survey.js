@@ -2,9 +2,9 @@
  * Multi-step survey / quiz block.
  *
  * Authoring contract (one row per block table):
- *   Row 1 (intro):    [ heading + intro paragraph ] | (empty) | (empty)
- *   Rows 2..n (step): [ prompt (+ optional help paragraph) ] | [ checkbox|radio ] | [ options list ]
+ *   Each row (step): [ prompt (+ optional help paragraph) ] | [ checkbox|radio ] | [ options list ]
  *
+ * The heading + intro paragraph live in their own page section above the block.
  * The last cell of each question row holds a <ul> whose items are the answer
  * options. Cell 2 holds the single word "checkbox" (multi-select) or "radio"
  * (single-select). One question is shown at a time with BACK / NEXT navigation
@@ -63,18 +63,8 @@ export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length === 0) return;
 
-  // Row 1 is the intro (heading + paragraph); it always shows above the steps.
-  const [introRow, ...questionRows] = rows;
-  const intro = document.createElement('div');
-  intro.className = 'survey-intro';
-  while (introRow.firstElementChild) {
-    const cell = introRow.firstElementChild;
-    while (cell.firstElementChild) intro.append(cell.firstElementChild);
-    cell.remove();
-  }
-
   // Parse each question row into { prompt, help, type, options }.
-  const questions = questionRows.map((row) => {
+  const questions = rows.map((row) => {
     const cells = [...row.children];
     const promptCell = cells[0];
     const typeCell = cells[1];
@@ -95,7 +85,6 @@ export default function decorate(block) {
   }).filter((q) => q.options.length > 0);
 
   block.textContent = '';
-  block.append(intro);
 
   if (questions.length === 0) return;
 
@@ -254,8 +243,8 @@ export default function decorate(block) {
     if (block.querySelector('.survey-results')) return;
     block.classList.add('survey-complete');
     const results = buildResults();
-    // place results after the intro, replacing the interactive survey view
-    intro.after(results);
+    // replace the interactive survey view with the results
+    block.prepend(results);
     results.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
