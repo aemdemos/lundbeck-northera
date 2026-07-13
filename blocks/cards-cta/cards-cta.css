@@ -1,29 +1,128 @@
 @import url('./cards-cta-tokens.css');
 
+/* ══════════════════════════════════════════════════════════════
+   cards-cta — source .cmp-layout-quicklinks "Real patient stories"
+   full-width teal banner. Background image spans the banner; white
+   heading + description stacked left, cyan CTA button below.
+   Mobile (default): side padding 30px, title LH 26.
+   ≥900px: side padding 116px, title LH 32, fixed 280px button.
+   ══════════════════════════════════════════════════════════════ */
+
+/* The source renders the banner background as authored default content (a
+   stray picture) placed before the block — hide it; the bg is applied here. */
+
+main > .section:has(.cards-cta) {
+padding: 0;
+}   
+
+main > .section > div:has(.cards-cta) {
+  padding: 0;
+}
+
+
+.cards-cta-container .default-content-wrapper:has(> p > picture:only-child) {
+  display: none;
+}
+
+/* The teal banner background sits on the <ul> so it spans the whole block —
+   whether it holds one full-width card or two side-by-side cards. */
 .cards-cta > ul {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 40px 15px 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--cards-cta-grid-min-width), 1fr));
-  gap: var(--cards-cta-grid-gap);
+  grid-template-columns: 1fr;
+  gap: 30px;
+  background-color: var(--cards-cta-bg-color);
+  background-image: var(--cards-cta-bg-image);
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .cards-cta > ul > li {
-  border: var(--cards-cta-card-border-width) solid var(--cards-cta-card-border-color);
-  background-color: var(--background-color);
+  border: 0;
+  background: none;
+  display: flex;
 }
 
-.cards-cta .cards-cta-card-body {
-  margin: var(--cards-cta-card-body-margin);
+/* body fills the card height so the CTA (last child) can pin to the bottom
+   — keeps buttons aligned across side-by-side cards of unequal text length */
+.cards-cta .cards-card-body {
+  margin: 0 15px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
-.cards-cta .cards-cta-card-image {
-  line-height: 0;
+.cards-cta .cards-card-body p:last-child:has(a) {
+  margin-top: auto;
 }
 
-.cards-cta > ul > li img {
+.cards-cta .cards-card-body h3 {
+  color: var(--cards-cta-title-color);
+  font-family: var(--cards-cta-title-font-family);
+  font-size: var(--cards-cta-title-size);
+  line-height: var(--cards-cta-title-line-height);
+  margin: 0;
+  text-align: left;
+  padding: 0 0 20px;
+}
+
+.cards-cta .cards-card-body p {
+  color: var(--cards-cta-desc-color);
+  font-family: var(--cards-cta-desc-font-family);
+  font-size: var(--cards-cta-desc-size);
+  line-height: var(--cards-cta-desc-line-height);
+  margin: 0;
+  text-align: left;
+  padding-bottom:30px;
+}
+
+.cards-cta .cards-card-body p:last-child {
+  padding-bottom: 0;
+}
+
+.cards-cta .cards-card-body a {
+  display: block;
+  box-sizing: border-box;
   width: 100%;
-  aspect-ratio: var(--cards-cta-image-aspect-ratio);
-  object-fit: var(--cards-cta-image-object-fit);
+  background-color: var(--cards-cta-button-background);
+  color: var(--cards-cta-button-color);
+  font-family: var(--cards-cta-button-font-family);
+  font-size: var(--cards-cta-button-font-size);
+  line-height: var(--button-line-height, 1.2);
+  padding: var(--cards-cta-button-padding);
+  text-align: center;
+  border: 0;
+  border-radius: 0;
+  box-shadow: var(--cards-cta-button-shadow);
+  text-decoration: none;
+  transition: box-shadow var(--button-transition, 0.2s ease-in-out);
+}
+
+.cards-cta .cards-card-body a:hover,
+.cards-cta .cards-card-body a:focus {
+  box-shadow: var(--cards-cta-button-hover-shadow);
+  text-decoration: none;
+}
+
+@media (width >= 900px) {
+  .cards-cta > ul {
+    padding: var(--cards-cta-padding-desktop);
+  }
+
+  /* two side-by-side cards share the banner (source: two 50% quicklink CTAs) */
+  .cards-cta > ul:has(> li:nth-child(2)) {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 90px;
+  }
+
+  .cards-cta .cards-card-body h3 {
+    line-height: var(--cards-cta-title-line-height-desktop);
+  }
+
+  .cards-cta .cards-card-body a {
+    width: var(--cards-cta-button-width-desktop);
+  }
 }
