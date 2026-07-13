@@ -298,7 +298,9 @@
 
 .cards.resource .cards-card-body a {
   position: relative;
-  display: inline-block;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
   background-color: var(--cards-resource-cta-background);
   color: var(--cards-resource-cta-color);
   font-family: var(--cards-resource-cta-font-family);
