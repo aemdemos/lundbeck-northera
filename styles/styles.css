@@ -800,6 +800,13 @@ main .section.accent h6 {
   color: var(--background-color);
 }
 
+main > .section:has(.cards.resource) {
+padding: 0;
+}
+
+main > .section > div:has(.cards.resource) {
+padding: 0;
+}
 
 @media (width >= 576px) {
   main .section.stats-callout > div:not(.bg-image) {
@@ -818,6 +825,14 @@ main .section.accent h6 {
 
   main .section.reminders > div {
     width: 83.3333%;
+  }
+
+  main > .section:has(.cards.resource) {
+   padding: 0;
+  }
+
+  main > .section > div:has(.cards.resource) {
+    padding: 0 10%;
   }
 }
 
