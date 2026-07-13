@@ -43,10 +43,20 @@ main > .section > div:has(.cards-cta) {
 .cards-cta > ul > li {
   border: 0;
   background: none;
+  display: flex;
 }
 
+/* body fills the card height so the CTA (last child) can pin to the bottom
+   — keeps buttons aligned across side-by-side cards of unequal text length */
 .cards-cta .cards-card-body {
   margin: 0 15px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.cards-cta .cards-card-body p:last-child:has(a) {
+  margin-top: auto;
 }
 
 .cards-cta .cards-card-body h3 {
