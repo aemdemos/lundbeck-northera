@@ -4,68 +4,158 @@
   padding: 0 0 2rem;
 }
 
-/* ===== Progress indicator ===== */
+/* ===== Hero section above the block — .cmp-symptomchecker__header ===== */
+main .section.survey-intro,
+main .section.dark:has(+ .section .survey:not(.survey-results)),
+main .section:has(+ .section .survey:not(.survey-results)) {
+  background-color: var(--survey-intro-bg);
+  color: var(--survey-intro-color);
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
 
-/* the heading lives in a dark section directly above; pull the circles up so
-   their centers straddle the navy/white seam, matching the source */
+main .section.survey-intro > div,
+main .section.dark:has(+ .section .survey:not(.survey-results)) > div,
+main .section:has(+ .section .survey:not(.survey-results)) > div {
+  max-width: none;
+  width: 86%;
+  margin: 0 auto 0 13%;
+  padding: 0;
+}
+
+main .section.survey-intro h1,
+main .section.dark:has(+ .section .survey:not(.survey-results)) h1,
+main .section:has(+ .section .survey:not(.survey-results)) h1 {
+  color: var(--survey-intro-color);
+  margin: 0;
+  padding: var(--survey-intro-heading-padding);
+  font-size: var(--survey-intro-heading-size);
+  line-height: var(--survey-intro-heading-line-height);
+  text-align: center;
+}
+
+main .section.survey-intro p,
+main .section.dark:has(+ .section .survey:not(.survey-results)) p,
+main .section:has(+ .section .survey:not(.survey-results)) p {
+  margin: 0;
+  padding: var(--survey-intro-text-padding);
+  color: var(--survey-intro-color);
+  text-align: center;
+}
+
+/* let the survey block use the full main column (original symptomchecker grid) */
+main .section.survey-container,
+main .section:has(.survey) {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+main .section.survey-container > div,
+main .section:has(.survey) > div {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Progress indicator — .cmp-progressbar =====
+   Outer bar is full column width; circle row is centered 620px.
+   Left/right 32% track wings (before/after) sit on the outer bar —
+   that is why the yellow line spans wider than the circles (original). */
 .survey .survey-progress {
-  display: flex;
-  justify-content: center;
-  gap: var(--survey-progress-gap);
-  list-style: none;
-  margin: calc(var(--survey-progress-step-size) / -2) 0 0;
-  padding: 0 var(--survey-progress-inline-padding) var(--survey-progress-bottom-padding);
   position: relative;
+  z-index: 1;
+  top: var(--survey-progress-offset-top);
+  width: 100%;
+  margin: 0 0 var(--survey-progress-bottom-margin);
+  padding: 0;
+  text-align: center;
+  font-family: var(--body-font-family);
 }
 
-/* grey track line running full width, vertically centered on the circles */
-.survey .survey-progress::before {
+.survey .survey-progress-before,
+.survey .survey-progress-after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--survey-progress-step-size) / 2);
+  top: var(--survey-progress-track-top);
+  width: 32%;
   height: var(--survey-progress-track-height);
-  background-color: var(--survey-track);
-  z-index: 0;
+  z-index: -1;
 }
 
-/* amber fill from the left edge up to the center of the active circle */
-.survey .survey-progress::after {
-  content: '';
-  position: absolute;
+.survey .survey-progress-before {
   left: 0;
-  top: calc(var(--survey-progress-step-size) / 2);
-  width: var(--survey-progress-fill, 0);
-  height: var(--survey-progress-track-height);
   background-color: var(--survey-amber);
-  z-index: 0;
+}
+
+.survey .survey-progress-after {
+  right: 0;
+  background-color: var(--survey-track);
+}
+
+.survey .survey-progress.survey-progress-complete .survey-progress-after {
+  background-color: var(--survey-amber);
+}
+
+.survey .survey-progress-container {
+  overflow: hidden;
+  width: var(--survey-progress-width);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  display: flow-root;
 }
 
 .survey .survey-progress-step {
   position: relative;
-  z-index: 1;
+  float: left;
+  width: 25%;
+  list-style: none;
+  color: var(--survey-track);
+  font-size: 0;
+}
+
+.survey .survey-progress-step::before {
+  content: attr(data-step);
+  display: block;
   width: var(--survey-progress-step-size);
   height: var(--survey-progress-step-size);
+  margin: 0 auto;
   border-radius: 50%;
   background-color: var(--survey-amber);
-  color: var(--survey-progress-step-color);
-  font-weight: var(--survey-progress-step-font-weight);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: #fff;
+  line-height: calc(var(--survey-progress-step-size) + 1px);
+  text-align: center;
   font-size: var(--survey-progress-step-font-size);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
 }
 
-.survey .survey-progress-step:not(.active, .done) {
+.survey .survey-progress-step::after {
+  content: '';
+  position: absolute;
+  left: -50%;
+  top: var(--survey-progress-track-top);
+  width: 100%;
+  height: var(--survey-progress-track-height);
   background-color: var(--survey-track);
+  z-index: -1;
 }
 
-/* ===== Steps ===== */
+.survey .survey-progress-step.active::after,
+.survey .survey-progress-step.done::after {
+  background-color: var(--survey-amber);
+}
+
+/* ===== Form container — .cmp-symptom-checker__container ===== */
 .survey .survey-panel {
-  max-width: var(--survey-content-max-width);
-  margin: 0 auto;
-  padding: var(--survey-panel-padding);
+  width: var(--survey-content-width);
+  margin: 0 0 0 var(--survey-content-offset);
+  padding: 0;
+  display: flow-root;
 }
 
 .survey .survey-step {
@@ -76,33 +166,54 @@
   display: block;
 }
 
-.survey .survey-question {
-  font-size: var(--survey-question-font-size);
-  font-weight: var(--survey-question-font-weight);
-  color: var(--survey-question-color);
-  margin: var(--survey-question-margin);
-}
-
+.survey .survey-question,
 .survey .survey-help {
-  margin: var(--survey-help-margin);
-  color: var(--survey-help-color);
+  margin: 0;
+  font-size: var(--survey-question-font-size);
+  line-height: var(--survey-question-line-height);
+  color: var(--survey-question-color);
+  font-weight: var(--survey-question-font-weight);
 }
 
+/* ===== Options — default (steps 1, 3, 4) ===== */
 .survey .survey-options {
+  float: left;
   list-style: none;
+  display: table;
+  width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0 0 30px;
+}
+
+.survey .survey-options-grid {
   display: flex;
-  flex-direction: column;
-  gap: var(--survey-options-gap);
+  width: 100%;
+  margin: 0;
+  padding: 0 0 30px;
+}
+
+.survey .survey-options-col .survey-options {
+  float: none;
+  display: block;
+  padding-bottom: 0;
+}
+
+.survey .survey-options-col {
+  flex: 1;
+  min-width: 0;
 }
 
 .survey .survey-option {
-  display: flex;
-  align-items: flex-start;
+  display: inline-block;
+  width: 100%;
+  padding: 30px 0 0;
+  vertical-align: middle;
 }
 
-/* visually hide the native input; the custom box mirrors its state */
+.survey .survey-option-inner {
+  display: table;
+}
+
 .survey .survey-option input {
   position: absolute;
   width: 1px;
@@ -116,44 +227,58 @@
 }
 
 .survey .survey-option label {
-  display: flex;
-  align-items: center;
-  gap: var(--survey-option-gap);
+  display: table-cell;
+  position: relative;
+  padding-left: 44px;
+  padding-bottom: 44px;
   cursor: pointer;
-  line-height: var(--survey-option-line-height);
+  margin: 0;
+  user-select: none;
 }
 
 .survey .survey-option-box {
-  position: relative;
-  flex: 0 0 auto;
+  position: absolute;
+  top: 50%;
+  left: 0;
   width: var(--survey-box-size);
   height: var(--survey-box-size);
-  background-color: var(--survey-box-bg);
-  border: var(--survey-box-border);
-  border-radius: var(--survey-box-radius);
+  background-color: #fff;
+  border: 1px solid #939393;
+  border-radius: 10px;
+  transform: translateY(-50%);
 }
 
-/* checkmark (hidden until checked) */
 .survey .survey-option-box::after {
   content: '';
   position: absolute;
-  top: 45%;
-  left: 50%;
+  display: none;
+  left: 16.5px;
+  top: 7.5px;
   width: 10px;
   height: 20px;
-  border: solid var(--survey-box-check-color);
+  border: solid #fff;
   border-width: 0 3px 3px 0;
-  transform: translate(-50%, -50%) rotate(45deg);
-  opacity: 0;
+  transform: rotate(45deg);
+}
+
+.survey .survey-option-text {
+  display: table-cell;
+  padding-left: 20px;
+  vertical-align: middle;
+  font-size: var(--survey-option-text-size);
+  line-height: var(--survey-option-text-line-height);
+  color: var(--survey-body-text);
+  font-weight: normal;
+  font-family: var(--body-font-family);
 }
 
 .survey .survey-option input:checked + label .survey-option-box {
-  background-color: var(--survey-box-checked-bg);
-  border-color: var(--survey-box-checked-border-color);
+  background-color: var(--survey-amber);
+  border-color: var(--survey-amber);
 }
 
 .survey .survey-option input:checked + label .survey-option-box::after {
-  opacity: 1;
+  display: block;
 }
 
 .survey .survey-option input:focus-visible + label .survey-option-box {
@@ -161,164 +286,643 @@
   outline-offset: 2px;
 }
 
-/* ===== Controls ===== */
+/* Step 1 */
+.survey .survey-step[data-step="1"] .survey-option {
+  max-width: 280px;
+  padding-right: 75px;
+}
+
+/* Steps 3 & 4 column items */
+.survey .survey-step[data-step="3"] .survey-options-col .survey-option,
+.survey .survey-step[data-step="4"] .survey-options-col .survey-option {
+  display: block;
+}
+
+.survey .survey-step[data-step="3"] .survey-options-col .survey-option {
+  max-width: 280px;
+  padding-right: 30px;
+}
+
+/* ===== Step 2: horizontal severity scale — .cmp-form__step-2 ===== */
+.survey .survey-step[data-step="2"] .survey-options {
+  position: relative;
+  display: block;
+  float: none;
+  width: 100%;
+  padding: 0 0 30px;
+  overflow: visible;
+}
+
+.survey .survey-step[data-step="2"] .survey-option {
+  position: relative;
+  z-index: 1;
+  display: block;
+  float: left;
+  width: 100%;
+  max-width: 215px;
+  padding: 0 50px 0 0;
+  box-sizing: content-box;
+}
+
+/* overlapping segments form one continuous grey track */
+.survey .survey-step[data-step="2"] .survey-option::after {
+  content: '';
+  position: absolute;
+  top: 17px;
+  left: 0;
+  z-index: 0;
+  width: 265px;
+  height: 9px;
+  background-color: #939393;
+}
+
+.survey .survey-step[data-step="2"] .survey-option:last-child {
+  padding-right: 0;
+}
+
+.survey .survey-step[data-step="2"] .survey-option:last-child::after {
+  width: 44px;
+}
+
+.survey .survey-step[data-step="2"] .survey-option-inner {
+  display: block;
+  overflow: visible;
+  position: relative;
+  z-index: 1;
+}
+
+.survey .survey-step[data-step="2"] .survey-option label {
+  display: block;
+  float: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  z-index: 1;
+}
+
+.survey .survey-step[data-step="2"] .survey-option-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: none;
+  z-index: 1;
+}
+
+.survey .survey-step[data-step="2"] .survey-option-text {
+  display: block;
+  float: none;
+  clear: both;
+  width: 100%;
+  padding: 18px 0 0;
+  box-sizing: border-box;
+}
+
+.survey .survey-step[data-step="2"] .survey-option-text b {
+  display: block;
+}
+
+/* ===== Controls — .cmp-symptomchecker__buttons ===== */
 .survey .survey-controls {
-  display: flex;
-  justify-content: center;
-  gap: var(--survey-controls-gap);
-  padding: var(--survey-controls-padding);
+  width: var(--survey-controls-width);
+  margin: 0;
+  padding: 0 0 40px;
+  text-align: center;
+  clear: both;
 }
 
 .survey .survey-controls button {
-  background-color: var(--survey-button-bg, #02bded);
-  color: var(--survey-button-color, #1f4763);
-  border: none;
-  border-radius: 0;
-  padding: var(--survey-button-padding, 1rem 3.5rem);
+  border: 0;
+  color: var(--survey-navy-text);
+  background-color: var(--survey-cyan);
+  padding: var(--survey-button-padding);
+  font-size: var(--survey-button-font-size);
   font-family: var(--survey-button-font-family);
-  font-weight: var(--survey-button-font-weight, 700);
-  font-size: var(--survey-button-font-size, 1.125rem);
-  box-shadow: var(--survey-button-shadow);
+  font-weight: var(--survey-button-font-weight);
+  display: inline-block;
+  line-height: normal;
+  box-shadow:
+    1px 1px 0 var(--survey-navy-shadow),
+    2px 2px 0 var(--survey-navy-shadow),
+    3px 3px 0 var(--survey-navy-shadow),
+    4px 4px 0 var(--survey-navy-shadow),
+    5px 5px 0 var(--survey-navy-shadow);
   cursor: pointer;
-  transition: var(--survey-transition);
 }
 
-.survey .survey-controls button:hover {
-  background-color: var(--survey-button-hover-bg);
-  color: var(--survey-button-hover-color);
+.survey .survey-controls button.survey-back {
+  margin-right: 30px;
+  min-width: var(--survey-button-min-width);
 }
 
-.survey .survey-controls button:active {
-  transform: translate(3px, 3px);
-  box-shadow: var(--survey-button-shadow-active);
+.survey .survey-controls button.survey-next,
+.survey .survey-controls button.survey-submit {
+  min-width: var(--survey-button-next-min-width);
 }
 
-/* ===== Results view ===== */
+.survey .survey-controls button.cmp-button:hover:not(:disabled) {
+  background-color: var(--survey-navy-shadow);
+  color: #fff;
+  box-shadow:
+    1px 1px 0 var(--survey-cyan),
+    2px 2px 0 var(--survey-cyan),
+    3px 3px 0 var(--survey-cyan),
+    4px 4px 0 var(--survey-cyan),
+    5px 5px 0 var(--survey-cyan);
+}
 
-/* hide the interactive survey once results are shown */
-.survey.survey-complete .survey-progress,
-.survey.survey-complete .survey-panel,
-.survey.survey-complete .survey-controls {
+.survey .survey-controls button:disabled {
+  cursor: not-allowed;
+}
+
+.survey .survey-controls button.survey-next[hidden],
+.survey .survey-controls button.survey-submit[hidden] {
   display: none;
 }
 
-.survey .survey-results-hero {
+/* ===== Results page (/results — same survey block) ===== */
+main .section.survey-results-hero {
   background-color: var(--survey-intro-bg);
   color: var(--survey-intro-color);
-  padding: var(--survey-intro-padding);
+  margin: 0;
+  padding: 0;
   text-align: center;
+  max-width: none;
 }
 
-.survey .survey-results-title {
+main .section.survey-results-hero > div {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main .section.survey-results-hero h1 {
   color: var(--survey-intro-color);
-  margin: var(--survey-intro-heading-margin);
+  margin: 0;
+  text-align: center;
+  font-size: var(--survey-results-hero-title-size);
+  line-height: var(--survey-results-hero-title-line-height);
+  padding: var(--survey-results-hero-title-padding);
 }
 
-.survey .survey-results-actions {
+main .section.survey-results-container,
+main .section:has(.survey.survey-results) {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+main .section.survey-results-container > div,
+main .section:has(.survey.survey-results) > div {
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.survey-results-actions {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--survey-controls-gap);
-  margin: 0 auto 1.5rem;
+  gap: 1.5rem;
+  padding: 0 1.5rem;
 }
 
-.survey .survey-results-actions button {
-  background-color: var(--survey-button-bg, #02bded);
-  color: var(--survey-button-color, #1f4763);
-  border: none;
-  border-radius: 0;
-  padding: var(--survey-button-padding, 1rem 3.5rem);
+.survey-results-actions button,
+main .section.survey-results-hero button {
+  border: 0;
+  color: var(--survey-navy-text);
+  background-color: var(--survey-cyan);
+  padding: var(--survey-button-padding);
   font-family: var(--survey-button-font-family);
-  font-weight: var(--survey-button-font-weight, 700);
-  font-size: var(--survey-button-font-size, 1.125rem);
-  box-shadow: var(--survey-button-shadow);
+  font-weight: var(--survey-button-font-weight);
+  font-size: var(--survey-button-font-size);
+  box-shadow:
+    1px 1px 0 var(--survey-navy-shadow),
+    2px 2px 0 var(--survey-navy-shadow),
+    3px 3px 0 var(--survey-navy-shadow),
+    4px 4px 0 var(--survey-navy-shadow),
+    5px 5px 0 var(--survey-navy-shadow);
   cursor: pointer;
-  transition: var(--survey-transition);
 }
 
-.survey .survey-results-actions button:hover {
-  background-color: var(--survey-button-hover-bg);
-  color: var(--survey-button-hover-color);
+.survey-results-actions button.cmp-button:hover,
+main .section.survey-results-hero button.cmp-button:hover {
+  background-color: var(--survey-navy-shadow);
+  color: #fff;
+  box-shadow:
+    1px 1px 0 var(--survey-cyan),
+    2px 2px 0 var(--survey-cyan),
+    3px 3px 0 var(--survey-cyan),
+    4px 4px 0 var(--survey-cyan),
+    5px 5px 0 var(--survey-cyan);
 }
 
-.survey .survey-results-actions button:active {
-  transform: translate(3px, 3px);
-  box-shadow: var(--survey-button-shadow-active);
-}
-
-.survey .survey-results-pi {
-  display: inline-block;
+.survey-results-pi,
+main .section.survey-results-hero a.survey-results-pi {
+  display: block;
+  padding: var(--survey-results-pi-padding);
   color: var(--survey-cyan);
-  font-weight: var(--survey-question-font-weight);
+  font-family: var(--heading-heavy-font-family);
+  font-size: var(--survey-results-pi-font-size);
+  line-height: var(--survey-results-pi-line-height);
   text-decoration: none;
 }
 
-.survey .survey-results-pi:hover {
-  text-decoration: underline;
+.survey.survey-results {
+  width: 100%;
+  padding: 0;
 }
 
 .survey .survey-results-list {
-  max-width: var(--survey-content-max-width);
-  margin: 0 auto;
-  padding: var(--survey-panel-padding);
-  list-style: none;
-  counter-reset: survey-result;
+  width: 100%;
 }
 
 .survey .survey-results-item {
-  position: relative;
-  padding: 1.5rem 0 1.5rem 3.5rem;
-  counter-increment: survey-result;
+  width: 100%;
+  padding: var(--survey-results-row-padding);
 }
 
-/* alternating row tint, matching the source */
+.survey .survey-results-item:first-child {
+  padding: var(--survey-results-row-padding-first);
+}
+
+.survey .survey-results-item:nth-child(odd) {
+  background-color: #fff;
+}
+
 .survey .survey-results-item:nth-child(even) {
   background-color: var(--survey-results-row-alt-bg);
 }
 
-/* amber numbered circle before each question */
-.survey .survey-results-item::before {
-  content: counter(survey-result);
-  position: absolute;
-  left: 0;
-  top: 1.5rem;
-  width: var(--survey-progress-step-size);
-  height: var(--survey-progress-step-size);
+.survey .survey-results-item-inner {
+  width: var(--survey-results-inner-width);
+  margin: 0 auto;
+  display: flow-root;
+}
+
+.survey .survey-results-number-col {
+  float: left;
+  width: var(--survey-results-number-size);
+  margin-right: var(--survey-results-number-gap);
+}
+
+.survey .survey-results-number {
+  display: block;
+  width: var(--survey-results-number-size);
+  height: var(--survey-results-number-size);
   border-radius: 50%;
-  background-color: var(--survey-amber);
-  color: var(--survey-progress-step-color);
-  font-weight: var(--survey-progress-step-font-weight);
-  font-size: var(--survey-progress-step-font-size);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: var(--survey-results-number-bg);
+  color: #fff;
+  font-size: var(--survey-results-number-font-size);
+  line-height: var(--survey-results-number-line-height);
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  text-align: center;
+  float: right;
+}
+
+.survey .survey-results-content {
+  float: left;
+  width: var(--survey-results-content-width);
 }
 
 .survey .survey-results-question {
+  padding: var(--survey-results-question-padding);
+}
+
+.survey .survey-results-question p {
+  margin: 0;
   font-size: var(--survey-question-font-size);
-  font-weight: var(--survey-question-font-weight);
+  line-height: var(--survey-question-line-height);
   color: var(--survey-question-color);
-  margin: 0 0 0.75rem;
 }
 
 .survey .survey-results-answer {
-  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--survey-results-answer-font-size);
   color: var(--survey-results-answer-color);
 }
 
-/* ===== Tablet+ ===== */
+.survey .survey-results-answer span {
+  display: block;
+  font-size: var(--survey-results-answer-span-font-size);
+  line-height: var(--survey-results-answer-span-line-height);
+  color: var(--survey-results-answer-color);
+}
+
+.survey .survey-results-answer span:last-of-type::after {
+  content: '.';
+  color: var(--survey-question-color);
+}
+
+/* ===== Desktop breakpoints ===== */
+@media (width >= 769px) {
+  .survey .survey-step[data-step="3"] .survey-options-col .survey-option {
+    max-width: 330px;
+    padding-right: 30px;
+  }
+}
+
+@media (width >= 769px) and (width <= 1200px) {
+  .survey .survey-panel {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .survey .survey-step[data-step="1"] .survey-option {
+    min-width: 220px;
+    padding-right: 0;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option {
+    max-width: 175px;
+    padding: 0 30px 0 0;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option::after {
+    width: 205px;
+  }
+
+  .survey .survey-step[data-step="4"] .survey-options-col .survey-option {
+    max-width: 266px;
+    padding-right: 30px;
+  }
+
+  .survey .survey-results-content {
+    width: 80%;
+  }
+}
+
+@media (width >= 1200px) {
+  .survey .survey-step[data-step="2"] .survey-option {
+    max-width: 215px;
+    padding: 0 50px 0 0;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option::after {
+    width: 265px;
+  }
+
+  .survey .survey-step[data-step="4"] .survey-options-col .survey-option {
+    max-width: 265px;
+    padding-right: 50px;
+  }
+
+  main .section.survey-results-hero h1 {
+    padding: 2.5rem 15.625rem 1.875rem;
+    font-size: 40px;
+    line-height: 48px;
+  }
+}
+
+@media (width >= 1400px) {
+  .survey .survey-step[data-step="1"] .survey-option {
+    max-width: 295px;
+    padding-right: 20px;
+  }
+
+  .survey .survey-step[data-step="1"] .survey-option:first-child {
+    width: 265px;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option {
+    max-width: 265px;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option::after {
+    width: 315px;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option:last-child {
+    max-width: 208px;
+    padding-right: 0;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option:last-child::after {
+    width: 44px;
+  }
+
+  .survey .survey-step[data-step="3"] .survey-options-col .survey-option {
+    padding-right: 58px;
+  }
+
+  .survey .survey-step[data-step="4"] .survey-options-col .survey-option {
+    max-width: 309px;
+    padding-right: 72px;
+  }
+}
+
 @media (width >= 600px) {
-  .survey .survey-options {
-    flex-flow: row wrap;
-    gap: var(--survey-options-gap-desktop);
+  .survey-results-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+/* ===== Mobile ===== */
+@media (width <= 768px) {
+  .survey .survey-progress {
+    top: var(--survey-progress-offset-top-mobile);
+    margin-bottom: 10px;
+  }
+
+  .survey .survey-progress-before,
+  .survey .survey-progress-after {
+    top: var(--survey-progress-track-top-mobile);
+    height: var(--survey-progress-track-height-mobile);
+  }
+
+  .survey .survey-progress-container {
+    width: var(--survey-progress-width-mobile);
+  }
+
+  .survey .survey-progress-step {
+    font-size: var(--survey-progress-step-font-size-mobile);
+  }
+
+  .survey .survey-progress-step::before {
+    width: var(--survey-progress-step-size-mobile);
+    height: var(--survey-progress-step-size-mobile);
+    line-height: calc(var(--survey-progress-step-size-mobile));
+    font-size: 23px;
+  }
+
+  .survey .survey-progress-step::after {
+    top: var(--survey-progress-track-top-mobile);
+    height: var(--survey-progress-track-height-mobile);
+  }
+
+  .survey .survey-panel {
+    width: 100%;
+    margin: 0;
+    padding: 0 15px 55px;
+  }
+
+  .survey .survey-question,
+  .survey .survey-help {
+    font-size: var(--survey-question-font-size-mobile);
+  }
+
+  .survey .survey-options,
+  .survey .survey-options-grid {
+    padding: 50px 0;
+  }
+
+  .survey .survey-options-grid {
+    flex-direction: column;
   }
 
   .survey .survey-option {
-    flex: 0 1 auto;
+    width: 100%;
+    max-width: none;
+    padding: 0 0 50px;
   }
 
-  .survey .survey-results-actions {
-    flex-direction: row;
+  .survey .survey-step[data-step="2"] .survey-options {
+    padding: 40px 0 50px;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option {
+    float: none;
+    width: 100%;
+    max-width: none;
+    min-height: 119px;
+    padding: 0;
+    display: block;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option::after {
+    display: none;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option-inner {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    left: 17px;
+    height: 124%;
+    border-left: 10px solid #939393;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option:last-child::before {
+    height: auto;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option label {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    float: none;
+  }
+
+  .survey .survey-step[data-step="2"] .survey-option-text {
+    float: none;
+    clear: none;
+    width: 84%;
+    padding: 5px 0 0 10px;
+  }
+
+  main .section.survey-intro > div,
+  main .section.dark:has(+ .section .survey:not(.survey-results)) > div,
+  main .section:has(+ .section .survey:not(.survey-results)) > div {
+    width: 100%;
+    margin: 0;
+    padding: 0 15px;
+  }
+
+  main .section.survey-intro h1,
+  main .section.dark:has(+ .section .survey:not(.survey-results)) h1,
+  main .section:has(+ .section .survey:not(.survey-results)) h1 {
+    font-size: 28px;
+    line-height: 34px;
+    text-align: left;
+    padding: 17px 0 23px;
+  }
+
+  main .section.survey-intro p,
+  main .section.dark:has(+ .section .survey:not(.survey-results)) p,
+  main .section:has(+ .section .survey:not(.survey-results)) p {
+    text-align: left;
+    padding: 0 0 67px;
+  }
+
+  .survey .survey-controls {
+    width: auto;
+    padding: 0;
+    display: flex;
+    flex-flow: column;
+  }
+
+  .survey .survey-controls button {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .survey .survey-controls button.survey-next,
+  .survey .survey-controls button.survey-submit {
+    order: 1;
+  }
+
+  .survey .survey-controls button.survey-back {
+    order: 2;
+    margin: 40px 0 1px;
+  }
+
+  main .section.survey-results-hero h1 {
+    text-align: left;
+    padding: 1.875rem 1.5625rem;
+    font-size: 28px;
+  }
+
+  .survey-results-actions {
+    padding: 0 1.5625rem;
+  }
+
+  .survey-results-actions button,
+  main .section.survey-results-hero button {
+    width: 100%;
+  }
+
+  .survey-results-pi,
+  main .section.survey-results-hero a.survey-results-pi {
+    padding: 1.875rem 0 3.125rem;
+  }
+
+  .survey .survey-results-item {
+    padding: 2.8125rem 1.5625rem;
+  }
+
+  .survey .survey-results-item-inner {
+    width: 100%;
+  }
+
+  .survey .survey-results-number-col {
+    width: 45px;
+    margin-right: 5%;
+  }
+
+  .survey .survey-results-number {
+    width: 45px;
+    height: 45px;
+    font-size: 26px;
+    line-height: 45px;
+  }
+
+  .survey .survey-results-content {
+    float: left;
+    width: 76%;
+  }
+
+  .survey .survey-results-answer {
+    font-size: 18px;
   }
 }

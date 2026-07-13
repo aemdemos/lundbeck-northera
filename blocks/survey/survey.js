@@ -1,69 +1,386 @@
 /**
- * Multi-step survey / quiz block.
+ * Multi-step survey / quiz block (also renders the /results page).
  *
- * Authoring contract (one row per block table):
- *   Each row (step): [ prompt (+ optional help paragraph) ] | [ checkbox|radio ] | [ options list ]
+ * Authoring — quiz page (one row per step):
+ *   [ prompt (+ optional help paragraph) ] | [ checkbox|radio ] | [ options list ]
  *
- * The heading + intro paragraph live in their own page section above the block.
- * The last cell of each question row holds a <ul> whose items are the answer
- * options. Cell 2 holds the single word "checkbox" (multi-select) or "radio"
- * (single-select). One question is shown at a time with BACK / NEXT navigation
- * and a numbered progress indicator; the final step swaps NEXT for a
- * "VIEW YOUR RESULTS" action.
+ * Authoring — results page (one row per question, prompt only):
+ *   [ question prompt ]
+ *
+ * Heading + intro live in the section above the block.
+ * Quiz submit saves answers to sessionStorage and navigates to sibling /results.
  */
 
+import { decorateExternalLinks } from '../../scripts/scripts.js';
+import { PDFDocument, rgb, StandardFonts } from '../../scripts/pdf-lib.esm.min.js';
+
+const SURVEY_STORAGE_KEY = 'northera-survey-results';
+
+const ANSWER_SLOTS = [
+  { x: 110.8, y: 601.7, maxWidth: 440, maxLines: 4 },
+  { x: 110.8, y: 516.6, maxWidth: 440, maxLines: 3 },
+  { x: 110.8, y: 450.2, maxWidth: 440, maxLines: 5 },
+  { x: 110.8, y: 337.8, maxWidth: 440, maxLines: 4 },
+];
+
+const ANSWER_COLOR = rgb(0x24 / 255, 0x57 / 255, 0x78 / 255);
+const ANSWER_SIZE = 10;
+const ANSWER_LEADING = 13;
+
+function isResultsPage() {
+  return /\/results\/?$/.test(window.location.pathname);
+}
+
+function surveyPageUrl() {
+  return window.location.pathname.replace(/\/results\/?$/, '') || '/';
+}
+
+function resultsPageUrl() {
+  const path = window.location.pathname.replace(/\/$/, '');
+  return `${path}/results`;
+}
+
+function readStoredResults() {
+  try {
+    const raw = sessionStorage.getItem(SURVEY_STORAGE_KEY);
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (!data?.questions?.length) return null;
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function answersBody(questions) {
+  return questions.map((q) => {
+    const answers = (q.answers || []).join(', ') || '—';
+    return `${q.prompt}\n${answers}`;
+  }).join('\n\n');
+}
+
+function wrapLine(text, font, size, maxWidth) {
+  const words = String(text).split(/\s+/).filter(Boolean);
+  if (words.length === 0) return [''];
+  const lines = [];
+  let current = words[0];
+  for (let i = 1; i < words.length; i += 1) {
+    const next = `${current} ${words[i]}`;
+    if (font.widthOfTextAtSize(next, size) <= maxWidth) {
+      current = next;
+    } else {
+      lines.push(current);
+      current = words[i];
+    }
+  }
+  lines.push(current);
+  return lines;
+}
+
+function toPdfText(text) {
+  return String(text)
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2013\u2014]/g, '-')
+    .replace(/\u2026/g, '...')
+    .replace(/\u00AE/g, '(R)')
+    .replace(/[^\t\n\r\x20-\x7E]/g, '?');
+}
+
+function answerLinesForQuestion(question, font, slot) {
+  const answers = question.answers?.length ? question.answers : ['No answer selected'];
+  const lines = [];
+  answers.forEach((answer) => {
+    wrapLine(toPdfText(answer), font, ANSWER_SIZE, slot.maxWidth).forEach((line) => {
+      if (lines.length < slot.maxLines) lines.push(line);
+    });
+  });
+  return lines;
+}
+
+async function downloadResultsPdf(questions) {
+  const base = window.hlx?.codeBasePath || '';
+  const templateUrl = `${base}/resources/survey/symptomchecker-template.pdf`;
+  const response = await fetch(templateUrl);
+  if (!response.ok) {
+    throw new Error(`Unable to load results PDF template (${response.status})`);
+  }
+
+  const templateBytes = await response.arrayBuffer();
+  const pdfDoc = await PDFDocument.load(templateBytes);
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const page = pdfDoc.getPages()[0];
+
+  questions.slice(0, ANSWER_SLOTS.length).forEach((question, index) => {
+    const slot = ANSWER_SLOTS[index];
+    const lines = answerLinesForQuestion(question, font, slot);
+    lines.forEach((line, lineIndex) => {
+      page.drawText(line, {
+        x: slot.x,
+        y: slot.y - (lineIndex * ANSWER_LEADING),
+        size: ANSWER_SIZE,
+        font,
+        color: ANSWER_COLOR,
+        maxWidth: slot.maxWidth,
+      });
+    });
+  });
+
+  const pdfBytes = await pdfDoc.save();
+  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'symptomchecker.pdf';
+  a.rel = 'noopener';
+  document.body.append(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function wireHeroActions(section, questions) {
+  if (!section) return;
+
+  section.classList.add('survey-results-hero');
+
+  const paragraphs = [...section.querySelectorAll('p')];
+  paragraphs.forEach((p) => {
+    const text = p.textContent.trim().toUpperCase();
+    const link = p.querySelector('a');
+
+    if (text === 'DOWNLOAD AND PRINT MY RESULTS' || text.startsWith('DOWNLOAD AND PRINT')) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'survey-results-download cmp-button';
+      btn.textContent = 'DOWNLOAD AND PRINT MY RESULTS';
+      btn.addEventListener('click', async () => {
+        try {
+          await downloadResultsPdf(questions);
+        } catch (err) {
+          // eslint-disable-next-line no-console
+          console.error(err);
+          window.print();
+        }
+      });
+      p.replaceWith(btn);
+      return;
+    }
+
+    if (link && /email my results/i.test(link.textContent || text)) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'survey-results-email cmp-button';
+      btn.textContent = 'EMAIL MY RESULTS';
+      btn.addEventListener('click', () => {
+        const subject = 'Symptomatic nOH Survey: my results';
+        const body = answersBody(questions);
+        window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      });
+      p.replaceWith(btn);
+      return;
+    }
+
+    if (link && /prescribing information/i.test(link.textContent || '')) {
+      link.classList.add('survey-results-pi');
+    }
+  });
+
+  decorateExternalLinks(section);
+
+  const actions = [...section.querySelectorAll('button.survey-results-download, button.survey-results-email')];
+  if (actions.length) {
+    const wrap = document.createElement('div');
+    wrap.className = 'survey-results-actions';
+    actions[0].before(wrap);
+    actions.forEach((btn) => wrap.append(btn));
+  }
+}
+
+function buildResultItem(question, index, authoredPrompt) {
+  const item = document.createElement('div');
+  item.className = 'survey-results-item';
+
+  const inner = document.createElement('div');
+  inner.className = 'survey-results-item-inner';
+
+  const numberCol = document.createElement('div');
+  numberCol.className = 'survey-results-number-col';
+  const number = document.createElement('span');
+  number.className = 'survey-results-number';
+  number.textContent = String(index + 1);
+  numberCol.append(number);
+
+  const content = document.createElement('div');
+  content.className = 'survey-results-content';
+
+  const questionWrap = document.createElement('div');
+  questionWrap.className = 'survey-results-question';
+  const q = document.createElement('p');
+  q.textContent = authoredPrompt || question.prompt;
+  questionWrap.append(q);
+
+  const answerWrap = document.createElement('div');
+  answerWrap.className = 'survey-results-answer';
+  const answers = question.answers?.length ? question.answers : ['No answer selected'];
+  answers.forEach((label) => {
+    const span = document.createElement('span');
+    span.textContent = label;
+    answerWrap.append(span);
+  });
+
+  content.append(questionWrap, answerWrap);
+  inner.append(numberCol, content);
+  item.append(inner);
+  return item;
+}
+
+function decorateResults(block) {
+  const data = readStoredResults();
+  if (!data) {
+    window.location.replace(surveyPageUrl());
+    return;
+  }
+
+  const authoredPrompts = [...block.children].map((row) => {
+    const cell = row.children[0] || row;
+    return cell.textContent.trim();
+  }).filter(Boolean);
+
+  block.classList.add('survey-results');
+
+  const section = block.closest('.section');
+  section?.classList.add('survey-results-container');
+  const hero = section?.previousElementSibling;
+  if (hero?.classList.contains('section')) {
+    wireHeroActions(hero, data.questions);
+  }
+
+  const list = document.createElement('div');
+  list.className = 'survey-results-list';
+  data.questions.forEach((question, index) => {
+    list.append(buildResultItem(question, index, authoredPrompts[index]));
+  });
+
+  block.textContent = '';
+  block.append(list);
+}
+
 function buildProgress(count) {
+  const wrap = document.createElement('div');
+  wrap.className = 'survey-progress';
+
+  const before = document.createElement('div');
+  before.className = 'survey-progress-before';
+  const after = document.createElement('div');
+  after.className = 'survey-progress-after';
+
   const nav = document.createElement('ol');
-  nav.className = 'survey-progress';
+  nav.className = 'survey-progress-container';
   for (let i = 0; i < count; i += 1) {
     const step = document.createElement('li');
     step.className = 'survey-progress-step';
+    step.dataset.step = String(i + 1);
     step.textContent = String(i + 1);
     nav.append(step);
   }
-  return nav;
+
+  wrap.append(before, nav, after);
+  return wrap;
+}
+
+function buildScaleLabelText(label) {
+  const text = document.createElement('span');
+  text.className = 'survey-option-text';
+  const colonIdx = label.indexOf(': ');
+  if (colonIdx > -1) {
+    const bold = document.createElement('b');
+    bold.textContent = `${label.slice(0, colonIdx + 1)} `;
+    text.append(bold, document.createTextNode(label.slice(colonIdx + 2)));
+  } else {
+    text.textContent = label;
+  }
+  return text;
+}
+
+function buildOptionItem(question, index, optIndex, label) {
+  const groupName = `survey-question-${index + 1}`;
+  const id = `${groupName}-opt-${optIndex + 1}`;
+  const isScaleStep = index === 1;
+
+  const item = document.createElement('li');
+  item.className = 'survey-option';
+
+  const inner = document.createElement('div');
+  inner.className = 'survey-option-inner';
+
+  const input = document.createElement('input');
+  input.type = question.type;
+  input.name = groupName;
+  input.id = id;
+  input.value = label;
+
+  const optLabel = document.createElement('label');
+  optLabel.setAttribute('for', id);
+  const box = document.createElement('span');
+  box.className = 'survey-option-box';
+  optLabel.append(box);
+
+  const text = isScaleStep ? buildScaleLabelText(label) : (() => {
+    const span = document.createElement('span');
+    span.className = 'survey-option-text';
+    span.textContent = label;
+    return span;
+  })();
+
+  inner.append(input, optLabel, text);
+  item.append(inner);
+  return item;
 }
 
 function buildOptions(question, index) {
   const list = document.createElement('ul');
   list.className = 'survey-options';
-  const groupName = `survey-question-${index + 1}`;
 
   question.options.forEach((label, optIndex) => {
-    const item = document.createElement('li');
-    item.className = 'survey-option';
-
-    const id = `${groupName}-opt-${optIndex + 1}`;
-    const input = document.createElement('input');
-    input.type = question.type;
-    input.name = groupName;
-    input.id = id;
-    input.value = label;
-
-    const optLabel = document.createElement('label');
-    optLabel.setAttribute('for', id);
-
-    // custom visual box (native input is visually hidden); checkmark drawn in CSS
-    const box = document.createElement('span');
-    box.className = 'survey-option-box';
-
-    const text = document.createElement('span');
-    text.className = 'survey-option-text';
-    text.textContent = label;
-
-    optLabel.append(box, text);
-    item.append(input, optLabel);
-    list.append(item);
+    list.append(buildOptionItem(question, index, optIndex, label));
   });
 
-  return { list, groupName };
+  return list;
 }
 
-export default function decorate(block) {
+function distributeOptionsIntoColumns(list, columnCount) {
+  const items = [...list.children];
+  if (items.length === 0) return list;
+
+  const grid = document.createElement('div');
+  grid.className = 'survey-options-grid';
+  const columnLists = Array.from({ length: columnCount }, () => {
+    const col = document.createElement('div');
+    col.className = 'survey-options-col';
+    const ul = document.createElement('ul');
+    ul.className = 'survey-options';
+    col.append(ul);
+    grid.append(col);
+    return ul;
+  });
+
+  items.forEach((item, i) => {
+    columnLists[i % columnCount].append(item);
+  });
+
+  list.replaceWith(grid);
+  return grid;
+}
+
+function scrollToTop() {
+  window.scrollTo(0, 0);
+}
+
+function decorateQuiz(block) {
   const rows = [...block.children];
   if (rows.length === 0) return;
 
-  // Parse each question row into { prompt, help, type, options }.
   const questions = rows.map((row) => {
     const cells = [...row.children];
     const promptCell = cells[0];
@@ -88,16 +405,23 @@ export default function decorate(block) {
 
   if (questions.length === 0) return;
 
+  const section = block.closest('.section');
+  const intro = section?.previousElementSibling;
+  if (intro?.classList.contains('section')) {
+    intro.classList.add('survey-intro');
+  }
+  section?.classList.add('survey-container');
+
   block.append(buildProgress(questions.length));
 
   const panel = document.createElement('div');
   panel.className = 'survey-panel';
   block.append(panel);
 
-  // Build every step once; toggle visibility with the active step index.
   const steps = questions.map((question, index) => {
     const step = document.createElement('div');
     step.className = 'survey-step';
+    step.dataset.step = String(index + 1);
 
     const prompt = document.createElement('p');
     prompt.className = 'survey-question';
@@ -111,8 +435,13 @@ export default function decorate(block) {
       step.append(help);
     }
 
-    const { list } = buildOptions(question, index);
-    step.append(list);
+    const list = buildOptions(question, index);
+    if (index === 2 || index === 3) {
+      step.append(distributeOptionsIntoColumns(list, 3));
+    } else {
+      step.append(list);
+    }
+
     panel.append(step);
     return step;
   });
@@ -125,28 +454,35 @@ export default function decorate(block) {
   back.textContent = 'BACK';
   const next = document.createElement('button');
   next.type = 'button';
-  next.className = 'survey-next';
+  next.className = 'survey-next cmp-button';
   next.textContent = 'NEXT';
-  controls.append(back, next);
-  block.append(controls);
+  const submit = document.createElement('button');
+  submit.type = 'button';
+  submit.className = 'survey-submit cmp-button';
+  submit.textContent = 'VIEW YOUR RESULTS';
+  submit.hidden = true;
+  controls.append(back, next, submit);
+  panel.append(controls);
 
   const progress = block.querySelector('.survey-progress');
   const progressSteps = [...block.querySelectorAll('.survey-progress-step')];
   let current = 0;
 
-  // amber track fills from the left up to the center of the active circle.
-  // Measure with bounding rects (relative to the progress box) and defer to
-  // the next frame so layout/fonts are ready — offsetLeft reads 0 pre-layout.
-  const updateFill = () => {
+  const updateProgressTrack = () => {
     if (!progress) return;
-    const activeCircle = progressSteps[current];
-    if (!activeCircle) return;
-    requestAnimationFrame(() => {
-      const progRect = progress.getBoundingClientRect();
-      const circleRect = activeCircle.getBoundingClientRect();
-      const fill = (circleRect.left + circleRect.width / 2) - progRect.left;
-      progress.style.setProperty('--survey-progress-fill', `${fill}px`);
-    });
+    progress.classList.toggle('survey-progress-complete', current === questions.length - 1);
+  };
+
+  const currentHasSelection = () => [...steps[current].querySelectorAll('input')]
+    .some((input) => input.checked);
+
+  const updateButtons = () => {
+    const onLast = current === questions.length - 1;
+    back.disabled = current === 0;
+    next.hidden = onLast;
+    submit.hidden = !onLast;
+    const activeBtn = onLast ? submit : next;
+    activeBtn.disabled = !currentHasSelection();
   };
 
   const render = () => {
@@ -155,103 +491,33 @@ export default function decorate(block) {
       step.classList.toggle('active', i === current);
       step.classList.toggle('done', i < current);
     });
-    updateFill();
-    next.textContent = current === questions.length - 1 ? 'VIEW YOUR RESULTS' : 'NEXT';
+    updateProgressTrack();
+    updateButtons();
   };
 
-  const currentHasSelection = () => [...steps[current].querySelectorAll('input')]
-    .some((input) => input.checked);
-
-  // collect the checked option labels for a given step index
   const selectionsFor = (index) => [...steps[index].querySelectorAll('input:checked')]
     .map((input) => input.value);
 
-  // Build the results view: navy hero with actions, then each question with the
-  // chosen answer(s) highlighted. Rendered on "VIEW YOUR RESULTS".
-  const buildResults = () => {
-    const results = document.createElement('div');
-    results.className = 'survey-results';
-
-    const hero = document.createElement('div');
-    hero.className = 'survey-results-hero';
-    const heading = document.createElement('h2');
-    heading.className = 'survey-results-title';
-    heading.textContent = 'Symptomatic nOH Survey: your results';
-    hero.append(heading);
-
-    const actions = document.createElement('div');
-    actions.className = 'survey-results-actions';
-    const download = document.createElement('button');
-    download.type = 'button';
-    download.className = 'survey-results-download';
-    download.textContent = 'DOWNLOAD AND PRINT MY RESULTS';
-    download.addEventListener('click', () => window.print());
-    const email = document.createElement('button');
-    email.type = 'button';
-    email.className = 'survey-results-email';
-    email.textContent = 'EMAIL MY RESULTS';
-    email.addEventListener('click', () => {
-      const body = questions.map((q, i) => {
-        const answers = selectionsFor(i).join(', ') || '—';
-        return `${q.prompt}\n${answers}`;
-      }).join('\n\n');
-      const subject = 'Symptomatic nOH Survey: my results';
-      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    });
-    actions.append(download, email);
-    hero.append(actions);
-
-    // "Print full Prescribing Information" — reuse the PI link found on the page
-    const piLink = document.querySelector('main a[href$=".pdf"], main a[href*="Prescribing" i]');
-    const piHref = piLink ? piLink.getAttribute('href') : '';
-    if (piHref) {
-      const pi = document.createElement('a');
-      pi.className = 'survey-results-pi';
-      pi.href = piHref;
-      pi.target = '_blank';
-      pi.rel = 'noopener';
-      pi.textContent = 'Print full Prescribing Information';
-      hero.append(pi);
-    }
-
-    results.append(hero);
-
-    const list = document.createElement('ol');
-    list.className = 'survey-results-list';
-    questions.forEach((question, index) => {
-      const item = document.createElement('li');
-      item.className = 'survey-results-item';
-
-      const q = document.createElement('p');
-      q.className = 'survey-results-question';
-      q.textContent = question.prompt;
-
-      const a = document.createElement('p');
-      a.className = 'survey-results-answer';
-      const answers = selectionsFor(index);
-      a.textContent = answers.length ? answers.join(', ') : 'No answer selected';
-
-      item.append(q, a);
-      list.append(item);
-    });
-    results.append(list);
-
-    return results;
+  const goToResults = () => {
+    const payload = {
+      questions: questions.map((question, index) => ({
+        prompt: question.prompt,
+        answers: selectionsFor(index),
+      })),
+    };
+    sessionStorage.setItem(SURVEY_STORAGE_KEY, JSON.stringify(payload));
+    window.location.assign(resultsPageUrl());
   };
 
-  const showResults = () => {
-    if (block.querySelector('.survey-results')) return;
-    block.classList.add('survey-complete');
-    const results = buildResults();
-    // replace the interactive survey view with the results
-    block.prepend(results);
-    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  steps.forEach((step) => {
+    step.addEventListener('change', () => updateButtons());
+  });
 
   back.addEventListener('click', () => {
     if (current > 0) {
       current -= 1;
       render();
+      scrollToTop();
     }
   });
 
@@ -260,17 +526,22 @@ export default function decorate(block) {
     if (current < questions.length - 1) {
       current += 1;
       render();
-    } else {
-      showResults();
+      scrollToTop();
     }
   });
 
-  window.addEventListener('resize', updateFill);
-  // recompute the amber fill once the progress bar has a measurable width
-  if (progress && 'ResizeObserver' in window) {
-    const ro = new ResizeObserver(updateFill);
-    ro.observe(progress);
-  }
+  submit.addEventListener('click', () => {
+    if (!currentHasSelection()) return;
+    goToResults();
+  });
 
   render();
+}
+
+export default function decorate(block) {
+  if (isResultsPage()) {
+    decorateResults(block);
+    return;
+  }
+  decorateQuiz(block);
 }

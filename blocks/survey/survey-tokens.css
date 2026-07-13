@@ -1,85 +1,83 @@
-/* survey design tokens — mobile-first defaults; tablet+ overrides live in the
-   width >= 600px block of survey.css */
+/* survey design tokens — matched to northera symptomchecker clientlib */
 :root {
-  /* palette — fall back to concrete brand values so the block renders even if
-     global tokens (--heading-color / --accent-color) are unavailable */
-  --survey-navy: var(--heading-color, #245778); /* navy hero band */
-  --survey-navy-text: #1f4763; /* question + button text */
-  --survey-navy-shadow: #19527f; /* button 3D drop shadow */
-  --survey-cyan: var(--accent-color, #02bded); /* cyan buttons */
-  --survey-amber: #f6af1a; /* active/done progress circle + checked box */
-  --survey-track: #d9d9d9; /* inactive progress track + circle */
+  /* palette */
+  --survey-navy: #245778;
+  --survey-navy-text: #1f4763;
+  --survey-navy-shadow: #19527f;
+  --survey-cyan: #02bded;
+  --survey-amber: #f6af1a;
+  --survey-track: #969696;
+  --survey-body-text: #58595b;
 
-  /* intro (navy hero band) */
+  /* intro (section above survey block) — .cmp-symptomchecker__header */
   --survey-intro-bg: var(--survey-navy);
   --survey-intro-color: #fff;
-  --survey-intro-padding: 2.5rem 1.5rem;
-  --survey-intro-heading-margin: 0 0 1.5rem;
-  --survey-content-max-width: 900px;
+  --survey-intro-heading-padding: 50px 0 30px;
+  --survey-intro-text-padding: 0 0 54px;
+  --survey-intro-heading-size: 40px;
+  --survey-intro-heading-line-height: 48px;
 
-  /* progress indicator */
-  --survey-progress-gap: 3rem;
-  --survey-progress-inline-padding: 1.5rem; /* left/right gutter for the track */
-  --survey-progress-bottom-padding: 2.5rem; /* space below circles before the question */
-  --survey-progress-track-height: 2px;
-  --survey-progress-step-size: 44px;
-  --survey-progress-step-color: #fff;
-  --survey-progress-step-font-size: 1.25rem;
-  --survey-progress-step-font-weight: 700;
+  /* progress — .cmp-progressbar */
+  --survey-progress-width: 620px;
+  --survey-progress-width-mobile: 320px;
+  --survey-progress-offset-top: -24px;
+  --survey-progress-offset-top-mobile: -16px;
+  --survey-progress-bottom-margin: 15px;
+  --survey-progress-step-size: 54px;
+  --survey-progress-step-size-mobile: 34px;
+  --survey-progress-step-font-size: 32px;
+  --survey-progress-step-font-size-mobile: 26px;
+  --survey-progress-track-height: 6px;
+  --survey-progress-track-height-mobile: 3px;
+  --survey-progress-track-top: 24px;
+  --survey-progress-track-top-mobile: 16px;
 
-  /* steps / questions */
-  --survey-panel-padding: 1rem 1.5rem;
-  --survey-question-color: var(--survey-navy-text);
-  --survey-question-font-size: 1.5rem;
-  --survey-question-font-weight: 700;
-  --survey-question-margin: 0 0 0.25rem;
-  --survey-help-color: var(--survey-navy-text);
-  --survey-help-margin: 0 0 1.5rem;
+  /* form container — .cmp-symptom-checker__container */
+  --survey-content-width: 86%;
+  --survey-content-offset: 13%;
+  --survey-controls-width: 83.333%;
 
-  /* options */
-  --survey-options-gap: 1rem;
-  --survey-options-gap-desktop: 1.5rem 2.5rem;
-  --survey-option-gap: 0.75rem;
-  --survey-option-line-height: 1.4;
+  /* questions — .tab p */
+  --survey-question-font-size: 24px;
+  --survey-question-font-size-mobile: 20px;
+  --survey-question-line-height: 30px;
+  --survey-question-color: var(--survey-body-text);
+  --survey-question-font-weight: 400;
+  --survey-help-margin: 0;
 
-  /* custom checkbox / radio box */
+  /* options — .cmp-form__checkmark / label span */
   --survey-box-size: 44px;
-  --survey-box-bg: #fff;
-  --survey-box-border: 1px solid #939393;
-  --survey-box-radius: 10px;
-  --survey-box-checked-bg: var(--survey-amber);
-  --survey-box-checked-border-color: var(--survey-amber);
-  --survey-box-check-color: #fff;
+  --survey-option-text-size: 18px;
+  --survey-option-text-line-height: 23px;
 
-  /* controls */
-  --survey-controls-gap: 1.5rem;
-  --survey-controls-padding: 1.5rem;
-  --survey-button-bg: var(--survey-cyan);
-  --survey-button-color: var(--survey-navy-text);
-  --survey-button-padding: 1rem 3.5rem;
-  --survey-button-font-family: var(--body-font-family);
-  --survey-button-font-weight: 700;
-  --survey-button-font-size: 1.125rem;
-  --survey-button-hover-bg: var(--survey-navy-shadow); /* navy fill on hover (matches source) */
-  --survey-button-hover-color: #fff;
+  /* controls — .cmp-symptomchecker__buttons / .cmp-button */
+  --survey-button-padding: 16.7px 55px;
+  --survey-button-font-family: var(--heading-heavy-font-family);
+  --survey-button-font-weight: 400;
+  --survey-button-font-size: 18px;
+  --survey-button-min-width: 172px;
+  --survey-button-next-min-width: 173px;
 
-  /* stacked 3D drop shadow (navy), matches source */
-  --survey-button-shadow:
-    1px 1px 0 0 var(--survey-navy-shadow),
-    2px 2px 0 0 var(--survey-navy-shadow),
-    3px 3px 0 0 var(--survey-navy-shadow),
-    4px 4px 0 0 var(--survey-navy-shadow),
-    5px 5px 0 0 var(--survey-navy-shadow);
-
-  /* pressed: button shifts onto its shadow (smaller stack) */
-  --survey-button-shadow-active:
-    1px 1px 0 0 var(--survey-navy-shadow),
-    2px 2px 0 0 var(--survey-navy-shadow);
-
-  /* results view */
-  --survey-results-answer-color: #c8102e; /* red selected-answer text */
-  --survey-results-row-alt-bg: #f2f5f7; /* light tint on alternating rows */
-
-  /* motion */
-  --survey-transition: background-color 0.2s, transform 0.1s, box-shadow 0.1s;
+  /* results — symptomcheckerresult component */
+  --survey-results-hero-title-size: 28px;
+  --survey-results-hero-title-line-height: 1.375;
+  --survey-results-hero-title-padding: 2.5rem 1.5rem 1.875rem;
+  --survey-results-pi-font-size: 22px;
+  --survey-results-pi-line-height: 25px;
+  --survey-results-pi-padding: 2.1875rem 0 2.4375rem;
+  --survey-results-row-padding: 1.875rem 2.5rem;
+  --survey-results-row-padding-first: 3.125rem 2.5rem 1.875rem;
+  --survey-results-row-alt-bg: #f3f5f8;
+  --survey-results-inner-width: 83.333%;
+  --survey-results-number-size: 54px;
+  --survey-results-number-font-size: 33px;
+  --survey-results-number-line-height: 53px;
+  --survey-results-number-bg: #f5af19;
+  --survey-results-number-gap: 50px;
+  --survey-results-content-width: 85%;
+  --survey-results-question-padding: 0 0 15px;
+  --survey-results-answer-color: red;
+  --survey-results-answer-font-size: 20px;
+  --survey-results-answer-span-font-size: 18px;
+  --survey-results-answer-span-line-height: 31px;
 }
