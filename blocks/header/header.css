@@ -4,7 +4,8 @@
    Northera header — source northera-stage.d.lundbeckus.com
    2 rows: utility bar (3 links) + main bar (logo + nav + search).
    Header background is a horizontal gradient (dark navy → brand-blue).
-   Mobile-first: hamburger + accordion; ≥1201px: horizontal bar.
+   Mobile-first: the DEFAULT (unmediated) styles are the mobile hamburger +
+   accordion. Desktop (≥1201px) is layered on via a min-width media query.
    ══════════════════════════════════════════════════════════════ */
 
 /* Size the header to its content instead of the boilerplate fixed height,
@@ -29,29 +30,32 @@ header .nav-wrapper a {
   text-decoration: none;
 }
 
-/* ── Utility bar (row 0) ─────────────────────────────────────── */
+/* ── Utility bar (row 0) — mobile: all 3 links in one 60px-tall row,
+   12px centered text that wraps to 2 lines, each cell ~1/3 width ──── */
 header .nav-utility {
   width: 100%;
 }
 
 header .nav-utility-inner {
-  max-width: var(--header-max-width);
-  margin: 0 auto;
-  padding: 0 var(--header-side-padding);
+  padding: 0;
   display: flex;
-  justify-content: flex-end;
+  justify-content: stretch;
   align-items: center;
-  min-height: var(--header-utility-height);
+  min-height: var(--header-mobile-utility-height);
 }
 
 header .nav-utility-links {
   display: flex;
-  align-items: center;
+  flex: 1;
+  align-items: stretch;
 }
 
 header .nav-utility-links > li {
   display: flex;
+  flex: 1;
   align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 header .nav-utility-links > li + li {
@@ -59,31 +63,32 @@ header .nav-utility-links > li + li {
 }
 
 header .nav-utility-links a {
+  width: 100%;
   color: var(--header-util-link-color);
   font-family: var(--header-util-link-font);
-  font-size: var(--header-util-link-size);
   font-weight: var(--header-util-link-weight);
-  padding: 0 var(--header-util-gap);
-  line-height: var(--header-utility-height);
+  padding: 0 10px;
+  font-size: var(--header-mobile-utility-link-size);
+  line-height: var(--header-mobile-utility-link-line);
+  white-space: normal;
 }
 
 header .nav-utility-links a:hover {
   text-decoration: underline;
 }
 
-/* ── Main bar (row 1) ────────────────────────────────────────── */
+/* ── Main bar (row 1) — mobile: 103px, logo top-aligned with margin,
+   search + cyan hamburger bottom-aligned on the right ──────────────── */
 header .nav-main {
   width: 100%;
 }
 
 header .nav-main-inner {
-  max-width: var(--header-max-width);
-  margin: 0 auto;
-  padding: 0 var(--header-side-padding);
+  padding: 0;
   display: flex;
-  align-items: center;
-  min-height: var(--header-main-height);
-  gap: 24px;
+  align-items: flex-start;
+  min-height: var(--header-mobile-main-height);
+  flex-wrap: wrap;
 }
 
 header .nav-brand {
@@ -91,122 +96,121 @@ header .nav-brand {
 }
 
 header .nav-brand img {
-  width: var(--header-logo-width);
+  width: var(--header-mobile-logo-width);
   height: auto;
   display: block;
+  margin: var(--header-mobile-logo-margin);
 }
 
-/* ── Nav links ───────────────────────────────────────────────── */
+/* ── Nav links — mobile: full-width white accordion, hidden until opened ─ */
 header .nav-links {
-  margin-left: auto;
+  order: 4;
+  flex-basis: 100%;
+  margin-left: 0;
+  display: none;
+  background: var(--header-mobile-menu-bg);
+}
+
+header .nav-wrapper.nav-mobile-open .nav-links {
+  display: block;
 }
 
 header .nav-links-list {
   display: flex;
-  align-items: center;
-  gap: var(--header-nav-link-gap);
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
 }
 
+/* item is a row: text label (flex-grows, navigates) + chevron button */
 header .nav-link-item {
   position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-bottom: var(--header-mobile-item-divider);
 }
 
 header .nav-link-item > a {
-  color: var(--header-nav-link-color);
+  flex: 1;
+  color: var(--header-mobile-item-color);
   font-family: var(--header-nav-link-font);
-  font-size: var(--header-nav-link-size);
-  font-weight: var(--header-nav-link-weight);
-  line-height: var(--header-main-height);
-  display: inline-block;
-  white-space: nowrap;
+  font-size: var(--header-mobile-item-size);
+  line-height: 1.3;
+  padding: var(--header-mobile-item-padding);
+  display: block;
 }
 
-/* dropdown caret */
-header .nav-link-item.has-dropdown > a::after {
+/* chevron toggle button — right-pointing arrow, rotates down when open */
+header .nav-dropdown-toggle {
+  flex: 0 0 auto;
+  width: 60px;
+  align-self: stretch;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  position: relative;
+}
+
+header .nav-dropdown-toggle::after {
   content: '';
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 8px;
-  vertical-align: middle;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid var(--header-nav-link-color);
-}
-
-/* ── Dropdown panel ──────────────────────────────────────────── */
-header .nav-dropdown {
-  display: none;
   position: absolute;
-  top: 100%;
-  left: 0;
-  width: var(--header-dropdown-width);
-  background: var(--header-dropdown-bg);
-  box-shadow: 0 4px 10px rgb(0 0 0 / 15%);
-  z-index: 30;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--header-mobile-item-color);
+  border-right: 2px solid var(--header-mobile-item-color);
+  transform: translate(-50%, -60%) rotate(45deg);
+  transition: transform 0.2s ease;
 }
 
-/* per-panel widths — match the source dropdown widths (measured):
-   Patient Support 339px, About NORTHERA 245px, For HCP 258px */
-header .nav-link-item.has-dropdown:nth-of-type(1) .nav-dropdown {
-  width: 339px;
+header .nav-link-item.open .nav-dropdown-toggle::after {
+  transform: translate(-50%, -40%) rotate(135deg);
 }
 
-header .nav-link-item.has-dropdown:nth-of-type(3) .nav-dropdown {
-  width: 245px;
-}
-
-header .nav-link-item.has-dropdown:nth-of-type(4) .nav-dropdown {
-  width: 258px;
+/* ── Sub-menu — mobile: light-blue accordion that expands in place ───── */
+header .nav-dropdown {
+  position: static;
+  width: auto;
+  flex-basis: 100%;
+  display: none;
+  background: var(--header-mobile-subitem-bg);
+  box-shadow: none;
 }
 
 header .nav-link-item.open .nav-dropdown {
   display: block;
 }
 
-/* Desktop: also open on CSS hover (matches source; robust for pointer hover) */
-@media (width >= 1201px) {
-  header .nav-link-item.has-dropdown:hover .nav-dropdown {
-    display: block;
-  }
-}
-
 header .nav-dropdown > li + li {
-  border-top: var(--header-dropdown-divider);
+  border-top: var(--header-mobile-subitem-divider);
 }
 
 header .nav-dropdown a {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 12px;
-  padding: var(--header-dropdown-item-padding);
-  color: var(--header-dropdown-link-color);
+  color: var(--header-mobile-subitem-color);
   font-family: var(--header-dropdown-link-font);
-  font-size: var(--header-dropdown-link-size);
+  font-size: var(--header-mobile-subitem-size);
+  padding: var(--header-mobile-subitem-padding);
   line-height: 1.3;
-}
-
-/* right chevron per item */
-header .nav-dropdown a::after {
-  content: '';
-  flex: 0 0 auto;
-  width: 7px;
-  height: 7px;
-  border-top: 2px solid var(--header-dropdown-chevron-color);
-  border-right: 2px solid var(--header-dropdown-chevron-color);
-  transform: rotate(45deg);
 }
 
 header .nav-dropdown a:hover {
   background: var(--header-dropdown-hover-bg);
 }
 
-/* ── Search ──────────────────────────────────────────────────── */
+/* ── Search — mobile: icon before the hamburger, both bottom-aligned ─── */
 header .nav-search {
+  order: 2;
   flex: 0 0 auto;
   display: flex;
   align-items: center;
+  align-self: flex-end;
+  margin-left: auto;
   position: relative;
 }
 
@@ -215,7 +219,7 @@ header .nav-search-toggle {
   align-items: center;
   justify-content: center;
   width: 44px;
-  height: var(--header-main-height);
+  height: var(--header-mobile-hamburger-height);
   padding: 0;
   border: 0;
   background: none;
@@ -235,13 +239,16 @@ header .nav-search-toggle .icon-search svg {
   height: 100%;
 }
 
-/* Open state: a cyan bar with a white input + white X (matches the source) */
+/* Open state — mobile: a full-width cyan bar with a white input + white X,
+   fixed just below the header so it spans the viewport ──────────────── */
 header .nav-search-panel {
   display: none;
-  position: absolute;
-  top: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  top: calc(var(--header-mobile-utility-height) + var(--header-mobile-main-height));
+  left: 0;
   right: 0;
-  min-width: 320px;
+  width: 100%;
   background: var(--header-search-icon-color);
   padding: 10px;
   z-index: 30;
@@ -259,37 +266,6 @@ header .nav-search-panel .search {
 
 header .nav-search-panel .search .search-box {
   display: block;
-}
-
-/* white X close button */
-header .nav-search-close {
-  flex: 0 0 auto;
-  width: 26px;
-  height: 26px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-  position: relative;
-}
-
-header .nav-search-close::before,
-header .nav-search-close::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 20px;
-  height: 3px;
-  background: #fff;
-}
-
-header .nav-search-close::before {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-header .nav-search-close::after {
-  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
 header .nav-search-panel .search .search-box .icon-search {
@@ -323,18 +299,53 @@ header .nav-search-panel .search .search-results {
   margin-top: 10px;
 }
 
-/* ── Hamburger (mobile only) ─────────────────────────────────── */
-header .nav-hamburger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  margin-left: auto;
+/* white X close button */
+header .nav-search-close {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
   padding: 0;
   border: 0;
   background: none;
   cursor: pointer;
+  position: relative;
+}
+
+header .nav-search-close::before,
+header .nav-search-close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 3px;
+  background: #fff;
+}
+
+header .nav-search-close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+header .nav-search-close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* ── Hamburger — mobile: cyan button with 3 brand-blue bars → dark X ─── */
+header .nav-hamburger {
+  order: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: var(--header-mobile-hamburger-height);
+  align-self: flex-end;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--header-hamburger-bg);
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
 }
 
 header .nav-hamburger-icon,
@@ -342,9 +353,10 @@ header .nav-hamburger-icon::before,
 header .nav-hamburger-icon::after {
   content: '';
   display: block;
-  width: 26px;
-  height: 3px;
-  background: #fff;
+  width: 30px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--header-hamburger-bar-color);
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -354,15 +366,15 @@ header .nav-hamburger-icon {
 
 header .nav-hamburger-icon::before {
   position: absolute;
-  top: -8px;
+  top: -9px;
 }
 
 header .nav-hamburger-icon::after {
   position: absolute;
-  top: 8px;
+  top: 9px;
 }
 
-/* hamburger → cross when the mobile menu is open */
+/* hamburger → dark X when the menu is open */
 header .nav-wrapper.nav-mobile-open .nav-hamburger-icon {
   background: transparent;
 }
@@ -370,234 +382,174 @@ header .nav-wrapper.nav-mobile-open .nav-hamburger-icon {
 header .nav-wrapper.nav-mobile-open .nav-hamburger-icon::before {
   top: 0;
   transform: rotate(45deg);
+  background: var(--header-hamburger-x-color);
 }
 
 header .nav-wrapper.nav-mobile-open .nav-hamburger-icon::after {
   top: 0;
   transform: rotate(-45deg);
+  background: var(--header-hamburger-x-color);
 }
 
 /* ══════════════════════════════════════════════════════════════
-   Mobile (default, ≤ 1200px) — source switches to hamburger here.
-   Utility bar stays visible; logo shrinks; nav becomes a full-width
-   white accordion opened by the cyan hamburger.
+   Desktop (≥ 1201px) — source switches from hamburger to a horizontal
+   bar. Utility bar right-aligned; nav links inline with hover dropdowns.
    ══════════════════════════════════════════════════════════════ */
-@media (width <= 1200px) {
-  /* utility bar keeps all 3 links in one row (source: 12px, 60px-tall bar,
-     each cell ~1/3 width with centered text that wraps to 2 lines) */
+@media (width >= 1201px) {
+  /* utility bar: right-aligned, 41px, 17px links with dividers */
   header .nav-utility-inner {
-    padding: 0;
-    min-height: var(--header-mobile-utility-height);
-    justify-content: stretch;
+    max-width: var(--header-max-width);
+    margin: 0 auto;
+    padding: 0 var(--header-side-padding);
+    justify-content: flex-end;
+    min-height: var(--header-utility-height);
   }
 
   header .nav-utility-links {
-    flex: 1;
-    align-items: stretch;
+    flex: 0 0 auto;
   }
 
   header .nav-utility-links > li {
-    flex: 1;
-    justify-content: center;
-    text-align: center;
+    flex: 0 0 auto;
+    text-align: left;
   }
 
   header .nav-utility-links a {
-    width: 100%;
-    padding: 0 10px;
-    font-size: var(--header-mobile-utility-link-size);
-    line-height: var(--header-mobile-utility-link-line);
-    white-space: normal;
+    width: auto;
+    padding: 0 var(--header-util-gap);
+    font-size: var(--header-util-link-size);
+    line-height: var(--header-utility-height);
+    white-space: nowrap;
   }
 
+  /* main bar: horizontal row */
   header .nav-main-inner {
-    padding: 0;
-    min-height: var(--header-mobile-main-height);
-    gap: 0;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  header .nav-brand {
-    padding: 0;
+    max-width: var(--header-max-width);
+    margin: 0 auto;
+    padding: 0 var(--header-side-padding);
+    align-items: center;
+    min-height: var(--header-main-height);
+    gap: 24px;
+    flex-wrap: nowrap;
   }
 
   header .nav-brand img {
-    width: var(--header-mobile-logo-width);
-    margin: var(--header-mobile-logo-margin);
-  }
-
-  /* cyan hamburger button with 3 brand-blue bars — bottom-aligned (source) */
-  header .nav-hamburger {
-    order: 3;
-    width: 60px;
-    height: var(--header-mobile-hamburger-height);
-    align-self: flex-end;
+    width: var(--header-logo-width);
     margin: 0;
-    background: var(--header-hamburger-bg);
-    flex-direction: column;
-    gap: 5px;
   }
 
-  header .nav-hamburger-icon,
-  header .nav-hamburger-icon::before,
-  header .nav-hamburger-icon::after {
-    width: 30px;
-    height: 5px;
-    border-radius: 1px;
-    background: var(--header-hamburger-bar-color);
-  }
-
-  header .nav-hamburger-icon::before { top: -9px; }
-  header .nav-hamburger-icon::after { top: 9px; }
-
-  /* hamburger → dark X when the menu is open */
-  header .nav-wrapper.nav-mobile-open .nav-hamburger-icon {
-    background: transparent;
-  }
-
-  header .nav-wrapper.nav-mobile-open .nav-hamburger-icon::before {
-    top: 0;
-    transform: rotate(45deg);
-    background: var(--header-hamburger-x-color);
-  }
-
-  header .nav-wrapper.nav-mobile-open .nav-hamburger-icon::after {
-    top: 0;
-    transform: rotate(-45deg);
-    background: var(--header-hamburger-x-color);
-  }
-
-  /* full-width white accordion menu, hidden until opened */
+  /* nav links: inline horizontal, always visible */
   header .nav-links {
-    order: 3;
-    flex-basis: 100%;
-    margin-left: 0;
-    display: none;
-    background: var(--header-mobile-menu-bg);
-  }
-
-  header .nav-wrapper.nav-mobile-open .nav-links {
+    order: 0;
+    flex-basis: auto;
+    margin-left: auto;
     display: block;
+    background: none;
   }
 
   header .nav-links-list {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-  }
-
-  header .nav-link-item {
-    border-bottom: var(--header-mobile-item-divider);
-  }
-
-  /* item is a row: text label (flex-grows, navigates) + chevron button (expands) */
-  header .nav-link-item {
-    display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
     align-items: center;
+    gap: var(--header-nav-link-gap);
+  }
+
+  header .nav-link-item {
+    display: block;
+    flex-wrap: nowrap;
+    border-bottom: 0;
   }
 
   header .nav-link-item > a {
-    flex: 1;
-    color: var(--header-mobile-item-color);
-    font-size: var(--header-mobile-item-size);
-    line-height: 1.3;
-    padding: var(--header-mobile-item-padding);
-    display: block;
+    flex: none;
+    color: var(--header-nav-link-color);
+    font-size: var(--header-nav-link-size);
+    font-weight: var(--header-nav-link-weight);
+    line-height: var(--header-main-height);
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0;
   }
 
-  /* desktop caret is hidden on mobile — the chevron button provides the arrow */
+  /* dropdown caret */
   header .nav-link-item.has-dropdown > a::after {
-    display: none;
-  }
-
-  /* chevron toggle button — right-pointing arrow, rotates down when open */
-  header .nav-dropdown-toggle {
-    flex: 0 0 auto;
-    width: 60px;
-    align-self: stretch;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    position: relative;
-  }
-
-  header .nav-dropdown-toggle::after {
     content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 8px;
-    height: 8px;
-    border-top: 2px solid var(--header-mobile-item-color);
-    border-right: 2px solid var(--header-mobile-item-color);
-    transform: translate(-50%, -60%) rotate(45deg);
-    transition: transform 0.2s ease;
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 8px;
+    vertical-align: middle;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--header-nav-link-color);
   }
 
-  header .nav-link-item.open .nav-dropdown-toggle::after {
-    transform: translate(-50%, -40%) rotate(135deg);
-  }
-
-  /* sub-menu accordion — light-blue, expands in place, full row width */
+  /* dropdown panel: absolute, gray, opens on hover or .open */
   header .nav-dropdown {
-    position: static;
-    width: auto;
-    flex-basis: 100%;
-    display: none;
-    background: var(--header-mobile-subitem-bg);
-    box-shadow: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: var(--header-dropdown-width);
+    background: var(--header-dropdown-bg);
+    box-shadow: 0 4px 10px rgb(0 0 0 / 15%);
   }
 
-  header .nav-link-item.open .nav-dropdown {
+  /* per-panel widths — match the source dropdown widths (measured):
+     Patient Support 339px, About NORTHERA 245px, For HCP 258px */
+  header .nav-link-item.has-dropdown:nth-of-type(1) .nav-dropdown {
+    width: 339px;
+  }
+
+  header .nav-link-item.has-dropdown:nth-of-type(3) .nav-dropdown {
+    width: 245px;
+  }
+
+  header .nav-link-item.has-dropdown:nth-of-type(4) .nav-dropdown {
+    width: 258px;
+  }
+
+  header .nav-link-item.has-dropdown:hover .nav-dropdown {
     display: block;
-  }
-
-  header .nav-dropdown > li + li {
-    border-top: var(--header-mobile-subitem-divider);
   }
 
   header .nav-dropdown a {
-    color: var(--header-mobile-subitem-color);
-    font-size: var(--header-mobile-subitem-size);
-    padding: var(--header-mobile-subitem-padding);
-    justify-content: flex-start;
+    justify-content: space-between;
+    color: var(--header-dropdown-link-color);
+    font-size: var(--header-dropdown-link-size);
+    padding: var(--header-dropdown-item-padding);
   }
 
+  /* right chevron per dropdown item */
   header .nav-dropdown a::after {
-    display: none;
+    content: '';
+    flex: 0 0 auto;
+    width: 7px;
+    height: 7px;
+    border-top: 2px solid var(--header-dropdown-chevron-color);
+    border-right: 2px solid var(--header-dropdown-chevron-color);
+    transform: rotate(45deg);
   }
 
-  /* search sits before the hamburger on the top bar, group pushed right */
+  /* search: full-height toggle, panel anchored to the right of the header */
   header .nav-search {
-    order: 2;
-    align-self: flex-end;
-    margin-left: auto;
+    order: 0;
+    align-self: center;
+    margin-left: 0;
   }
 
   header .nav-search-toggle {
-    height: var(--header-mobile-hamburger-height);
+    height: var(--header-main-height);
   }
 
-  /* keep the search panel within the viewport on narrow screens */
   header .nav-search-panel {
-    box-sizing: border-box;
-    position: fixed;
-    top: calc(var(--header-mobile-utility-height) + var(--header-mobile-main-height));
-    left: 0;
+    position: absolute;
+    top: 100%;
     right: 0;
-    min-width: 0;
-    width: 100%;
+    left: auto;
+    width: auto;
+    min-width: 320px;
   }
 
-  header .nav-links {
-    order: 4;
-  }
-}
-
-/* hamburger + mobile chevron button are desktop-hidden (≥1201px) */
-@media (width >= 1201px) {
+  /* hamburger + mobile chevron button are desktop-hidden */
   header .nav-hamburger,
   header .nav-dropdown-toggle {
     display: none;
