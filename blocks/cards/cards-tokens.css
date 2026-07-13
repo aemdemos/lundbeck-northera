@@ -37,10 +37,14 @@
   --cards-resource-cta-font-family: var(--heading-heavy-font-family);
   --cards-resource-cta-font-size: var(--body-font-size-m, 18px);
   --cards-resource-cta-padding: 15px 30px;
+  --cards-resource-cta-padding-x: 30px;
   --cards-resource-cta-shadow: var(--button-shadow);
   --cards-resource-cta-hover-shadow: var(--button-hover-shadow);
   --cards-resource-cta-icon-url: url("/icons/download.png");
   --cards-resource-cta-icon-width: 36px;
   --cards-resource-cta-icon-height: 30px;
-  --cards-resource-cta-icon-gap: 12px;
+  /* icon is absolutely pinned at left:10px (source .cmp-label-icon::before);
+     the label carries padding-left:35px to clear it. */
+  --cards-resource-cta-icon-left: 10px;
+  --cards-resource-cta-label-padding-left: 35px;
 }
