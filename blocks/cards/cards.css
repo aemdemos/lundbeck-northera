@@ -230,7 +230,8 @@ padding: 0;
   border: 0;
   background-color: var(--cards-resource-box-background);
   padding: var(--cards-resource-box-padding);
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 /* thumbnail: centered on top (mobile) */
@@ -248,8 +249,13 @@ padding: 0;
   display: inline-block;
 }
 
+/* body fills remaining height; the CTA (last child) pins to the bottom
+   (source: container justify-content: space-between) */
 .cards.resource .cards-card-body {
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .cards.resource .cards-card-body h3 {
@@ -277,10 +283,12 @@ padding: 0;
 /* CTA: site standard cyan button (filled, stacked shadow) with a left
    download icon. Source .cmp-text-cta button — the button hugs its content
    (text centered inside), the icon is absolutely pinned at left:10px, and the
-   label carries a left padding so it clears the icon. */
+   label carries a left padding so it clears the icon. The paragraph uses
+   margin-top:auto so the button pins to the bottom of the card. */
 .cards.resource .cards-card-body p:last-child:has(a) {
   text-align: center;
-  margin-top: 25px;
+  margin-top: auto;
+  padding-top: 25px;
 }
 
 .cards.resource .cards-card-body a {
@@ -294,14 +302,14 @@ padding: 0;
   font-size: var(--cards-resource-cta-font-size);
   line-height: var(--button-line-height, 1.2);
   padding: var(--cards-resource-cta-padding);
-  padding-left: calc(var(--cards-resource-cta-padding-x, 30px) + var(--cards-resource-cta-label-padding-left));
+  padding-left: calc(var(--cards-resource-cta-icon-left) + var(--cards-resource-cta-icon-width) + 10px);
   text-align: center;
+  white-space: nowrap;
   border: 0;
   border-radius: 0;
   box-shadow: var(--cards-resource-cta-shadow);
   text-decoration: none;
   transition: box-shadow var(--button-transition, 0.2s ease-in-out);
-  max-width:385px;
   min-height: 50px;
 }
 
@@ -336,19 +344,21 @@ padding: 0;
   .cards.resource > ul {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--cards-resource-gap-desktop);
+    align-items: stretch;
   }
 
-  /* within each card: thumbnail left + title/description right (top row),
-     CTA full-width centered below. The body cell is display:contents so its
-     children (title/description/CTA) join the card grid directly — this lets
-     the CTA span both columns like the source. */
+  /* Within each card (source .cmp-imagetext__container): thumbnail + title/desc
+     on the top row, CTA spanning the full width at the bottom. The card is a
+     grid with a thumbnail column and a text column across two content rows, and
+     a third row (1fr) that grows so the CTA pins to the bottom — matching the
+     source's flex-column space-between. The body is display:contents so its
+     children (h3, description, CTA) become grid items directly. */
   .cards.resource > ul > li {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: var(--cards-resource-thumb-width) 1fr;
+    grid-template-rows: auto auto 1fr;
     column-gap: var(--cards-resource-img-text-gap);
-    align-items: start;
     padding: var(--cards-resource-box-padding-desktop);
-    height:500px;
   }
 
   .cards.resource .cards-card-image {
@@ -359,39 +369,37 @@ padding: 0;
   }
 
   .cards.resource > ul > li img {
-    width: 75px;
+    width: 100%;
   }
 
   .cards.resource .cards-card-body {
     display: contents;
   }
 
-  /* title + description stack in the right column beside the thumbnail */
-  .cards.resource .cards-card-body h3,
-  .cards.resource .cards-card-body p:not(:last-child) {
-    grid-column: 2;
-  }
-
+  /* title + description in the right column beside the thumbnail */
   .cards.resource .cards-card-body h3 {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
     font-size: var(--cards-resource-title-size-desktop);
   }
 
-  .cards.resource .cards-card-body p {
+  .cards.resource .cards-card-body p:not(:last-child) {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
     font-size: var(--cards-resource-desc-size-desktop);
     line-height: var(--cards-resource-desc-line-height-desktop);
   }
 
-  /* CTA spans both columns, centered below the thumbnail + text row */
+  /* CTA spans both columns on the bottom row, pinned to the card bottom */
   .cards.resource .cards-card-body p:last-child:has(a) {
     grid-column: 1 / -1;
-    text-align: center;
-    margin-top: 25px;
+    grid-row: 3;
+    align-self: end;
+    margin-top: 0;
+    padding-top: 25px;
   }
-  
-  .cards.resource .cards-card-body a {
-    max-width: 410px;
-  }
-
 }
 
 @media (width >= 992px) {
@@ -413,33 +421,5 @@ padding: 0;
   .cards.cards-3-cols > ul > li {
     width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
   }
-
- .cards.resource > ul > li { 
-  height: 530px;
- }
-
-    .cards.resource > ul > li img { 
-      width:123px;
-    }
 }
-
-@media (width > 1200px) {
-      .cards.resource > ul > li img { 
-      width:138px;
-    }
-}
-
-
-@media (width > 1610px) {
-    .cards.resource > ul > li {
-     height: 300px;
-    }
-  }
-
-
-@media (width > 1920px) {
-    .cards.resource > ul > li {
-     height: 420px;
-    }
-  }
 
