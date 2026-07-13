@@ -21,7 +21,8 @@ export default function decorate(block) {
   });
 
   const cardCount = ul.children.length;
-  if (cardCount === 2 || cardCount === 3) {
+  const hasLayoutVariant = block.classList.contains('pharmacy') || block.classList.contains('resource');
+  if (!hasLayoutVariant && (cardCount === 2 || cardCount === 3)) {
     block.classList.add(`cards-${cardCount}-cols`);
   }
 

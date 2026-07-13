@@ -1,10 +1,37 @@
-/* cards-cta design tokens */
+/* cards-cta design tokens — source .cmp-layout-quicklinks "Real patient
+   stories" banner (patient-support). Full-width teal banner with a background
+   image, white heading + description stacked left, and a cyan CTA button. */
 :root {
-  --cards-cta-grid-min-width: 280px;
-  --cards-cta-grid-gap: 16px;
-  --cards-cta-card-border-width: 0;
-  --cards-cta-card-border-color: transparent;
-  --cards-cta-card-body-margin: 16px;
-  --cards-cta-image-aspect-ratio: 4 / 3;
-  --cards-cta-image-object-fit: cover;
+  /* banner shell */
+  --cards-cta-bg-image: url("/icons/blue-teaser-bg-desktop.png");
+  --cards-cta-bg-color: var(--brand-blue);
+  --cards-cta-padding: 50px 30px;
+  --cards-cta-padding-desktop: 50px 141px;
+  --cards-cta-margin-bottom: 20px;
+
+  /* heading (source: #fff Gotham-Black 24px / 26 mobile, 32 desktop) */
+  --cards-cta-title-color: #fff;
+  --cards-cta-title-font-family: "Gotham-Black", "Helvetica Neue",helvetica,arial,sans-serif;
+  --cards-cta-title-size: 24px;
+  --cards-cta-title-line-height: 26px;
+  --cards-cta-title-line-height-desktop: 32px;
+
+  /* description (source: #fff Gotham-Book 18px, LH 23) */
+  --cards-cta-desc-color: #fff;
+  --cards-cta-desc-font-family: "Gotham-Book","Helvetica Neue",helvetica,arial,sans-serif;
+  --cards-cta-desc-size: var(--body-font-size-m, 18px);
+  --cards-cta-desc-line-height: 23px;
+
+  /* CTA button — site standard cyan button, no icon (source .cmp-text-cta) */
+  --cards-cta-button-background: var(--button-primary-background, #02bded);
+  --cards-cta-button-color: var(--brand-blue-dark);
+  --cards-cta-button-font-family: var(--heading-heavy-font-family);
+  --cards-cta-button-font-size: var(--body-font-size-m, 18px);
+  --cards-cta-button-padding: 15px 20px;
+  --cards-cta-button-width-desktop: 280px;
+  --cards-cta-button-shadow: var(--button-shadow);
+  --cards-cta-button-hover-shadow: var(--button-hover-shadow);
+
+  /* spacing between description and the button */
+  --cards-cta-button-margin-top: 30px;
 }
