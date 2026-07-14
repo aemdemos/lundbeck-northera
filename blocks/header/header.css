@@ -476,8 +476,9 @@ header .nav-utility-links a {
 
   header .nav-brand img {
     width: var(--header-logo-width);
-    margin:0;
-    margin-bottom:40px;
+    /* source logo sits high (top≈19); with the flex-centered main bar this
+       margin-bottom shifts it up to match */
+    margin: 0 0 48px;
   }
 
   /* nav links: fill the space between logo and search, items spread evenly */
@@ -497,9 +498,8 @@ header .nav-utility-links a {
   }
 
   header .nav-link-item {
-    display: flex;
+    display: block;
     flex: 0 0 auto;
-    flex-wrap: nowrap;
     border-bottom: 0;
     text-align: center;
   }
@@ -511,18 +511,14 @@ header .nav-utility-links a {
   header .nav-link-item:nth-of-type(4) { width: 158px; }
 
   header .nav-link-item > a {
-    flex: 1;
     color: var(--header-nav-link-color);
     font-size: var(--header-nav-link-size);
     font-weight: var(--header-nav-link-weight);
     line-height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     white-space: normal;
     text-align: center;
     padding: 27px 9px;
-    height: 48px;
   }
 
   /* hover: nav item gets the same gray as the dropdown panel (source #e8ecf0) */
@@ -531,21 +527,17 @@ header .nav-utility-links a {
     color: var(--header-dropdown-link-color);
   }
 
-  header .nav-link-item.has-dropdown:hover > a::after {
-    border-top-color: var(--header-dropdown-link-color);
-  }
-
-  /* dropdown caret */
+  /* dropdown caret — inline chevron glyph that flows right after the label
+     text (matches source: a small ▾ appended after the last word). */
   header .nav-link-item.has-dropdown > a::after {
-    content: '';
-    display: inline-block;
-    width: 0;
-    height: 0;
-    margin-left: 8px;
-    vertical-align: middle;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid var(--header-nav-link-color);
+    content: '\25BE';
+    display: inline;
+    margin: 0;
+    padding-left: 5px;
+    font-size: 10px;
+    line-height: 22px;
+    vertical-align: baseline;
+    border: 0;
   }
 
   /* dropdown panel: absolute, gray, flush under the item (no gap), opens on
