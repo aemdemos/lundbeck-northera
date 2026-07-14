@@ -413,13 +413,15 @@ header .nav-utility-links a {
    bar. Utility bar right-aligned; nav links inline with hover dropdowns.
    ══════════════════════════════════════════════════════════════ */
 @media (width > 1200px) {
-  /* utility bar: right-aligned, 41px, 17px links with dividers */
+  /* utility bar: right-aligned, 41px, 17px links with dividers.
+     box-sizing:border-box + 32px inset so the content aligns exactly with the
+     page's <main> (which is a true 1680px-wide centered box). */
   header .nav-utility-inner {
+    box-sizing: border-box;
     max-width: var(--header-max-width);
     margin: 0 auto;
-    padding: 0 var(--header-side-padding);
+    padding: 0 var(--spacing-l, 32px);
     justify-content: flex-end;
-    
   }
 
   header .nav-utility-links {
@@ -440,11 +442,12 @@ header .nav-utility-links a {
     white-space: nowrap;
   }
 
-  /* main bar: horizontal row */
+  /* main bar: horizontal row — same 1680px border-box + 32px inset as <main> */
   header .nav-main-inner {
+    box-sizing: border-box;
     max-width: var(--header-max-width);
     margin: 0 auto;
-    padding: 0 var(--header-side-padding);
+    padding: 0 var(--spacing-l, 32px);
     align-items: center;
     height: var(--header-main-height);
     gap: 24px;
