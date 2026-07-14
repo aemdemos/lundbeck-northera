@@ -481,7 +481,8 @@ header .nav-utility-links a {
     margin: 0 0 48px;
   }
 
-  /* nav links: fill the space between logo and search, items spread evenly */
+  /* nav links: clustered left next to the logo (source: each item has a 30px
+     left margin, no space-between); search stays pushed to the right */
   header .nav-links {
     order: 0;
     flex: 1;
@@ -493,13 +494,26 @@ header .nav-utility-links a {
   header .nav-links-list {
     flex-direction: row;
     align-items: stretch;
-    justify-content: space-between;
+    justify-content: flex-start;
+    height: var(--header-main-height);
     gap: 0;
   }
 
+  /* source applies margin-left:30px to EVERY item, including the first (the
+     first item's 30px is the gap after the logo/nav container).
+     Each item is a fixed-height (= main bar) flex box that vertically centers
+     its label, so the row height stays constant regardless of how many lines
+     the label wraps to (guards against font-width differences). */
+  /* each item is a fixed-height (= main bar) flex cell that vertically centers
+     its label — so the row height stays constant no matter how many lines the
+     label wraps to (guards against font-width differences vs the source). */
   header .nav-link-item {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 0 0 auto;
+    height: var(--header-main-height);
+    margin-left: 30px;
     border-bottom: 0;
     text-align: center;
   }
@@ -510,20 +524,28 @@ header .nav-utility-links a {
   header .nav-link-item:nth-of-type(3) { width: 165px; }
   header .nav-link-item:nth-of-type(4) { width: 158px; }
 
+  /* plain block link so text + the inline caret glyph flow after the last
+     word; the parent li handles vertical centering. */
   header .nav-link-item > a {
+    box-sizing: border-box;
+    width: 100%;
+    display: block;
     color: var(--header-nav-link-color);
     font-size: var(--header-nav-link-size);
     font-weight: var(--header-nav-link-weight);
     line-height: 22px;
-    display: block;
     white-space: normal;
     text-align: center;
-    padding: 27px 9px;
+    padding: 0 9px;
   }
 
-  /* hover: nav item gets the same gray as the dropdown panel (source #e8ecf0) */
-  header .nav-link-item.has-dropdown:hover > a {
+  /* hover: the whole item cell fills with the dropdown gray (source #e8ecf0),
+     so the highlight spans the full main-bar height, not just the text box */
+  header .nav-link-item.has-dropdown:hover {
     background: var(--header-dropdown-bg);
+  }
+
+  header .nav-link-item.has-dropdown:hover > a {
     color: var(--header-dropdown-link-color);
   }
 
