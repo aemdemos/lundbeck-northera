@@ -334,7 +334,6 @@
   footer .footer .columns-wrapper .columns.divider > div > :nth-child(2) p:has(img),
   footer .footer .columns-wrapper .columns.divider > div > :nth-child(2) p:has(img):last-child {
     margin: 0;
-    margin-left: 0;
   }
 
   @media (width >= 768px) {
@@ -343,8 +342,7 @@
     }
 
     footer .footer .columns-wrapper .columns.divider.columns-2-cols > div {
-      flex-direction: row;
-      flex-wrap: nowrap;
+      flex-flow: row nowrap;
       align-items: flex-start;
       width: 100%;
     }
