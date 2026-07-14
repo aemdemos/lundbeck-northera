@@ -11,3 +11,35 @@
   --modal-close-icon-size: var(--icon-size); /* @boilerplate */
   --modal-close-icon-thickness: 2px; /* @boilerplate */
 }
+
+/* Leaving-site third-party interstitial (createModal content). Buttons are
+   plain labels (no arrow) — collapse the button-icon tokens so a.button::after
+   renders nothing. */
+.modal dialog .leaving-site {
+  --button-icon-width: 0;
+  --button-icon-height: 0;
+  --button-icon-gap: 0;
+}
+
+.modal dialog .leaving-site h1 {
+  color: var(--brand-primary);
+  font-family: var(--heading-heavy-font-family, var(--heading-font-family));
+  margin: 0 0 20px;
+}
+
+.modal dialog .leaving-site p {
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+/* OK / CANCEL: decorateButtons wraps each authored link in its own
+   p.button-wrapper; lay the two side by side. */
+.modal dialog .leaving-site .button-wrapper {
+  display: inline-block;
+  margin: 24px 20px 0 0;
+}
+
+.modal dialog .leaving-site .button-wrapper .button {
+  min-width: 120px;
+  text-align: center;
+}
