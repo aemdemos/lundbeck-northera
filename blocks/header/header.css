@@ -90,6 +90,7 @@ header .nav-main-inner {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
+  height: var(--header-mobile-main-height);
 }
 
 header .nav-brand {
@@ -414,11 +415,12 @@ header .nav-utility-links a {
     margin: 0 auto;
     padding: 0 var(--header-side-padding);
     justify-content: flex-end;
-    min-height: var(--header-utility-height);
+    
   }
 
   header .nav-utility-links {
     flex: 0 0 auto;
+    height: var(--header-utility-height);
   }
 
   header .nav-utility-links > li {
@@ -440,14 +442,15 @@ header .nav-utility-links a {
     margin: 0 auto;
     padding: 0 var(--header-side-padding);
     align-items: center;
-    min-height: var(--header-main-height);
+    height: var(--header-main-height);
     gap: 24px;
     flex-wrap: nowrap;
   }
 
   header .nav-brand img {
     width: var(--header-logo-width);
-    margin: 0;
+    margin:0;
+    margin-bottom:40px;
   }
 
   /* nav links: fill the space between logo and search, items spread evenly */
@@ -492,6 +495,7 @@ header .nav-utility-links a {
     white-space: normal;
     text-align: center;
     padding: 27px 9px;
+    height: 48px;
   }
 
   /* hover: nav item gets the same gray as the dropdown panel (source #e8ecf0) */
