@@ -6,7 +6,7 @@ const DESKTOP_MQ = window.matchMedia('(min-width: 1201px)');
 /**
  * Fetch the nav fragment as plain HTML. Dual-fetch: localhost/aem up serves
  * /content/nav.plain.html; DA/EDS serves ${navPath}.plain.html.
- * @returns {Promise<Document|null>}
+ * @returns {Promise<DocumentFragment|null>}
  */
 async function fetchNav() {
   const navMeta = getMetadata('nav');
@@ -15,7 +15,7 @@ async function fetchNav() {
   if (!resp.ok) resp = await fetch(`${navPath}.plain.html`);
   if (!resp.ok) return null;
   const html = await resp.text();
-  return new DOMParser().parseFromString(html, 'text/html');
+  return document.createRange().createContextualFragment(html);
 }
 
 /**
@@ -31,7 +31,13 @@ function buildSearch() {
   toggle.className = 'nav-search-toggle';
   toggle.setAttribute('aria-label', 'Search');
   toggle.setAttribute('aria-expanded', 'false');
-  toggle.innerHTML = `<span class="icon icon-search"><img src="${window.hlx.codeBasePath}/icons/search-icon.png" alt="Search"></span>`;
+  const searchIcon = document.createElement('span');
+  searchIcon.className = 'icon icon-search';
+  const searchImg = document.createElement('img');
+  searchImg.src = `${window.hlx.codeBasePath}/icons/search-icon.png`;
+  searchImg.alt = 'Search';
+  searchIcon.append(searchImg);
+  toggle.append(searchIcon);
 
   // Panel hosts the shared search block; source is the site query index.
   const panel = document.createElement('div');
@@ -222,7 +228,7 @@ export default async function decorate(block) {
   block.textContent = '';
   if (!doc) return;
 
-  const sections = [...doc.body.children];
+  const sections = [...doc.children];
   const [utilitySection, brandSection, navSection] = sections;
 
   const wrapper = document.createElement('div');
