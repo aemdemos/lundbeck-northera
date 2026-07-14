@@ -8,6 +8,7 @@
   --header-main-height: 102px;
   --header-max-width: var(--max-width-site, 1200px);
   --header-side-padding: 40px;
+  --header-side-padding-xl: 50px;
 
   /* background — source: horizontal gradient dark-navy to brand-blue */
   --header-gradient: linear-gradient(90deg, #0e314d 0%, var(--brand-blue, #245778) 65%);
