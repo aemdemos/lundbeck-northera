@@ -234,8 +234,8 @@ header .nav-search-toggle {
 
 /* magnifying-glass icon — matches the source's cyan search icon (~28px) */
 header .nav-search-toggle .icon-search {
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   display: inline-flex;
 }
 
@@ -354,6 +354,7 @@ header .nav-hamburger {
   flex-direction: column;
   gap: 5px;
   box-shadow:none;
+  margin-left:15px;
 }
 
 header .nav-hamburger-icon,
