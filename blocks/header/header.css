@@ -17,6 +17,8 @@ header {
 header .nav-wrapper {
   background: var(--header-gradient);
   width: 100%;
+  max-width: var(--header-max-width);
+  margin: 0 auto;
 }
 
 /* remove list bullets throughout the header */
@@ -418,9 +420,7 @@ header .nav-utility-links a {
      page's <main> (which is a true 1680px-wide centered box). */
   header .nav-utility-inner {
     box-sizing: border-box;
-    max-width: var(--header-max-width);
     margin: 0 auto;
-    padding: 0 var(--spacing-l, 32px);
     justify-content: flex-end;
   }
 
@@ -494,9 +494,10 @@ header .nav-utility-links a {
   header .nav-links-list {
     flex-direction: row;
     align-items: stretch;
-    justify-content: flex-start;
     height: var(--header-main-height);
     gap: 0;
+    display: flex;
+    justify-content: space-between;
   }
 
   /* source applies margin-left:30px to EVERY item, including the first (the
@@ -614,8 +615,8 @@ header .nav-utility-links a {
   header .nav-search {
     order: 0;
     align-self: center;
-    margin-left: 0;
-    margin-right: 15px;
+    margin: 0;
+    margin-left:27px;
   }
 
   header .nav-search-toggle {
