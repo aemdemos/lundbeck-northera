@@ -427,18 +427,38 @@ header .nav-utility-links a {
   header .nav-utility-links {
     flex: 0 0 auto;
     height: var(--header-utility-height);
+    align-items: center;
   }
 
+  /* source: each item is inline-block with 23px side padding + a white
+     right-border divider; margin 10px 0 keeps the 20px text vertically
+     centered in the 41px bar. The desktop divider lives on the item, not on
+     li + li, so reset the mobile left-border rule here. */
   header .nav-utility-links > li {
     flex: 0 0 auto;
     text-align: left;
+    margin: 10px 0;
+    padding: 0 var(--header-util-gap);
+    border-left: 0;
+    border-right: 1px solid var(--header-util-divider-color);
+  }
+
+  header .nav-utility-links > li:first-child {
+    padding-left: 0;
+  }
+
+  /* source last item: no divider, no right padding, pushed 84px off the edge */
+  header .nav-utility-links > li:last-child {
+    border-right: 0;
+    padding-right: 0;
+    margin-right: var(--header-util-last-inset);
   }
 
   header .nav-utility-links a {
     width: auto;
-    padding: 0 var(--header-util-gap);
+    padding: 0;
     font-size: var(--header-util-link-size);
-    line-height: var(--header-utility-height);
+    line-height: var(--header-util-link-line);
     white-space: nowrap;
   }
 
@@ -541,22 +561,15 @@ header .nav-utility-links a {
     z-index: 99;
   }
 
-  /* per-panel widths — match the source dropdown widths (measured):
-     Patient Support 339px, About NORTHERA 245px, For HCP 258px */
-  header .nav-link-item.has-dropdown:nth-of-type(1) .nav-dropdown {
-    width: 339px;
-  }
-
-  header .nav-link-item.has-dropdown:nth-of-type(3) .nav-dropdown {
-    width: 245px;
-  }
-
-  header .nav-link-item.has-dropdown:nth-of-type(4) .nav-dropdown {
-    width: 258px;
-  }
-
+  /* source: every dropdown panel is a uniform 339px wide (measured on the
+     live source — Patient Support / About NORTHERA / For HCP all 339px). */
   header .nav-link-item.has-dropdown:hover .nav-dropdown {
     display: block;
+  }
+
+  /* source: 1px white divider between dropdown items */
+  header .nav-dropdown > li + li {
+    border-top: var(--header-dropdown-divider);
   }
 
   header .nav-dropdown a {
