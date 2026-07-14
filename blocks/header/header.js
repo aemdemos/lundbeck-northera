@@ -31,7 +31,7 @@ function buildSearch() {
   toggle.className = 'nav-search-toggle';
   toggle.setAttribute('aria-label', 'Search');
   toggle.setAttribute('aria-expanded', 'false');
-  toggle.innerHTML = '<span class="icon icon-search"></span>';
+  toggle.innerHTML = `<span class="icon icon-search"><img src="${window.hlx.codeBasePath}/icons/search-icon.png" alt="Search"></span>`;
 
   // Panel hosts the shared search block; source is the site query index.
   const panel = document.createElement('div');
