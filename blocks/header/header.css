@@ -449,26 +449,35 @@ header .nav-utility-links a {
     margin: 0;
   }
 
-  /* nav links: inline horizontal, always visible */
+  /* nav links: fill the space between logo and search, items spread evenly */
   header .nav-links {
     order: 0;
-    flex-basis: auto;
-    margin-left: auto;
+    flex: 1;
+    margin: 0 30px;
     display: block;
     background: none;
   }
 
   header .nav-links-list {
     flex-direction: row;
-    align-items: center;
-    gap: var(--header-nav-link-gap);
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0;
   }
 
   header .nav-link-item {
     display: block;
+    flex: 0 0 auto;
     flex-wrap: nowrap;
     border-bottom: 0;
+    text-align: center;
   }
+
+  /* source item widths (measured) so labels wrap to multiple centered lines */
+  header .nav-link-item:nth-of-type(1) { width: 145px; }
+  header .nav-link-item:nth-of-type(2) { width: 140px; }
+  header .nav-link-item:nth-of-type(3) { width: 165px; }
+  header .nav-link-item:nth-of-type(4) { width: 158px; }
 
   header .nav-link-item > a {
     flex: none;
@@ -477,8 +486,9 @@ header .nav-utility-links a {
     font-weight: var(--header-nav-link-weight);
     line-height: 22px;
     display: inline-block;
-    white-space: nowrap;
-    padding: 0;
+    white-space: normal;
+    text-align: center;
+    padding: 27px 9px;
   }
 
   /* dropdown caret */
