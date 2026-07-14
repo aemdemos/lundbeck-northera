@@ -795,7 +795,7 @@ main .section.survey-results-hero a.survey-results-pi {
   }
 
   /* Bridge padding gap between columns; penultimate reaches last checkbox center */
-  .survey .survey-step[data-step="2"] .survey-option:not(:last-child):not(:nth-last-child(2))::after {
+  .survey .survey-step[data-step="2"] .survey-option:not(:last-child, :nth-last-child(2))::after {
     width: calc(100% + var(--survey-scale-col-padding));
   }
 
@@ -911,7 +911,7 @@ main .section.survey-results-hero a.survey-results-pi {
     padding: 0 var(--survey-scale-col-padding-1200) 0 0;
   }
 
-  .survey .survey-step[data-step="2"] .survey-option:not(:last-child):not(:nth-last-child(2))::after {
+  .survey .survey-step[data-step="2"] .survey-option:not(:last-child, :nth-last-child(2))::after {
     width: calc(100% + var(--survey-scale-col-padding-1200));
   }
 
