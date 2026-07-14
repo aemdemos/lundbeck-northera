@@ -75,7 +75,10 @@ header .nav-utility-links a {
   display: inline-block;
 }
 
-/* source shows no hover change on utility links (color stays white, no underline) */
+/* source utility-link hover: the whole item dims to 80% opacity (no underline) */
+header .nav-utility-links > li:hover {
+  opacity: 0.8;
+}
 
 /* ── Main bar (row 1) — mobile: 103px, logo top-aligned with margin,
    search + cyan hamburger bottom-aligned on the right ──────────────── */
