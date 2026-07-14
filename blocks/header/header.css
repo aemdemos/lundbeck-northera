@@ -75,9 +75,7 @@ header .nav-utility-links a {
   display: inline-block;
 }
 
-header .nav-utility-links a:hover {
-  text-decoration: underline;
-}
+/* source shows no hover change on utility links (color stays white, no underline) */
 
 /* ── Main bar (row 1) — mobile: 103px, logo top-aligned with margin,
    search + cyan hamburger bottom-aligned on the right ──────────────── */
