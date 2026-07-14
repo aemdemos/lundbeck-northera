@@ -200,6 +200,7 @@ header .nav-dropdown a {
   font-size: var(--header-mobile-subitem-size);
   padding: var(--header-mobile-subitem-padding);
   line-height: 1.3;
+  text-align: left;
 }
 
 header .nav-dropdown a:hover {
@@ -314,6 +315,7 @@ header .nav-search-close {
   background: none;
   cursor: pointer;
   position: relative;
+  box-shadow:none;
 }
 
 header .nav-search-close::before,
@@ -582,6 +584,7 @@ header .nav-utility-links a {
     order: 0;
     align-self: center;
     margin-left: 0;
+    margin-right: 15px;
   }
 
   header .nav-search-toggle {
