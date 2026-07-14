@@ -13,9 +13,15 @@
   --survey-intro-bg: var(--survey-navy);
   --survey-intro-color: #fff;
   --survey-intro-heading-padding: 50px 0 30px;
+  --survey-intro-heading-padding-mobile: 17px 0 23px;
   --survey-intro-text-padding: 0 0 54px;
+  --survey-intro-text-padding-mobile: 0 0 67px;
   --survey-intro-heading-size: 40px;
+  --survey-intro-heading-size-mobile: 28px;
   --survey-intro-heading-line-height: 48px;
+  --survey-intro-heading-line-height-mobile: 34px;
+  --survey-intro-text-size: 18px;
+  --survey-intro-text-line-height: 26px;
 
   /* progress — .cmp-progressbar */
   --survey-progress-width: 620px;
@@ -49,6 +55,12 @@
   --survey-box-size: 44px;
   --survey-option-text-size: 18px;
   --survey-option-text-line-height: 23px;
+  --survey-checkbox-col-padding: 30px;
+  --survey-checkbox-col-padding-step1-1400: 20px;
+  --survey-checkbox-col-padding-step3-1400: 58px;
+  --survey-checkbox-col-padding-step4-1400: 72px;
+  --survey-scale-col-padding: 30px;
+  --survey-scale-col-padding-1200: 50px;
 
   /* controls — .cmp-symptomchecker__buttons / .cmp-button */
   --survey-button-padding: 16.7px 55px;

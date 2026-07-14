@@ -283,7 +283,7 @@ function buildProgress(count) {
     const step = document.createElement('li');
     step.className = 'survey-progress-step';
     step.dataset.step = String(i + 1);
-    step.textContent = String(i + 1);
+    step.setAttribute('aria-label', `Step ${i + 1}`);
     nav.append(step);
   }
 
@@ -312,6 +312,7 @@ function buildOptionItem(question, index, optIndex, label) {
 
   const item = document.createElement('li');
   item.className = 'survey-option';
+  item.style.setProperty('--survey-option-order', String(optIndex));
 
   const inner = document.createElement('div');
   inner.className = 'survey-option-inner';
@@ -351,6 +352,7 @@ function buildOptions(question, index) {
   return list;
 }
 
+/** Row-major distribution into columns (matches original columnize behaviour). */
 function distributeOptionsIntoColumns(list, columnCount) {
   const items = [...list.children];
   if (items.length === 0) return list;
@@ -438,8 +440,8 @@ function decorateQuiz(block) {
     }
 
     const list = buildOptions(question, index);
-    if (index === 2 || index === 3) {
-      step.append(distributeOptionsIntoColumns(list, 3));
+    if (index === 0 || index === 2 || index === 3) {
+      step.append(distributeOptionsIntoColumns(list, 2));
     } else {
       step.append(list);
     }
