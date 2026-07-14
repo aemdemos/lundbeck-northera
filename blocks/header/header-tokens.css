@@ -36,7 +36,8 @@
   --header-dropdown-link-font: var(--body-font-family);
   --header-dropdown-item-padding: 14px 20px;
   --header-dropdown-divider: 1px solid #d5dde3;
-  --header-dropdown-hover-bg: #dbe3ea;
+  --header-dropdown-hover-bg: var(--brand-blue, #245778);
+  --header-dropdown-hover-color: #fff;
   --header-dropdown-chevron-color: var(--brand-blue, #245778);
 
   /* search icon */

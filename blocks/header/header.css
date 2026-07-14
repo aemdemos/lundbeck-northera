@@ -202,6 +202,7 @@ header .nav-dropdown a {
 
 header .nav-dropdown a:hover {
   background: var(--header-dropdown-hover-bg);
+  color: var(--header-dropdown-hover-color);
 }
 
 /* ── Search — mobile: icon before the hamburger, both bottom-aligned ─── */
@@ -466,7 +467,7 @@ header .nav-utility-links a {
   }
 
   header .nav-link-item {
-    display: block;
+    display: flex;
     flex: 0 0 auto;
     flex-wrap: nowrap;
     border-bottom: 0;
@@ -480,15 +481,27 @@ header .nav-utility-links a {
   header .nav-link-item:nth-of-type(4) { width: 158px; }
 
   header .nav-link-item > a {
-    flex: none;
+    flex: 1;
     color: var(--header-nav-link-color);
     font-size: var(--header-nav-link-size);
     font-weight: var(--header-nav-link-weight);
     line-height: 22px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     white-space: normal;
     text-align: center;
     padding: 27px 9px;
+  }
+
+  /* hover: nav item gets the same gray as the dropdown panel (source #e8ecf0) */
+  header .nav-link-item.has-dropdown:hover > a {
+    background: var(--header-dropdown-bg);
+    color: var(--header-dropdown-link-color);
+  }
+
+  header .nav-link-item.has-dropdown:hover > a::after {
+    border-top-color: var(--header-dropdown-link-color);
   }
 
   /* dropdown caret */
@@ -504,14 +517,17 @@ header .nav-utility-links a {
     border-top: 5px solid var(--header-nav-link-color);
   }
 
-  /* dropdown panel: absolute, gray, opens on hover or .open */
+  /* dropdown panel: absolute, gray, flush under the item (no gap), opens on
+     hover. top:100% sits at the item's bottom so the mouse never crosses dead
+     space when moving down into the list. */
   header .nav-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
     width: var(--header-dropdown-width);
     background: var(--header-dropdown-bg);
-    box-shadow: 0 4px 10px rgb(0 0 0 / 15%);
+    box-shadow: 0 7px 10px rgb(0 0 0 / 50%);
+    z-index: 99;
   }
 
   /* per-panel widths — match the source dropdown widths (measured):
@@ -548,6 +564,12 @@ header .nav-utility-links a {
     border-top: 2px solid var(--header-dropdown-chevron-color);
     border-right: 2px solid var(--header-dropdown-chevron-color);
     transform: rotate(45deg);
+  }
+
+  /* hovered item turns navy → chevron flips to white to stay visible */
+  header .nav-dropdown a:hover::after {
+    border-top-color: var(--header-dropdown-hover-color);
+    border-right-color: var(--header-dropdown-hover-color);
   }
 
   /* search: full-height toggle, panel anchored to the right of the header */
