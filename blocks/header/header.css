@@ -41,7 +41,6 @@ header .nav-utility-inner {
   display: flex;
   justify-content: stretch;
   align-items: center;
-  min-height: var(--header-mobile-utility-height);
   background-image: linear-gradient(90deg, #0e314d 0, var(--brand-blue) 100%);
 }
 
@@ -57,6 +56,7 @@ header .nav-utility-links > li {
   align-items: center;
   justify-content: center;
   text-align: center;
+  margin: 10px 0;
 }
 
 header .nav-utility-links > li + li {
@@ -64,7 +64,7 @@ header .nav-utility-links > li + li {
 }
 
 header .nav-utility-links a {
-  width: 100%;
+  width: 105px;
   color: var(--header-util-link-color);
   font-family: var(--header-util-link-font);
   font-weight: var(--header-util-link-weight);
@@ -72,6 +72,7 @@ header .nav-utility-links a {
   font-size: var(--header-mobile-utility-link-size);
   line-height: var(--header-mobile-utility-link-line);
   white-space: normal;
+  display: inline-block;
 }
 
 header .nav-utility-links a:hover {
@@ -88,7 +89,6 @@ header .nav-main-inner {
   padding: 0;
   display: flex;
   align-items: flex-start;
-  min-height: var(--header-mobile-main-height);
   flex-wrap: wrap;
 }
 
@@ -394,11 +394,19 @@ header .nav-wrapper.nav-mobile-open .nav-hamburger-icon::after {
   background: var(--header-hamburger-x-color);
 }
 
+@media (width>768px) {
+header .nav-utility-links a {
+  display:inline;
+  width:100%;
+}
+  }
+
+
 /* ══════════════════════════════════════════════════════════════
    Desktop (≥ 1201px) — source switches from hamburger to a horizontal
    bar. Utility bar right-aligned; nav links inline with hover dropdowns.
    ══════════════════════════════════════════════════════════════ */
-@media (width >= 1201px) {
+@media (width > 1200px) {
   /* utility bar: right-aligned, 41px, 17px links with dividers */
   header .nav-utility-inner {
     max-width: var(--header-max-width);
@@ -467,7 +475,7 @@ header .nav-wrapper.nav-mobile-open .nav-hamburger-icon::after {
     color: var(--header-nav-link-color);
     font-size: var(--header-nav-link-size);
     font-weight: var(--header-nav-link-weight);
-    line-height: var(--header-main-height);
+    line-height: 22px;
     display: inline-block;
     white-space: nowrap;
     padding: 0;
