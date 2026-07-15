@@ -4,4 +4,12 @@
   --columns-divider-width: 1px;
   --columns-divider-spacing: var(--spacing-l, 32px);
   --columns-divider-color: #7ebcc6;
+
+  /* icon-text variant (source .patient-support-droxidopa intro row) */
+  --columns-icon-size: 100px;
+  --columns-icon-col-width: 120px;
+  --columns-icon-gap: 20px;
+  --columns-icon-text-lead-size: 18px;
+  --columns-icon-text-lead-line: 30px;
+  --columns-icon-text-body-size: 14px;
 }

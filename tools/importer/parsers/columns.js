@@ -42,11 +42,13 @@ export default function parse(element, { document }) {
     return;
   }
 
-  // One content row, two columns: [image | text]
+  // One content row, two columns: [image | text].
+  // The "icon-text" variant styles this to match the source NSC intro row:
+  // fixed ~120px icon column, brand-blue 18px lead paragraph, 14px list/body.
   const cells = [
     [image || '', textCell.length ? textCell : ''],
   ];
 
-  const block = WebImporter.Blocks.createBlock(document, { name: 'columns', cells });
+  const block = WebImporter.Blocks.createBlock(document, { name: 'columns (icon-text)', cells });
   element.replaceWith(block);
 }

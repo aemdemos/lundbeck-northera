@@ -17,6 +17,65 @@
   display: block; /* @boilerplate */
 }
 
+/* icon-text variant — NORTHERA "Stands By You" intro row
+   (source: .patient-support-droxidopa). A fixed-width icon beside a rich-text
+   block: brand-blue 18px lead paragraph, 14px disc list + body/disclaimer.
+   Mobile-first: icon stacked above the text (base .columns behavior);
+   side-by-side from 768px (source Bootstrap breakpoint) — see media query. */
+/* mobile-first (source ≤767px): icon stacked on top, centered, with 20px below;
+   text below with 20px above. Left-aligned text. */
+main .columns.icon-text > div > .columns-img-col {
+  flex: 0 0 auto;
+  text-align: center;
+  padding-bottom: var(--columns-icon-gap);
+}
+
+main .columns.icon-text > div > .columns-img-col img {
+  width: var(--columns-icon-size);
+  height: var(--columns-icon-size);
+  max-width: none;
+  margin: 0 auto;
+}
+
+main .columns.icon-text > div > div:not(.columns-img-col) {
+  padding-top: var(--columns-icon-gap);
+}
+
+/* lead paragraph: brand-blue, 18px/30px (source #245778 Gotham-Medium) */
+main .columns.icon-text > div > div:not(.columns-img-col) > p:first-child {
+  color: var(--brand-blue, #245778);
+  font-family: var(--heading-font-family);
+  font-size: var(--columns-icon-text-lead-size);
+  line-height: var(--columns-icon-text-lead-line);
+  margin-bottom: 0;
+}
+
+/* body list: 14px/20px, #333, disc bullets */
+main .columns.icon-text > div > div:not(.columns-img-col) ul {
+  padding-left: 40px;
+  margin: 0 0 10px;
+  list-style-type: disc;
+}
+
+main .columns.icon-text > div > div:not(.columns-img-col) li {
+  font-size: var(--columns-icon-text-body-size);
+  line-height: 20px;
+  color: var(--text-color, #333);
+  margin-bottom: 0;
+}
+
+/* remaining paragraphs (support-center link line, hours, disclaimer) */
+main .columns.icon-text > div > div:not(.columns-img-col) > p:not(:first-child) {
+  font-size: var(--columns-icon-text-body-size);
+  line-height: 1.2;
+  color: var(--text-color, #333);
+}
+
+main .columns.icon-text > div > div:not(.columns-img-col) a {
+  color: var(--isi-link-color, var(--brand-blue, #245778));
+  text-decoration: underline;
+}
+
 /* stats-callout variant — vyepti study/survey results callouts.
    Teal headings, large red italic "X fewer" numbers, centered copy. */
 main .columns.stats-callout > div > div {
@@ -110,6 +169,29 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     padding-inline-start: var(--columns-divider-spacing);
   }
   
+  /* icon-text: icon left (fixed 120px incl. 20px right gap), text right with
+     20px left padding, vertically centered — matching the source intro row. */
+  main .columns.icon-text > div {
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+  }
+
+  main .columns.icon-text > div > .columns-img-col {
+    width: var(--columns-icon-col-width);
+    padding: 0 var(--columns-icon-gap) 0 0;
+    text-align: left;
+  }
+
+  main .columns.icon-text > div > .columns-img-col img {
+    margin: 0;
+  }
+
+  main .columns.icon-text > div > div:not(.columns-img-col) {
+    flex: 1;
+    padding: 20px 0 20px 20px;
+  }
+
   main .columns.stats-callout > div {
     flex-direction: row;
     align-items: flex-start;
