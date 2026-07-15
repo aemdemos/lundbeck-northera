@@ -309,7 +309,7 @@ button {
 
 /* links */
 a {
-  color: var(--link-color);
+  color: var(--brand-cyan);
   text-decoration: none;
   font-weight: var(--font-weight-bold);
   overflow-wrap: break-word;
