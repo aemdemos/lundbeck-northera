@@ -17,13 +17,6 @@
   display: block; /* @boilerplate */
 }
 
-/* icon-text variant — NORTHERA "Stands By You" intro row
-   (source: .patient-support-droxidopa). A fixed-width icon beside a rich-text
-   block: brand-blue 18px lead paragraph, 14px disc list + body/disclaimer.
-   Mobile-first: icon stacked above the text (base .columns behavior);
-   side-by-side from 768px (source Bootstrap breakpoint) — see media query. */
-/* the block carries a light cyan tint (source: applied on the block itself,
-   NOT the section — the H1 above it stays untinted). */
 main .columns.icon-text {
   background-color: var(--columns-icon-text-bg);
   padding: 10px 10% 10px 12%;
@@ -216,12 +209,9 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   }
 
   main .columns.icon-text > div > div:not(.columns-img-col) {
+    border-left: 3px solid var(--columns-icon-text-border-color);
     flex: 1;
     padding: 20px 0 20px 20px;
-  }
-
-  main .columns.icon-text > div > div:not(.columns-img-col) {
-    border-left: 3px solid var(--columns-icon-text-border-color);
   }
 
   main .columns.icon-text > div > div:not(.columns-img-col) > p:first-child {

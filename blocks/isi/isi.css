@@ -13,7 +13,8 @@
    Source: Gotham-Black 18px/20px, #58595b, weight 400, centered; 40px above /
    30px below. */
 main .isi-please-see-section {
-  padding: 40px var(--isi-section-padding-x) 30px;
+  padding: 50px 13px;
+  margin: 0;
 }
 
 main .isi-please-see p {
@@ -28,7 +29,6 @@ main .isi-please-see p {
 
 main .isi-please-see a {
   color: var(--isi-link-color);
-  text-decoration: underline;
   overflow-wrap: anywhere;
 }
 
@@ -465,6 +465,10 @@ main .isi a:hover {
   main:has(> .section.isi-container) > .section.isi-container > .default-content-wrapper {
     display: none;
   }
+
+main .isi-please-see-section {
+  padding: 20px 0;
+}
 
   /* rail text sizing (source rail uses 16px) */
   main:has(> .section.isi-container) .isi p,
