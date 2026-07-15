@@ -423,5 +423,9 @@
       margin-right: var(--footer-logo-col-margin-right);
       padding: var(--footer-logo-col-padding);
     }
+
+    footer .footer {
+      width: 83.33%;
+    }
   }
   
