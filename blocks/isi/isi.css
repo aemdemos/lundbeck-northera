@@ -508,6 +508,12 @@ main .isi a:hover {
     box-shadow: inset -2px 0 0 #f2f2f2;
     overflow-y: scroll;
     width: 90%;
+    max-height: calc(100vh - 200px);
+  }
+
+  /* once JS sets an explicit inline height, let it win over the fallback cap */
+  main:has(> .section.isi-container) .isi.isi-important[style*="height"] {
+    max-height: none;
   }
 
   main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar {
