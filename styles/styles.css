@@ -783,6 +783,10 @@ main .section.dark h6 {
   color: var(--background-color);
 }
 
+main .section.dark p {
+  color: var(--background-color);
+}
+
 main .section.accent {
   background-color: var(--heading-color);
   color: var(--background-color);
