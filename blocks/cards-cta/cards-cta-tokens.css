@@ -6,7 +6,7 @@
   --cards-cta-bg-image: url("/icons/blue-teaser-bg-desktop.png");
   --cards-cta-bg-color: var(--brand-blue);
   --cards-cta-padding: 50px 30px;
-  --cards-cta-padding-desktop: 50px 141px;
+  --cards-cta-padding-desktop: 50px 25px;
   --cards-cta-margin-bottom: 20px;
 
   /* heading (source: #fff Gotham-Black 24px / 26 mobile, 32 desktop) */

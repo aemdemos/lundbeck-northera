@@ -219,16 +219,19 @@ h6 {
 
 h1 {
   font-size: var(--heading-font-size-xxl);
-  line-height: 1.2;
+  line-height: 24px;
   color: var(--brand-primary);
   margin-top: 0;
-  max-width: var(--h1-max-width);
+  padding: 30px 14px;
+  text-align: center;
 }
 
 h2 {
-  font-size: var(--heading-font-size-xl);
-  line-height: 1.2;
+  font-size: 18px;
+  line-height: 22px;
   color: var(--brand-primary);
+  margin:0;
+  padding-bottom: 20px;
 }
 
 h3 {
@@ -306,7 +309,7 @@ button {
 
 /* links */
 a {
-  color: var(--link-color);
+  color: var(--brand-cyan);
   text-decoration: none;
   font-weight: var(--font-weight-bold);
   overflow-wrap: break-word;
@@ -585,14 +588,11 @@ main .icon.icon-bullet { /* @libs */
 main > .section { /* @libs */
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 main > .section > div:not(.bg-image) {
   max-width: var(--max-width-site);
   margin: auto;
-  padding: 0 var(--spacing-s);
 }
 
 /* Section metadata: background image sits behind content */
@@ -636,7 +636,6 @@ main > .section.divider > div:last-child { /* @libs */
 main > .section > div { /* @libs */
   max-width: 540px; /* @libs */
   margin: auto; /* @libs */
-  padding: 0 15px; /* @libs */
 }
 
 main .section.accent > div { /* @libs */
@@ -808,6 +807,19 @@ main .section.accent h6 {
 }
 
 @media (width >= 768px) {
+  h1 {
+    font-size:50px;
+    line-height: 60px;
+    margin: 0;
+    padding: 50px 0;
+  }
+  
+  h2 {
+   font-size: 30px;
+   line-height: 36px;
+   margin: 0;
+  }
+
   main p.img-pair-mobile {
     display: none;
   }
@@ -819,8 +831,11 @@ main .section.accent h6 {
   main .section.reminders > div {
     width: 83.3333%;
   }
-}
 
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper,.cards-cta-wrapper) {
+    padding: 0 11%;
+}
+}
 
 @media (width >= 900px) {
   :root {
@@ -848,7 +863,6 @@ main .section.accent h6 {
     main .section.stats-callout {
       padding: var(--section-padding-vertical) 0;
     }
-
   
     main .section.stats-callout > div:not(.bg-image) {
       max-width: 720px;
@@ -866,12 +880,8 @@ main .section.accent h6 {
 
 main > .section > div { /* @libs */
   max-width: var(--max-width-site); /* @libs */
-  padding: 0 32px; /* @libs */
 }
 
-main > .section > div:not(.bg-image) {
-  padding: 0 var(--spacing-l);
-}
 
 main .section.stats-callout > div:not(.bg-image) {
   max-width: 960px;

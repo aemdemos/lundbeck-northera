@@ -107,7 +107,7 @@ main > .section > div:has(.cards-cta) {
   text-decoration: none;
 }
 
-@media (width >= 900px) {
+@media (width > 768px) {
   .cards-cta > ul {
     padding: var(--cards-cta-padding-desktop);
   }
@@ -118,6 +118,11 @@ main > .section > div:has(.cards-cta) {
     column-gap: 90px;
   }
 
+  .cards-cta .cards-card-body {
+    margin:0;
+    padding: 0 17% 0 25px;
+  }
+
   .cards-cta .cards-card-body h3 {
     line-height: var(--cards-cta-title-line-height-desktop);
   }
@@ -125,4 +130,10 @@ main > .section > div:has(.cards-cta) {
   .cards-cta .cards-card-body a {
     width: var(--cards-cta-button-width-desktop);
   }
+}
+
+@media (width > 992px) {
+ .cards-cta .cards-card-body {
+  padding: 0 17% 0 116px;
+ }
 }
