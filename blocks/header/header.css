@@ -156,6 +156,7 @@ header .nav-dropdown-toggle {
   background: none;
   cursor: pointer;
   position: relative;
+  box-shadow: none;
 }
 
 header .nav-dropdown-toggle::after {
