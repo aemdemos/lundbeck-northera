@@ -243,9 +243,3 @@ footer .footer .columns-container .columns > div > :nth-child(2) > p:has(img):la
     margin-top: var(--footer-social-row-margin-top); /* @boilerplate */
   } /* @boilerplate */
 } /* @boilerplate */
-
-@media (width > 1200px) {
-  footer .footer {
-    width: 83.33%;
-  }
-}
