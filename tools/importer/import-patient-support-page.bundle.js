@@ -1,8 +1,26 @@
+/* eslint-disable */
 var CustomImportScript = (() => {
   var __defProp = Object.defineProperty;
+  var __defProps = Object.defineProperties;
   var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
   var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+  var __spreadValues = (a, b) => {
+    for (var prop in b || (b = {}))
+      if (__hasOwnProp.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    if (__getOwnPropSymbols)
+      for (var prop of __getOwnPropSymbols(b)) {
+        if (__propIsEnum.call(b, prop))
+          __defNormalProp(a, prop, b[prop]);
+      }
+    return a;
+  };
+  var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
   var __export = (target, all) => {
     for (var name in all)
       __defProp(target, name, { get: all[name], enumerable: true });
@@ -23,6 +41,36 @@ var CustomImportScript = (() => {
     default: () => import_patient_support_page_default
   });
 
+  // tools/importer/parsers/columns.js
+  function parse(element, { document }) {
+    const image = element.querySelector(".cmp-image img, img.cmp-image__image, img");
+    const textContainer = element.querySelector(".cmp-text") || element.querySelector(".text");
+    const textCell = [];
+    if (textContainer) {
+      [...textContainer.children].forEach((child) => {
+        if (child.textContent.trim() || child.querySelector("img, a")) {
+          textCell.push(child);
+        }
+      });
+    }
+    if (!textCell.length) {
+      [...element.querySelectorAll("p, ul")].forEach((el) => {
+        if (!el.closest(".cmp-image") && (el.textContent.trim() || el.querySelector("a"))) {
+          textCell.push(el);
+        }
+      });
+    }
+    if (!image && !textCell.length) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const cells = [
+      [image || "", textCell.length ? textCell : ""]
+    ];
+    const block = WebImporter.Blocks.createBlock(document, { name: "columns", cells });
+    element.replaceWith(block);
+  }
+
   // tools/importer/parsers/cards-resource.js
   function normalizeHref(raw) {
     if (!raw) return "";
@@ -38,7 +86,7 @@ var CustomImportScript = (() => {
       return raw;
     }
   }
-  function parse(element, { document }) {
+  function parse2(element, { document }) {
     const container = element.closest(".cmp-layout__patientsupport") || element.parentElement;
     if (container.querySelector("table")) {
       element.replaceWith(document.createTextNode(""));
@@ -100,7 +148,7 @@ var CustomImportScript = (() => {
       return raw;
     }
   }
-  function parse2(element, { document }) {
+  function parse3(element, { document }) {
     const container = element.closest(".cmp-layout-quicklinks") || element.parentElement;
     if (container.querySelector("table")) {
       element.replaceWith(document.createTextNode(""));
@@ -143,7 +191,7 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/isi.js
-  function parse3(element, { document }) {
+  function parse4(element, { document }) {
     const abbreviatedCell = [];
     const barWrap = document.querySelector(".isi-mobile-wrap");
     const barFragment = barWrap ? barWrap.querySelector(".cq-dd-fragment") || barWrap : null;
@@ -272,6 +320,12 @@ var CustomImportScript = (() => {
     ],
     blocks: [
       {
+        name: "columns",
+        instances: [
+          ".patient-support-droxidopa"
+        ]
+      },
+      {
         name: "cards-resource",
         instances: [
           ".cmp-layout__patientsupport .cmp-imagetext__link"
@@ -287,28 +341,28 @@ var CustomImportScript = (() => {
       {
         name: "isi",
         instances: [
-          "div.responsivegrid.cmp-layout-isi__phone .experiencefragment",
-          "div.cmp-isi__use"
+          "div.responsivegrid.cmp-layout-isi__phone .experiencefragment"
         ]
       }
     ],
     sections: [
-      { id: "ps-resources", name: "Resources created with you in mind (intro + resource cards)", selector: ".cmp-layout__patientsupport", style: null, blocks: ["cards-resource"], defaultContent: [] },
+      { id: "ps-resources", name: "Resources created with you in mind (intro + resource cards)", selector: ".cmp-layout__patientsupport", style: null, blocks: ["columns", "cards-resource"], defaultContent: [] },
       { id: "ps-stories", name: "Real patient stories", selector: ".cmp-layout-quicklinks", style: null, blocks: ["cards-cta"], defaultContent: [] },
       { id: "ps-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["isi"], defaultContent: [] }
     ]
   };
   var parsers = {
-    "cards-resource": parse,
-    "cards-cta": parse2,
-    isi: parse3
+    columns: parse,
+    "cards-resource": parse2,
+    "cards-cta": parse3,
+    isi: parse4
   };
   var transformers = [
     transform,
     ...PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [transform2] : []
   ];
   function executeTransformers(hookName, element, payload) {
-    const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
+    const enhancedPayload = __spreadProps(__spreadValues({}, payload), { template: PAGE_TEMPLATE });
     transformers.forEach((transformerFn) => {
       try {
         transformerFn.call(null, hookName, element, enhancedPayload);
