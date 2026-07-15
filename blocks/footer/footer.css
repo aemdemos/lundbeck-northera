@@ -28,7 +28,11 @@ footer { /* @boilerplate */
   color: var(--footer-text-color); /* @boilerplate */
   font-family: var(--footer-font-family); /* @boilerplate */
   font-size: var(--footer-font-size); /* @boilerplate */
-} /* @boilerplate */
+  margin-left: auto;
+    margin-right: auto;
+    display: block;
+    max-width: var(--footer-max-width);
+} 
 
 footer .footer p { /* @boilerplate */
   margin: 0; /* @boilerplate */
