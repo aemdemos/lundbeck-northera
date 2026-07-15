@@ -5,7 +5,7 @@
   --cards-cta-bg-image: url("/icons/blue-teaser-bg-desktop.png");
   --cards-cta-bg-color: var(--brand-blue);
   --cards-cta-padding: 50px 30px;
-  --cards-cta-padding-desktop: 50px 25px;
+  --cards-cta-padding-desktop: 40px 25px;
   --cards-cta-margin-bottom: 20px;
 
   /* hover (source): the teal banner flips to a solid light-blue fill and the

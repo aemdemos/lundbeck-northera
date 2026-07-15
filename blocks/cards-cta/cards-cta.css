@@ -109,7 +109,7 @@ main > .section > div:has(.cards-cta) {
   background-image: none;
 }
 
-.cards-cta > ul > li:hover .cards-card-body h3,
+.cards-cta > ul > li:hover .cards-card-body h3,.cards-cta > ul > li:hover .cards-card-body h2,
 .cards-cta > ul > li:hover .cards-card-body p {
   color: var(--cards-cta-hover-text-color);
 }
@@ -173,19 +173,20 @@ main > .section > div:has(.cards-cta) {
   padding: 0 25px;
 }
 
-.cards-cta.centered .cards-card-body h3 {
+.cards-cta.centered .cards-card-body h2 {
   font-family: var(--cards-cta-centered-title-font-family);
   font-size: var(--cards-cta-centered-title-size);
   line-height: var(--cards-cta-centered-title-line-height);
   text-align: center;
-  padding: 10px 0 15px;
+  padding: 0 0 15px;
+    color: var(--cards-cta-title-color);
 }
 
 .cards-cta.centered .cards-card-body p {
   text-align: center;
   font-size: var(--cards-cta-centered-desc-size);
   line-height: var(--cards-cta-centered-desc-line-height);
-  padding-bottom: 30px;
+  padding-bottom: 20px;
 }
 
 /* auto-width centered CTA (source button hugs its label: padding 20px 55px) */
@@ -206,12 +207,12 @@ main > .section > div:has(.cards-cta) {
   }
 }
 
-@media (width > 992px) {
+@media (width > 768px) {
   .cards-cta.centered .cards-card-body {
     padding: 0 25px;
   }
 
-  .cards-cta.centered .cards-card-body h3 {
+  .cards-cta.centered .cards-card-body h2 {
     font-size: var(--cards-cta-centered-title-size-desktop);
     line-height: var(--cards-cta-centered-title-line-height-desktop);
   }
