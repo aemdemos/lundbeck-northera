@@ -284,22 +284,18 @@ function syncRailHeight() {
     return;
   }
 
-  const main = railSection.closest('main');
-  const contentSections = [...main.children].filter(
-    (s) => s.classList.contains('section') && !s.classList.contains('isi-container'),
-  );
-  if (!contentSections.length) return;
+  // Source parity: the rail's Important-Safety block runs from its own top all
+  // the way to the BOTTOM OF THE PAGE — past the content column and alongside
+  // the footer (measured on source: rail bottom = document bottom, below the
+  // footer). So its height = footer bottom (or document bottom) − its own top.
+  // The long ISI text scrolls internally within that tall box.
+  const footer = document.querySelector('footer');
+  const importantTopVp = important.getBoundingClientRect().top + window.scrollY;
+  const footerBottomVp = footer
+    ? footer.getBoundingClientRect().bottom + window.scrollY
+    : document.documentElement.scrollHeight;
 
-  // bottom of the content column, relative to main's top
-  const mainTop = main.getBoundingClientRect().top;
-  const contentBottom = Math.max(
-    ...contentSections.map((s) => s.getBoundingClientRect().bottom),
-  ) - mainTop;
-
-  // top of the important block, relative to main's top
-  const importantTop = important.getBoundingClientRect().top - mainTop;
-
-  const target = Math.round(contentBottom - importantTop);
+  const target = Math.round(footerBottomVp - importantTopVp);
   if (target > 120) important.style.height = `${target}px`;
 }
 
@@ -336,22 +332,26 @@ export default function decorate(block) {
   /* Hide the bar once the in-flow ISI section scrolls into view (source behavior) */
   observeSectionVisibility(block);
 
-  /* Size the desktop rail so the Important Safety block scrolls internally
-     (only wire the listeners once, on the important block). */
+  /* Size the desktop rail so the Important Safety block scrolls internally and
+     its bottom reaches the page/footer bottom (source parity). Wire listeners
+     once, on the important block. */
   if (variant === 'important') {
     scheduleRailSync();
     window.addEventListener('resize', scheduleRailSync);
     window.addEventListener('load', scheduleRailSync);
     DESKTOP_RAIL_MQ.addEventListener('change', scheduleRailSync);
-    // content images/fonts can change the content column height after decorate
+    // content/footer images + fonts can change page height after decorate;
+    // re-sync whenever the content sections or footer resize.
     if (window.ResizeObserver) {
+      const ro = new ResizeObserver(scheduleRailSync);
       const main = block.closest('main');
       if (main) {
-        const ro = new ResizeObserver(scheduleRailSync);
         [...main.children]
           .filter((s) => s.classList.contains('section') && !s.classList.contains('isi-container'))
           .forEach((s) => ro.observe(s));
       }
+      const footer = document.querySelector('footer');
+      if (footer) ro.observe(footer);
     }
   }
 }
