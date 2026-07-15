@@ -472,7 +472,7 @@ header .nav-utility-links a {
     padding: 0 var(--spacing-l, 32px);
     align-items: center;
     height: var(--header-main-height);
-    gap: 24px;
+    gap: 40px;
     flex-wrap: nowrap;
   }
 
@@ -624,6 +624,7 @@ header .nav-utility-links a {
 
   header .nav-search-toggle {
     height: var(--header-main-height);
+    margin: 0 27px;
   }
 
   header .nav-search-panel {
@@ -639,5 +640,12 @@ header .nav-utility-links a {
   header .nav-hamburger,
   header .nav-dropdown-toggle {
     display: none;
+  }
+}
+
+@media (width > 1400px) {
+  header .nav-main-inner {
+    padding: 0 var(--header-side-padding-xl);
+    gap: 50px;
   }
 }
