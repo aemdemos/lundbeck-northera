@@ -259,6 +259,60 @@ function setupDesktopExpandToggle(block, variant) {
   });
 }
 
+const DESKTOP_RAIL_MQ = window.matchMedia('(min-width: 1200px)');
+
+/**
+ * At ≥1200px the ISI is a right rail. The "Important Safety" block must have a
+ * FIXED height so its long text scrolls internally (overflow-y:scroll) instead
+ * of growing to full content height. The source computes this height so the
+ * rail bottom aligns with the left content column; we reproduce that by sizing
+ * the important block to fill from its own top down to the content column's
+ * bottom. Runs on load, on resize, and when content height changes.
+ */
+function syncRailHeight() {
+  const railSection = document.querySelector('main > .section.isi-container');
+  if (!railSection) return;
+
+  const important = railSection.querySelector('.isi.isi-important');
+  if (!important) return;
+
+  // reset before measuring so a prior fixed height doesn't skew the read
+  important.style.height = '';
+
+  // in the expanded overlay the block scrolls the whole viewport; skip sizing
+  if (!DESKTOP_RAIL_MQ.matches || railSection.classList.contains('isi-desktop-expanded')) {
+    return;
+  }
+
+  const main = railSection.closest('main');
+  const contentSections = [...main.children].filter(
+    (s) => s.classList.contains('section') && !s.classList.contains('isi-container'),
+  );
+  if (!contentSections.length) return;
+
+  // bottom of the content column, relative to main's top
+  const mainTop = main.getBoundingClientRect().top;
+  const contentBottom = Math.max(
+    ...contentSections.map((s) => s.getBoundingClientRect().bottom),
+  ) - mainTop;
+
+  // top of the important block, relative to main's top
+  const importantTop = important.getBoundingClientRect().top - mainTop;
+
+  const target = Math.round(contentBottom - importantTop);
+  if (target > 120) important.style.height = `${target}px`;
+}
+
+let railSyncScheduled = false;
+function scheduleRailSync() {
+  if (railSyncScheduled) return;
+  railSyncScheduled = true;
+  requestAnimationFrame(() => {
+    railSyncScheduled = false;
+    syncRailHeight();
+  });
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length === 0) return;
@@ -281,4 +335,23 @@ export default function decorate(block) {
 
   /* Hide the bar once the in-flow ISI section scrolls into view (source behavior) */
   observeSectionVisibility(block);
+
+  /* Size the desktop rail so the Important Safety block scrolls internally
+     (only wire the listeners once, on the important block). */
+  if (variant === 'important') {
+    scheduleRailSync();
+    window.addEventListener('resize', scheduleRailSync);
+    window.addEventListener('load', scheduleRailSync);
+    DESKTOP_RAIL_MQ.addEventListener('change', scheduleRailSync);
+    // content images/fonts can change the content column height after decorate
+    if (window.ResizeObserver) {
+      const main = block.closest('main');
+      if (main) {
+        const ro = new ResizeObserver(scheduleRailSync);
+        [...main.children]
+          .filter((s) => s.classList.contains('section') && !s.classList.contains('isi-container'))
+          .forEach((s) => ro.observe(s));
+      }
+    }
+  }
 }
