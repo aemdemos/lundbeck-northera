@@ -6,6 +6,13 @@
 import { DOMPURIFY } from '../../scripts/aem.js';
 import { getYoutubeEmbedHtml, getVimeoEmbedHtml } from '../../scripts/utils.js';
 
+// the shared DOMPURIFY profile strips <iframe>; embeds (Brightcove, etc.) need it
+const EMBED_DOMPURIFY = {
+  ...DOMPURIFY,
+  ADD_TAGS: ['iframe'],
+  ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'],
+};
+
 const loadScript = (url, callback, type) => {
   const head = document.querySelector('head');
   const script = document.createElement('script');
@@ -57,12 +64,12 @@ const loadEmbed = (block, link, autoplay) => {
   const url = new URL(link);
   if (config) {
     const embedHtml = config.embed(url, autoplay);
-    block.innerHTML = (window.DOMPurify?.sanitize(embedHtml, DOMPURIFY))
+    block.innerHTML = (window.DOMPurify?.sanitize(embedHtml, EMBED_DOMPURIFY))
       ?? embedHtml;
     block.classList = `block embed embed-${config.match[0]}`;
   } else {
     const defaultHtml = getDefaultEmbed(url);
-    block.innerHTML = (window.DOMPurify?.sanitize(defaultHtml, DOMPURIFY))
+    block.innerHTML = (window.DOMPurify?.sanitize(defaultHtml, EMBED_DOMPURIFY))
       ?? defaultHtml;
     block.classList = 'block embed';
   }
