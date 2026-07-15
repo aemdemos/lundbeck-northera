@@ -505,10 +505,7 @@ header .nav-utility-links a {
      Each item is a fixed-height (= main bar) flex box that vertically centers
      its label, so the row height stays constant regardless of how many lines
      the label wraps to (guards against font-width differences). */
-  /* each item is a fixed-height (= main bar) flex cell that vertically centers
-     its label — so the row height stays constant no matter how many lines the
-     label wraps to (guards against font-width differences vs the source). */
-     
+
   header .nav-link-item {
     display: flex;
     align-items: center;
