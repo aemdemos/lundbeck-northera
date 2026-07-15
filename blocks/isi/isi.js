@@ -23,6 +23,36 @@
 
 const BAR_ID = 'isi-bar';
 
+/**
+ * The source always shows a short "Please see Important Safety Information…"
+ * blurb in the main content column, centered, just above the footer — separate
+ * from the ISI bar/rail apparatus. Both authored ISI blocks carry this row, so
+ * we keep ONE and drop the rest, relocating it into the content flow so it sits
+ * in the left content column at every breakpoint (source parity).
+ * @param {HTMLElement} abbreviatedRow the block's first (abbreviated) row
+ */
+let pleaseSeePlaced = false;
+function placePleaseSee(abbreviatedRow) {
+  if (!abbreviatedRow) return;
+
+  const main = abbreviatedRow.closest('main');
+  if (!main || pleaseSeePlaced) {
+    abbreviatedRow.remove();
+    return;
+  }
+  pleaseSeePlaced = true;
+
+  const cell = abbreviatedRow.firstElementChild || abbreviatedRow;
+  const section = document.createElement('div');
+  section.className = 'section isi-please-see-section';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'isi-please-see';
+  [...cell.children].forEach((child) => wrapper.append(child));
+  section.append(wrapper);
+  main.append(section);
+  abbreviatedRow.remove();
+}
+
 function getOrCreateBar() {
   let bar = document.getElementById(BAR_ID);
   if (bar) return bar;
@@ -314,11 +344,14 @@ export default function decorate(block) {
   if (rows.length === 0) return;
 
   const [abbreviatedRow, inlineRow] = rows;
-  if (abbreviatedRow) abbreviatedRow.classList.add('isi-abbr');
   if (inlineRow) inlineRow.classList.add('isi-full');
   const contentRow = inlineRow || abbreviatedRow;
 
   const { variant, label } = resolveVariant(block, contentRow);
+
+  // Relocate the abbreviated "Please see…" row into the content flow above the
+  // footer (source parity). Only the first is kept; extras are removed.
+  if (inlineRow && abbreviatedRow) placePleaseSee(abbreviatedRow);
   wrapWarningBox(contentRow);
 
   /* Build the fixed bottom bar section for this block */
