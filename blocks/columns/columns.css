@@ -22,6 +22,14 @@
    block: brand-blue 18px lead paragraph, 14px disc list + body/disclaimer.
    Mobile-first: icon stacked above the text (base .columns behavior);
    side-by-side from 768px (source Bootstrap breakpoint) — see media query. */
+/* the block carries a light cyan tint (source: applied on the block itself,
+   NOT the section — the H1 above it stays untinted). */
+main .columns.icon-text {
+  background-color: var(--columns-icon-text-bg);
+  padding: var(--columns-icon-text-pad-block) var(--columns-icon-text-pad-inline);
+  margin-bottom: var(--columns-icon-text-margin-bottom);
+}
+
 /* mobile-first (source ≤767px): icon stacked on top, centered, with 20px below;
    text below with 20px above. Left-aligned text. */
 main .columns.icon-text > div > .columns-img-col {
