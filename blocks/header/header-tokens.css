@@ -19,7 +19,9 @@
   --header-util-link-size: 17px;
   --header-util-link-weight: 400;
   --header-util-divider-color: #fff;
-  --header-util-gap: 20px;
+  --header-util-gap: 23px;
+  --header-util-last-inset: 84px;
+  --header-util-link-line: 20px;
 
   /* main nav (row 1) */
   --header-nav-link-color: #fff;
@@ -29,14 +31,16 @@
   --header-nav-link-gap: 36px;
   --header-logo-width: 177px;
 
-  /* dropdown panel */
+  /* dropdown panel — source: every panel is a uniform 339px wide, items are
+     padded 15px 25px and separated by a 1px white divider (source
+     `.multilinks ul li border-bottom:1px solid #fff`). */
   --header-dropdown-bg: #e8ecf0;
-  --header-dropdown-width: 245px;
+  --header-dropdown-width: 339px;
   --header-dropdown-link-color: var(--brand-blue, #245778);
   --header-dropdown-link-size: 16px;
   --header-dropdown-link-font: var(--body-font-family);
-  --header-dropdown-item-padding: 14px 20px;
-  --header-dropdown-divider: 1px solid #d5dde3;
+  --header-dropdown-item-padding: 15px 25px;
+  --header-dropdown-divider: 1px solid #fff;
   --header-dropdown-hover-bg: var(--brand-blue, #245778);
   --header-dropdown-hover-color: #fff;
   --header-dropdown-chevron-color: var(--brand-blue, #245778);

@@ -17,9 +17,8 @@ header {
 header .nav-wrapper {
   background: var(--header-gradient);
   width: 100%;
-  max-width: var(--max-width-site);
-  margin-left: auto;
-  margin-right: auto;
+  max-width: var(--header-max-width);
+  margin: 0 auto;
 }
 
 /* remove list bullets throughout the header */
@@ -145,6 +144,7 @@ header .nav-link-item > a {
   line-height: 1.3;
   padding: var(--header-mobile-item-padding);
   display: block;
+  background: var(--background-color);
 }
 
 /* chevron toggle button — right-pointing arrow, rotates down when open */
@@ -156,6 +156,7 @@ header .nav-dropdown-toggle {
   background: none;
   cursor: pointer;
   position: relative;
+  box-shadow: none;
 }
 
 header .nav-dropdown-toggle::after {
@@ -416,42 +417,59 @@ header .nav-utility-links a {
    bar. Utility bar right-aligned; nav links inline with hover dropdowns.
    ══════════════════════════════════════════════════════════════ */
 @media (width > 1200px) {
-  /* utility bar: right-aligned, 41px, 17px links with dividers */
+  /* utility bar: right-aligned, 41px, 17px links with dividers.
+     box-sizing:border-box + 32px inset so the content aligns exactly with the
+     page's <main> (which is a true 1680px-wide centered box). */
   header .nav-utility-inner {
-    max-width: var(--header-max-width);
+    box-sizing: border-box;
     margin: 0 auto;
-    padding: 0 var(--header-side-padding);
     justify-content: flex-end;
-    
   }
 
   header .nav-utility-links {
     flex: 0 0 auto;
     height: var(--header-utility-height);
+    align-items: center;
   }
 
+  /* source: each item is inline-block with 23px side padding + a white
+     right-border divider; margin 10px 0 keeps the 20px text vertically
+     centered in the 41px bar. The desktop divider lives on the item, not on
+     li + li, so reset the mobile left-border rule here. */
   header .nav-utility-links > li {
     flex: 0 0 auto;
     text-align: left;
+    margin: 10px 0;
+    padding: 0 var(--header-util-gap);
+    border-left: 0;
+    border-right: 1px solid var(--header-util-divider-color);
+  }
+
+  header .nav-utility-links > li:first-child {
+    padding-left: 0;
+  }
+
+  /* source last item: no divider, no right padding, pushed 84px off the edge */
+  header .nav-utility-links > li:last-child {
+    border-right: 0;
+    padding-right: 0;
+    margin-right: var(--header-util-last-inset);
   }
 
   header .nav-utility-links a {
     width: auto;
-    padding: 0 var(--header-util-gap);
+    padding: 0;
     font-size: var(--header-util-link-size);
-    line-height: var(--header-utility-height);
+    line-height: var(--header-util-link-line);
     white-space: nowrap;
   }
 
-  header .nav-utility-links a:last-child {
-    margin-right: 10px;
-  }
-
-  /* main bar: horizontal row */
+  /* main bar: horizontal row — same 1680px border-box + 32px inset as <main> */
   header .nav-main-inner {
+    box-sizing: border-box;
     max-width: var(--header-max-width);
     margin: 0 auto;
-    padding: 0 var(--header-side-padding);
+    padding: 0 var(--spacing-l, 32px);
     align-items: center;
     height: var(--header-main-height);
     gap: 40px;
@@ -460,11 +478,11 @@ header .nav-utility-links a {
 
   header .nav-brand img {
     width: var(--header-logo-width);
-    margin:0;
-    margin-bottom:40px;
+    margin: 0 0 48px;
   }
 
-  /* nav links: fill the space between logo and search, items spread evenly */
+  /* nav links: clustered left next to the logo (source: each item has a 30px
+     left margin, no space-between); search stays pushed to the right */
   header .nav-links {
     order: 0;
     flex: 1;
@@ -476,13 +494,25 @@ header .nav-utility-links a {
   header .nav-links-list {
     flex-direction: row;
     align-items: stretch;
+    height: var(--header-main-height);
+    gap: 0;
+    display: flex;
     justify-content: space-between;
   }
 
+  /* source applies margin-left:30px to EVERY item, including the first (the
+     first item's 30px is the gap after the logo/nav container).
+     Each item is a fixed-height (= main bar) flex box that vertically centers
+     its label, so the row height stays constant regardless of how many lines
+     the label wraps to (guards against font-width differences). */
+
   header .nav-link-item {
     display: flex;
+    align-items: center;
+    justify-content: center;
     flex: 0 0 auto;
-    flex-wrap: nowrap;
+    height: var(--header-main-height);
+    margin-left: 30px;
     border-bottom: 0;
     text-align: center;
   }
@@ -493,42 +523,43 @@ header .nav-utility-links a {
   header .nav-link-item:nth-of-type(3) { width: 165px; }
   header .nav-link-item:nth-of-type(4) { width: 158px; }
 
+  /* plain block link so text + the inline caret glyph flow after the last
+     word; the parent li handles vertical centering. */
   header .nav-link-item > a {
-    flex: 1;
+    box-sizing: border-box;
+    width: 100%;
+    display: block;
     color: var(--header-nav-link-color);
     font-size: var(--header-nav-link-size);
     font-weight: var(--header-nav-link-weight);
     line-height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     white-space: normal;
     text-align: center;
-    padding: 27px 9px;
-    height: 48px;
+    padding: 0 9px;
+    background: none;
   }
 
-  /* hover: nav item gets the same gray as the dropdown panel (source #e8ecf0) */
-  header .nav-link-item.has-dropdown:hover > a {
+  /* hover: the whole item cell fills with the dropdown gray (source #e8ecf0),
+     so the highlight spans the full main-bar height, not just the text box */
+  header .nav-link-item.has-dropdown:hover {
     background: var(--header-dropdown-bg);
+  }
+
+  header .nav-link-item.has-dropdown:hover > a {
     color: var(--header-dropdown-link-color);
   }
 
-  header .nav-link-item.has-dropdown:hover > a::after {
-    border-top-color: var(--header-dropdown-link-color);
-  }
-
-  /* dropdown caret */
+  /* dropdown caret — inline chevron glyph that flows right after the label
+     text (matches source: a small ▾ appended after the last word). */
   header .nav-link-item.has-dropdown > a::after {
-    content: '';
-    display: inline-block;
-    width: 0;
-    height: 0;
-    margin-left: 8px;
-    vertical-align: middle;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid var(--header-nav-link-color);
+    content: '\25BE';
+    display: inline;
+    margin: 0;
+    padding-left: 5px;
+    font-size: 10px;
+    line-height: 22px;
+    vertical-align: baseline;
+    border: 0;
   }
 
   /* dropdown panel: absolute, gray, flush under the item (no gap), opens on
@@ -544,22 +575,15 @@ header .nav-utility-links a {
     z-index: 99;
   }
 
-  /* per-panel widths — match the source dropdown widths (measured):
-     Patient Support 339px, About NORTHERA 245px, For HCP 258px */
-  header .nav-link-item.has-dropdown:nth-of-type(1) .nav-dropdown {
-    width: 339px;
-  }
-
-  header .nav-link-item.has-dropdown:nth-of-type(3) .nav-dropdown {
-    width: 245px;
-  }
-
-  header .nav-link-item.has-dropdown:nth-of-type(4) .nav-dropdown {
-    width: 258px;
-  }
-
+  /* source: every dropdown panel is a uniform 339px wide (measured on the
+     live source — Patient Support / About NORTHERA / For HCP all 339px). */
   header .nav-link-item.has-dropdown:hover .nav-dropdown {
     display: block;
+  }
+
+  /* source: 1px white divider between dropdown items */
+  header .nav-dropdown > li + li {
+    border-top: var(--header-dropdown-divider);
   }
 
   header .nav-dropdown a {
@@ -590,8 +614,8 @@ header .nav-utility-links a {
   header .nav-search {
     order: 0;
     align-self: center;
-    margin-left: 0;
-    margin-right: 15px;
+    margin: 0;
+    margin-left:27px;
   }
 
   header .nav-search-toggle {
