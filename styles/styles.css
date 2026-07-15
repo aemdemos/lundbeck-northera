@@ -585,8 +585,6 @@ main .icon.icon-bullet { /* @libs */
 main > .section { /* @libs */
   margin-right: auto;
   margin-left: auto;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 main > .section > div:not(.bg-image) {
