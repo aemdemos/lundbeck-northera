@@ -36,7 +36,8 @@ function placePleaseSee(abbreviatedRow) {
   if (!abbreviatedRow) return;
 
   const main = abbreviatedRow.closest('main');
-  if (!main || pleaseSeePlaced) {
+  const isiSection = abbreviatedRow.closest('.section');
+  if (!main || !isiSection || pleaseSeePlaced) {
     abbreviatedRow.remove();
     return;
   }
@@ -49,7 +50,10 @@ function placePleaseSee(abbreviatedRow) {
   wrapper.className = 'isi-please-see';
   [...cell.children].forEach((child) => wrapper.append(child));
   section.append(wrapper);
-  main.append(section);
+  // Source order: the blurb sits right before the ISI section (after cards-cta).
+  // At ≥1200px the ISI section becomes an out-of-flow right rail, so the blurb
+  // remains the last in-flow content — just above the footer, matching source.
+  isiSection.before(section);
   abbreviatedRow.remove();
 }
 
