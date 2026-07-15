@@ -1,11 +1,79 @@
-/* embed design tokens */
+/* embed design tokens + block-scoped design overrides
+ * Source: northera-stage how-northera-works Brightcove video
+ *   (.cmp-video_bglightblue = light-blue backdrop #ccd3dd,
+ *    .cmp-videobutton__center = centered white-ring play button, transparent centre).
+ *   Poster is a 16:9 (1280x719) thumbnail.
+ *
+ * This file is imported by embed.css. To keep embed.css/embed.js untouched, the
+ * design rules live here; selectors are prefixed with `main` so they win over the
+ * boilerplate rules in embed.css (imported earlier in the cascade).
+ *
+ * NOTE: the video actually PLAYING (Brightcove <iframe>) is a JS concern in
+ * embed.js and cannot be fixed from CSS/tokens.
+ */
 :root { /* @boilerplate */
   --embed-max-width: 800px; /* @boilerplate */
   --embed-margin: var(--spacing-l) auto; /* @boilerplate */
   --embed-placeholder-aspect-ratio: 16 / 9; /* @boilerplate */
-  --embed-placeholder-play-size: 22px; /* @boilerplate */
-  --embed-placeholder-play-border-width: 2px; /* @boilerplate */
-  --embed-placeholder-play-border-radius: 20px; /* @boilerplate */
-  --embed-placeholder-play-triangle-width: 6px; /* @boilerplate */
-  --embed-placeholder-play-triangle-height: 10px; /* @boilerplate */
+
+  /* light-blue backdrop behind the poster (source .cmp-video_bglightblue) */
+  --embed-background: #ccd3dd;
+
+  /* centered circular play button: thin white ring, transparent centre, white triangle */
+  --embed-placeholder-play-size: 72px;
+  --embed-placeholder-play-background: transparent;
+  --embed-placeholder-play-color: #fff;
+  --embed-placeholder-play-border-width: 3px; /* @boilerplate */
+  --embed-placeholder-play-border-radius: 50%; /* @boilerplate */
+  --embed-placeholder-play-triangle-width: 20px; /* @boilerplate */
+  --embed-placeholder-play-triangle-height: 22px; /* @boilerplate */
+}
+
+/* light-blue backdrop behind the poster */
+main .embed .embed-placeholder {
+  background-color: var(--embed-background);
+}
+
+/* transparent white ring play button (overrides boilerplate + global button styles) */
+main .embed .embed-placeholder-play button,
+main .embed .embed-placeholder-play button:hover,
+main .embed .embed-placeholder-play button:focus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: none;
+  width: var(--embed-placeholder-play-size);
+  height: var(--embed-placeholder-play-size);
+  background-color: var(--embed-placeholder-play-background);
+  color: var(--embed-placeholder-play-color);
+  border-color: var(--embed-placeholder-play-color);
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+/* centered white triangle (overrides boilerplate ::before absolute offsets) */
+main .embed .embed-placeholder-play button::before {
+  position: static;
+  width: 0;
+  height: 0;
+  margin-left: 15%;
+  border-top: calc(var(--embed-placeholder-play-triangle-height) / 2) solid transparent;
+  border-bottom: calc(var(--embed-placeholder-play-triangle-height) / 2) solid transparent;
+  border-left: var(--embed-placeholder-play-triangle-width) solid currentcolor;
+}
+
+/* played video: keep the 16:9 frame the poster had (applies once embed.js
+   is allowed to inject the iframe) */
+main .embed .iframe-wrapper {
+  width: 100%;
+  aspect-ratio: var(--embed-placeholder-aspect-ratio);
+  position: relative;
+}
+
+main .embed .iframe-wrapper iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
