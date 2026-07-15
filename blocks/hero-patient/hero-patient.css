@@ -5,8 +5,13 @@
   padding: 0;
 }
 
+/* Full-bleed patient photo behind; content (lead + CTA) overlaid lower-left,
+   matching the source homepage hero. */
 .hero-patient {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   padding: var(--hero-patient-padding);
   min-height: var(--hero-patient-min-height);
 }
@@ -18,11 +23,16 @@
   color: var(--background-color);
 }
 
-.hero-patient picture {
+/* the background image row (the cell that holds the picture) */
+.hero-patient > div:has(picture) {
   position: absolute;
   z-index: -1;
   inset: 0;
-  object-fit: cover;
+}
+
+.hero-patient picture {
+  position: absolute;
+  inset: 0;
   box-sizing: border-box;
 }
 
@@ -32,8 +42,55 @@
   height: 100%;
 }
 
+/* content row (lead line + CTA), overlaid on the lower-left of the image */
+.hero-patient > div:has(a) {
+  position: relative;
+  z-index: 1;
+  max-width: var(--hero-patient-content-max-width);
+}
+
+/* survey lead line (source: brand-blue Gotham-Bold 18px/30px) */
+.hero-patient > div:has(a) p:not(:has(a)) {
+  margin: 0 0 var(--hero-patient-lead-gap);
+  color: var(--hero-patient-lead-color);
+  font-family: var(--hero-patient-lead-font-family);
+  font-size: var(--hero-patient-lead-size);
+  line-height: var(--hero-patient-lead-line-height);
+}
+
+/* CTA button (source: cyan bg, dark-blue text, 5-step offset shadow) */
+.hero-patient > div:has(a) p:has(a) {
+  margin: 0;
+}
+
+.hero-patient a {
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: var(--hero-patient-button-background);
+  color: var(--hero-patient-button-color);
+  font-family: var(--hero-patient-button-font-family);
+  font-size: var(--hero-patient-button-font-size);
+  line-height: var(--button-line-height, 1.2);
+  padding: var(--hero-patient-button-padding);
+  text-align: center;
+  border: 0;
+  border-radius: 0;
+  box-shadow: var(--hero-patient-button-shadow);
+  text-decoration: none;
+  transition: box-shadow var(--button-transition, 0.2s ease-in-out);
+}
+
+.hero-patient a:hover,
+.hero-patient a:focus {
+  background-color: var(--hero-patient-button-hover-background);
+  color: var(--hero-patient-button-hover-color);
+  box-shadow: var(--hero-patient-button-hover-shadow);
+  text-decoration: none;
+}
+
 @media (width >= 900px) {
   .hero-patient {
     padding: var(--hero-patient-padding-desktop);
+    min-height: var(--hero-patient-min-height-desktop);
   }
 }
