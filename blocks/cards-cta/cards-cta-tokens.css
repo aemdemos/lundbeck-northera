@@ -5,7 +5,7 @@
   --cards-cta-bg-image: url("/icons/blue-teaser-bg-desktop.png");
   --cards-cta-bg-color: var(--brand-blue);
   --cards-cta-padding: 50px 30px;
-  --cards-cta-padding-desktop: 50px 25px;
+  --cards-cta-padding-desktop: 40px 25px;
   --cards-cta-margin-bottom: 20px;
 
   /* hover (source): the teal banner flips to a solid light-blue fill and the
@@ -48,4 +48,18 @@
 
   /* spacing between description and the button */
   --cards-cta-button-margin-top: 30px;
+
+  /* centered variant — source .cmp-layout-quicklinks single centered callout
+     ("Resources are available now"). Heading is Gotham-Bold (18px mobile →
+     30px desktop), description 16px → 18px, and the CTA hugs its label. */
+  --cards-cta-centered-title-font-family: var(--heading-font-family, "Gotham-Bold", "Helvetica Neue", helvetica, arial, sans-serif);
+  --cards-cta-centered-title-size: 18px;
+  --cards-cta-centered-title-line-height: 22px;
+  --cards-cta-centered-title-size-desktop: 30px;
+  --cards-cta-centered-title-line-height-desktop: 36px;
+  --cards-cta-centered-desc-size: 16px;
+  --cards-cta-centered-desc-line-height: 20px;
+  --cards-cta-centered-desc-size-desktop: 18px;
+  --cards-cta-centered-desc-line-height-desktop: 30px;
+  --cards-cta-centered-button-padding: 20px 55px;
 }

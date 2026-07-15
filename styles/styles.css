@@ -208,8 +208,6 @@ h3,
 h4,
 h5,
 h6 {
-  margin-top: var(--block-margin-top);
-  margin-bottom: var(--block-margin-bottom);
   font-family: var(--heading-font-family);
   font-weight: var(--heading-font-weight);
   line-height: var(--heading-line-height);
@@ -222,6 +220,7 @@ h1 {
   line-height: 24px;
   color: var(--brand-primary);
   margin-top: 0;
+  margin-bottom: 0;
   padding: 30px 14px;
   text-align: center;
 }
@@ -626,6 +625,15 @@ main > .section > .bg-image img { /* @boilerplate */
 
 main > .section:first-of-type { /* @boilerplate */
   margin-top: 0; /* @boilerplate */
+  padding: 0 15px;
+}
+
+main > .section:first-of-type > div {
+  padding:0 25px;
+}
+
+main > .section:first-of-type > div > p {
+  margin-top: 0;
 }
 
 main > .section.divider > div:last-child { /* @libs */
@@ -836,8 +844,17 @@ main .section.accent h6 {
     width: 83.3333%;
   }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper,.cards-cta-wrapper) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper,.cards-cta-wrapper,.default-content-wrapper) {
     padding: 0 11%;
+}
+
+main > .section:first-of-type > div {
+  padding:0 11%;
+}
+
+main > .section:first-of-type > div > p {
+  font-size: var(--body-font-size-m);
+  line-height: 30px;
 }
 }
 
