@@ -478,8 +478,6 @@ header .nav-utility-links a {
 
   header .nav-brand img {
     width: var(--header-logo-width);
-    /* source logo sits high (top≈19); with the flex-centered main bar this
-       margin-bottom shifts it up to match */
     margin: 0 0 48px;
   }
 
@@ -510,6 +508,7 @@ header .nav-utility-links a {
   /* each item is a fixed-height (= main bar) flex cell that vertically centers
      its label — so the row height stays constant no matter how many lines the
      label wraps to (guards against font-width differences vs the source). */
+     
   header .nav-link-item {
     display: flex;
     align-items: center;
