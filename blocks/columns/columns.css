@@ -17,6 +17,78 @@
   display: block; /* @boilerplate */
 }
 
+main .columns.icon-text {
+  background-color: var(--columns-icon-text-bg);
+  padding: 10px 10% 10px 12%;
+  margin-bottom: var(--columns-icon-text-margin-bottom);
+  border-top: 1px solid #245778;
+  border-bottom: 1px solid #245778;
+}
+
+/* mobile-first (source ≤767px): icon stacked on top, centered, with 20px below;
+   text below with 20px above. Left-aligned text. */
+main .columns.icon-text > div > .columns-img-col {
+  flex: 0 0 auto;
+  text-align: center;
+  padding-bottom: var(--columns-icon-gap);
+}
+
+main .columns.icon-text > div > .columns-img-col img {
+  width: var(--columns-icon-size);
+  height: var(--columns-icon-size);
+  max-width: none;
+  margin: 0 auto;
+}
+
+
+/* lead paragraph: brand-blue, 18px/30px (source #245778 Gotham-Medium) */
+main .columns.icon-text > div > div:not(.columns-img-col) > p:first-child {
+  color: var(--brand-blue);
+  font-family: var(--body-font-family);
+  font-size: var(--columns-icon-text-lead-size);
+  line-height: var(--columns-icon-text-lead-line);
+  margin:0;
+  border-top: 3px solid var(--columns-icon-text-border-color);
+  padding-top: 20px;
+}
+
+main .columns.icon-text > div > div:not(.columns-img-col) > p:nth-child(3),
+main .columns.icon-text > div > div:not(.columns-img-col) > p:nth-child(4) {
+  margin:0;
+  color: var(--brand-blue);
+  font-family: var(--body-font-family);
+  font-size: var(--columns-icon-text-lead-size);
+  line-height: var(--columns-icon-text-lead-line);
+}
+
+/* body list: 14px/20px, #333, disc bullets */
+main .columns.icon-text > div > div:not(.columns-img-col) ul {
+  padding-left: 40px;
+  margin: 0 0 10px;
+  list-style-type: disc;
+}
+
+main .columns.icon-text > div > div:not(.columns-img-col) li {
+  font-size: var(--columns-icon-text-body-size);
+  line-height: 20px;
+  color: var(--text-color, #333);
+  margin-bottom: 0;
+}
+
+/* remaining paragraphs (support-center link line, hours, disclaimer) */
+main .columns.icon-text > div > div:not(.columns-img-col) > p:last-child {
+  font-size: var(--columns-icon-text-body-size);
+  line-height: 1.2;
+  color: var(--text-color, #333);
+  margin:0;
+  padding-bottom: 10px;
+}
+
+main .columns.icon-text > div > div:not(.columns-img-col) a {
+  color: var(--isi-link-color, var(--brand-blue, #245778));
+  text-decoration: underline;
+}
+
 /* stats-callout variant — vyepti study/survey results callouts.
    Teal headings, large red italic "X fewer" numbers, centered copy. */
 main .columns.stats-callout > div > div {
@@ -86,6 +158,14 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
    The base columns block only flips to a row at 900px, so the variant flips
    its own flex-direction here to match the source. */
 @media (width >= 768px) {
+  main > .section > div:has(.columns.icon-text) { 
+    padding:0;
+  }
+
+  main .columns.icon-text { 
+    margin-bottom: var(--columns-icon-text-margin-bottom-desktop);
+  }
+
   .columns > div { /* @boilerplate */
     align-items: center; /* @boilerplate */
     flex-direction: unset; /* @boilerplate */
@@ -110,6 +190,35 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     padding-inline-start: var(--columns-divider-spacing);
   }
   
+  /* icon-text: icon left (fixed 120px incl. 20px right gap), text right with
+     20px left padding, vertically centered — matching the source intro row. */
+  main .columns.icon-text > div {
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+  }
+
+  main .columns.icon-text > div > .columns-img-col {
+    width: var(--columns-icon-size);
+    padding: 0 var(--columns-icon-gap) 0 0;
+    text-align: left;
+  }
+
+  main .columns.icon-text > div > .columns-img-col img {
+    margin: 0;
+  }
+
+  main .columns.icon-text > div > div:not(.columns-img-col) {
+    border-left: 3px solid var(--columns-icon-text-border-color);
+    flex: 1;
+    padding: 20px 0 20px 20px;
+  }
+
+  main .columns.icon-text > div > div:not(.columns-img-col) > p:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
   main .columns.stats-callout > div {
     flex-direction: row;
     align-items: flex-start;

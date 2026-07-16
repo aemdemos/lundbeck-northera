@@ -2,12 +2,16 @@
    stories" banner (patient-support). Full-width teal banner with a background
    image, white heading + description stacked left, and a cyan CTA button. */
 :root {
-  /* banner shell */
   --cards-cta-bg-image: url("/icons/blue-teaser-bg-desktop.png");
   --cards-cta-bg-color: var(--brand-blue);
   --cards-cta-padding: 50px 30px;
-  --cards-cta-padding-desktop: 50px 25px;
+  --cards-cta-padding-desktop: 40px 25px;
   --cards-cta-margin-bottom: 20px;
+
+  /* hover (source): the teal banner flips to a solid light-blue fill and the
+     heading + description recolor to dark blue */
+  --cards-cta-hover-bg-color: #e8eef4;
+  --cards-cta-hover-text-color: #1f4763;
 
   /* heading (source: #fff Gotham-Black 24px / 26 mobile, 32 desktop) */
   --cards-cta-title-color: #fff;
@@ -22,16 +26,40 @@
   --cards-cta-desc-size: var(--body-font-size-m, 18px);
   --cards-cta-desc-line-height: 23px;
 
-  /* CTA button — site standard cyan button, no icon (source .cmp-text-cta) */
-  --cards-cta-button-background: var(--button-primary-background, #02bded);
-  --cards-cta-button-color: var(--brand-blue-dark);
+  /* CTA button — source .cmp-text-cta button (measured):
+     default: cyan bg (#02bded), dark-blue text (#1f4763), 15px 20px padding,
+     5-step offset drop-shadow in dark blue (#19527f).
+     hover (whole card :hover): inverts → dark-blue bg (#19527f), white text,
+     shadow flips to cyan (#02bded). */
+  --cards-cta-button-background: #02bded;
+  --cards-cta-button-color: #1f4763;
   --cards-cta-button-font-family: var(--heading-heavy-font-family);
   --cards-cta-button-font-size: var(--body-font-size-m, 18px);
   --cards-cta-button-padding: 15px 20px;
   --cards-cta-button-width-desktop: 280px;
-  --cards-cta-button-shadow: var(--button-shadow);
-  --cards-cta-button-hover-shadow: var(--button-hover-shadow);
+  --cards-cta-button-shadow:
+    1px 1px 0 #19527f, 2px 2px 0 #19527f, 3px 3px 0 #19527f,
+    4px 4px 0 #19527f, 5px 5px 0 #19527f;
+  --cards-cta-button-hover-background: #19527f;
+  --cards-cta-button-hover-color: #fff;
+  --cards-cta-button-hover-shadow:
+    1px 1px 0 #02bded, 2px 2px 0 #02bded, 3px 3px 0 #02bded,
+    4px 4px 0 #02bded, 5px 5px 0 #02bded;
 
   /* spacing between description and the button */
   --cards-cta-button-margin-top: 30px;
+
+  /* centered variant — source .cmp-layout-quicklinks single centered callout
+     ("Resources are available now"). Heading is Gotham-Bold (18px mobile →
+     30px desktop), description 16px → 18px, and the CTA hugs its label. */
+  --cards-cta-centered-title-font-family: var(--heading-font-family, "Gotham-Bold", "Helvetica Neue", helvetica, arial, sans-serif);
+  --cards-cta-centered-title-size: 18px;
+  --cards-cta-centered-title-line-height: 22px;
+  --cards-cta-centered-title-size-desktop: 30px;
+  --cards-cta-centered-title-line-height-desktop: 36px;
+  --cards-cta-centered-desc-size: 16px;
+  --cards-cta-centered-desc-line-height: 20px;
+  --cards-cta-centered-desc-size-desktop: 18px;
+  --cards-cta-centered-desc-line-height-desktop: 30px;
+  --cards-cta-centered-button-padding: 20px 55px;
 }

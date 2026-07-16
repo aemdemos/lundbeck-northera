@@ -1,12 +1,6 @@
 {
   "type": "da",
   "sites": {
-    "lundbeck-libs": {
-      "libraryUrl": "https://main--lundbeck-libs--aemdemos.aem.page/docs/library/blocks.json",
-      "contentHostUrl": "https://content.da.live/aemdemos/lundbeck-libs/",
-      "previewOrg": "aemdemos",
-      "previewSite": "lundbeck-libs"
-    },
     "lundbeck-northera": {
       "libraryUrl": "https://main--lundbeck-northera--aemdemos.aem.page/docs/library/blocks.json",
       "previewOrg": "aemdemos",
