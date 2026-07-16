@@ -810,12 +810,6 @@ main .section.home-intro > .default-content-wrapper p {
   text-align: left;
 }
 
-@media (width >= 768px) {
-  main .section.home-intro > .default-content-wrapper p {
-    padding: 20px 20px 19px;
-  }
-}
-
 main .section.accent {
   background-color: var(--heading-color);
   color: var(--background-color);
@@ -864,6 +858,17 @@ main .section.accent h6 {
   main .section.reminders > div {
     width: 83.3333%;
   }
+
+  main .section.home-intro > .default-content-wrapper p {
+    padding: 20px 20px 19px;
+    background-color: rgb(255 255 255 / 50%);
+    position: absolute;
+    margin-top:-70px;
+  }
+
+    main .section.home-intro > .columns-wrapper > div {
+      margin-bottom:0;
+    }
 
   main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper,.cards-cta-wrapper,.default-content-wrapper) {
     padding: 0 11%;
