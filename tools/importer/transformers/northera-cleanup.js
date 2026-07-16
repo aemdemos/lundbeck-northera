@@ -59,6 +59,19 @@ export default function transform(hookName, element, payload) {
     // Back-to-top control (found: <a id="toTop" href="#top">) — site shell UI.
     WebImporter.DOMUtils.remove(element, ['#toTop']);
 
+    // Standalone "Please see Important Safety Information…" content fragment.
+    // Some pages render this abbreviated blurb as a separate .cq-dd-fragment in
+    // the main content, OUTSIDE the ISI experience-fragment. The isi block
+    // already emits that abbreviated row (and blocks/isi/isi.js relocates it
+    // above the footer), so this loose copy is a duplicate — remove it. The
+    // parsed ISI is now a <table>, so it is never matched by this selector.
+    [...element.querySelectorAll('.cq-dd-fragment, .contentfragment')].forEach((frag) => {
+      if (frag.closest('.cmp-layout-isi__phone')) return;
+      if (/^\s*Please see Important Safety Information/i.test(frag.textContent || '')) {
+        frag.remove();
+      }
+    });
+
     // Tracking pixels / analytics iframes. Found in cleaned.html: the Adobe
     // Audience Manager (demdex) ID-syncing iframe. Also cover common ad/analytics
     // trackers defensively via src-attribute selectors.
