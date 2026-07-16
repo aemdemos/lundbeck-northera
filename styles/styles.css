@@ -893,7 +893,7 @@ main .section.accent h6 {
     width: 83.3333%;
   }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .default-content-wrapper):not(:has(.columns-banner)) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .default-content-wrapper, :has(.columns-banner)) {
     padding: 0 11%;
 }
 

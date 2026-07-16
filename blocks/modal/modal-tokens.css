@@ -16,10 +16,7 @@
    Buttons are plain labels (no arrow). */
 .modal dialog:has(.leaving-site) {
   position: fixed;
-  top: 30px;
-  left: 15px;
-  right: 15px;
-  bottom: auto;
+  inset: 30px 15px auto;
   transform: none;
   width: auto;
   max-width: none;
@@ -110,8 +107,7 @@
 
 @media (width >= 768px) {
   .modal dialog:has(.leaving-site) {
-    left: 50%;
-    right: auto;
+    inset: 30px auto auto 50%;
     transform: translateX(-50%);
     width: min(1008px, 90vw);
     max-width: 1008px;
