@@ -2,8 +2,6 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-import columnsParser from './parsers/columns.js';
-import heroPatientParser from './parsers/hero-patient.js';
 import cardsCtaParser from './parsers/cards-cta.js';
 import isiParser from './parsers/isi.js';
 
@@ -13,28 +11,16 @@ import sectionsTransformer from './transformers/northera-sections.js';
 
 // PAGE TEMPLATE CONFIGURATION
 const PAGE_TEMPLATE = {
-  name: 'homepage',
-  description: 'NORTHERA homepage: light-cyan "Ask for NORTHERA by name" icon+text band, a randomized patient-photo hero with a survey CTA, a teal "Financial assistance" quicklink card, and ISI content.',
+  name: 'thank-you-page',
+  description: 'Email sign-up confirmation page: centered "Thank you!" title + intro paragraph (default content), a full-width teal "Resources are available now" quicklink callout (centered heading + description + cyan CTA), and ISI content.',
   urls: [
-    'https://northera-stage.d.lundbeckus.com/',
+    'https://northera-stage.d.lundbeckus.com/patient-support/every-patient-story-matters/thank-you',
   ],
   blocks: [
     {
-      name: 'columns',
-      instances: [
-        '.responsivegrid.ask-for-northera',
-      ],
-    },
-    {
-      name: 'hero-patient',
-      instances: [
-        '.cmp-layout__herobanner',
-      ],
-    },
-    {
       name: 'cards-cta',
       instances: [
-        '.cmp-layout-quicklinks .image-text-cta',
+        '.cmp-layout-quicklinks',
       ],
     },
     {
@@ -45,17 +31,14 @@ const PAGE_TEMPLATE = {
     },
   ],
   sections: [
-    { id: 'hp-ask', name: 'Ask for NORTHERA by name (icon + text band)', selector: '.responsivegrid.ask-for-northera', style: null, blocks: ['columns'], defaultContent: [] },
-    { id: 'hp-hero', name: 'Random patient-photo hero + survey CTA', selector: '.cmp-layout__herobanner', style: null, blocks: ['hero-patient'], defaultContent: [] },
-    { id: 'hp-financial', name: 'Financial assistance quicklink card', selector: '.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
-    { id: 'hp-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'ty-intro', name: 'Thank you! intro (title + confirmation copy)', selector: '.cmp-layout-main-section', style: null, blocks: [], defaultContent: [] },
+    { id: 'ty-resources', name: 'Resources are available now (quicklink callout)', selector: '.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
+    { id: 'ty-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
   ],
 };
 
 // PARSER REGISTRY
 const parsers = {
-  columns: columnsParser,
-  'hero-patient': heroPatientParser,
   'cards-cta': cardsCtaParser,
   isi: isiParser,
 };
@@ -149,7 +132,7 @@ export default {
 
     // 6. Generate sanitized path
     const path = WebImporter.FileUtils.sanitizePath(
-      new URL(params.originalURL).pathname.replace(/\/$/, '').replace(/\.html$/, '') || '/index',
+      new URL(params.originalURL).pathname.replace(/\/$/, '').replace(/\.html$/, ''),
     );
 
     return [{
