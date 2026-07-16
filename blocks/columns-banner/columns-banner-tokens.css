@@ -1,4 +1,126 @@
 /* columns-banner design tokens */
 :root {
-  --columns-banner-gap: 32px;
+  --columns-banner-gap: 0;
+  --columns-banner-background: #f3f5f8;
+  --columns-banner-disclaimer-font-family: gotham-book, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
+  --columns-banner-disclaimer-color: #58595b;
+  --columns-banner-disclaimer-font-size: 12px;
+  --columns-banner-disclaimer-line-height: 16px;
+}
+
+/* Image column — natural width (source: .cmp-teaser__image img) */
+.columns-banner .columns-banner-img-col picture,
+.columns-banner .columns-banner-img-col img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Copay band — full-width background on block (source: #financial-assitanceBlk) */
+main > .section:has(.columns-banner) {
+  max-width: 100%;
+  width: 100%;
+}
+
+main > .section:has(.columns-banner) > div {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main .columns-banner {
+  background-color: var(--columns-banner-background);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+main .columns-banner h2 {
+  padding: 20px 0;
+  font-size: 24px;
+  line-height: 1.3;
+  color: var(--brand-primary);
+  font-family: var(--heading-font-family);
+}
+
+main .columns-banner > div:first-child p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-weight: 400;
+  color: var(--brand-grey);
+}
+
+/* Disclaimer — source .cmp-teaser__copay-assistance+.text+.text p / .cmp-extra-small-text */
+main .columns-banner > div:nth-child(2) {
+  padding: 0 0 30px;
+}
+
+main .columns-banner > div:nth-child(2) em {
+  display: block;
+  font-family: var(--columns-banner-disclaimer-font-family);
+  font-size: var(--columns-banner-disclaimer-font-size);
+  line-height: var(--columns-banner-disclaimer-line-height);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--columns-banner-disclaimer-color);
+}
+
+main .columns-banner.columns-banner-2-cols > div:first-child {
+  padding-top: 30px;
+}
+
+@media (width >= 768px) {
+  main .columns-banner {
+    margin-top: 15px;
+    padding-left: 12%;
+    padding-right: 12%;
+  }
+
+  main .columns-banner h2 {
+    padding-top: 0;
+    padding-bottom: 10px;
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  main .columns-banner > div:nth-child(2) {
+    padding: 23px 0 50px;
+  }
+
+  main .columns-banner > div:nth-child(2) em {
+    --columns-banner-disclaimer-font-size: 14px;
+    --columns-banner-disclaimer-line-height: 20px;
+  }
+
+  main .columns-banner.columns-banner-2-cols > div:first-child {
+    align-items: flex-start;
+    flex-direction: row;
+    gap: 0;
+    padding: 50px 0 0;
+  }
+
+  main .columns-banner.columns-banner-2-cols > div:first-child > .columns-banner-img-col {
+    flex: 0 0 60%;
+    max-width: 60%;
+  }
+
+  main .columns-banner.columns-banner-2-cols > div:first-child > div:not(.columns-banner-img-col) {
+    flex: 0 0 40%;
+    max-width: 40%;
+    margin-top: 56px;
+  }
+
+  /* Source: img padding-right 29px — only gap between image and text */
+  main .columns-banner .columns-banner-img-col picture,
+  main .columns-banner .columns-banner-img-col img {
+    max-width: 100%;
+    padding-right: 29px;
+    box-sizing: border-box;
+  }
 }
