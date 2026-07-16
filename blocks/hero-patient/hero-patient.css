@@ -5,15 +5,13 @@
   padding: 0;
 }
 
-/* Full-bleed patient photo behind; content (lead + CTA) overlaid lower-left,
-   matching the source homepage hero. */
+/* Mobile-first (default): image in normal flow, then the lead line + full-width
+   CTA button stacked below it on a light blue-gray band — matching the source
+   homepage hero. */
 .hero-patient {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: var(--hero-patient-padding);
-  min-height: var(--hero-patient-min-height);
 }
 
 .hero-patient h1 {
@@ -23,33 +21,29 @@
   color: var(--background-color);
 }
 
-/* the background image row (the cell that holds the picture) */
+/* image row: in-flow, full-width */
 .hero-patient > div:has(picture) {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
+  order: 0;
 }
 
 .hero-patient picture {
-  position: absolute;
-  inset: 0;
-  box-sizing: border-box;
+  display: block;
 }
 
 .hero-patient img {
-  object-fit: cover;
+  display: block;
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
-/* content row (lead line + CTA), overlaid on the lower-left of the image */
+/* content row (lead line + CTA), stacked below the image on a light blue-gray band */
 .hero-patient > div:has(a) {
-  position: relative;
-  z-index: 1;
-  max-width: var(--hero-patient-content-max-width);
+  order: 1;
+  padding: var(--hero-patient-content-padding);
+  background-color: var(--hero-patient-content-bg);
 }
 
-/* survey lead line (source: brand-blue Gotham-Bold 18px/30px) */
+/* survey lead line. Mobile (source): #245778 Gotham-Bold 20px/24, left-aligned */
 .hero-patient > div:has(a) p:not(:has(a)) {
   margin: 0 0 var(--hero-patient-lead-gap);
   color: var(--hero-patient-lead-color);
@@ -58,14 +52,15 @@
   line-height: var(--hero-patient-lead-line-height);
 }
 
-/* CTA button (source: cyan bg, dark-blue text, 5-step offset shadow) */
 .hero-patient > div:has(a) p:has(a) {
   margin: 0;
 }
 
+/* CTA button. Mobile-first (default): full-width cyan button. */
 .hero-patient a {
-  display: inline-block;
+  display: block;
   box-sizing: border-box;
+  width: 100%;
   background-color: var(--hero-patient-button-background);
   color: var(--hero-patient-button-color);
   font-family: var(--hero-patient-button-font-family);
@@ -88,9 +83,50 @@
   text-decoration: none;
 }
 
-@media (width >= 900px) {
+/* Desktop (source Bootstrap breakpoint ≥768px): the photo becomes a full-bleed
+   background and the lead line + auto-width CTA are overlaid on its lower-left. */
+@media (width >= 768px) {
   .hero-patient {
+    justify-content: flex-end;
     padding: var(--hero-patient-padding-desktop);
     min-height: var(--hero-patient-min-height-desktop);
+  }
+
+  .hero-patient > div:has(picture) {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+  }
+
+  .hero-patient picture {
+    position: absolute;
+    inset: 0;
+    box-sizing: border-box;
+  }
+
+  .hero-patient img {
+    object-fit: cover;
+    height: 100%;
+  }
+
+  .hero-patient > div:has(a) {
+    position: relative;
+    z-index: 1;
+    max-width: var(--hero-patient-content-max-width);
+    padding: 0;
+    background-color: transparent;
+  }
+
+  /* desktop lead line: larger line-height */
+  .hero-patient > div:has(a) p:not(:has(a)) {
+    font-size: var(--hero-patient-lead-size-desktop);
+    line-height: var(--hero-patient-lead-line-height-desktop);
+  }
+
+  /* desktop button: auto-width (hugs its label) */
+  .hero-patient a {
+    display: inline-block;
+    width: auto;
+    padding: var(--hero-patient-button-padding-desktop);
   }
 }
