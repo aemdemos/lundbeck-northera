@@ -59,7 +59,7 @@
        `transparent`, drop the band padding, and set the link color to the
        brand link colour instead of #fff. */
     --footer-linkbar-background: var(--brand-teal); /* #046183; use transparent for no band */ /* @boilerplate */
-    --footer-linkbar-padding: 20px 0 22px; /* outer band padding; 0 when no band */ /* @boilerplate */
+    --footer-linkbar-padding: 20px 0 0; /* outer band padding; 0 when no band */ /* @boilerplate */
     --footer-linkbar-inner-padding: 0 15px; /* gutter inside the max-width wrapper */ /* @boilerplate */
     --footer-link-text-align: center; /* center on band; left for inline lists */ /* @boilerplate */
     --footer-link-color: #fff; /* link text on the band */ /* @boilerplate */
@@ -75,7 +75,7 @@
     --footer-transition: 0.2s ease; /* @boilerplate */
   
     /* ---- body section (legal + logo) ---------------------------------- */
-    --footer-body-padding: 40px 15px 28px; /* @boilerplate */
+    --footer-body-padding: 20px 15px 8px; /* @boilerplate */
     --footer-body-padding-mobile: 24px 15px 28px; /* @boilerplate */
   
     /* legal column (column 1) */
@@ -211,7 +211,17 @@
     --footer-legal-font-size: 15px;
     --footer-legal-line-height: 19px;
     --footer-legal-font-family: gotham-book, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
+    --footer-body-padding: 20px 0 8px;
     --footer-logo-width: 167px;
+    --footer-logo-col-width: 20%;
+    --footer-logo-col-padding-tablet: 0 15px 20px;
+    --footer-logo-col-padding: 30px 25px 20px 25px;
+    --footer-logo-col-margin-right: 5.3333%;
+    --footer-navy-links-offset: 12%;
+    --footer-navy-links-width: 88%;
+    --footer-legal-offset-desktop: 12.3333%;
+    --footer-legal-offset-tablet: 2.3333%;
+    --footer-legal-width-tablet: 78%;
   }
   
   /* ===== Navy utility-link band (the authored <ul>) =====
@@ -264,7 +274,13 @@
     margin: 0 auto;
     padding: var(--footer-body-padding-mobile);
   }
-  
+
+  /* source: .cmp-footer-disclaimer — legal copy left-aligned at every breakpoint */
+  footer .footer .columns-wrapper .columns.divider > div > :first-child,
+  footer .footer .columns-wrapper .columns.divider p {
+    text-align: left;
+  }
+
   /* `.columns-wrapper` raises specificity above the boilerplate link-band rule
      (footer .footer .section:first-child p) that would otherwise force these
      legal paragraphs to inline-block and sit them side by side. */
@@ -277,42 +293,139 @@
     line-height: var(--footer-legal-line-height);
     margin-bottom: var(--footer-legal-margin-bottom);
   }
-  
+
   /* no gap below the 2nd (copyright) paragraph — doc code sits directly beneath it.
      Must beat footer.css:97 (`.columns-container … p:not(:last-child)`) on specificity. */
   footer .footer .columns-wrapper .columns.divider > div > :first-child p:nth-of-type(2) {
     margin-bottom: 0;
     padding-bottom: 0;
   }
-  
+
   footer .footer .columns.divider img {
     width: var(--footer-logo-width);
     height: auto;
+    display: block;
+    margin: 0 auto;
   }
-  
-  /* ===== >= 992px: links grow to 18px; band spread across a single row ===== */
-  @media (width >= 992px) {
-    footer .footer .default-content-wrapper ul {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: 1fr;
-    }
-  
-    footer .footer .default-content-wrapper ul a {
-      font-size: 18px;
-    }
-  
+
+  /* mobile: legal text above logo (override columns-img-col order: 0) */
+  footer .footer .columns-wrapper .columns.divider > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  footer .footer .columns-wrapper .columns.divider > div > :first-child {
+    order: 1;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  footer .footer .columns-wrapper .columns.divider > div > :nth-child(2),
+  footer .footer .columns-wrapper .columns.divider > div > .columns-img-col {
+    order: 2;
+    width: 100%;
+    margin-left: 0;
+    padding: 0;
+  }
+
+  footer .footer .columns-wrapper .columns.divider > div > :nth-child(2) p,
+  footer .footer .columns-wrapper .columns.divider > div > :nth-child(2) p:has(img),
+  footer .footer .columns-wrapper .columns.divider > div > :nth-child(2) p:has(img):last-child {
+    margin: 0;
+  }
+
+  @media (width >= 768px) {
     footer .footer .columns.divider {
       padding: var(--footer-body-padding);
     }
 
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div {
+      flex-flow: row nowrap;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > :first-child {
+      flex: 0 0 var(--footer-legal-width-tablet);
+      order: unset;
+      width: var(--footer-legal-width-tablet);
+      max-width: var(--footer-legal-width-tablet);
+      margin-left: var(--footer-legal-offset-tablet);
+      padding-inline: 0;
+    }
+
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > :nth-child(2),
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > .columns-img-col {
+      flex: 0 0 var(--footer-logo-col-width);
+      order: unset;
+      width: var(--footer-logo-col-width);
+      max-width: var(--footer-logo-col-width);
+      margin-left: 0;
+      margin-right: 0;
+      padding: var(--footer-logo-col-padding-tablet);
+      box-sizing: border-box;
+    }
+
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > :nth-child(2) p:has(img):last-child {
+      margin-left: var(--footer-logo-margin-left);
+    }
+  }
+
+  /* tablet + 1200px: stacked links, tighter legal offset (source: max-width 1200px) */
+  @media (width >= 768px) and (width <= 1200px) {
+    footer .footer .default-content-wrapper ul {
+      display: grid;
+      grid-template-columns: 1fr;
+      width: 97%;
+      max-width: none;
+      margin-left: 3%;
+      margin-right: auto;
+    }
+
+    footer .footer .default-content-wrapper ul li {
+      text-align: center;
+    }
+  }
+
+  /* wide desktop only: horizontal links + full legal offset (source: min-width 1201px) */
+  @media (width > 1200px) {
+    footer .footer .default-content-wrapper ul {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(100px, 1fr));
+      width: var(--footer-navy-links-width);
+      max-width: none;
+      margin-left: var(--footer-navy-links-offset);
+      margin-right: auto;
+      min-height: 45px;
+      align-items: center;
+    }
+
+    footer .footer .default-content-wrapper ul li {
+      text-align: center;
+      padding: 13px 0;
+    }
+
+    footer .footer .default-content-wrapper ul a {
+      font-size: 18px;
+    }
+
     footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > :first-child {
       flex: 1 1 auto;
+      width: auto;
+      max-width: none;
+      margin-left: var(--footer-legal-offset-desktop);
     }
-  
-    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > :nth-child(2) {
-      flex: 0 0 auto;
-      justify-content: flex-start;
+
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > :nth-child(2),
+    footer .footer .columns-wrapper .columns.divider.columns-2-cols > div > .columns-img-col {
+      margin-right: var(--footer-logo-col-margin-right);
+      padding: var(--footer-logo-col-padding);
+    }
+
+    footer .footer {
+      width: 83.33%;
     }
   }
   

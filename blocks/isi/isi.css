@@ -7,10 +7,29 @@
            right-hand rail at ≥1200px.
    ══════════════════════════════════════════════════════════════ */
 
-/* the abbreviated "Please see…" row is only used for the source fixed bar;
-   the full content is shown in-flow, so hide the abbreviated row. */
-   main .isi .isi-abbr {
-  display: none;
+/* Source parity: a short "Please see Important Safety Information…" blurb is
+   always shown in the main content column, centered, just above the footer —
+   separate from the ISI bar/rail. isi.js relocates it here (.isi-please-see).
+   Source: Gotham-Black 18px/20px, #58595b, weight 400, centered; 40px above /
+   30px below. */
+main .isi-please-see-section {
+  padding: 50px 13px;
+  margin: 0;
+}
+
+main .isi-please-see p {
+  margin: 0;
+  text-align: center;
+  font-family: var(--isi-heading-font);
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #58595b;
+}
+
+main .isi-please-see a {
+  color: var(--isi-link-color);
+  overflow-wrap: anywhere;
 }
 
 /* block padding (source: .cmp-isi__use / .cmp-isi__importantsafety padding: 0 25px) */
@@ -447,6 +466,10 @@ main .isi a:hover {
     display: none;
   }
 
+main .isi-please-see-section {
+  padding: 20px 0;
+}
+
   /* rail text sizing (source rail uses 16px) */
   main:has(> .section.isi-container) .isi p,
   main:has(> .section.isi-container) .isi li {
@@ -508,6 +531,12 @@ main .isi a:hover {
     box-shadow: inset -2px 0 0 #f2f2f2;
     overflow-y: scroll;
     width: 90%;
+    max-height: calc(100vh - 200px);
+  }
+
+  /* once JS sets an explicit inline height, let it win over the fallback cap */
+  main:has(> .section.isi-container) .isi.isi-important[style*="height"] {
+    max-height: none;
   }
 
   main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar {

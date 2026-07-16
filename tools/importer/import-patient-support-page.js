@@ -2,6 +2,7 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
+import columnsParser from './parsers/columns.js';
 import cardsResourceParser from './parsers/cards-resource.js';
 import cardsCtaParser from './parsers/cards-cta.js';
 import isiParser from './parsers/isi.js';
@@ -19,6 +20,12 @@ const PAGE_TEMPLATE = {
   ],
   blocks: [
     {
+      name: 'columns',
+      instances: [
+        '.patient-support-droxidopa',
+      ],
+    },
+    {
       name: 'cards-resource',
       instances: [
         '.cmp-layout__patientsupport .cmp-imagetext__link',
@@ -35,12 +42,11 @@ const PAGE_TEMPLATE = {
       name: 'isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
-        'div.cmp-isi__use',
       ],
     },
   ],
   sections: [
-    { id: 'ps-resources', name: 'Resources created with you in mind (intro + resource cards)', selector: '.cmp-layout__patientsupport', style: null, blocks: ['cards-resource'], defaultContent: [] },
+    { id: 'ps-resources', name: 'Resources created with you in mind (intro + resource cards)', selector: '.cmp-layout__patientsupport', style: null, blocks: ['columns', 'cards-resource'], defaultContent: [] },
     { id: 'ps-stories', name: 'Real patient stories', selector: '.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
     { id: 'ps-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
   ],
@@ -48,6 +54,7 @@ const PAGE_TEMPLATE = {
 
 // PARSER REGISTRY
 const parsers = {
+  columns: columnsParser,
   'cards-resource': cardsResourceParser,
   'cards-cta': cardsCtaParser,
   isi: isiParser,

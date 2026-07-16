@@ -41,6 +41,56 @@ export default function parse(element, { document }) {
   }
 
   const cardElements = container.querySelectorAll('.image-text-cta');
+
+  // Fallback: some quicklinks callouts (e.g. the "Thank You" page) are authored
+  // as a single centered text block (heading + description) plus a separate
+  // cmp-button, rather than as .image-text-cta cards. This renders as the
+  // centered cards-cta variant (centered heading + auto-width centered button).
+  if (cardElements.length === 0) {
+    const cellContent = document.createElement('div');
+
+    const headingEl = container.querySelector('.cmp-text h2, .cmp-text h3, h2, h3');
+    if (headingEl) {
+      const h3 = document.createElement('h3');
+      h3.textContent = headingEl.textContent.trim();
+      cellContent.appendChild(h3);
+    }
+
+    const descEl = container.querySelector('.cmp-text p, p');
+    if (descEl) {
+      const p = document.createElement('p');
+      p.textContent = descEl.textContent.trim();
+      cellContent.appendChild(p);
+    }
+
+    const linkEl = container.querySelector('a.cmp-button, a[href]');
+    if (linkEl) {
+      const href = normalizeHref(linkEl.getAttribute('href') || linkEl.href || '');
+      // Prefer the dedicated label span; the first <span> is often an empty icon.
+      const labelEl = linkEl.querySelector('.cmp-button__text, .cmp-label-text');
+      const label = (labelEl ? labelEl.textContent : linkEl.textContent).trim();
+      if (href) {
+        const cta = document.createElement('a');
+        cta.setAttribute('href', href);
+        cta.textContent = label || 'Learn More';
+        const ctaP = document.createElement('p');
+        ctaP.appendChild(cta);
+        cellContent.appendChild(ctaP);
+      }
+    }
+
+    if (cellContent.childNodes.length > 0) {
+      const block = WebImporter.Blocks.createBlock(document, {
+        name: 'cards-cta (centered)',
+        cells: [[[cellContent]]],
+      });
+      element.replaceWith(block);
+    } else {
+      element.replaceWith(document.createTextNode(''));
+    }
+    return;
+  }
+
   const cells = [];
 
   cardElements.forEach((card) => {

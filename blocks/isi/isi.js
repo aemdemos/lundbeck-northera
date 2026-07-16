@@ -23,6 +23,40 @@
 
 const BAR_ID = 'isi-bar';
 
+/**
+ * The source always shows a short "Please see Important Safety Information…"
+ * blurb in the main content column, centered, just above the footer — separate
+ * from the ISI bar/rail apparatus. Both authored ISI blocks carry this row, so
+ * we keep ONE and drop the rest, relocating it into the content flow so it sits
+ * in the left content column at every breakpoint (source parity).
+ * @param {HTMLElement} abbreviatedRow the block's first (abbreviated) row
+ */
+let pleaseSeePlaced = false;
+function placePleaseSee(abbreviatedRow) {
+  if (!abbreviatedRow) return;
+
+  const main = abbreviatedRow.closest('main');
+  const isiSection = abbreviatedRow.closest('.section');
+  if (!main || !isiSection || pleaseSeePlaced) {
+    abbreviatedRow.remove();
+    return;
+  }
+  pleaseSeePlaced = true;
+
+  const cell = abbreviatedRow.firstElementChild || abbreviatedRow;
+  const section = document.createElement('div');
+  section.className = 'section isi-please-see-section';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'isi-please-see';
+  [...cell.children].forEach((child) => wrapper.append(child));
+  section.append(wrapper);
+  // Source order: the blurb sits right before the ISI section (after cards-cta).
+  // At ≥1200px the ISI section becomes an out-of-flow right rail, so the blurb
+  // remains the last in-flow content — just above the footer, matching source.
+  isiSection.before(section);
+  abbreviatedRow.remove();
+}
+
 function getOrCreateBar() {
   let bar = document.getElementById(BAR_ID);
   if (bar) return bar;
@@ -259,16 +293,69 @@ function setupDesktopExpandToggle(block, variant) {
   });
 }
 
+const DESKTOP_RAIL_MQ = window.matchMedia('(min-width: 1200px)');
+
+/**
+ * At ≥1200px the ISI is a right rail. The "Important Safety" block must have a
+ * FIXED height so its long text scrolls internally (overflow-y:scroll) instead
+ * of growing to full content height. The source computes this height so the
+ * rail bottom aligns with the left content column; we reproduce that by sizing
+ * the important block to fill from its own top down to the content column's
+ * bottom. Runs on load, on resize, and when content height changes.
+ */
+function syncRailHeight() {
+  const railSection = document.querySelector('main > .section.isi-container');
+  if (!railSection) return;
+
+  const important = railSection.querySelector('.isi.isi-important');
+  if (!important) return;
+
+  // reset before measuring so a prior fixed height doesn't skew the read
+  important.style.height = '';
+
+  // in the expanded overlay the block scrolls the whole viewport; skip sizing
+  if (!DESKTOP_RAIL_MQ.matches || railSection.classList.contains('isi-desktop-expanded')) {
+    return;
+  }
+
+  // Source parity: the rail's Important-Safety block runs from its own top all
+  // the way to the BOTTOM OF THE PAGE — past the content column and alongside
+  // the footer (measured on source: rail bottom = document bottom, below the
+  // footer). So its height = footer bottom (or document bottom) − its own top.
+  // The long ISI text scrolls internally within that tall box.
+  const footer = document.querySelector('footer');
+  const importantTopVp = important.getBoundingClientRect().top + window.scrollY;
+  const footerBottomVp = footer
+    ? footer.getBoundingClientRect().bottom + window.scrollY
+    : document.documentElement.scrollHeight;
+
+  const target = Math.round(footerBottomVp - importantTopVp);
+  if (target > 120) important.style.height = `${target}px`;
+}
+
+let railSyncScheduled = false;
+function scheduleRailSync() {
+  if (railSyncScheduled) return;
+  railSyncScheduled = true;
+  requestAnimationFrame(() => {
+    railSyncScheduled = false;
+    syncRailHeight();
+  });
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
   if (rows.length === 0) return;
 
   const [abbreviatedRow, inlineRow] = rows;
-  if (abbreviatedRow) abbreviatedRow.classList.add('isi-abbr');
   if (inlineRow) inlineRow.classList.add('isi-full');
   const contentRow = inlineRow || abbreviatedRow;
 
   const { variant, label } = resolveVariant(block, contentRow);
+
+  // Relocate the abbreviated "Please see…" row into the content flow above the
+  // footer (source parity). Only the first is kept; extras are removed.
+  if (inlineRow && abbreviatedRow) placePleaseSee(abbreviatedRow);
   wrapWarningBox(contentRow);
 
   /* Build the fixed bottom bar section for this block */
@@ -281,4 +368,27 @@ export default function decorate(block) {
 
   /* Hide the bar once the in-flow ISI section scrolls into view (source behavior) */
   observeSectionVisibility(block);
+
+  /* Size the desktop rail so the Important Safety block scrolls internally and
+     its bottom reaches the page/footer bottom (source parity). Wire listeners
+     once, on the important block. */
+  if (variant === 'important') {
+    scheduleRailSync();
+    window.addEventListener('resize', scheduleRailSync);
+    window.addEventListener('load', scheduleRailSync);
+    DESKTOP_RAIL_MQ.addEventListener('change', scheduleRailSync);
+    // content/footer images + fonts can change page height after decorate;
+    // re-sync whenever the content sections or footer resize.
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(scheduleRailSync);
+      const main = block.closest('main');
+      if (main) {
+        [...main.children]
+          .filter((s) => s.classList.contains('section') && !s.classList.contains('isi-container'))
+          .forEach((s) => ro.observe(s));
+      }
+      const footer = document.querySelector('footer');
+      if (footer) ro.observe(footer);
+    }
+  }
 }

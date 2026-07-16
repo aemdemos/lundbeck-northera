@@ -4,4 +4,16 @@
   --columns-divider-width: 1px;
   --columns-divider-spacing: var(--spacing-l, 32px);
   --columns-divider-color: #7ebcc6;
+  --columns-icon-text-border-color: #39607a;
+  --columns-icon-size: 100px;
+  --columns-icon-col-width: 120px;
+  --columns-icon-gap: 20px;
+  --columns-icon-text-lead-size: 18px;
+  --columns-icon-text-lead-line: 30px;
+  --columns-icon-text-body-size: 14px;
+  --columns-icon-text-bg: rgb(2 189 237 / 15%);
+  --columns-icon-text-pad-block: 10px;
+  --columns-icon-text-pad-inline: 15px;
+  --columns-icon-text-margin-bottom: 20px;
+  --columns-icon-text-margin-bottom-desktop: 50px;
 }

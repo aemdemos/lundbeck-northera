@@ -5,6 +5,7 @@
   text-align: center; /* @boilerplate */
   max-width: var(--embed-max-width); /* @boilerplate */
   margin: var(--embed-margin); /* @boilerplate */
+  position: relative; /* @boilerplate */
 }
 
 .embed > div { /* @boilerplate */

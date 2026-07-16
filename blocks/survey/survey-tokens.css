@@ -1,0 +1,95 @@
+/* survey design tokens — matched to northera symptomchecker clientlib */
+:root {
+  /* palette */
+  --survey-navy: #245778;
+  --survey-navy-text: #1f4763;
+  --survey-navy-shadow: #19527f;
+  --survey-cyan: #02bded;
+  --survey-amber: #f6af1a;
+  --survey-track: #969696;
+  --survey-body-text: #58595b;
+
+  /* intro (section above survey block) — .cmp-symptomchecker__header */
+  --survey-intro-bg: var(--survey-navy);
+  --survey-intro-color: #fff;
+  --survey-intro-heading-padding: 50px 0 30px;
+  --survey-intro-heading-padding-mobile: 17px 0 23px;
+  --survey-intro-text-padding: 0 0 54px;
+  --survey-intro-text-padding-mobile: 0 0 67px;
+  --survey-intro-heading-size: 40px;
+  --survey-intro-heading-size-mobile: 28px;
+  --survey-intro-heading-line-height: 48px;
+  --survey-intro-heading-line-height-mobile: 34px;
+  --survey-intro-text-size: 18px;
+  --survey-intro-text-line-height: 26px;
+
+  /* progress — .cmp-progressbar */
+  --survey-progress-width: 620px;
+  --survey-progress-width-mobile: 320px;
+  --survey-progress-offset-top: -24px;
+  --survey-progress-offset-top-mobile: -16px;
+  --survey-progress-bottom-margin: 15px;
+  --survey-progress-step-size: 54px;
+  --survey-progress-step-size-mobile: 34px;
+  --survey-progress-step-font-size: 32px;
+  --survey-progress-step-font-size-mobile: 26px;
+  --survey-progress-track-height: 6px;
+  --survey-progress-track-height-mobile: 3px;
+  --survey-progress-track-top: 24px;
+  --survey-progress-track-top-mobile: 16px;
+
+  /* form container — .cmp-symptom-checker__container */
+  --survey-content-width: 86%;
+  --survey-content-offset: 13%;
+  --survey-controls-width: 83.333%;
+
+  /* questions — .tab p */
+  --survey-question-font-size: 24px;
+  --survey-question-font-size-mobile: 20px;
+  --survey-question-line-height: 30px;
+  --survey-question-color: var(--survey-body-text);
+  --survey-question-font-weight: 400;
+  --survey-help-margin: 0;
+
+  /* options — .cmp-form__checkmark / label span */
+  --survey-box-size: 44px;
+  --survey-option-text-size: 18px;
+  --survey-option-text-line-height: 23px;
+  --survey-checkbox-col-padding: 30px;
+  --survey-checkbox-col-padding-step1-1400: 20px;
+  --survey-checkbox-col-padding-step3-1400: 58px;
+  --survey-checkbox-col-padding-step4-1400: 72px;
+  --survey-scale-col-padding: 30px;
+  --survey-scale-col-padding-1200: 50px;
+
+  /* controls — .cmp-symptomchecker__buttons / .cmp-button */
+  --survey-button-padding: 16.7px 55px;
+  --survey-button-font-family: var(--heading-heavy-font-family);
+  --survey-button-font-weight: 400;
+  --survey-button-font-size: 18px;
+  --survey-button-min-width: 172px;
+  --survey-button-next-min-width: 173px;
+
+  /* results — symptomcheckerresult component */
+  --survey-results-hero-title-size: 28px;
+  --survey-results-hero-title-line-height: 1.375;
+  --survey-results-hero-title-padding: 2.5rem 1.5rem 1.875rem;
+  --survey-results-pi-font-size: 22px;
+  --survey-results-pi-line-height: 25px;
+  --survey-results-pi-padding: 2.1875rem 0 2.4375rem;
+  --survey-results-row-padding: 1.875rem 2.5rem;
+  --survey-results-row-padding-first: 3.125rem 2.5rem 1.875rem;
+  --survey-results-row-alt-bg: #f3f5f8;
+  --survey-results-inner-width: 83.333%;
+  --survey-results-number-size: 54px;
+  --survey-results-number-font-size: 33px;
+  --survey-results-number-line-height: 53px;
+  --survey-results-number-bg: #f5af19;
+  --survey-results-number-gap: 50px;
+  --survey-results-content-width: 85%;
+  --survey-results-question-padding: 0 0 15px;
+  --survey-results-answer-color: red;
+  --survey-results-answer-font-size: 20px;
+  --survey-results-answer-span-font-size: 18px;
+  --survey-results-answer-span-line-height: 31px;
+}
