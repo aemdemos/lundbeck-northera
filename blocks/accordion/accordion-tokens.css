@@ -1,37 +1,42 @@
 /* accordion design tokens + block-scoped design overrides
  *
  * This file is imported by accordion.css. To keep accordion.css at its library
- * default, the "Read the transcript" design (plain cyan toggle with a trailing
+ * default, the "Read the transcript" design (Gotham-Medium cyan toggle with a trailing
  * play triangle, no card) lives here. Token VALUES below are consumed directly
  * by accordion.css; the `main`-prefixed rules out-specify the library rules for
  * the parts that aren't parameterised (layout, triangle shape, <p> sizing).
  */
 :root { /* @libs */
-  /* item spacing — flatten the library "card" (no fill / radius / padding) */
-  --accordion-item-bg: transparent; /* @libs */
+  /* item spacing — source .cmp-accordion { background: #f3f5f8 } */
+  --accordion-item-bg: #f3f5f8; /* @libs */
   --accordion-item-radius: 0; /* @libs */
   --accordion-item-padding: 0; /* @libs */
+  --accordion-label-padding: 20px 15px; /* @libs — source .cmp-accordion__button mobile */
   --accordion-item-gap: 16px; /* @libs */
 
-  /* label / title: light sky-blue bold "Read the transcript" (source colour) */
-  --accordion-label-color: #33addf; /* @libs */
-  --accordion-label-active-color: #33addf; /* @libs */
+  /* label / title: Gotham-Medium cyan "Read the transcript" (source .cmp-accordion__title) */
+  --accordion-label-color: #02bded; /* @libs */
+  --accordion-label-active-color: #02bded; /* @libs */
   --accordion-label-font-size: var(--heading-font-size-l); /* @libs */
-  --accordion-label-font-weight: 700; /* @libs */
-  --accordion-label-strong-weight: 700; /* @libs */
-  --accordion-label-line-height: 1.2; /* @libs */
+  --accordion-label-font-weight: 500; /* @libs */
+  --accordion-label-strong-weight: 500; /* @libs */
+  --accordion-label-line-height: 1.12; /* @libs — 28px / 25px on source */
   --accordion-label-padding-right: 0; /* @libs */
-  --accordion-label-gap: 12px; /* @libs */
+  --accordion-label-gap: 8px; /* @libs */
 
-  /* trailing play triangle */
-  --accordion-icon-size: 6px; /* @libs */
-  --accordion-icon-color: #33addf; /* @libs */
+  /* trailing play triangle (source .cmp-accordion__icon:after Glyphicons) */
+  --accordion-icon-font-family: glyphicons-halflings, sans-serif; /* @libs */
+  --accordion-icon-font-size: 14px; /* @libs */
+  --accordion-icon-padding: 5px 6px 5px 7px; /* @libs */
+  --accordion-icon-color: #02bded; /* @libs */
 
-  /* body / panel */
-  --accordion-body-gap: 16px; /* @libs */
+  /* body / panel — source .cmp-accordion__panel--expanded .cmp-text p */
+  --accordion-body-gap: 0; /* @libs — spacing via paragraph margins, not flex gap */
   --accordion-body-color: var(--text-color); /* @libs */
   --accordion-body-font-size: var(--body-font-size-s); /* @libs */
-  --accordion-body-line-height: 1.45; /* @libs */
+  --accordion-body-line-height: 20px; /* @libs — mobile body copy */
+  --accordion-body-paragraph-margin-bottom: 25px; /* @libs — mobile source */
+  --accordion-body-first-paragraph-margin-top: 0; /* @libs */
   --accordion-body-list-font-size: var(--body-font-size-ms); /* @libs */
 
   /* motion */
@@ -39,13 +44,90 @@
   --accordion-icon-transition-duration: 0.5s; /* @libs */
 }
 
-/* label row: inline cyan text followed by the triangle (overrides the library
+/* source .cmp-accordion { background: #f3f5f8 } */
+main .accordion { /* @libs */
+  background-color: var(--accordion-item-bg); /* @libs */
+  width: 100%; /* @libs */
+  box-sizing: border-box; /* @libs */
+}
+
+/* transcript band — full content width, no white section gutters */
+main > .section:has(.accordion) > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper) {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+main > .section:has(.accordion) > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper):has(.accordion) {
+  padding: 0;
+  background-color: var(--accordion-item-bg);
+  width: 100%;
+}
+
+/* flush under video — override main > div { margin: 40px 16px } from styles.css */
+main > .section:has(.accordion) {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+main > .section:has(.embed) + .section:has(.accordion) {
+  margin-top: 0;
+}
+
+main > .section:has(.embed) + .section:has(.accordion) .block.accordion {
+  margin-top: 0;
+}
+
+/* video + transcript: same horizontal box as .brightcoveplayer (93% + shared side inset) */
+main > .section:has(.embed) + .section:has(.accordion) .accordion,
+main > .section:has(.embed) + .section:has(.accordion) .block.accordion {
+  width: var(--embed-player-width, 100%);
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--embed-player-padding-x, 0);
+  padding-right: var(--embed-player-padding-x, 0);
+  box-sizing: border-box;
+}
+
+@media (width >= 769px) {
+  main > .section:has(.embed) + .section:has(.accordion) .accordion,
+  main > .section:has(.embed) + .section:has(.accordion) .block.accordion {
+    width: 93%;
+  }
+}
+
+@media (width >= 1200px) {
+  main > .section:has(.embed) + .section:has(.accordion) .accordion,
+  main > .section:has(.embed) + .section:has(.accordion) .block.accordion {
+    width: 93%;
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+  main > .section:has(.embed) + .section:has(.accordion) .accordion-item-body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (width <= 768px) {
+  main > .section:has(.embed) + .section:has(.accordion) .accordion-item-body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+/* label row: Gotham-Medium text followed by the play triangle (overrides the library
    block layout, which reserved space on the right for a far-right chevron) */
 main .accordion .accordion-item-label { /* @libs */
   display: inline-flex; /* @libs */
   align-items: center; /* @libs */
   justify-content: flex-start; /* @libs */
   gap: var(--accordion-label-gap); /* @libs */
+  font-family: var(--body-font-family); /* @libs — Gotham-Medium on source */
+  padding: var(--accordion-label-padding); /* @libs */
+  width: 100%; /* @libs */
+  box-sizing: border-box; /* @libs */
 }
 
 /* the label text sits in a <p>; inherit the label typography so it isn't reset
@@ -55,29 +137,86 @@ main .accordion .accordion-item-label p { /* @libs */
   color: inherit; /* @libs */
 }
 
-/* right-pointing solid triangle trailing the text (overrides the library
-   absolutely-positioned chevron) */
+/* Glyphicons play icon — exact source: \e072 collapsed, \e252 expanded */
 main .accordion .accordion-item-label::after { /* @libs */
+  content: '\e072'; /* @libs — glyphicon-play */
   position: static; /* @libs */
+  top: auto; /* @libs */
+  right: auto; /* @libs */
+  display: inline-block; /* @libs */
+  flex-shrink: 0; /* @libs */
+  width: auto; /* @libs */
+  height: auto; /* @libs */
   margin: 0; /* @libs */
-  width: 0; /* @libs */
-  height: 0; /* @libs */
-  border: var(--accordion-icon-size) solid transparent; /* @libs */
-  border-right: 0; /* @libs */
-  border-left: var(--accordion-icon-size) solid var(--accordion-icon-color); /* @libs */
+  padding: var(--accordion-icon-padding); /* @libs */
+  border: 0; /* @libs */
+  font-family: var(--accordion-icon-font-family); /* @libs */
+  font-style: normal; /* @libs */
+  font-weight: 400; /* @libs */
+  font-size: var(--accordion-icon-font-size); /* @libs */
+  line-height: 1; /* @libs */
+  color: var(--accordion-icon-color); /* @libs */
   transform: none; /* @libs */
+  transition: none; /* @libs */
+  -webkit-font-smoothing: antialiased; /* @libs */
 }
 
-/* rotate to point down when expanded */
 main .accordion li.active .accordion-item-label::after { /* @libs */
-  border-left-color: var(--accordion-label-active-color); /* @libs */
-  transform: rotate(90deg); /* @libs */
+  content: '\e252'; /* @libs — glyphicon-triangle-bottom */
+  border: 0; /* @libs */
+  color: var(--accordion-label-active-color); /* @libs */
+  transform: none; /* @libs — beats library rotate(-135deg) chevron */
+  transform-origin: center; /* @libs */
+  transition: none; /* @libs */
+}
+
+/* transcript body spacing — source expanded panel paragraph rhythm */
+main .accordion li.active .accordion-item-body { /* @libs */
+  gap: var(--accordion-body-gap); /* @libs */
+  margin-top: 0; /* @libs — first paragraph margin-top handles label gap */
+}
+
+main .accordion .accordion-item-body p { /* @libs */
+  margin-bottom: var(--accordion-body-paragraph-margin-bottom); /* @libs */
+  line-height: var(--accordion-body-line-height); /* @libs */
+}
+
+@media (width <= 768px) {
+  main .accordion .accordion-item-body {
+    padding: 0 25px; /* @libs — source .cmp-accordion__panel .cmp-text */
+  }
 }
 
 /* tablet+ scale-ups */
 @media (width >= 768px) { /* @libs */
   :root { /* @libs */
     --accordion-item-gap: 24px; /* @libs */
-    --accordion-label-line-height: 1.3; /* @libs */
+    --accordion-label-line-height: 1.12; /* @libs — 28px / 25px on source */
+  }
+}
+
+@media (width >= 769px) { /* @libs */
+  :root { /* @libs */
+    --accordion-body-paragraph-margin-bottom: 30px; /* @libs */
+    --accordion-body-first-paragraph-margin-top: 20px; /* @libs */
+    --accordion-body-line-height: 30px; /* @libs */
+    --accordion-label-padding: 27px 0; /* @libs — source .cmp-accordion__button desktop */
+  }
+
+  main .accordion .accordion-item-label,
+  main .block.accordion .accordion-item-label,
+  main > .section:has(.embed) + .section:has(.accordion) .accordion-item-label {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  main .accordion .accordion-item-body,
+  main .block.accordion .accordion-item-body {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  main .accordion .accordion-item-body p:first-child { /* @libs */
+    margin-top: var(--accordion-body-first-paragraph-margin-top); /* @libs */
   }
 }

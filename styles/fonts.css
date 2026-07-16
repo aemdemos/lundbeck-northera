@@ -41,6 +41,15 @@
   src: url('/fonts/Gotham-Black.woff') format('woff');
 }
 
+/* Accordion transcript toggle (source: Glyphicons Halflings \e072 / \e252) */
+@font-face {
+  font-family: glyphicons-halflings;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/glyphicons-halflings-regular.woff') format('woff');
+}
+
 @font-face {
   font-family: gotham-fallback;
   font-style: normal;
