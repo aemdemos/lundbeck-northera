@@ -2,101 +2,75 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-import columnsBannerParser from './parsers/columns-banner.js';
+import columnsParser from './parsers/columns.js';
 import heroPatientParser from './parsers/hero-patient.js';
 import cardsCtaParser from './parsers/cards-cta.js';
+import isiParser from './parsers/isi.js';
 
 // TRANSFORMER IMPORTS
-import northeraCleanupTransformer from './transformers/northera-cleanup.js';
-import northeraSectionsTransformer from './transformers/northera-sections.js';
-
-// PARSER REGISTRY
-const parsers = {
-  'columns-banner': columnsBannerParser,
-  'hero-patient': heroPatientParser,
-  'cards-cta': cardsCtaParser,
-};
+import cleanupTransformer from './transformers/northera-cleanup.js';
+import sectionsTransformer from './transformers/northera-sections.js';
 
 // PAGE TEMPLATE CONFIGURATION
 const PAGE_TEMPLATE = {
   name: 'homepage',
-  description: 'NORTHERA main homepage with banner, hero, CTA cards, and ISI content',
+  description: 'NORTHERA homepage: light-cyan "Ask for NORTHERA by name" icon+text band, a randomized patient-photo hero with a survey CTA, a teal "Financial assistance" quicklink card, and ISI content.',
   urls: [
-    'https://www.northera.com/'
+    'https://northera-stage.d.lundbeckus.com/',
   ],
   blocks: [
     {
-      name: 'columns-banner',
-      instances: ['.responsivegrid.ask-for-northera']
+      name: 'columns',
+      instances: [
+        '.responsivegrid.ask-for-northera',
+      ],
     },
     {
       name: 'hero-patient',
-      instances: ['.random-hero.cmp-hero-banner__desktop']
+      instances: [
+        '.cmp-layout__herobanner',
+      ],
     },
     {
       name: 'cards-cta',
-      instances: ['.cmp-layout-quicklinks .image-text-cta']
-    }
+      instances: [
+        '.cmp-layout-quicklinks .image-text-cta',
+      ],
+    },
+    {
+      name: 'isi',
+      instances: [
+        'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
+      ],
+    },
   ],
   sections: [
-    {
-      id: 'section-1',
-      name: 'Ask for NORTHERA Banner',
-      selector: '.responsivegrid.ask-for-northera',
-      style: null,
-      blocks: ['columns-banner'],
-      defaultContent: []
-    },
-    {
-      id: 'section-2',
-      name: 'Hero with Patient Stories',
-      selector: '.cmp-layout__herobanner',
-      style: null,
-      blocks: ['hero-patient'],
-      defaultContent: ['.text.cmp-text__home_page']
-    },
-    {
-      id: 'section-3',
-      name: 'Quick Links Cards',
-      selector: '.cmp-layout-quicklinks',
-      style: 'dark-teal',
-      blocks: ['cards-cta'],
-      defaultContent: []
-    },
-    {
-      id: 'section-4',
-      name: 'ISI Reference Bar',
-      selector: '.isi-mobile-wrap',
-      style: null,
-      blocks: [],
-      defaultContent: ['.isi-mobile-wrap .cq-dd-fragment p']
-    },
-    {
-      id: 'section-5',
-      name: 'ISI Full Content',
-      selector: '.cmp-layout-isi__phone',
-      style: 'isi',
-      blocks: [],
-      defaultContent: ['.cmp-isi__use', '.cmp-isi__importantsafety', '.cmp-isi__warningbox']
-    }
-  ]
+    { id: 'hp-ask', name: 'Ask for NORTHERA by name (icon + text band)', selector: '.responsivegrid.ask-for-northera', style: null, blocks: ['columns'], defaultContent: [] },
+    { id: 'hp-hero', name: 'Random patient-photo hero + survey CTA', selector: '.cmp-layout__herobanner', style: null, blocks: ['hero-patient'], defaultContent: [] },
+    { id: 'hp-financial', name: 'Financial assistance quicklink card', selector: '.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
+    { id: 'hp-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+  ],
 };
 
-// TRANSFORMER REGISTRY
+// PARSER REGISTRY
+const parsers = {
+  columns: columnsParser,
+  'hero-patient': heroPatientParser,
+  'cards-cta': cardsCtaParser,
+  isi: isiParser,
+};
+
+// TRANSFORMER REGISTRY - cleanup runs first, sections after
 const transformers = [
-  northeraCleanupTransformer,
-  northeraSectionsTransformer,
+  cleanupTransformer,
+  ...(PAGE_TEMPLATE.sections && PAGE_TEMPLATE.sections.length > 1 ? [sectionsTransformer] : []),
 ];
 
 /**
  * Execute all page transformers for a specific hook
  */
 function executeTransformers(hookName, element, payload) {
-  const enhancedPayload = {
-    ...payload,
-    template: PAGE_TEMPLATE,
-  };
-
+  const enhancedPayload = { ...payload, template: PAGE_TEMPLATE };
   transformers.forEach((transformerFn) => {
     try {
       transformerFn.call(null, hookName, element, enhancedPayload);
@@ -107,15 +81,20 @@ function executeTransformers(hookName, element, payload) {
 }
 
 /**
- * Find all blocks on the page based on template configuration
+ * Find all blocks on the page based on the embedded template configuration
  */
 function findBlocksOnPage(document, template) {
   const pageBlocks = [];
-
+  const seen = new Set();
   template.blocks.forEach((blockDef) => {
     blockDef.instances.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
+      if (elements.length === 0) {
+        console.warn(`Block "${blockDef.name}" selector not found: ${selector}`);
+      }
       elements.forEach((element) => {
+        if (seen.has(element)) return; // dedupe elements matched by multiple selectors
+        seen.add(element);
         pageBlocks.push({
           name: blockDef.name,
           selector,
@@ -125,23 +104,27 @@ function findBlocksOnPage(document, template) {
       });
     });
   });
-
+  console.log(`Found ${pageBlocks.length} block instances on page`);
   return pageBlocks;
 }
 
 export default {
   transform: (payload) => {
-    const { document, url, params } = payload;
+    const {
+      document, url, html, params,
+    } = payload;
+
     const main = document.body;
 
-    // 1. Execute beforeTransform transformers (initial cleanup)
+    // 1. beforeTransform (initial cleanup)
     executeTransformers('beforeTransform', main, payload);
 
-    // 2. Find blocks on page using embedded template
+    // 2. Find blocks on page
     const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
 
-    // 3. Parse each block using registered parsers
+    // 3. Parse each block (skip elements already replaced by a prior parser)
     pageBlocks.forEach((block) => {
+      if (!block.element.parentNode) return;
       const parser = parsers[block.name];
       if (parser) {
         try {
@@ -149,13 +132,15 @@ export default {
         } catch (e) {
           console.error(`Failed to parse ${block.name} (${block.selector}):`, e);
         }
+      } else {
+        console.warn(`No parser found for block: ${block.name}`);
       }
     });
 
-    // 4. Execute afterTransform transformers (final cleanup + section breaks)
+    // 4. afterTransform (final cleanup + section breaks)
     executeTransformers('afterTransform', main, payload);
 
-    // 5. Apply WebImporter built-in rules
+    // 5. WebImporter built-in rules
     const hr = document.createElement('hr');
     main.appendChild(hr);
     WebImporter.rules.createMetadata(main, document);
@@ -164,7 +149,7 @@ export default {
 
     // 6. Generate sanitized path
     const path = WebImporter.FileUtils.sanitizePath(
-      new URL(params.originalURL).pathname.replace(/\/$/, '').replace(/\.html$/, '') || '/index'
+      new URL(params.originalURL).pathname.replace(/\/$/, '').replace(/\.html$/, '') || '/index',
     );
 
     return [{

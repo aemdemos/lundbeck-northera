@@ -8,21 +8,27 @@
   --hero-patient-heading-max-width: 600px;
   --hero-patient-content-max-width: 380px;
 
-  /* survey lead line (source: #245778 Gotham-Bold 18px / 30) */
+  /* survey lead line. Mobile-first (source ≤767px): #245778 Gotham-Bold
+     20px / 24. Desktop enlarges the line-height to 30. */
   --hero-patient-lead-color: var(--brand-blue, #245778);
   --hero-patient-lead-font-family: var(--heading-font-family, "Gotham-Bold", "Helvetica Neue", helvetica, arial, sans-serif);
-  --hero-patient-lead-size: 18px;
-  --hero-patient-lead-line-height: 30px;
+  --hero-patient-lead-size: 20px;
+  --hero-patient-lead-line-height: 24px;
+  --hero-patient-lead-size-desktop: 18px;
+  --hero-patient-lead-line-height-desktop: 30px;
   --hero-patient-lead-gap: 10px;
 
-  /* CTA button (source .cmp-teaser__action-link): cyan bg, dark-blue text,
-     16px 55px padding, 5-step offset drop-shadow in dark blue (#19527f).
+  /* CTA button (source .cmp-teaser__action-link / button): cyan bg, dark-blue
+     text, Gotham-Black 18px, 5-step offset drop-shadow in dark blue (#19527f).
+     Mobile-first (default): full-width, 20px 55px padding.
+     Desktop: auto-width (hugs its label), 16px 55px padding.
      hover inverts → dark-blue bg, white text, shadow flips to cyan. */
   --hero-patient-button-background: #02bded;
   --hero-patient-button-color: #1f4763;
   --hero-patient-button-font-family: var(--heading-heavy-font-family, "Gotham-Black", "Helvetica Neue", helvetica, arial, sans-serif);
   --hero-patient-button-font-size: 18px;
-  --hero-patient-button-padding: 16px 55px;
+  --hero-patient-button-padding: 20px 55px;
+  --hero-patient-button-padding-desktop: 20px 55px;
   --hero-patient-button-shadow:
     1px 1px 0 #19527f, 2px 2px 0 #19527f, 3px 3px 0 #19527f,
     4px 4px 0 #19527f, 5px 5px 0 #19527f;

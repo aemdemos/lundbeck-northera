@@ -63,9 +63,11 @@
   margin: 0;
 }
 
+/* Mobile-first (default): full-width cyan button. */
 .hero-patient a {
-  display: inline-block;
+  display: block;
   box-sizing: border-box;
+  width: 100%;
   background-color: var(--hero-patient-button-background);
   color: var(--hero-patient-button-color);
   font-family: var(--hero-patient-button-font-family);
@@ -92,5 +94,18 @@
   .hero-patient {
     padding: var(--hero-patient-padding-desktop);
     min-height: var(--hero-patient-min-height-desktop);
+  }
+
+  /* desktop lead line: larger line-height */
+  .hero-patient > div:has(a) p:not(:has(a)) {
+    font-size: var(--hero-patient-lead-size-desktop);
+    line-height: var(--hero-patient-lead-line-height-desktop);
+  }
+
+  /* desktop button: auto-width (hugs its label), tighter vertical padding */
+  .hero-patient a {
+    display: inline-block;
+    width: auto;
+    padding: var(--hero-patient-button-padding-desktop);
   }
 }
