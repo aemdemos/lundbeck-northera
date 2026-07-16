@@ -792,6 +792,30 @@ main .section.dark p {
   color: var(--background-color);
 }
 
+/* section metadata - home-intro (homepage first section).
+   Styles the photography disclaimer paragraph ("All individuals featured on
+   this website…") that follows the hero. Source: Gotham-Bold 19px/23, #222,
+   on white, with 20px 15px padding (mobile) → 20px 20px 19px (≥768px).
+   Background + padding live on the paragraph itself: columns.css zeroes the
+   first section's `> div` padding for the icon-text band, so styling the
+   wrapper would be out-ranked — the paragraph is not affected by that rule. */
+main .section.home-intro > .default-content-wrapper p {
+  margin: 0;
+  background-color: #fff;
+  padding: 20px 15px;
+  color: #222;
+  font-family: var(--heading-font-family, "Gotham-Bold", "Helvetica Neue", helvetica, arial, sans-serif);
+  font-size: 19px;
+  line-height: 23px;
+  text-align: left;
+}
+
+@media (width >= 768px) {
+  main .section.home-intro > .default-content-wrapper p {
+    padding: 20px 20px 19px;
+  }
+}
+
 main .section.accent {
   background-color: var(--heading-color);
   color: var(--background-color);

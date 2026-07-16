@@ -75,4 +75,15 @@ export default function parse(element, { document }) {
   const block = WebImporter.Blocks.createBlock(document, { name: 'hero-patient', cells });
   element.replaceWith(block);
   if (disclaimer) block.after(disclaimer);
+
+  // Tag the homepage's first section with a Section Metadata style so the
+  // photography disclaimer can be styled (see .section.home-intro in
+  // blocks/hero-patient/hero-patient.css). The section selector is consumed by
+  // the columns parser before the sections transformer runs, so we emit the
+  // metadata here — at the end of the first section, before its section break.
+  const sectionMeta = WebImporter.Blocks.createBlock(document, {
+    name: 'Section Metadata',
+    cells: { Style: 'home-intro' },
+  });
+  (disclaimer || block).after(sectionMeta);
 }

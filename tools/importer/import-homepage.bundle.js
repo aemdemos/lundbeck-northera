@@ -104,6 +104,11 @@ var CustomImportScript = (() => {
     const block = WebImporter.Blocks.createBlock(document, { name: "hero-patient", cells });
     element.replaceWith(block);
     if (disclaimer) block.after(disclaimer);
+    const sectionMeta = WebImporter.Blocks.createBlock(document, {
+      name: "Section Metadata",
+      cells: { Style: "home-intro" }
+    });
+    (disclaimer || block).after(sectionMeta);
   }
 
   // tools/importer/parsers/cards-cta.js
