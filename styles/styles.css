@@ -859,11 +859,17 @@ main .section.accent h6 {
     width: 83.3333%;
   }
 
+  /* Source parity: at desktop the disclaimer band overlaps the bottom of the
+     hero photo and its 50% white lets the image show through. The wrapper's
+     margin is out-ranked by columns.css first-section rules, so pull the
+     paragraph itself up over the hero (source overlap ≈ 77px), layer it on top,
+     and recolor to translucent white. */
   main .section.home-intro > .default-content-wrapper p {
+    position: relative;
+    z-index: 1;
+    margin: -77px 0 0;
     padding: 20px 20px 19px;
     background-color: rgb(255 255 255 / 50%);
-    position: absolute;
-    margin-top:-70px;
   }
 
     main .section.home-intro > .columns-wrapper > div {

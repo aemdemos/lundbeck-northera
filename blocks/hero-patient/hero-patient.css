@@ -86,10 +86,16 @@
 /* Desktop (source Bootstrap breakpoint ≥768px): the photo becomes a full-bleed
    background and the lead line + auto-width CTA are overlaid on its lower-left. */
 @media (width >= 768px) {
+  /* Source parity: the desktop hero art (widescreen "*_header" image, ratio
+     ≈1.875) fills the full-width banner un-cropped — the source sizes the box
+     to the image's aspect and shows the whole photo. We reproduce that with an
+     aspect-ratio box + object-fit: cover (no visible crop since the ratios
+     match), and overlay the lead + CTA on the lower-left. */
   .hero-patient {
     justify-content: flex-end;
     padding: var(--hero-patient-padding-desktop);
-    min-height: var(--hero-patient-min-height-desktop);
+    min-height: 0;
+    aspect-ratio: var(--hero-patient-aspect-desktop);
   }
 
   .hero-patient > div:has(picture) {

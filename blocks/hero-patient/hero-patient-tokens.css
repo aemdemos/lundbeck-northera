@@ -5,6 +5,8 @@
   --hero-patient-padding-desktop: 40px 40px 50px;
   --hero-patient-min-height: 400px;
   --hero-patient-min-height-desktop: 640px;
+  /* desktop hero art aspect ratio (source banner 1200×640 ≈ widescreen 2648×1420) */
+  --hero-patient-aspect-desktop: 1200 / 640;
   --hero-patient-heading-max-width: 600px;
   --hero-patient-content-max-width: 380px;
   --hero-patient-content-padding: 20px 15px 30px;

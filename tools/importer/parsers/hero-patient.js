@@ -20,10 +20,23 @@ export default function parse(element, { document }) {
   // Extract the first teaser instance (source has multiple randomized teasers)
   const firstTeaser = element.querySelector('.cmp-teaser');
 
-  // Extract image from the first teaser (background image row)
-  const image = firstTeaser
-    ? firstTeaser.querySelector('.cmp-teaser__image .cmp-image__image, img')
-    : element.querySelector('img.cmp-image__image, img');
+  // Pick the hero image. The source hero cycles several teasers, and each
+  // patient has TWO renditions: a near-square mobile crop ("*_m.jpg") and a
+  // widescreen desktop banner ("*_header.jpg", ~2664×1420). The desktop banner
+  // is the correct full-bleed hero art (shown un-cropped via object-fit), so
+  // prefer a "_header" image; fall back to the first teaser image otherwise.
+  const allImages = [...element.querySelectorAll('.cmp-teaser__image img, img')];
+  const headerImage = allImages.find((img) => {
+    const asset = img.getAttribute('data-asset')
+      || (img.closest('[data-asset]') && img.closest('[data-asset]').getAttribute('data-asset'))
+      || img.getAttribute('src')
+      || '';
+    return /_header\.(jpg|jpeg|png)/i.test(asset);
+  });
+  const image = headerImage
+    || (firstTeaser
+      ? firstTeaser.querySelector('.cmp-teaser__image .cmp-image__image, img')
+      : element.querySelector('img.cmp-image__image, img'));
 
   // Extract CTA link. The randomized hero splits image and CTA across sibling
   // teasers — the first teaser may hold only the image — so search the whole

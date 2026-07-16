@@ -74,7 +74,12 @@ var CustomImportScript = (() => {
   // tools/importer/parsers/hero-patient.js
   function parse2(element, { document }) {
     const firstTeaser = element.querySelector(".cmp-teaser");
-    const image = firstTeaser ? firstTeaser.querySelector(".cmp-teaser__image .cmp-image__image, img") : element.querySelector("img.cmp-image__image, img");
+    const allImages = [...element.querySelectorAll(".cmp-teaser__image img, img")];
+    const headerImage = allImages.find((img) => {
+      const asset = img.getAttribute("data-asset") || img.closest("[data-asset]") && img.closest("[data-asset]").getAttribute("data-asset") || img.getAttribute("src") || "";
+      return /_header\.(jpg|jpeg|png)/i.test(asset);
+    });
+    const image = headerImage || (firstTeaser ? firstTeaser.querySelector(".cmp-teaser__image .cmp-image__image, img") : element.querySelector("img.cmp-image__image, img"));
     const actionLinks = [...element.querySelectorAll("a.cmp-teaser__action-link")];
     const sourceCta = actionLinks.find((a) => a.textContent.trim()) || element.querySelector("a[href]") || null;
     const leadEl = element.querySelector(".cmp-imagetext__description p, .cmp-imagetext__description");
