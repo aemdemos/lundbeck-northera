@@ -295,9 +295,6 @@ pre { /* @libs */
   white-space: pre; /* @libs */
 }
 
-main > div {
-  margin: 30px 16px;
-}
 
 input,
 textarea,
