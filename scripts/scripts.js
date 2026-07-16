@@ -30,13 +30,13 @@ const UNSAFE_OBJECT_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 /**
  * Returns true if key is safe for plain object or dataset assignment.
- * @param {string} key Property name
+ * @param {string} propName Property name
  * @returns {boolean}
  */
-function isSafeObjectKey(key) {
-  return typeof key === 'string' && key.length > 0
-    && !UNSAFE_OBJECT_KEYS.has(key)
-    && !key.startsWith('__');
+function isSafeObjectKey(propName) {
+  return typeof propName === 'string' && propName.length > 0
+    && !UNSAFE_OBJECT_KEYS.has(propName)
+    && !propName.startsWith('__');
 }
 
 // DOMPurify loaded once for HTML sanitization (mitigates DOM XSS from contentMap/dataset)
@@ -291,8 +291,8 @@ export function decorateLeavingSiteLinks(element) {
       // fragment loaded) strips the authored classes and rewrites the links as
       // button primary, so identify OK/CANCEL by their label text instead.
       const links = [...content.querySelectorAll('a')];
-      const ok = links.find((a) => /^ok$/i.test(a.textContent.trim()));
-      const cancel = links.find((a) => /^cancel$/i.test(a.textContent.trim()));
+      const ok = links.find((link) => /^ok$/i.test(link.textContent.trim()));
+      const cancel = links.find((link) => /^cancel$/i.test(link.textContent.trim()));
       if (ok) {
         ok.setAttribute('href', url.href);
         ok.setAttribute('target', '_blank');
@@ -472,16 +472,16 @@ export function decorateSections(main) {
     const sectionMeta = section.querySelector('div.section-metadata');
     if (sectionMeta) {
       const meta = readBlockConfig(sectionMeta);
-      Object.entries(meta).forEach(([key, value]) => {
-        if (key === 'style') {
+      Object.entries(meta).forEach(([metaKey, value]) => {
+        if (metaKey === 'style') {
           const styleStr = typeof value === 'string' ? value : '';
           const styles = styleStr
             .split(',')
             .filter((style) => style)
             .map((style) => toClassName(style.trim()));
           styles.forEach((style) => section.classList.add(style));
-        } else if (isSafeObjectKey(key)) {
-          section.setAttribute(`data-${key}`, String(value ?? ''));
+        } else if (isSafeObjectKey(metaKey)) {
+          section.setAttribute(`data-${metaKey}`, String(value ?? ''));
         }
       });
       sectionMeta.parentNode.remove();
