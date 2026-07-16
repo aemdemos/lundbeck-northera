@@ -7,6 +7,10 @@
   --hero-patient-min-height-desktop: 640px;
   --hero-patient-heading-max-width: 600px;
   --hero-patient-content-max-width: 380px;
+  /* mobile stacked content area (lead + button) sits on a light blue-gray band
+     below the image (source: #e9eff3) */
+  --hero-patient-content-padding: 20px 15px 30px;
+  --hero-patient-content-bg: #e9eff3;
 
   /* survey lead line. Mobile-first (source ≤767px): #245778 Gotham-Bold
      20px / 24. Desktop enlarges the line-height to 30. */
