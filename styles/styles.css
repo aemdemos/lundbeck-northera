@@ -295,9 +295,6 @@ pre { /* @libs */
   white-space: pre; /* @libs */
 }
 
-main > div {
-  margin: 30px 16px;
-}
 
 input,
 textarea,
@@ -795,6 +792,24 @@ main .section.dark p {
   color: var(--background-color);
 }
 
+/* section metadata - home-intro (homepage first section).
+   Styles the photography disclaimer paragraph ("All individuals featured on
+   this website…") that follows the hero. Source: Gotham-Bold 19px/23, #222,
+   on white, with 20px 15px padding (mobile) → 20px 20px 19px (≥768px).
+   Background + padding live on the paragraph itself: columns.css zeroes the
+   first section's `> div` padding for the icon-text band, so styling the
+   wrapper would be out-ranked — the paragraph is not affected by that rule. */
+main .section.home-intro > .default-content-wrapper p {
+  margin: 0;
+  background-color: #fff;
+  padding: 20px 15px;
+  color: #222;
+  font-family: var(--heading-font-family, "Gotham-Bold", "Helvetica Neue", helvetica, arial, sans-serif);
+  font-size: 19px;
+  line-height: 23px;
+  text-align: left;
+}
+
 main .section.accent {
   background-color: var(--heading-color);
   color: var(--background-color);
@@ -843,6 +858,26 @@ main .section.accent h6 {
   main .section.reminders > div {
     width: 83.3333%;
   }
+
+  /* Source parity: at desktop the disclaimer band overlaps the bottom of the
+     hero photo and its 50% white lets the image show through. The wrapper's
+     margin is out-ranked by columns.css first-section rules, so pull the
+     paragraph itself up over the hero (source overlap ≈ 77px), layer it on top,
+     and recolor to translucent white. */
+  main .section.home-intro > .default-content-wrapper p {
+    position: relative;
+    z-index: 1;
+    margin: -40px 0 0;
+    padding: 10px 20px;
+    background-color: rgb(255 255 255 / 50%);
+    font-size: var(--body-font-size-xs);
+    line-height: var(--body-line-height);
+    margin-left:11%;
+  }
+
+    main .section.home-intro > .columns-wrapper > div {
+      margin-bottom:0;
+    }
 
   main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper,.cards-cta-wrapper,.default-content-wrapper) {
     padding: 0 11%;
@@ -913,12 +948,17 @@ main .section.stats-callout > div:not(.bg-image) {
   }
 }
 
-@media (width >= 1200px) {
+@media (width > 1200px) {
   header { /* @libs */
     height: var(--nav-height); /* @libs */
   }
 
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
+  }
+
+  main .section.home-intro > .default-content-wrapper p {
+    font-size: var(--body-font-size-m);
+    line-height: var(--body-line-height);
   }
 }

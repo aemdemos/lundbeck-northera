@@ -1,7 +1,34 @@
-/* hero-patient design tokens */
+/* hero-patient design tokens — source homepage .cmp-layout__herobanner
+   (full-bleed patient photo, survey lead line + cyan CTA overlaid lower-left) */
 :root {
   --hero-patient-padding: 32px 16px;
-  --hero-patient-padding-desktop: 64px 32px;
+  --hero-patient-padding-desktop: 40px 40px 50px;
   --hero-patient-min-height: 400px;
+  --hero-patient-min-height-desktop: 640px;
+  --hero-patient-aspect-desktop: 1200 / 640;
   --hero-patient-heading-max-width: 600px;
+  --hero-patient-content-max-width: 380px;
+  --hero-patient-content-padding: 20px 15px 30px;
+  --hero-patient-content-bg: #e9eff3;
+  --hero-patient-lead-color: var(--brand-blue, #245778);
+  --hero-patient-lead-font-family: var(--heading-font-family, "Gotham-Bold", "Helvetica Neue", helvetica, arial, sans-serif);
+  --hero-patient-lead-size: 20px;
+  --hero-patient-lead-line-height: 24px;
+  --hero-patient-lead-size-desktop: 18px;
+  --hero-patient-lead-line-height-desktop: 30px;
+  --hero-patient-lead-gap: 10px;
+  --hero-patient-button-background: #02bded;
+  --hero-patient-button-color: #1f4763;
+  --hero-patient-button-font-family: var(--heading-heavy-font-family, "Gotham-Black", "Helvetica Neue", helvetica, arial, sans-serif);
+  --hero-patient-button-font-size: 18px;
+  --hero-patient-button-padding: 20px 55px;
+  --hero-patient-button-padding-desktop: 20px 55px;
+  --hero-patient-button-shadow:
+    1px 1px 0 #19527f, 2px 2px 0 #19527f, 3px 3px 0 #19527f,
+    4px 4px 0 #19527f, 5px 5px 0 #19527f;
+  --hero-patient-button-hover-background: #19527f;
+  --hero-patient-button-hover-color: #fff;
+  --hero-patient-button-hover-shadow:
+    1px 1px 0 #02bded, 2px 2px 0 #02bded, 3px 3px 0 #02bded,
+    4px 4px 0 #02bded, 5px 5px 0 #02bded;
 }

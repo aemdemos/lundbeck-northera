@@ -35,86 +35,11 @@ var CustomImportScript = (() => {
   };
   var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
-  // tools/importer/import-homepage.js
-  var import_homepage_exports = {};
-  __export(import_homepage_exports, {
-    default: () => import_homepage_default
+  // tools/importer/import-thank-you-page.js
+  var import_thank_you_page_exports = {};
+  __export(import_thank_you_page_exports, {
+    default: () => import_thank_you_page_default
   });
-
-  // tools/importer/parsers/columns.js
-  function parse(element, { document }) {
-    const image = element.querySelector(".cmp-image img, img.cmp-image__image, img");
-    const textContainer = element.querySelector(".cmp-text") || element.querySelector(".text");
-    const textCell = [];
-    if (textContainer) {
-      [...textContainer.children].forEach((child) => {
-        if (child.textContent.trim() || child.querySelector("img, a")) {
-          textCell.push(child);
-        }
-      });
-    }
-    if (!textCell.length) {
-      [...element.querySelectorAll("p, ul")].forEach((el) => {
-        if (!el.closest(".cmp-image") && (el.textContent.trim() || el.querySelector("a"))) {
-          textCell.push(el);
-        }
-      });
-    }
-    if (!image && !textCell.length) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const cells = [
-      [image || "", textCell.length ? textCell : ""]
-    ];
-    const block = WebImporter.Blocks.createBlock(document, { name: "columns (icon-text)", cells });
-    element.replaceWith(block);
-  }
-
-  // tools/importer/parsers/hero-patient.js
-  function parse2(element, { document }) {
-    const firstTeaser = element.querySelector(".cmp-teaser");
-    const allImages = [...element.querySelectorAll(".cmp-teaser__image img, img")];
-    const headerImage = allImages.find((img) => {
-      const asset = img.getAttribute("data-asset") || img.closest("[data-asset]") && img.closest("[data-asset]").getAttribute("data-asset") || img.getAttribute("src") || "";
-      return /_header\.(jpg|jpeg|png)/i.test(asset);
-    });
-    const image = headerImage || (firstTeaser ? firstTeaser.querySelector(".cmp-teaser__image .cmp-image__image, img") : element.querySelector("img.cmp-image__image, img"));
-    const actionLinks = [...element.querySelectorAll("a.cmp-teaser__action-link")];
-    const sourceCta = actionLinks.find((a) => a.textContent.trim()) || element.querySelector("a[href]") || null;
-    const leadEl = element.querySelector(".cmp-imagetext__description p, .cmp-imagetext__description");
-    const cells = [];
-    cells.push([image || ""]);
-    const contentCell = [];
-    if (leadEl && leadEl.textContent.trim()) {
-      const lead = document.createElement("p");
-      lead.textContent = leadEl.textContent.trim();
-      contentCell.push(lead);
-    }
-    if (sourceCta) {
-      const cta = document.createElement("a");
-      cta.setAttribute("href", sourceCta.getAttribute("href") || sourceCta.href || "");
-      cta.textContent = sourceCta.textContent.trim() || "Learn More";
-      const p = document.createElement("p");
-      p.appendChild(cta);
-      contentCell.push(p);
-    }
-    cells.push([contentCell.length ? contentCell : ""]);
-    const disclaimerEl = element.querySelector(".cmp-text__home_page p, .cmp-text__home_page");
-    let disclaimer = null;
-    if (disclaimerEl && /real patients and care partners/i.test(disclaimerEl.textContent)) {
-      disclaimer = document.createElement("p");
-      disclaimer.textContent = disclaimerEl.textContent.trim();
-    }
-    const block = WebImporter.Blocks.createBlock(document, { name: "hero-patient", cells });
-    element.replaceWith(block);
-    if (disclaimer) block.after(disclaimer);
-    const sectionMeta = WebImporter.Blocks.createBlock(document, {
-      name: "Section Metadata",
-      cells: { Style: "home-intro" }
-    });
-    (disclaimer || block).after(sectionMeta);
-  }
 
   // tools/importer/parsers/cards-cta.js
   function normalizeHref(raw) {
@@ -131,7 +56,7 @@ var CustomImportScript = (() => {
       return raw;
     }
   }
-  function parse3(element, { document }) {
+  function parse(element, { document }) {
     const container = element.closest(".cmp-layout-quicklinks") || element.parentElement;
     if (container.querySelector("table")) {
       element.replaceWith(document.createTextNode(""));
@@ -213,7 +138,7 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/isi.js
-  function parse4(element, { document }) {
+  function parse2(element, { document }) {
     const abbreviatedCell = [];
     const barWrap = document.querySelector(".isi-mobile-wrap");
     const barFragment = barWrap ? barWrap.querySelector(".cq-dd-fragment") || barWrap : null;
@@ -339,30 +264,18 @@ var CustomImportScript = (() => {
     }
   }
 
-  // tools/importer/import-homepage.js
+  // tools/importer/import-thank-you-page.js
   var PAGE_TEMPLATE = {
-    name: "homepage",
-    description: 'NORTHERA homepage: light-cyan "Ask for NORTHERA by name" icon+text band, a randomized patient-photo hero with a survey CTA, a teal "Financial assistance" quicklink card, and ISI content.',
+    name: "thank-you-page",
+    description: 'Email sign-up confirmation page: centered "Thank you!" title + intro paragraph (default content), a full-width teal "Resources are available now" quicklink callout (centered heading + description + cyan CTA), and ISI content.',
     urls: [
-      "https://northera-stage.d.lundbeckus.com/"
+      "https://northera-stage.d.lundbeckus.com/patient-support/every-patient-story-matters/thank-you"
     ],
     blocks: [
       {
-        name: "columns",
-        instances: [
-          ".responsivegrid.ask-for-northera"
-        ]
-      },
-      {
-        name: "hero-patient",
-        instances: [
-          ".cmp-layout__herobanner"
-        ]
-      },
-      {
         name: "cards-cta",
         instances: [
-          ".cmp-layout-quicklinks .image-text-cta"
+          ".cmp-layout-quicklinks"
         ]
       },
       {
@@ -373,17 +286,14 @@ var CustomImportScript = (() => {
       }
     ],
     sections: [
-      { id: "hp-ask", name: "Ask for NORTHERA by name (icon + text band)", selector: ".responsivegrid.ask-for-northera", style: null, blocks: ["columns"], defaultContent: [] },
-      { id: "hp-hero", name: "Random patient-photo hero + survey CTA", selector: ".cmp-layout__herobanner", style: null, blocks: ["hero-patient"], defaultContent: [] },
-      { id: "hp-financial", name: "Financial assistance quicklink card", selector: ".cmp-layout-quicklinks", style: null, blocks: ["cards-cta"], defaultContent: [] },
-      { id: "hp-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["isi"], defaultContent: [] }
+      { id: "ty-intro", name: "Thank you! intro (title + confirmation copy)", selector: ".cmp-layout-main-section", style: null, blocks: [], defaultContent: [] },
+      { id: "ty-resources", name: "Resources are available now (quicklink callout)", selector: ".cmp-layout-quicklinks", style: null, blocks: ["cards-cta"], defaultContent: [] },
+      { id: "ty-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["isi"], defaultContent: [] }
     ]
   };
   var parsers = {
-    columns: parse,
-    "hero-patient": parse2,
-    "cards-cta": parse3,
-    isi: parse4
+    "cards-cta": parse,
+    isi: parse2
   };
   var transformers = [
     transform,
@@ -423,7 +333,7 @@ var CustomImportScript = (() => {
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
-  var import_homepage_default = {
+  var import_thank_you_page_default = {
     transform: (payload) => {
       const {
         document,
@@ -454,7 +364,7 @@ var CustomImportScript = (() => {
       WebImporter.rules.transformBackgroundImages(main, document);
       WebImporter.rules.adjustImageUrls(main, url, params.originalURL);
       const path = WebImporter.FileUtils.sanitizePath(
-        new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html$/, "") || "/index"
+        new URL(params.originalURL).pathname.replace(/\/$/, "").replace(/\.html$/, "")
       );
       return [{
         element: main,
@@ -467,5 +377,5 @@ var CustomImportScript = (() => {
       }];
     }
   };
-  return __toCommonJS(import_homepage_exports);
+  return __toCommonJS(import_thank_you_page_exports);
 })();

@@ -1,5 +1,16 @@
 @import url('./columns-tokens.css');
 
+main > .section:first-of-type:has(.columns.icon-text) {
+  margin: 0;
+  padding: 0;
+}
+
+/* base override */
+main > .section:first-of-type:has(.columns.icon-text) > div {
+  padding: 0;
+  margin: 0;
+}
+
 .columns > div { /* @boilerplate */
   display: flex; /* @boilerplate */
   flex-direction: column; /* @boilerplate */
@@ -19,10 +30,10 @@
 
 main .columns.icon-text {
   background-color: var(--columns-icon-text-bg);
-  padding: 10px 10% 10px 12%;
+  padding: 15px 20px;
   margin-bottom: var(--columns-icon-text-margin-bottom);
-  border-top: 1px solid #245778;
-  border-bottom: 1px solid #245778;
+  border-top: 1px solid var(--columns-icon-text-border-color);
+  border-bottom: 1px solid var(--columns-icon-text-border-color);
 }
 
 /* mobile-first (source ≤767px): icon stacked on top, centered, with 20px below;
@@ -31,6 +42,12 @@ main .columns.icon-text > div > .columns-img-col {
   flex: 0 0 auto;
   text-align: center;
   padding-bottom: var(--columns-icon-gap);
+}
+
+.columns.icon-text > div > div > h4 {
+  margin:0;
+  padding:15px 0;
+  border-top: 3px solid var(--columns-icon-text-border-color);
 }
 
 main .columns.icon-text > div > .columns-img-col img {
@@ -158,12 +175,23 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
    The base columns block only flips to a row at 900px, so the variant flips
    its own flex-direction here to match the source. */
 @media (width >= 768px) {
+    main > .section:first-of-type:has(.columns.icon-text) {
+    margin: 0;
+    padding: 0;
+  }
+
+   main > .section:first-of-type:has(.columns.icon-text) > div {
+    padding: 0;
+    margin: 0;
+  }
+
   main > .section > div:has(.columns.icon-text) { 
     padding:0;
   }
 
   main .columns.icon-text { 
     margin-bottom: var(--columns-icon-text-margin-bottom-desktop);
+    padding: 10px 10% 10px 12%;
   }
 
   .columns > div { /* @boilerplate */
@@ -175,6 +203,11 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   .columns > div > div { /* @boilerplate */
     flex: 1; /* @boilerplate */
     order: unset; /* @boilerplate */
+  }
+
+  .columns.icon-text > div > div > h4 {
+    border-top: none;
+    padding-top: 0;
   }
 
   .columns.divider.columns-2-cols > div {
