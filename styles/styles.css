@@ -867,9 +867,12 @@ main .section.accent h6 {
   main .section.home-intro > .default-content-wrapper p {
     position: relative;
     z-index: 1;
-    margin: -77px 0 0;
-    padding: 20px 20px 19px;
+    margin: -40px 0 0;
+    padding: 10px 20px;
     background-color: rgb(255 255 255 / 50%);
+    font-size: var(--body-font-size-xs);
+    line-height: var(--body-line-height);
+    margin-left:11%;
   }
 
     main .section.home-intro > .columns-wrapper > div {
@@ -945,12 +948,17 @@ main .section.stats-callout > div:not(.bg-image) {
   }
 }
 
-@media (width >= 1200px) {
+@media (width > 1200px) {
   header { /* @libs */
     height: var(--nav-height); /* @libs */
   }
 
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
+  }
+
+  main .section.home-intro > .default-content-wrapper p {
+    font-size: var(--body-font-size-m);
+    line-height: var(--body-line-height);
   }
 }

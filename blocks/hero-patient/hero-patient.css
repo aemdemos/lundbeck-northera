@@ -93,8 +93,7 @@
      match), and overlay the lead + CTA on the lower-left. */
   .hero-patient {
     justify-content: flex-end;
-    padding: var(--hero-patient-padding-desktop);
-    min-height: 0;
+    min-height: 480px;
     aspect-ratio: var(--hero-patient-aspect-desktop);
   }
 
@@ -116,11 +115,13 @@
   }
 
   .hero-patient > div:has(a) {
-    position: relative;
+    position: absolute;
     z-index: 1;
     max-width: var(--hero-patient-content-max-width);
     padding: 0;
     background-color: transparent;
+    margin-left: 12.2%;
+    bottom:44px;
   }
 
   /* desktop lead line: larger line-height */
@@ -134,5 +135,13 @@
     display: inline-block;
     width: auto;
     padding: var(--hero-patient-button-padding-desktop);
+    text-align: center;
   }
+}
+
+@media (width > 1200px) {
+  .hero-patient > div:has(a) {
+    bottom:65px;
+  }
+  
 }
