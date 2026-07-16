@@ -1,5 +1,5 @@
 @import url('./columns-tokens.css');
-/* first section only, only when it contains .columns.icon-text */
+
 main > .section:first-of-type:has(.columns.icon-text) {
   margin: 0;
   padding: 0;
@@ -191,6 +191,7 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
 
   main .columns.icon-text { 
     margin-bottom: var(--columns-icon-text-margin-bottom-desktop);
+    padding: 10px 10% 10px 12%;
   }
 
   .columns > div { /* @boilerplate */
@@ -202,6 +203,11 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
   .columns > div > div { /* @boilerplate */
     flex: 1; /* @boilerplate */
     order: unset; /* @boilerplate */
+  }
+
+  .columns.icon-text > div > div > h4 {
+    border-top: none;
+    padding-top: 0;
   }
 
   .columns.divider.columns-2-cols > div {
