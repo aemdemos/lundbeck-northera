@@ -1,0 +1,15 @@
+/* cards-video design tokens — source .cmp-videothumbnail grid on the
+   Real Experiences page. Thumbnail image (16:9-ish, ratio ~1.735) + heading. */
+.cards-video {
+  --cards-video-gap-col: 20px;
+  --cards-video-gap-row: 40px;
+  --cards-video-gap-row-desktop: 80px;
+  --cards-video-thumb-ratio: 446 / 257;
+  --cards-video-title-color: var(--brand-blue);
+  --cards-video-title-font-family: var(--heading-font-family);
+  --cards-video-title-size: 20px;
+  --cards-video-title-line-height: 24px;
+  --cards-video-title-size-desktop: 24px;
+  --cards-video-title-line-height-desktop: 29px;
+  --cards-video-title-margin-top: 10px;
+}

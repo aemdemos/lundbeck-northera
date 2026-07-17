@@ -1,0 +1,62 @@
+@import url('./cards-video-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   cards-video — grid of video thumbnail cards (source
+   .cmp-videothumbnail). Thumbnail image + brand-blue heading, whole
+   card links to the video experience fragment.
+   Mobile-first: 1 column; source breakpoints 768/992/1200.
+   ══════════════════════════════════════════════════════════════ */
+
+.cards-video ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--cards-video-gap-row) var(--cards-video-gap-col);
+}
+
+.cards-video li {
+  margin: 0;
+}
+
+.cards-video .cards-video-link {
+  display: block;
+  text-decoration: none;
+}
+
+.cards-video .cards-video-thumb {
+  aspect-ratio: var(--cards-video-thumb-ratio);
+  overflow: hidden;
+}
+
+.cards-video .cards-video-thumb picture,
+.cards-video .cards-video-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cards-video .cards-video-body h3 {
+  margin: var(--cards-video-title-margin-top) 0 0;
+  padding: 0;
+  color: var(--cards-video-title-color);
+  font-family: var(--cards-video-title-font-family);
+  font-size: var(--cards-video-title-size);
+  line-height: var(--cards-video-title-line-height);
+  text-align: left;
+}
+
+/* tablet+ : two columns (source: 2-up grid at 768px) */
+@media (width >= 768px) {
+  .cards-video ul {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--cards-video-gap-row-desktop) var(--cards-video-gap-col);
+  }
+
+  .cards-video .cards-video-body h3 {
+    font-size: var(--cards-video-title-size-desktop);
+    line-height: var(--cards-video-title-line-height-desktop);
+  }
+}
