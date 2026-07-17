@@ -50,6 +50,12 @@ export default function transform(hookName, element, payload) {
     // authorable content. The static specialist-search block replaces the form;
     // this results panel is not migrated.
     WebImporter.DOMUtils.remove(element, ['.cmp-specialist__result-section']);
+
+    // Video popup modals (.cmp-modal / .videopopup) — hidden Bootstrap modal
+    // shells behind the video thumbnail cards (Real Experiences page). They
+    // contribute non-authorable "×" / "Close" button text; the thumbnails
+    // themselves link out to the video experience fragments.
+    WebImporter.DOMUtils.remove(element, ['.cmp-modal', '.videopopup']);
   }
 
   if (hookName === TransformHook.afterTransform) {

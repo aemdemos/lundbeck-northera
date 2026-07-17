@@ -1,4 +1,19 @@
 /* columns-banner design tokens */
 :root {
   --columns-banner-gap: 32px;
+
+  /* daw variant (HCP landing "Dispense as written" callout): blue banner with
+     Rx icon + white heading/text. */
+  --columns-banner-daw-bg: #0188bf;
+  --columns-banner-daw-heading-color: #fff;
+  --columns-banner-daw-heading-font-family: var(--heading-font-family);
+  --columns-banner-daw-heading-size: 20px;
+  --columns-banner-daw-heading-line-height: 24px;
+  --columns-banner-daw-text-color: #fff;
+  --columns-banner-daw-text-font-family: var(--body-font-family);
+  --columns-banner-daw-text-size: 16px;
+  --columns-banner-daw-text-line-height: 30px;
+  --columns-banner-daw-icon-width: 159px;
+  --columns-banner-daw-heading-size-desktop: 24px;
+  --columns-banner-daw-heading-line-height-desktop: 28px;
 }

@@ -33,3 +33,55 @@
     order: unset;
   }
 }
+
+/* ── daw variant (HCP "Dispense as written" callout) ──────────────────
+   Blue banner: Rx icon on the left, white heading + paragraph on the right.
+   Mobile-first (icon stacked above text); icon beside text at ≥768px. */
+main .section:has(.columns-banner.daw) {
+  padding: 0;
+}
+
+.columns-banner.daw {
+  background-color: var(--columns-banner-daw-bg);
+  padding: 10px 15px 20px;
+}
+
+.columns-banner.daw > div {
+  align-items: center;
+  gap: 20px;
+}
+
+.columns-banner.daw .columns-banner-img-col {
+  flex: 0 0 auto;
+}
+
+.columns-banner.daw .columns-banner-img-col img {
+  width: var(--columns-banner-daw-icon-width);
+}
+
+.columns-banner.daw h4 {
+  margin: 0 0 10px;
+  color: var(--columns-banner-daw-heading-color);
+  font-family: var(--columns-banner-daw-heading-font-family);
+  font-size: var(--columns-banner-daw-heading-size);
+  line-height: var(--columns-banner-daw-heading-line-height);
+}
+
+.columns-banner.daw p {
+  margin: 0;
+  color: var(--columns-banner-daw-text-color);
+  font-family: var(--columns-banner-daw-text-font-family);
+  font-size: var(--columns-banner-daw-text-size);
+  line-height: var(--columns-banner-daw-text-line-height);
+}
+
+@media (width >= 768px) {
+  .columns-banner.daw {
+    padding: 20px 0;
+  }
+
+  .columns-banner.daw h4 {
+    font-size: var(--columns-banner-daw-heading-size-desktop);
+    line-height: var(--columns-banner-daw-heading-line-height-desktop);
+  }
+}

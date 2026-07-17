@@ -1,0 +1,30 @@
+/* hero-hcp design tokens — HCP landing hero banner (flamingo/sky background
+   with overlaid white text). Values extracted from the northera-stage source. */
+.hero-hcp {
+  --hero-hcp-bg-desktop: url("/icons/northera-hcp-bg-desktop.png");
+  --hero-hcp-ratio-desktop: 1210 / 380;
+
+  /* mobile: dark text on a white card below the image banner */
+  --hero-hcp-title-color: var(--brand-blue);
+  --hero-hcp-title-font-family: var(--body-font-family);
+  --hero-hcp-title-size: 25px;
+  --hero-hcp-title-line-height: 24px;
+  --hero-hcp-subhead-color: #333;
+  --hero-hcp-subhead-font-family: var(--body-font-family);
+  --hero-hcp-subhead-size: 18px;
+  --hero-hcp-subhead-line-height: 19.8px;
+  --hero-hcp-body-color: var(--brand-grey);
+  --hero-hcp-body-font-family: var(--body-font-family);
+  --hero-hcp-body-size: 15.6px;
+  --hero-hcp-body-line-height: 20px;
+
+  /* desktop: white text overlaid on the flamingo background */
+  --hero-hcp-title-color-desktop: #fff;
+  --hero-hcp-title-font-family-desktop: var(--heading-font-family);
+  --hero-hcp-title-size-desktop: 48px;
+  --hero-hcp-title-line-height-desktop: 60px;
+  --hero-hcp-subhead-color-desktop: #fff;
+  --hero-hcp-subhead-size-desktop: 24px;
+  --hero-hcp-subhead-line-height-desktop: 26px;
+  --hero-hcp-body-color-desktop: #fff;
+}
