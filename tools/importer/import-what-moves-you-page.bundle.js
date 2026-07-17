@@ -133,51 +133,16 @@ var CustomImportScript = (() => {
     container.replaceWith(block);
   }
 
-  // tools/importer/parsers/isi.js
+  // tools/importer/parsers/fragment-isi.js
+  var ISI_FRAGMENT_PATH = "/content/fragments/northera-isi";
   function parse2(element, { document }) {
-    const abbreviatedCell = [];
-    const barWrap = document.querySelector(".isi-mobile-wrap");
-    const barFragment = barWrap ? barWrap.querySelector(".cq-dd-fragment") || barWrap : null;
-    if (barFragment) {
-      const barParagraphs = [...barFragment.querySelectorAll("p")].filter((p) => p.textContent.trim());
-      barParagraphs.forEach((p) => {
-        const clone = p.cloneNode(true);
-        clone.querySelectorAll("a:not([href]), .openisi a").forEach((a) => {
-          a.replaceWith(document.createTextNode(a.textContent));
-        });
-        abbreviatedCell.push(clone);
-      });
-    }
-    if (!abbreviatedCell.length) {
-      const p1 = document.createElement("p");
-      p1.textContent = "Please see Important Safety Information, including Boxed Warning for supine hypertension.";
-      const p2 = document.createElement("p");
-      p2.append(document.createTextNode("For more information, see the full "));
-      const piLink = document.createElement("a");
-      piLink.href = "https://www.lundbeck.com/upload/us/files/pdf/Products/Northera_PI_US_EN.pdf";
-      piLink.textContent = "Prescribing Information";
-      p2.append(piLink);
-      p2.append(document.createTextNode("."));
-      abbreviatedCell.push(p1, p2);
-    }
-    const fullCell = [];
-    const useSection = element.querySelector(".cmp-isi__use");
-    if (useSection) fullCell.push(useSection);
-    const safetySection = element.querySelector('.cmp-isi__importantsafety, [class*="cmp-isi__importantsafety"]');
-    if (safetySection) fullCell.push(safetySection);
-    if (!fullCell.length) {
-      [...element.children].forEach((child) => {
-        if (child.textContent.trim()) fullCell.push(child);
-      });
-    }
-    if (!abbreviatedCell.length && !fullCell.length) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const cells = [];
-    cells.push([abbreviatedCell]);
-    cells.push([fullCell]);
-    const block = WebImporter.Blocks.createBlock(document, { name: "isi", cells });
+    const link = document.createElement("a");
+    link.setAttribute("href", ISI_FRAGMENT_PATH);
+    link.textContent = ISI_FRAGMENT_PATH;
+    const block = WebImporter.Blocks.createBlock(document, {
+      name: "Fragment",
+      cells: [[link]]
+    });
     element.replaceWith(block);
   }
 
@@ -271,7 +236,7 @@ var CustomImportScript = (() => {
   // tools/importer/import-what-moves-you-page.js
   var PAGE_TEMPLATE = {
     name: "what-moves-you-page",
-    description: '"What Moves You" survey page: an intro (Home link + H1 "Reflect on the things that move you" + confidentiality paragraph, as default content), a static replica of the survey form (wmy-survey: name/phone/email inputs, nervous-system checkbox group, 4 free-text questions with counters, consent + SUBMIT), then ISI content.',
+    description: '"What Moves You" survey page: an intro (Home link + H1 "Reflect on the things that move you" + confidentiality paragraph, as default content), a static replica of the survey form (wmy-survey: name/phone/email inputs, nervous-system checkbox group, 4 free-text questions with counters, consent + SUBMIT), then a reference to the shared ISI fragment (/fragments/northera-isi) via the Fragment block.',
     urls: [
       "https://northera-stage.d.lundbeckus.com/what-moves-you"
     ],
@@ -283,7 +248,8 @@ var CustomImportScript = (() => {
         ]
       },
       {
-        name: "isi",
+        // Reference the shared ISI fragment instead of inlining the ISI content.
+        name: "fragment-isi",
         instances: [
           "div.responsivegrid.cmp-layout-isi__phone .experiencefragment"
         ]
@@ -291,12 +257,12 @@ var CustomImportScript = (() => {
     ],
     sections: [
       { id: "wmy-survey-sec", name: "Reflect on the things that move you (intro + survey form)", selector: ".cmp-layout__whatyouknow", style: "wmy-intro", blocks: ["wmy-survey"], defaultContent: [] },
-      { id: "wmy-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["isi"], defaultContent: [] }
+      { id: "wmy-isi", name: "Important Safety Information (fragment reference)", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["fragment-isi"], defaultContent: [] }
     ]
   };
   var parsers = {
     "wmy-survey": parse,
-    isi: parse2
+    "fragment-isi": parse2
   };
   var transformers = [
     transform,

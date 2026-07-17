@@ -3,7 +3,7 @@
 
 // PARSER IMPORTS
 import wmySurveyParser from './parsers/wmy-survey.js';
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -12,7 +12,7 @@ import sectionsTransformer from './transformers/northera-sections.js';
 // PAGE TEMPLATE CONFIGURATION
 const PAGE_TEMPLATE = {
   name: 'what-moves-you-page',
-  description: '"What Moves You" survey page: an intro (Home link + H1 "Reflect on the things that move you" + confidentiality paragraph, as default content), a static replica of the survey form (wmy-survey: name/phone/email inputs, nervous-system checkbox group, 4 free-text questions with counters, consent + SUBMIT), then ISI content.',
+  description: '"What Moves You" survey page: an intro (Home link + H1 "Reflect on the things that move you" + confidentiality paragraph, as default content), a static replica of the survey form (wmy-survey: name/phone/email inputs, nervous-system checkbox group, 4 free-text questions with counters, consent + SUBMIT), then a reference to the shared ISI fragment (/fragments/northera-isi) via the Fragment block.',
   urls: [
     'https://northera-stage.d.lundbeckus.com/what-moves-you',
   ],
@@ -24,7 +24,8 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
       ],
@@ -32,14 +33,14 @@ const PAGE_TEMPLATE = {
   ],
   sections: [
     { id: 'wmy-survey-sec', name: 'Reflect on the things that move you (intro + survey form)', selector: '.cmp-layout__whatyouknow', style: 'wmy-intro', blocks: ['wmy-survey'], defaultContent: [] },
-    { id: 'wmy-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'wmy-isi', name: 'Important Safety Information (fragment reference)', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
 // PARSER REGISTRY
 const parsers = {
   'wmy-survey': wmySurveyParser,
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after
