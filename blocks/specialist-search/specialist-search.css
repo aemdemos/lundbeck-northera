@@ -1,0 +1,143 @@
+@import url('./specialist-search-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   specialist-search — static visual replica of the source
+   Google-Maps ZIP lookup form (helper line + ZIP field + Terms
+   checkbox + SEARCH NOW button). The live map search is not
+   migrated; this reproduces the source chrome only.
+   Mobile-first; source breakpoints 768/992/1200.
+   ══════════════════════════════════════════════════════════════ */
+
+/* source: the search section is a full-bleed banner image (cover) at least
+   492px tall; a white form card sits over it — flush-left on mobile,
+   floated right on desktop. Break out of the section/content gutters so the
+   banner reaches the edges (matching the map above it): edge-to-edge on
+   mobile, 1200px on desktop. */
+.specialist-search {
+  width: min(100vw, 1200px);
+  max-width: min(100vw, 1200px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+  min-height: var(--specialist-search-banner-min-height);
+  background-image: var(--specialist-search-banner-image);
+  background-color: transparent;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+}
+
+/* the white card holding the form (source: white bg, 30px padding, soft drop
+   shadow), flush against the banner's left edge on mobile */
+.specialist-search .specialist-search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 250px;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0 3px 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.specialist-search .specialist-search-helper {
+  margin: 0;
+  font-family: var(--specialist-search-helper-font-family);
+  font-size: var(--specialist-search-helper-size);
+  color: var(--specialist-search-helper-color);
+}
+
+.specialist-search .specialist-search-field {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* source: ZIP input has a grey magnifying-glass icon on the left (90px left
+   padding reserving room for it) */
+.specialist-search .specialist-search-zip {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--specialist-search-zip-height);
+  padding: 0 15px 0 50px;
+  border: 1px solid var(--brand-grey);
+  border-radius: 0;
+  background-color: #fff;
+  background-image: var(--specialist-search-zip-icon);
+  background-repeat: no-repeat;
+  background-position: 15px center;
+  background-size: 22px 22px;
+  font-family: var(--specialist-search-zip-font-family);
+  font-size: var(--specialist-search-zip-size);
+  color: var(--specialist-search-zip-color);
+}
+
+.specialist-search .specialist-search-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.specialist-search .specialist-search-checkbox {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  accent-color: var(--brand-cyan);
+}
+
+.specialist-search .specialist-search-checkmark {
+  display: none;
+}
+
+.specialist-search .specialist-search-terms-text,
+.specialist-search .specialist-search-terms-text p {
+  margin: 0;
+  font-family: var(--specialist-search-terms-font-family);
+  font-size: var(--specialist-search-terms-size);
+  color: var(--specialist-search-terms-color);
+}
+
+.specialist-search .specialist-search-terms-text a {
+  color: var(--specialist-search-terms-link-color);
+  text-decoration: none;
+}
+
+.specialist-search .specialist-search-submit {
+  align-self: flex-start;
+  border: 0;
+  border-radius: 0;
+  padding: var(--specialist-search-submit-padding);
+  background-color: var(--specialist-search-submit-background);
+  color: var(--specialist-search-submit-color);
+  font-family: var(--specialist-search-submit-font-family);
+  font-size: var(--specialist-search-submit-size);
+  box-shadow: var(--specialist-search-submit-shadow);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.specialist-search .specialist-search-submit:hover,
+.specialist-search .specialist-search-submit:focus {
+  background-color: var(--specialist-search-submit-hover-background);
+  color: var(--specialist-search-submit-hover-color);
+  box-shadow: var(--specialist-search-submit-hover-shadow);
+}
+
+/* desktop: source floats the white form card to the right side of the banner
+   (source: 385px card, ~140px right gap) */
+@media (width >= 768px) {
+  .specialist-search {
+    justify-content: flex-end;
+    padding-right: 140px;
+  }
+
+  .specialist-search .specialist-search-form {
+    width: 385px;
+  }
+}

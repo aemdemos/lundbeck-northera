@@ -903,6 +903,26 @@ main .section.sitemap .default-content-wrapper > ul > li > ul > li > a:hover {
   text-decoration: underline;
 }
 
+/* section metadata - find-specialist (find-a-nOH-specialist page).
+   The "Map Mobile" default-content image is edge-to-edge full-bleed on the
+   source (spans the full viewport width, ignoring the section/content gutters).
+   Break the image out of all nested horizontal padding: edge-to-edge on mobile
+   (viewport < 1200), capped at the source's 1200px content width on desktop. */
+main .section.find-specialist .default-content-wrapper p:has(> picture) {
+  width: min(100vw, 1200px);
+  max-width: min(100vw, 1200px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+main .section.find-specialist .default-content-wrapper picture,
+main .section.find-specialist .default-content-wrapper picture img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
 main .section.accent {
   background-color: var(--heading-color);
   color: var(--background-color);
