@@ -810,6 +810,40 @@ main .section.home-intro > .default-content-wrapper p {
   text-align: left;
 }
 
+/* section metadata - wmy-intro ("What Moves You" thank-you intro).
+   The "Home" link is a lone bold link in a paragraph, which EDS auto-decorates
+   into a .button.primary. The source renders it as a plain cyan bold text link,
+   so reset the button chrome back to a text link within this section. */
+main .section.wmy-intro a.button,
+main .section.wmy-intro a.button.primary {
+  display: inline;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--brand-cyan);
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  text-decoration: none;
+}
+
+main .section.wmy-intro a.button:hover,
+main .section.wmy-intro a.button.primary:hover,
+main .section.wmy-intro a.button.primary:focus {
+  background: none;
+  box-shadow: none;
+  color: var(--brand-cyan-shadow);
+  text-decoration: underline;
+}
+
+main .section.wmy-intro a.button u {
+  text-decoration: none;
+}
+
 main .section.accent {
   background-color: var(--heading-color);
   color: var(--background-color);
