@@ -96,6 +96,12 @@ export default function transform(hookName, element, payload) {
       'iframe[src*="analytics.twitter"]',
       'iframe[src*="googletagmanager"]',
       'iframe[src*="facebook.com"]',
+      // Google reCAPTCHA challenge/badge iframes (injected by the survey form's
+      // reCAPTCHA JS, appended to the body outside the form). The static survey
+      // replica does not include reCAPTCHA, so these are stray.
+      'iframe[src*="google.com/recaptcha"]',
+      'iframe[src*="recaptcha"]',
+      '.grecaptcha-badge',
     ]);
 
     // Non-content elements: scripts, styles, noscript, injected clientlib <link>s.

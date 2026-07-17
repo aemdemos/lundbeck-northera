@@ -844,6 +844,15 @@ main .section.wmy-intro a.button u {
   text-decoration: none;
 }
 
+/* What Moves You survey page: the H1 is centered on mobile (global default) but
+   left-aligned on desktop in the source. Scoped to h1 so the thank-you page
+   (which shares wmy-intro but uses an h2) is unaffected. */
+@media (width >= 768px) {
+  main .section.wmy-intro h1 {
+    text-align: left;
+  }
+}
+
 /* section metadata - sitemap (/site-map page).
    A nested link list rendered as default content. Source: top-level links are
    cyan Gotham-Bold 18px (each row padded, divided); sub-links are brand-blue
