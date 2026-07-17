@@ -48,6 +48,18 @@
   text-align: left;
 }
 
+/* caption variant (source: HCP Additional Resources) — the label under each
+   thumbnail is a plain grey Gotham-Medium caption instead of the bold blue
+   heading, and it sits above the thumbnail spacing rather than tight to it. */
+.cards-video.caption .cards-video-body h3 {
+  margin: var(--cards-video-caption-margin);
+  color: var(--cards-video-caption-color);
+  font-family: var(--cards-video-caption-font-family);
+  font-size: var(--cards-video-caption-size);
+  line-height: var(--cards-video-caption-line-height);
+  font-weight: 400;
+}
+
 /* tablet+ : two columns (source: 2-up grid at 768px) */
 @media (width >= 768px) {
   .cards-video ul {
@@ -58,5 +70,10 @@
   .cards-video .cards-video-body h3 {
     font-size: var(--cards-video-title-size-desktop);
     line-height: var(--cards-video-title-line-height-desktop);
+  }
+
+  .cards-video.caption .cards-video-body h3 {
+    font-size: var(--cards-video-caption-size-desktop);
+    line-height: var(--cards-video-caption-line-height-desktop);
   }
 }

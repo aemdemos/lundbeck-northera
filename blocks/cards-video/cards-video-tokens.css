@@ -12,4 +12,14 @@
   --cards-video-title-size-desktop: 24px;
   --cards-video-title-line-height-desktop: 29px;
   --cards-video-title-margin-top: 10px;
+
+  /* caption variant (HCP Additional Resources): plain grey Gotham-Medium label
+     under the thumbnail; 16px/20px mobile → 18px/30px desktop. */
+  --cards-video-caption-color: var(--brand-grey);
+  --cards-video-caption-font-family: var(--body-font-family);
+  --cards-video-caption-size: 16px;
+  --cards-video-caption-line-height: 20px;
+  --cards-video-caption-size-desktop: 18px;
+  --cards-video-caption-line-height-desktop: 30px;
+  --cards-video-caption-margin: 10px 0 10px;
 }
