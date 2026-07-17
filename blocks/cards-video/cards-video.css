@@ -23,6 +23,12 @@
 .cards-video .cards-video-link {
   display: block;
   text-decoration: none;
+  cursor: pointer;
+}
+
+/* hide the transcript source copy in the grid; it is lifted into the modal */
+.cards-video .cards-video-transcript {
+  display: none;
 }
 
 .cards-video .cards-video-thumb {
@@ -76,4 +82,64 @@
     font-size: var(--cards-video-caption-size-desktop);
     line-height: var(--cards-video-caption-line-height-desktop);
   }
+}
+
+/* ── video modal (opened on card click) ─────────────────────────────
+   Brightcove player in a 16:9 responsive frame + a "Read the transcript"
+   accordion below it, matching the source's video popup. */
+.cards-video-modal-content .cards-video-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.cards-video-modal-content .cards-video-player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.cards-video-modal-content .cards-video-transcript-accordion {
+  border-top: 1px solid var(--section-divider-color, #e5e5e5);
+}
+
+.cards-video-modal-content .cards-video-transcript-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 20px 0;
+  border: 0;
+  background: none;
+  color: var(--brand-cyan);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cards-video-modal-content .cards-video-transcript-toggle::after {
+  content: '\25BC';
+  font-size: 12px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.cards-video-modal-content .cards-video-transcript-toggle[aria-expanded='true']::after {
+  transform: rotate(180deg);
+}
+
+.cards-video-modal-content .cards-video-transcript-panel {
+  padding-bottom: 20px;
+}
+
+.cards-video-modal-content .cards-video-transcript-panel p {
+  margin: 0 0 12px;
+  color: var(--brand-grey);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 22px;
 }
