@@ -14,7 +14,7 @@
  * Selector: div.responsivegrid.cmp-layout-isi__phone .experiencefragment
  * Generated: 2026-07-17
  */
-const ISI_FRAGMENT_PATH = '/content/fragments/northera-isi';
+const ISI_FRAGMENT_PATH = '/fragments/northera-isi';
 
 export default function parse(element, { document }) {
   const link = document.createElement('a');

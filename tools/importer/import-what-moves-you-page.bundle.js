@@ -134,7 +134,7 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/fragment-isi.js
-  var ISI_FRAGMENT_PATH = "/content/fragments/northera-isi";
+  var ISI_FRAGMENT_PATH = "/fragments/northera-isi";
   function parse2(element, { document }) {
     const link = document.createElement("a");
     link.setAttribute("href", ISI_FRAGMENT_PATH);
