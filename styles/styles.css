@@ -704,6 +704,29 @@ main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) >
   padding-right: 15px;
 }
 
+/* section metadata - patient-story (every-patient-story-matters intro).
+   The ambassador hero image is edge-to-edge full width on the source (img
+   width:100vw, object-fit:fill, no side padding). The default-content-wrapper
+   normally applies side padding; the image paragraph breaks out to full width.
+   The awareness band (columns.teaser) and Bob quote (quote.patient) carry their
+   own layout. */
+main .section.patient-story .default-content-wrapper p:has(> picture) {
+  /* break out of the section (0 15px) + wrapper (0 25px) side padding so the
+     ambassador hero image is edge-to-edge full width, matching the source. */
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+main .section.patient-story .default-content-wrapper p:has(> picture) picture,
+main .section.patient-story .default-content-wrapper p:has(> picture) img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
 /* section metadata - reminders (source .cmp-image__textlist: brand-blue,
    centered white h2, side padding 25px, bottom padding 40px) */
 main .section.reminders {
