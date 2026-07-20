@@ -43,27 +43,23 @@
 }
 
 /* ══════════════════════════════════════════════════════════════
-   quote-patient — patient photo + bold pull-quote + attribution.
-   Source (every-patient-story-matters): brand-blue Gotham-Bold 18px/23px
-   quote + attribution; a patient photo above the quote. Mobile-first: photo
-   centered on top, text below; ≥768px photo left, text right.
+   quote-patient — patient story banner (Bob).
+   Mobile (default): brand-blue Gotham-Bold 16px/23 quote + Gotham-Medium
+   16px/20 attribution, then the patient photo (Bob_m.png) below, full-width.
+   Desktop (≥768px): the photo becomes the banner background (Bob.png crop) and
+   the quote + attribution (18px/23) overlay it on the left in a ~415px column.
    ══════════════════════════════════════════════════════════════ */
 .quote.patient blockquote {
+  display: flex;
+  flex-direction: column;
   max-width: var(--max-width-site);
+  margin: 0 auto;
   padding: 30px 15px;
 }
 
-.quote.patient .quote-photo {
-  text-align: center;
-  margin: 0 0 20px;
-}
-
-.quote.patient .quote-photo img {
-  max-width: 100%;
-  height: auto;
-}
-
+/* mobile: quote text first, photo below */
 .quote.patient .quote-quotation {
+  order: 1;
   color: var(--brand-blue);
   font-family: var(--heading-font-family);
   font-size: 16px;
@@ -71,12 +67,8 @@
   font-weight: 700;
 }
 
-.quote.patient .quote-quotation p:first-child::before,
-.quote.patient .quote-quotation p:last-child::after {
-  content: none;
-}
-
 .quote.patient .quote-attribution {
+  order: 2;
   color: var(--brand-blue);
   font-family: var(--body-font-family);
   font-size: 16px;
@@ -84,20 +76,76 @@
   text-align: left;
 }
 
+.quote.patient .quote-photo {
+  order: 3;
+  text-align: center;
+  margin: 20px 0 0;
+}
+
+.quote.patient .quote-photo img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* mobile shows the portrait crop; the wide desktop crop is hidden */
+.quote.patient .quote-photo-desktop {
+  display: none;
+}
+
+.quote.patient .quote-quotation p:first-child::before,
+.quote.patient .quote-quotation p:last-child::after {
+  content: none;
+}
+
 .quote.patient .quote-attribution p:first-child::before {
   content: '—';
   padding-right: 0.5ch;
 }
 
+/* desktop: the wide farmers-market crop (Bob.png, authored content image) fills
+   the banner and the quote + attribution overlay it on the left. The mobile
+   portrait crop is hidden. */
 @media (width >= 768px) {
   .quote.patient blockquote {
-    display: flex;
-    align-items: center;
-    gap: 40px;
+    position: relative;
+    padding: 0;
   }
 
-  .quote.patient .quote-photo {
-    flex: 0 0 auto;
+  .quote.patient .quote-photo-mobile {
+    display: none;
+  }
+
+  .quote.patient .quote-photo-desktop {
+    display: block;
+    order: 0;
     margin: 0;
+    width: 100%;
+  }
+
+  .quote.patient .quote-photo-desktop img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .quote.patient .quote-quotation,
+  .quote.patient .quote-attribution {
+    position: absolute;
+    left: 0;
+    width: 415px;
+    max-width: 40%;
+    padding-left: 12%;
+    z-index: 1;
+    font-size: 18px;
+    line-height: 23px;
+  }
+
+  .quote.patient .quote-quotation {
+    top: 12%;
+  }
+
+  .quote.patient .quote-attribution {
+    bottom: 12%;
   }
 }
