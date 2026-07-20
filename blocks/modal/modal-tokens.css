@@ -11,3 +11,142 @@
   --modal-close-icon-size: var(--icon-size); /* @boilerplate */
   --modal-close-icon-thickness: 2px; /* @boilerplate */
 }
+
+/* Leaving-site interstitial (source: .leavingsite .modal on northera-stage).
+   Buttons are plain labels (no arrow). */
+.modal dialog:has(.leaving-site) {
+  position: fixed;
+  inset: 30px 15px auto;
+  transform: none;
+  width: auto;
+  max-width: none;
+  max-height: calc(100dvh - 60px);
+  height: fit-content;
+  margin: 0;
+  border: none;
+  overflow: visible;
+}
+
+.modal dialog:has(.leaving-site) .close-button {
+  display: none;
+}
+
+.modal dialog:has(.leaving-site) .modal-content {
+  margin-top: 0;
+  padding: 0;
+  max-height: none;
+  overflow: visible;
+}
+
+.modal dialog .leaving-site {
+  --button-icon-width: 0;
+  --button-icon-height: 0;
+  --button-icon-gap: 0;
+}
+
+/* modal-header — source h1: Gotham-Bold #245778 (not Black) */
+.modal dialog .leaving-site h1 {
+  padding: 30px 15px 20px;
+  margin: 0;
+  text-align: center;
+  font-family: var(--heading-font-family);
+  font-size: 30px;
+  line-height: 36px;
+  color: var(--brand-primary);
+}
+
+/* modal-body — source p: Gotham-Medium 16px/20px mobile */
+.modal dialog .leaving-site p:not(.button-wrapper) {
+  padding: 15px 15px 0;
+  margin: 0 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: var(--brand-grey);
+  text-align: left;
+}
+
+.modal dialog .leaving-site p:not(.button-wrapper):last-of-type {
+  margin-bottom: 0;
+}
+
+/* modal-footer */
+.modal dialog .leaving-site-footer {
+  display: grid;
+  padding: 0 15px 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal dialog .leaving-site-footer .button-wrapper {
+  display: block;
+  width: 100%;
+  margin: 0 0 20px;
+  flex: 0 0 auto;
+}
+
+.modal dialog .leaving-site-footer .button-wrapper:last-child {
+  margin-bottom: 0;
+}
+
+.modal dialog .leaving-site-footer .button {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 55px;
+  padding: 0 55px;
+  line-height: 55px;
+  text-align: center;
+}
+
+.modal dialog .leaving-site-footer .button:hover,
+.modal dialog .leaving-site-footer .button:focus {
+  opacity: 1;
+}
+
+@media (width >= 768px) {
+  .modal dialog:has(.leaving-site) {
+    inset: 30px auto auto 50%;
+    transform: translateX(-50%);
+    width: min(1008px, 90vw);
+    max-width: 1008px;
+  }
+
+  .modal dialog .leaving-site h1 {
+    padding: 50px 30px 15px;
+    font-size: 50px;
+    line-height: 60px;
+  }
+
+  .modal dialog .leaving-site p:not(.button-wrapper) {
+    padding: 15px 104px 0;
+    margin-bottom: 30px;
+    font-size: 18px;
+    line-height: 30px;
+  }
+
+  .modal dialog .leaving-site-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 30px;
+    padding: 30px 75px 50px;
+    width: auto;
+  }
+
+  .modal dialog .leaving-site-footer .button-wrapper {
+    display: block;
+    width: auto;
+    margin: 0;
+  }
+
+  .modal dialog .leaving-site-footer .button-wrapper:last-child {
+    margin-bottom: 0;
+  }
+
+  .modal dialog .leaving-site-footer .button {
+    min-width: 172px;
+    width: auto;
+  }
+}

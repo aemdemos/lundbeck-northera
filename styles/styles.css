@@ -669,6 +669,41 @@ main .section.highlight { /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
 
+/* paying-for-northera hero (source: .cmp-heading__center / .cmp-layout__text-center) */
+main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) {
+  text-align: center;
+}
+
+main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) h1 {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 36ch;
+  padding: 30px 14px 10px;
+}
+
+main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) .button-wrapper {
+  text-align: center;
+  margin: 0 0 25px;
+}
+
+/* Stage .cmp-button has no trailing icon */
+main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) .button {
+  --button-icon-width: 0;
+  --button-icon-height: 0;
+  --button-icon-gap: 0;
+}
+
+main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) .button:hover,
+main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) .button:focus {
+  opacity: 1;
+}
+
+main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) > div {
+  max-width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 /* section metadata - reminders (source .cmp-image__textlist: brand-blue,
    centered white h2, side padding 25px, bottom padding 40px) */
 main .section.reminders {
@@ -840,6 +875,20 @@ main .section.accent h6 {
     margin: 0;
     padding: 50px 0;
   }
+
+  main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) > div {
+    padding-left: 12%;
+    padding-right: 12%;
+  }
+
+  main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) h1 {
+    padding: 50px 0 30px;
+    font-size: 50px;
+    line-height: 60px;
+    max-width: 36ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
   
   h2 {
    font-size: 30px;
@@ -875,13 +924,13 @@ main .section.accent h6 {
     margin-left:11%;
   }
 
-    main .section.home-intro > .columns-wrapper > div {
-      margin-bottom:0;
-    }
+  main .section.home-intro > .columns-wrapper > div {
+    margin-bottom:0;
+  }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper,.cards-cta-wrapper,.default-content-wrapper) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .default-content-wrapper, :has(.columns-banner)) {
     padding: 0 11%;
-}
+  }
 
 main > .section:first-of-type > div {
   padding:0 11%;
