@@ -6,7 +6,7 @@ import embedParser from './parsers/embed.js';
 import accordionParser from './parsers/accordion.js';
 import quoteParser from './parsers/quote.js';
 import cardsParser from './parsers/cards.js';
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -46,13 +46,13 @@ const PAGE_TEMPLATE = {
         'div#importantreminders.cmp-container',
         'div.cmp-image__textlist.cmp-layout-imagetext_teaser',
       ],
-      section: 'image-left',
+      section: 'reminders',
     },
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
-        'div.cmp-isi__use',
       ],
     },
   ],
@@ -61,9 +61,9 @@ const PAGE_TEMPLATE = {
     { id: 'rc2-video-transcript', name: 'Titration explainer video + Read the transcript', selector: 'div.container.responsivegrid.cmp-video_bglightblue.cmp-videobutton__center', style: null, blocks: ['embed', 'accordion'], defaultContent: [] },
     { id: 'rc2-patient-quote', name: 'Patient quote (Gail)', selector: 'div.responsivegrid.cmp-imagetext__verticalmiddle', style: null, blocks: ['quote'], defaultContent: [] },
     { id: 'rc2-capsules-imagetext', name: 'Capsules image + text; How will I know', selector: 'div#container-fb2722e6a6.cmp-container', style: null, blocks: [], defaultContent: [] },
-    { id: 'rc2-important-reminders', name: 'Important reminders when taking NORTHERA', selector: 'div#importantreminders.cmp-container', style: null, blocks: ['cards'], defaultContent: [] },
+    { id: 'rc2-important-reminders', name: 'Important reminders when taking NORTHERA', selector: 'div#importantreminders.cmp-container', style: 'reminders', blocks: ['cards'], defaultContent: [] },
     { id: 'rc2-safety-side-effects', name: 'NORTHERA safety and side effects', selector: 'div.responsivegrid.cmp-bullet__list', style: null, blocks: [], defaultContent: [] },
-    { id: 'rc2-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'rc2-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
@@ -73,7 +73,7 @@ const parsers = {
   accordion: accordionParser,
   quote: quoteParser,
   cards: cardsParser,
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after

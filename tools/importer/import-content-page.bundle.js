@@ -156,56 +156,24 @@ var CustomImportScript = (() => {
     const block = WebImporter.Blocks.createBlock(document, { name: "cards", cells });
     const nameCell = block.querySelector("tr th, tr td");
     if (nameCell) {
-      nameCell.textContent = "Cards (image-left)";
+      nameCell.textContent = "Cards (reminders)";
     }
-    element.replaceWith(block);
+    const firstTeaser = teasers[0];
+    firstTeaser.parentNode.insertBefore(block, firstTeaser);
+    teasers.forEach((teaser) => teaser.remove());
+    [...element.querySelectorAll(".separator")].forEach((sep) => sep.remove());
   }
 
-  // tools/importer/parsers/isi.js
+  // tools/importer/parsers/fragment-isi.js
+  var ISI_FRAGMENT_PATH = "/fragments/northera-isi";
   function parse5(element, { document }) {
-    const abbreviatedCell = [];
-    const barWrap = document.querySelector(".isi-mobile-wrap");
-    const barFragment = barWrap ? barWrap.querySelector(".cq-dd-fragment") || barWrap : null;
-    if (barFragment) {
-      const barParagraphs = [...barFragment.querySelectorAll("p")].filter((p) => p.textContent.trim());
-      barParagraphs.forEach((p) => {
-        const clone = p.cloneNode(true);
-        clone.querySelectorAll("a:not([href]), .openisi a").forEach((a) => {
-          a.replaceWith(document.createTextNode(a.textContent));
-        });
-        abbreviatedCell.push(clone);
-      });
-    }
-    if (!abbreviatedCell.length) {
-      const p1 = document.createElement("p");
-      p1.textContent = "Please see Important Safety Information, including Boxed Warning for supine hypertension.";
-      const p2 = document.createElement("p");
-      p2.append(document.createTextNode("For more information, see the full "));
-      const piLink = document.createElement("a");
-      piLink.href = "https://www.lundbeck.com/upload/us/files/pdf/Products/Northera_PI_US_EN.pdf";
-      piLink.textContent = "Prescribing Information";
-      p2.append(piLink);
-      p2.append(document.createTextNode("."));
-      abbreviatedCell.push(p1, p2);
-    }
-    const fullCell = [];
-    const useSection = element.querySelector(".cmp-isi__use");
-    if (useSection) fullCell.push(useSection);
-    const safetySection = element.querySelector('.cmp-isi__importantsafety, [class*="cmp-isi__importantsafety"]');
-    if (safetySection) fullCell.push(safetySection);
-    if (!fullCell.length) {
-      [...element.children].forEach((child) => {
-        if (child.textContent.trim()) fullCell.push(child);
-      });
-    }
-    if (!abbreviatedCell.length && !fullCell.length) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const cells = [];
-    cells.push([abbreviatedCell]);
-    cells.push([fullCell]);
-    const block = WebImporter.Blocks.createBlock(document, { name: "isi", cells });
+    const link = document.createElement("a");
+    link.setAttribute("href", ISI_FRAGMENT_PATH);
+    link.textContent = ISI_FRAGMENT_PATH;
+    const block = WebImporter.Blocks.createBlock(document, {
+      name: "Fragment",
+      cells: [[link]]
+    });
     element.replaceWith(block);
   }
 
@@ -222,6 +190,8 @@ var CustomImportScript = (() => {
       ]);
       WebImporter.DOMUtils.remove(element, [".cmp-isi__model"]);
       WebImporter.DOMUtils.remove(element, [".cmp-layout-isi__desktop"]);
+      WebImporter.DOMUtils.remove(element, [".cmp-specialist__result-section"]);
+      WebImporter.DOMUtils.remove(element, [".cmp-modal", ".videopopup"]);
     }
     if (hookName === TransformHook.afterTransform) {
       WebImporter.DOMUtils.remove(element, [
@@ -231,6 +201,12 @@ var CustomImportScript = (() => {
         ".cmp-layout-footer"
       ]);
       WebImporter.DOMUtils.remove(element, ["#toTop"]);
+      [...element.querySelectorAll(".cq-dd-fragment, .contentfragment")].forEach((frag) => {
+        if (frag.closest(".cmp-layout-isi__phone")) return;
+        if (/^\s*Please see Important Safety Information/i.test(frag.textContent || "")) {
+          frag.remove();
+        }
+      });
       WebImporter.DOMUtils.remove(element, [
         "#destination_publishing_iframe_lundbeck_0",
         ".aamIframeLoaded",
@@ -238,7 +214,13 @@ var CustomImportScript = (() => {
         'iframe[src*="doubleclick"]',
         'iframe[src*="analytics.twitter"]',
         'iframe[src*="googletagmanager"]',
-        'iframe[src*="facebook.com"]'
+        'iframe[src*="facebook.com"]',
+        // Google reCAPTCHA challenge/badge iframes (injected by the survey form's
+        // reCAPTCHA JS, appended to the body outside the form). The static survey
+        // replica does not include reCAPTCHA, so these are stray.
+        'iframe[src*="google.com/recaptcha"]',
+        'iframe[src*="recaptcha"]',
+        ".grecaptcha-badge"
       ]);
       WebImporter.DOMUtils.remove(element, [
         "script",
@@ -316,13 +298,13 @@ var CustomImportScript = (() => {
           "div#importantreminders.cmp-container",
           "div.cmp-image__textlist.cmp-layout-imagetext_teaser"
         ],
-        section: "image-left"
+        section: "reminders"
       },
       {
-        name: "isi",
+        // Reference the shared ISI fragment instead of inlining the ISI content.
+        name: "fragment-isi",
         instances: [
-          "div.responsivegrid.cmp-layout-isi__phone .experiencefragment",
-          "div.cmp-isi__use"
+          "div.responsivegrid.cmp-layout-isi__phone .experiencefragment"
         ]
       }
     ],
@@ -331,9 +313,9 @@ var CustomImportScript = (() => {
       { id: "rc2-video-transcript", name: "Titration explainer video + Read the transcript", selector: "div.container.responsivegrid.cmp-video_bglightblue.cmp-videobutton__center", style: null, blocks: ["embed", "accordion"], defaultContent: [] },
       { id: "rc2-patient-quote", name: "Patient quote (Gail)", selector: "div.responsivegrid.cmp-imagetext__verticalmiddle", style: null, blocks: ["quote"], defaultContent: [] },
       { id: "rc2-capsules-imagetext", name: "Capsules image + text; How will I know", selector: "div#container-fb2722e6a6.cmp-container", style: null, blocks: [], defaultContent: [] },
-      { id: "rc2-important-reminders", name: "Important reminders when taking NORTHERA", selector: "div#importantreminders.cmp-container", style: null, blocks: ["cards"], defaultContent: [] },
+      { id: "rc2-important-reminders", name: "Important reminders when taking NORTHERA", selector: "div#importantreminders.cmp-container", style: "reminders", blocks: ["cards"], defaultContent: [] },
       { id: "rc2-safety-side-effects", name: "NORTHERA safety and side effects", selector: "div.responsivegrid.cmp-bullet__list", style: null, blocks: [], defaultContent: [] },
-      { id: "rc2-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["isi"], defaultContent: [] }
+      { id: "rc2-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["fragment-isi"], defaultContent: [] }
     ]
   };
   var parsers = {
@@ -341,7 +323,7 @@ var CustomImportScript = (() => {
     accordion: parse2,
     quote: parse3,
     cards: parse4,
-    isi: parse5
+    "fragment-isi": parse5
   };
   var transformers = [
     transform,

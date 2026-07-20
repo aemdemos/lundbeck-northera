@@ -5,7 +5,7 @@
 import dawBannerParser from './parsers/daw-banner.js';
 import heroHcpParser from './parsers/hero-hcp.js';
 import quoteGridParser from './parsers/quote-grid.js';
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -38,7 +38,8 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
       ],
@@ -48,7 +49,7 @@ const PAGE_TEMPLATE = {
     { id: 'hcp-daw', name: 'Dispense as written callout', selector: '.write-daw', style: null, blocks: ['daw-banner'], defaultContent: [] },
     { id: 'hcp-hero', name: 'Hero banner', selector: '.lu-cmp-teaser.aem-GridColumn--phone--hide', style: null, blocks: ['hero-hcp'], defaultContent: [] },
     { id: 'hcp-quotes', name: 'Physician & patient quotes', selector: '.cmp-layout__searchresult', style: null, blocks: ['quote-grid'], defaultContent: [] },
-    { id: 'hcp-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'hcp-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
@@ -57,7 +58,7 @@ const parsers = {
   'daw-banner': dawBannerParser,
   'hero-hcp': heroHcpParser,
   'quote-grid': quoteGridParser,
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after
