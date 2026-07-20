@@ -66,7 +66,7 @@
 .quote.patient .quote-quotation {
   color: var(--brand-blue);
   font-family: var(--heading-font-family);
-  font-size: 18px;
+  font-size: 16px;
   line-height: 23px;
   font-weight: 700;
 }
@@ -79,8 +79,8 @@
 .quote.patient .quote-attribution {
   color: var(--brand-blue);
   font-family: var(--body-font-family);
-  font-size: 18px;
-  line-height: 23px;
+  font-size: 16px;
+  line-height: 20px;
   text-align: left;
 }
 

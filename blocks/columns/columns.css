@@ -227,23 +227,26 @@ main .columns.teaser img {
   height: auto;
 }
 
+/* mobile (default): centered, heading 20px/24, desc 16px/20 */
 main .columns.teaser h1,
 main .columns.teaser h2,
 main .columns.teaser h3,
 main .columns.teaser h4 {
   color: #fff;
   font-family: var(--heading-font-family);
-  font-size: 30px;
-  line-height: 36px;
+  font-size: 20px;
+  line-height: 24px;
   font-weight: 700;
+  text-align: center;
   margin: 10px 0 0;
 }
 
 main .columns.teaser p {
   color: #fff;
   font-family: var(--body-font-family);
-  font-size: 18px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
   margin: 0;
 }
 
@@ -285,6 +288,22 @@ main .columns.supine p {
 
   main .columns.contact > div > div {
     flex: 1;
+  }
+
+  /* teaser (awareness band): ≥768px heading 30px/36 + desc 18px/22, left-aligned */
+  main .columns.teaser h1,
+  main .columns.teaser h2,
+  main .columns.teaser h3,
+  main .columns.teaser h4 {
+    font-size: 30px;
+    line-height: 36px;
+    text-align: left;
+  }
+
+  main .columns.teaser p {
+    font-size: 18px;
+    line-height: 22px;
+    text-align: left;
   }
 
   /* supine: icon-left + caption-right per item, vertical divider between */
