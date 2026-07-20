@@ -75,6 +75,50 @@ main .section:has(.columns-banner.daw) {
   line-height: var(--columns-banner-daw-text-line-height);
 }
 
+/* ── daw-light variant (prescribing-northera "Why Dispense as written matters")
+   Pale cyan tint banner: DAW illustration on top (mobile) / left (desktop),
+   dark-blue heading + paragraph. Mobile-first. ───────────────────────── */
+main .section:has(.columns-banner.daw-light) {
+  padding: 0;
+}
+
+.columns-banner.daw-light {
+  background-color: var(--columns-banner-daw-light-bg);
+  padding: 10px 10px 20px;
+}
+
+.columns-banner.daw-light > div {
+  align-items: center;
+  gap: 20px;
+}
+
+.columns-banner.daw-light .columns-banner-img-col {
+  flex: 0 0 auto;
+}
+
+.columns-banner.daw-light .columns-banner-img-col img {
+  width: var(--columns-banner-daw-light-icon-width);
+}
+
+.columns-banner.daw-light h2 {
+  margin: 0;
+  color: var(--columns-banner-daw-light-text-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--columns-banner-daw-light-heading-size);
+  line-height: var(--columns-banner-daw-light-heading-line-height);
+  text-align: left;
+}
+
+.columns-banner.daw-light p {
+  margin: 0;
+  color: var(--columns-banner-daw-light-text-color);
+  font-family: var(--body-font-family);
+  font-size: var(--columns-banner-daw-light-text-size);
+  font-weight: 400;
+  line-height: var(--columns-banner-daw-light-text-line-height);
+  text-align: left;
+}
+
 @media (width >= 768px) {
   .columns-banner.daw {
     padding: 20px 0;
@@ -83,5 +127,18 @@ main .section:has(.columns-banner.daw) {
   .columns-banner.daw h4 {
     font-size: var(--columns-banner-daw-heading-size-desktop);
     line-height: var(--columns-banner-daw-heading-line-height-desktop);
+  }
+
+  .columns-banner.daw-light {
+    padding: 10px 109px 10px 104px;
+  }
+
+  .columns-banner.daw-light .columns-banner-img-col img {
+    width: var(--columns-banner-daw-light-icon-width-desktop);
+  }
+
+  .columns-banner.daw-light h2 {
+    font-size: var(--columns-banner-daw-light-heading-size-desktop);
+    line-height: var(--columns-banner-daw-light-heading-line-height-desktop);
   }
 }

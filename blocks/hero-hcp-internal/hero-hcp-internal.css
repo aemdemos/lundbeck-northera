@@ -1,0 +1,107 @@
+@import url('./hero-hcp-internal-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   hero-hcp-internal — internal-page icon banner.
+   Mobile (default): the sky banner image on top, with an overlaid icon +
+   white H1 + yellow CTA button on the lower-left (absolute, over the image).
+   Desktop (≥768px): full-width banner background art with an overlaid icon +
+   large white H1 on the lower-left; the CTA button is hidden (as in source).
+   Source measurements: title Gotham-Bold 17.55px/24px (mobile) → 50px/50px
+   (desktop); icon 60px; CTA bg #f6af1a, white bold 14px, padding 10px 50px
+   10px 12px; container padding 10px 20px 20px, absolute lower-left.
+   ══════════════════════════════════════════════════════════════ */
+
+main .section:has(.hero-hcp-internal) {
+  padding: 0;
+}
+
+.hero-hcp-internal {
+  position: relative;
+  margin: 15px 0;
+}
+
+/* mobile banner image */
+.hero-hcp-internal .hero-hcp-internal-image picture,
+.hero-hcp-internal .hero-hcp-internal-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* overlaid content, lower-left of the banner */
+.hero-hcp-internal .hero-hcp-internal-content {
+  position: absolute;
+  left: 0;
+  bottom: 8px;
+  padding: 10px 20px 20px;
+}
+
+.hero-hcp-internal .hero-hcp-internal-icon img {
+  width: var(--hero-hcp-internal-icon-size);
+  height: auto;
+  display: block;
+}
+
+.hero-hcp-internal h1 {
+  margin: 0;
+  padding: 0;
+  color: var(--hero-hcp-internal-title-color);
+  font-family: var(--hero-hcp-internal-title-font-family);
+  font-size: var(--hero-hcp-internal-title-size);
+  line-height: var(--hero-hcp-internal-title-line-height);
+  font-weight: 700;
+  text-align: left;
+}
+
+/* mobile CTA button (yellow) */
+.hero-hcp-internal .hero-hcp-internal-content a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 50px 10px 12px;
+  background-color: var(--hero-hcp-internal-cta-bg);
+  color: var(--hero-hcp-internal-cta-color);
+  font-family: var(--hero-hcp-internal-cta-font-family);
+  font-size: var(--hero-hcp-internal-cta-size);
+  line-height: var(--hero-hcp-internal-cta-line-height);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* desktop: CSS background art, larger title, CTA hidden */
+@media (width >= 768px) {
+  .hero-hcp-internal {
+    position: relative;
+    width: min(100vw, 1200px);
+    max-width: min(100vw, 1200px);
+    margin: 15px auto;
+    aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
+    background-image: var(--hero-hcp-internal-bg-desktop);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+  }
+
+  .hero-hcp-internal .hero-hcp-internal-image {
+    display: none;
+  }
+
+  .hero-hcp-internal .hero-hcp-internal-content {
+    position: static;
+    left: auto;
+    bottom: auto;
+    padding: 10px 20px 38px;
+  }
+
+  .hero-hcp-internal h1 {
+    font-size: var(--hero-hcp-internal-title-size-desktop);
+    line-height: var(--hero-hcp-internal-title-line-height-desktop);
+  }
+
+  /* CTA button hidden on desktop (matches source) */
+  .hero-hcp-internal .hero-hcp-internal-content a {
+    display: none;
+  }
+}

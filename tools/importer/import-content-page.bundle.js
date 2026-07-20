@@ -132,6 +132,16 @@ var CustomImportScript = (() => {
     teasers.forEach((teaser) => {
       const img = teaser.querySelector(".cmp-teaser__image img, img");
       const desc = teaser.querySelector(".cmp-teaser__description");
+      if (desc) {
+        const goldSpans = [
+          ...desc.querySelectorAll('span[style*="color"], span.cmp-rest-content')
+        ];
+        goldSpans.forEach((span) => {
+          const strong = document.createElement("strong");
+          strong.innerHTML = span.innerHTML;
+          span.replaceWith(strong);
+        });
+      }
       const contentCell = [];
       if (desc) {
         [...desc.children].forEach((child) => {

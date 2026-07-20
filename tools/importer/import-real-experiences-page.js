@@ -3,7 +3,7 @@
 
 // PARSER IMPORTS
 import cardsVideoParser from './parsers/cards-video.js';
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -24,7 +24,8 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
       ],
@@ -32,14 +33,14 @@ const PAGE_TEMPLATE = {
   ],
   sections: [
     { id: 're-experiences', name: 'Real experiences (heading + intro + video cards)', selector: '.cmp-layout-left-section', style: null, blocks: ['cards-video'], defaultContent: [] },
-    { id: 're-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 're-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
 // PARSER REGISTRY
 const parsers = {
   'cards-video': cardsVideoParser,
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after

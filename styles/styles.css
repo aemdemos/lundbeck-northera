@@ -694,8 +694,43 @@ main .section.reminders p {
   color: #fff;
 }
 
+/* section metadata - noh-symptoms (source .cmp-carousel_bghdarkblue: brand-blue
+   band, centered white H2 20px mobile / 40px desktop, white intro paragraph).
+   Used by the symptomatic-nOH "Common symptoms of nOH" section. */
+main .section.noh-symptoms {
+  background-color: var(--brand-blue);
+  margin-top: 20px;
+  padding: 0 25px 40px;
+}
+
+main .section.noh-symptoms > div {
+  max-width: var(--max-width-site);
+  padding: 0;
+}
+
+main .section.noh-symptoms h2 {
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  font-size: 20px;
+  line-height: 24px;
+  padding-top: 30px;
+}
+
+main .section.noh-symptoms p {
+  color: #fff;
+  text-align: center;
+}
+
 main .section.dark a { /* @libs */
   color: var(--background-color); /* @libs */
+}
+
+@media (width >= 768px) {
+  main .section.noh-symptoms h2 {
+    font-size: 40px;
+    line-height: 48px;
+  }
 }
 
 main .section.dark a:hover { /* @libs */

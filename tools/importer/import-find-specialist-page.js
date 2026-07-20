@@ -4,7 +4,7 @@
 // PARSER IMPORTS
 import specialistSearchParser from './parsers/specialist-search.js';
 import cardsCtaParser from './parsers/cards-cta.js';
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -31,7 +31,8 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
       ],
@@ -40,7 +41,7 @@ const PAGE_TEMPLATE = {
   sections: [
     { id: 'fs-search', name: 'Find a specialist (heading + intro + map + ZIP search + disclaimer)', selector: '.cmp-layout__specialist', style: 'find-specialist', blocks: ['specialist-search'], defaultContent: [] },
     { id: 'fs-quicklinks', name: 'Support callouts', selector: '.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
-    { id: 'fs-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'fs-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
@@ -48,7 +49,7 @@ const PAGE_TEMPLATE = {
 const parsers = {
   'specialist-search': specialistSearchParser,
   'cards-cta': cardsCtaParser,
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after

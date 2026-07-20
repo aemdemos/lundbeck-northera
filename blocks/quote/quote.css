@@ -41,3 +41,63 @@
   content: '—'; /* @boilerplate */
   padding-right: 0.5ch; /* @boilerplate */
 }
+
+/* ══════════════════════════════════════════════════════════════
+   quote-patient — patient photo + bold pull-quote + attribution.
+   Source (every-patient-story-matters): brand-blue Gotham-Bold 18px/23px
+   quote + attribution; a patient photo above the quote. Mobile-first: photo
+   centered on top, text below; ≥768px photo left, text right.
+   ══════════════════════════════════════════════════════════════ */
+.quote.patient blockquote {
+  max-width: var(--max-width-site);
+  padding: 30px 15px;
+}
+
+.quote.patient .quote-photo {
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.quote.patient .quote-photo img {
+  max-width: 100%;
+  height: auto;
+}
+
+.quote.patient .quote-quotation {
+  color: var(--brand-blue);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 23px;
+  font-weight: 700;
+}
+
+.quote.patient .quote-quotation p:first-child::before,
+.quote.patient .quote-quotation p:last-child::after {
+  content: none;
+}
+
+.quote.patient .quote-attribution {
+  color: var(--brand-blue);
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 23px;
+  text-align: left;
+}
+
+.quote.patient .quote-attribution p:first-child::before {
+  content: '—';
+  padding-right: 0.5ch;
+}
+
+@media (width >= 768px) {
+  .quote.patient blockquote {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .quote.patient .quote-photo {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+}

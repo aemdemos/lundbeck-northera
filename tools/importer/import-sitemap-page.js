@@ -2,7 +2,7 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -17,7 +17,8 @@ const PAGE_TEMPLATE = {
   ],
   blocks: [
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
       ],
@@ -25,13 +26,13 @@ const PAGE_TEMPLATE = {
   ],
   sections: [
     { id: 'sm-list', name: 'Site map heading + nested link list', selector: '.cmp-layout__sitemap', style: null, blocks: [], defaultContent: [] },
-    { id: 'sm-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'sm-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
 // PARSER REGISTRY
 const parsers = {
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after

@@ -16,4 +16,18 @@
   --columns-banner-daw-icon-width: 159px;
   --columns-banner-daw-heading-size-desktop: 24px;
   --columns-banner-daw-heading-line-height-desktop: 28px;
+
+  /* daw-light variant (prescribing-northera "Why Dispense as written matters"):
+     pale cyan tint banner with a medium DAW illustration + dark-blue
+     heading/text. Distinct from the solid-blue landing "daw" callout. */
+  --columns-banner-daw-light-bg: rgb(2 189 237 / 15%);
+  --columns-banner-daw-light-text-color: #245778;
+  --columns-banner-daw-light-heading-size: 18px;
+  --columns-banner-daw-light-heading-line-height: 22px;
+  --columns-banner-daw-light-heading-size-desktop: 30px;
+  --columns-banner-daw-light-heading-line-height-desktop: 36px;
+  --columns-banner-daw-light-text-size: 16px;
+  --columns-banner-daw-light-text-line-height: 30px;
+  --columns-banner-daw-light-icon-width: 176px;
+  --columns-banner-daw-light-icon-width-desktop: 159px;
 }

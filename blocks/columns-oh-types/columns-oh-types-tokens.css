@@ -1,0 +1,24 @@
+/* columns-oh-types design tokens — blue OH-types cards.
+   Values extracted from the northera-stage source (About Northera,
+   .cmp-layout_blue-table). */
+.columns-oh-types {
+  /* card body: light-blue background, dark-blue text */
+  --oh-card-bg: #c6e4f1;               /* rgb(198, 228, 241) */
+  --oh-card-text-color: #24475d;       /* rgb(36, 71, 93) */
+
+  /* heading band: dark-blue background, white text */
+  --oh-head-bg: #24475d;               /* rgb(36, 71, 93) */
+  --oh-head-color: #fff;
+  --oh-head-font-family: var(--body-font-family);
+  --oh-head-size: 18px;
+  --oh-head-line-height: 19.8px;
+  --oh-head-padding: 20px;
+
+  /* body items */
+  --oh-body-font-family: var(--body-font-family);
+  --oh-body-size: 14px;
+  --oh-body-line-height-mobile: 20px;
+  --oh-body-line-height-desktop: 30px;
+
+  --oh-gap: 40px;
+}
