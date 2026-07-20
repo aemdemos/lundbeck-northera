@@ -27,7 +27,7 @@
   --cards-resource-desc-size: var(--body-font-size-s, 16px);
   --cards-resource-desc-size-desktop: var(--body-font-size-m, 18px);
   --cards-resource-desc-line-height: 20px;
-  --cards-resource-desc-line-height-desktop: 22px;
+  --cards-resource-desc-line-height-desktop: 30px;
 
   /* resource CTA — site standard cyan button (see --button-* tokens) with a
      left download icon. Source: bg #02bded, text #1f4763 Gotham-Black 18px,

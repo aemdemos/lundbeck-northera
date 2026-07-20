@@ -273,8 +273,7 @@ function setupDesktopExpandToggle(block, variant) {
   const closeBtn = makeCloseButton();
   section.append(closeBtn);
 
-  const setExpanded = (expanded) => {
-    section.classList.toggle('isi-desktop-expanded', expanded);
+  const syncToggleA11y = (expanded) => {
     toggle.setAttribute('aria-expanded', String(expanded));
     toggle.setAttribute(
       'aria-label',
@@ -282,14 +281,51 @@ function setupDesktopExpandToggle(block, variant) {
     );
   };
 
+  // Source parity: open slides the panel in from the right over 500ms
+  // ($(model).show("slide",{direction:"right"},500)); the CSS keyframe runs
+  // automatically when .isi-desktop-expanded is added.
+  const open = () => {
+    section.classList.remove('isi-closing');
+    section.classList.add('isi-desktop-expanded');
+    syncToggleA11y(true);
+  };
+
+  // Close slides the panel back out to the right over 500ms
+  // ($(model).hide("slide",{direction:"right"},500)); keep the fixed layout via
+  // .isi-desktop-expanded during the transition, then drop both classes on end.
+  let closing = false;
+  const close = () => {
+    if (closing || !section.classList.contains('isi-desktop-expanded')) return;
+    closing = true;
+    section.classList.add('isi-closing');
+    syncToggleA11y(false);
+    const panel = section;
+    const finish = () => {
+      section.classList.remove('isi-desktop-expanded', 'isi-closing');
+      closing = false;
+    };
+    let done = false;
+    const onEnd = (ev) => {
+      if (ev && ev.propertyName && ev.propertyName !== 'transform') return;
+      if (done) return;
+      done = true;
+      panel.removeEventListener('transitionend', onEnd);
+      finish();
+    };
+    panel.addEventListener('transitionend', onEnd);
+    // fallback in case transitionend doesn't fire
+    setTimeout(onEnd, 600);
+  };
+
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
-    setExpanded(!section.classList.contains('isi-desktop-expanded'));
+    if (section.classList.contains('isi-desktop-expanded') && !closing) close();
+    else open();
   });
 
   closeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    setExpanded(false);
+    close();
   });
 }
 
@@ -303,7 +339,32 @@ const DESKTOP_RAIL_MQ = window.matchMedia('(min-width: 1200px)');
  * the important block to fill from its own top down to the content column's
  * bottom. Runs on load, on resize, and when content height changes.
  */
+/**
+ * When the ISI arrives via a fragment, its `.section.isi-container` ends up
+ * nested inside `main > .section.fragment-container > .fragment-wrapper`, so the
+ * rail layout (CSS `main:has(> .section.isi-container)` and the queries below)
+ * never matches. Hoist the ISI section — and its sibling "Please see…" section —
+ * up to be direct children of `main`, replacing the now-empty fragment container.
+ * Idempotent: no-op once the rail is already a direct child of main.
+ */
+function hoistRailToMain() {
+  const railSection = document.querySelector('.section.isi-container');
+  if (!railSection) return;
+  const main = railSection.closest('main');
+  if (!main || railSection.parentElement === main) return;
+
+  const topSection = [...main.children].find((c) => c.contains(railSection));
+  if (!topSection || topSection === railSection) return;
+
+  const frag = document.createDocumentFragment();
+  const pleaseSee = topSection.querySelector('.section.isi-please-see-section');
+  if (pleaseSee) frag.append(pleaseSee);
+  frag.append(railSection);
+  main.replaceChild(frag, topSection);
+}
+
 function syncRailHeight() {
+  hoistRailToMain();
   const railSection = document.querySelector('main > .section.isi-container');
   if (!railSection) return;
 

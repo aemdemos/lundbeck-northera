@@ -431,8 +431,19 @@ main .isi a:hover {
     box-sizing: border-box;
   }
 
+  /* Source parity: on expand the left content, please-see blurb and site header
+     stay visible but dim to 0.2 opacity (jQuery sets opacity 0.2); the model
+     panel slides in over them. The 5% gutter at left shows the dimmed page. */
   main:has(> .section.isi-container.isi-desktop-expanded) > .section:not(.isi-container) {
-    display: none;
+    opacity: 0.2;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+
+  body:has(main > .section.isi-container.isi-desktop-expanded) > header {
+    opacity: 0.2;
+    pointer-events: none;
+    transition: opacity 300ms ease;
   }
 
   main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container {
@@ -446,6 +457,24 @@ main .isi a:hover {
     overflow-y: auto;
     height: 100%;
     padding: 50px 15% 30px 50px;
+
+    /* Source: $(model).show("slide",{direction:"right"},500) — slide in from
+       the right edge over 500ms. Replays whenever the expanded class is added. */
+    animation: isi-slide-in-right 500ms ease;
+  }
+
+  /* Close: JS adds .isi-closing (keeping the fixed overlay layout) to slide the
+     panel back out to the right over 500ms, then removes both classes on end.
+     Source: $(model).hide("slide",{direction:"right"},500). */
+  main:has(> .section.isi-container.isi-desktop-expanded.isi-closing) > .section.isi-container {
+    animation: none;
+    transform: translateX(100%);
+    transition: transform 500ms ease;
+  }
+
+  @keyframes isi-slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
   }
 
   main:has(> .section.isi-container) > .section.isi-container > div {
