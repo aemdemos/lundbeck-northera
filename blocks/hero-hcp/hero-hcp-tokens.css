@@ -31,6 +31,10 @@
   /* desktop indication paragraph: source is 16px/24 (mobile is 15/20) */
   --hero-hcp-body-size-desktop: 16px;
   --hero-hcp-body-line-height-desktop: 24px;
+
+  /* desktop banner width — source hero is full-bleed edge-to-edge (no side
+     gap), not the base .css min(100vw, 1200px) cap */
+  --hero-hcp-width-desktop: 100vw;
 }
 
 /* desktop indication size/line-height — the base hero-hcp.css desktop `p` rule
@@ -40,5 +44,12 @@
   main .hero-hcp p {
     font-size: var(--hero-hcp-body-size-desktop);
     line-height: var(--hero-hcp-body-line-height-desktop);
+  }
+
+  /* full-bleed banner — override the base .css min(100vw, 1200px) width cap so
+     the flamingo background reaches both edges like the source */
+  main .section .hero-hcp {
+    width: var(--hero-hcp-width-desktop);
+    max-width: var(--hero-hcp-width-desktop);
   }
 }
