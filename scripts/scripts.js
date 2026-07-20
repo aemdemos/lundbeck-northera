@@ -30,13 +30,13 @@ const UNSAFE_OBJECT_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
 
 /**
  * Returns true if key is safe for plain object or dataset assignment.
- * @param {string} key Property name
+ * @param {string} propName Property name
  * @returns {boolean}
  */
-function isSafeObjectKey(key) {
-  return typeof key === 'string' && key.length > 0
-    && !UNSAFE_OBJECT_KEYS.has(key)
-    && !key.startsWith('__');
+function isSafeObjectKey(propName) {
+  return typeof propName === 'string' && propName.length > 0
+    && !UNSAFE_OBJECT_KEYS.has(propName)
+    && !propName.startsWith('__');
 }
 
 // DOMPurify loaded once for HTML sanitization (mitigates DOM XSS from contentMap/dataset)
@@ -243,6 +243,71 @@ export function decorateExternalLinks(element) {
 }
 
 /**
+ * Third-party "Leaving site" interstitial. Clicking a link to an external
+ * (non-first-party) host opens a confirmation modal with OK (proceed) / CANCEL.
+ * The modal COPY is authored in DA at /modals/leaving-site (editable by
+ * content authors) and loaded as a fragment; only the OK/CANCEL controls (whose
+ * OK target is the clicked link's destination) are added in code.
+ * @param {Element} element The container element
+ */
+const LEAVING_SITE_MODAL_PATH = '/modals/leaving-site';
+
+export function decorateLeavingSiteLinks(element) {
+  element.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#')) return;
+    let url;
+    try {
+      url = new URL(href, window.location.href);
+    } catch {
+      return;
+    }
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+    if (isLocalUrl(url)) return;
+    if (a.dataset.leavingSite) return;
+    a.dataset.leavingSite = 'true';
+
+    a.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const [{ createModal }, { loadFragment }] = await Promise.all([
+        import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`),
+        import(`${window.hlx.codeBasePath}/blocks/fragment/fragment.js`),
+      ]);
+
+      const content = document.createElement('div');
+      content.className = 'leaving-site';
+
+      // Author-editable modal (heading, copy, and OK/CANCEL buttons) from the
+      // DA fragment. Resolve the path against the current content root: on some
+      // environments pages are served under a "/content" prefix, so mirror it.
+      const contentPrefix = window.location.pathname.startsWith('/content/') ? '/content' : '';
+      const fragment = await loadFragment(`${contentPrefix}${LEAVING_SITE_MODAL_PATH}`);
+      if (fragment) content.append(...fragment.childNodes);
+
+      const { block, showModal } = await createModal([content]);
+      const dialog = block.querySelector('dialog');
+
+      // Bind behavior to the authored buttons. decorateButtons() (run when the
+      // fragment loaded) strips the authored classes and rewrites the links as
+      // button primary, so identify OK/CANCEL by their label text instead.
+      const links = [...content.querySelectorAll('a')];
+      const ok = links.find((link) => /^ok$/i.test(link.textContent.trim()));
+      const cancel = links.find((link) => /^cancel$/i.test(link.textContent.trim()));
+      if (ok) {
+        ok.setAttribute('href', url.href);
+        ok.setAttribute('target', '_blank');
+        ok.setAttribute('rel', 'noopener noreferrer');
+        ok.addEventListener('click', () => dialog.close());
+      }
+      if (cancel) {
+        cancel.addEventListener('click', (ev) => { ev.preventDefault(); dialog.close(); });
+      }
+      showModal();
+    });
+  });
+}
+
+/**
  * Decorates formatted links to style them as buttons.
  * @param {HTMLElement} main The main container element
  */
@@ -407,16 +472,16 @@ export function decorateSections(main) {
     const sectionMeta = section.querySelector('div.section-metadata');
     if (sectionMeta) {
       const meta = readBlockConfig(sectionMeta);
-      Object.entries(meta).forEach(([key, value]) => {
-        if (key === 'style') {
+      Object.entries(meta).forEach(([metaKey, value]) => {
+        if (metaKey === 'style') {
           const styleStr = typeof value === 'string' ? value : '';
           const styles = styleStr
             .split(',')
             .filter((style) => style)
             .map((style) => toClassName(style.trim()));
           styles.forEach((style) => section.classList.add(style));
-        } else if (isSafeObjectKey(key)) {
-          section.setAttribute(`data-${key}`, String(value ?? ''));
+        } else if (isSafeObjectKey(metaKey)) {
+          section.setAttribute(`data-${metaKey}`, String(value ?? ''));
         }
       });
       sectionMeta.parentNode.remove();
@@ -1038,6 +1103,8 @@ export function decorateMain(main) {
   a11yLinks(main);
   decorateSpanTags(main);
   decorateResponsiveImagePairs(main);
+  decorateExternalLinks(main);
+  decorateLeavingSiteLinks(main);
 }
 
 /**
