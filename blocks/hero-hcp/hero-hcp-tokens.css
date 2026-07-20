@@ -32,9 +32,18 @@
   --hero-hcp-body-size-desktop: 16px;
   --hero-hcp-body-line-height-desktop: 24px;
 
-  /* desktop banner width — source hero is full-bleed edge-to-edge (no side
-     gap), not the base .css min(100vw, 1200px) cap */
-  --hero-hcp-width-desktop: 100vw;
+  /* desktop banner width — source hero is a 1200px content-column banner (NOT
+     full-bleed): 1200px wide at >=1200 viewports, shrinking to 100vw below. */
+  --hero-hcp-width-desktop: min(100vw, 1200px);
+
+  /* fixed banner height so the width doesn't inflate the height via the base
+     .css aspect-ratio (source banner is ~380px tall) */
+  --hero-hcp-height-desktop: 380px;
+
+  /* desktop content box — source text is flush-left (~15px in) and spans most of
+     the banner width, NOT the base .css 12.2% left inset + 66% cap */
+  --hero-hcp-content-padding-desktop: 0 0 44px 15px;
+  --hero-hcp-content-max-width-desktop: 66%;
 }
 
 /* desktop indication size/line-height — the base hero-hcp.css desktop `p` rule
@@ -46,10 +55,21 @@
     line-height: var(--hero-hcp-body-line-height-desktop);
   }
 
-  /* full-bleed banner — override the base .css min(100vw, 1200px) width cap so
-     the flamingo background reaches both edges like the source */
+  /* 1200px content-column banner (source width). Drop the base aspect-ratio and
+     pin a fixed height so the banner stays ~380px regardless of width. The base
+     .css centers via margin-left:50%/translateX(-50%), which is correct for the
+     centered EDS content column. */
   main .section .hero-hcp {
     width: var(--hero-hcp-width-desktop);
     max-width: var(--hero-hcp-width-desktop);
+    aspect-ratio: auto;
+    height: var(--hero-hcp-height-desktop);
+  }
+
+  /* flush-left content — override the base .css 12.2% left inset so the heading
+     starts near the banner edge like the source (~15px in) */
+  main .section .hero-hcp .hero-hcp-content {
+    padding: var(--hero-hcp-content-padding-desktop);
+    max-width: var(--hero-hcp-content-max-width-desktop);
   }
 }

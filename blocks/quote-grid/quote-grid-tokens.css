@@ -1,6 +1,8 @@
 /* quote-grid design tokens — HCP landing physician/patient quote cards.
    Brand-blue Gotham-Bold quotation + grey Gotham-Medium attribution. */
 .quote-grid {
+  /* source .cmp-layout__searchresult container background */
+  --quote-grid-bg: #f3f5f8;
   --quote-grid-border-color: #eeeee4;
   --quote-grid-quotation-color: var(--brand-blue);
   --quote-grid-quotation-font-family: var(--heading-font-family);
@@ -14,4 +16,7 @@
   --quote-grid-footnote-font-family: var(--body-font-family);
   --quote-grid-footnote-size: 18px;
   --quote-grid-footnote-line-height: 22px;
+
+  /* light-grey container background (source .cmp-layout__searchresult) */
+  background-color: var(--quote-grid-bg);
 }
