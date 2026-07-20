@@ -622,6 +622,7 @@ main > .section > .bg-image img { /* @boilerplate */
 
 main > .section:first-of-type { /* @boilerplate */
   margin-top: 0; /* @boilerplate */
+
   /* horizontal inset is handled uniformly by `main > .section > div` (0 15px),
      so the section itself carries no side padding (avoids compounding). */
   padding: 0;

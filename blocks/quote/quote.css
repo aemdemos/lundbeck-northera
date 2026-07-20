@@ -55,6 +55,7 @@
   display: flex;
   flex-direction: column;
   max-width: var(--max-width-site);
+
   /* full-bleed grey banner: cancel the section wrapper's 15px mobile inset */
   margin: 0 -15px;
   width: calc(100% + 30px);
@@ -136,6 +137,7 @@
     padding: 0;
     background-color: transparent;
     overflow: hidden;
+
     /* The quote section wrapper is inset 11% at ≥768px (first/isi gutter rule).
        Break the banner out of that padding so the photo goes full-bleed across
        the content column like the source (NOT 100vw — stays clear of the ISI
@@ -150,6 +152,7 @@
   .quote.patient .quote-photo-mobile {
     display: none;
   }
+
 
   /* photo fills the banner as a cover layer behind the text */
   .quote.patient .quote-photo-desktop {

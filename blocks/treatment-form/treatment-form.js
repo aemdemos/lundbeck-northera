@@ -121,13 +121,23 @@ const STEPS = [
         ],
       },
       { t: 'sub', label: 'Treatment History:' },
-      { t: 'radio', label: 'Has the patient tried and failed or is intolerant to midodrine?', options: ['Yes', 'No'] },
-      { t: 'radio', label: 'Has the patient tried and failed or is intolerant to fludrocortisone?', options: ['Yes', 'No'] },
+      {
+        t: 'radio',
+        label: 'Has the patient tried and failed or is intolerant to midodrine?',
+        options: ['Yes', 'No'],
+      },
+      {
+        t: 'radio',
+        label: 'Has the patient tried and failed or is intolerant to fludrocortisone?',
+        options: ['Yes', 'No'],
+      },
       {
         t: 'checks',
         label: 'Has the patient tried any of the following non-pharmacologic interventions? (Check all that apply):',
         options: [
-          'Discontinuation of drugs, which can cause orthostatic hypotension (eg, diuretics, antihypertensive medications [primarily sympathetic blockers], anti-anginal drugs [nitrates], alpha-adrenergic antagonists and antidepressants)',
+          'Discontinuation of drugs, which can cause orthostatic hypotension '
+            + '(eg, diuretics, antihypertensive medications [primarily sympathetic blockers], '
+            + 'anti-anginal drugs [nitrates], alpha-adrenergic antagonists and antidepressants)',
           'Increased salt and water intake, if appropriate',
           'Raising the head of the bed 10 to 20 degrees',
           'Compression stockings',
@@ -136,8 +146,14 @@ const STEPS = [
           'Other:',
         ],
       },
-      { t: 'note', label: 'REMEMBER: Patient clinical notes from up to the last three visits should be faxed along with the rest of the paperwork.' },
-      { t: 'note-bold', label: 'Once you print the NORTHERA Treatment form, please provide the HIPAA release on page 1 for your patient or their caregiver to read and sign.' },
+      {
+        t: 'note',
+        label: 'REMEMBER: Patient clinical notes from up to the last three visits should be faxed along with the rest of the paperwork.',
+      },
+      {
+        t: 'note-bold',
+        label: 'Once you print the NORTHERA Treatment form, please provide the HIPAA release on page 1 for your patient or their caregiver to read and sign.',
+      },
     ],
   },
   {
@@ -146,7 +162,12 @@ const STEPS = [
       { t: 't', label: 'Prescriber Name:', req: true },
       { t: 't', label: 'NPI#:', req: true },
       { t: 't', label: 'State ID:', req: true },
-      { t: 'checks', label: 'Prescriber Specialty:', req: true, options: ['Neurologist', 'Cardiologist', 'Nephrologist', 'Other:'] },
+      {
+        t: 'checks',
+        label: 'Prescriber Specialty:',
+        req: true,
+        options: ['Neurologist', 'Cardiologist', 'Nephrologist', 'Other:'],
+      },
       { t: 't', label: 'Practice/Facility Name:' },
       { t: 't', label: 'Mailing Address:', req: true },
       { t: 't', label: 'City:', req: true },
@@ -162,7 +183,11 @@ const STEPS = [
     header: 'Initial NORTHERA prescription information',
     intro: {
       h5: 'Select Titration Schedule',
-      helper: 'You have the option to select a titration or fixed dosing schedule below that will be automatically populated into the treatment form. There will be an opportunity to review the form before printing. Alternatively, you can continue to generate the treatment form PDF by clicking the NEXT button and hand write the prescription information.',
+      helper: 'You have the option to select a titration or fixed dosing schedule below '
+        + 'that will be automatically populated into the treatment form. There will be an '
+        + 'opportunity to review the form before printing. Alternatively, you can continue '
+        + 'to generate the treatment form PDF by clicking the NEXT button and hand write '
+        + 'the prescription information.',
     },
     fields: [
       {
@@ -180,7 +205,8 @@ const STEPS = [
         label: 'Custom Titration Schedule',
         helper: 'Select this option if the standard titration schedules do not meet the needs of your patient.',
         options: ['Custom Titration Schedule'],
-        note: 'NORTHERA will be dispensed as 100 mg capsules (30-day supply). Sig: To be filled by the pharmacy to reflect indicated titration schedule. Refills = 0',
+        note: 'NORTHERA will be dispensed as 100 mg capsules (30-day supply). '
+          + 'Sig: To be filled by the pharmacy to reflect indicated titration schedule. Refills = 0',
       },
       {
         t: 'radio',
@@ -206,7 +232,9 @@ const STEPS = [
     finalScreen: {
       h2: 'You are almost finished',
       notes: [
-        'THE PROVIDER MUST SIGN THE PRESCRIPTION FORM BEFORE FAXING THE COMPLETED FORM. IN ADDITION, THE PATIENT OR THEIR CAREGIVER SHOULD SIGN THE HIPAA RELEASE TO ENSURE THAT THE NSC CAN CONTACT HIM OR HER DIRECTLY IF MORE INFORMATION IS NEEDED.',
+        'THE PROVIDER MUST SIGN THE PRESCRIPTION FORM BEFORE FAXING THE COMPLETED FORM. '
+          + 'IN ADDITION, THE PATIENT OR THEIR CAREGIVER SHOULD SIGN THE HIPAA RELEASE '
+          + 'TO ENSURE THAT THE NSC CAN CONTACT HIM OR HER DIRECTLY IF MORE INFORMATION IS NEEDED.',
         'TO ENSURE THE NSC CAN HELP PROVIDE MEDICATION TO YOUR PATIENT, PLEASE PRINT THE SIGNED NORTHERA TREATMENT FORM IN ITS ENTIRETY AND FAX ALL PAGES TO: 1-844-601-0102',
       ],
       checklist: [
@@ -532,10 +560,42 @@ function buildNav(index, total, onBack, onNext) {
   const next = document.createElement('button');
   next.type = 'button';
   next.className = 'treatment-form-btn treatment-form-btn-next';
-  next.textContent = index >= total - 1 ? 'NEXT' : (index === total - 2 ? 'REVIEW' : 'NEXT');
+  let nextLabel = 'NEXT';
+  if (index === total - 2) {
+    nextLabel = 'REVIEW';
+  }
+  next.textContent = nextLabel;
   next.addEventListener('click', onNext);
   nav.append(back, next);
   return nav;
+}
+
+function wrapPhoneNumber(element) {
+  const phoneMatch = element.textContent.match(/\d{3}-\d{3}-\d{4}/);
+  if (!phoneMatch || element.querySelector('.treatment-form-phone')) return;
+
+  const phoneNumber = phoneMatch[0];
+  const fragment = document.createDocumentFragment();
+
+  [...element.childNodes].forEach((node) => {
+    if (node.nodeType !== Node.TEXT_NODE) {
+      fragment.append(node.cloneNode(true));
+      return;
+    }
+
+    const parts = node.textContent.split(phoneNumber);
+    parts.forEach((part, indexPart) => {
+      if (part) fragment.append(document.createTextNode(part));
+      if (indexPart < parts.length - 1) {
+        const phoneSpan = document.createElement('span');
+        phoneSpan.className = 'treatment-form-phone';
+        phoneSpan.textContent = phoneNumber;
+        fragment.append(phoneSpan);
+      }
+    });
+  });
+
+  element.replaceChildren(fragment);
 }
 
 function buildWizard() {
@@ -589,12 +649,7 @@ export default function decorate(block) {
     // Markdown import strips the source's fax-number span, so re-wrap the fax
     // number here to render it yellow (matches the source treatment).
     callout.querySelectorAll('h5, p').forEach((el) => {
-      if (/\d{3}-\d{3}-\d{4}/.test(el.textContent) && !el.querySelector('.treatment-form-phone')) {
-        el.innerHTML = el.innerHTML.replace(
-          /(\d{3}-\d{3}-\d{4})/,
-          '<span class="treatment-form-phone">$1</span>',
-        );
-      }
+      wrapPhoneNumber(el);
     });
     container.append(callout);
   }

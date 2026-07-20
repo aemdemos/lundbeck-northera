@@ -138,8 +138,8 @@
 }
 
 .table.block.table-compare table thead tr {
-  background-image: none;
-  background: linear-gradient(90deg, #176da0 0%, #166fa1 50%, #194d78 100%);
+  background-color: #176da0;
+  background-image: linear-gradient(90deg, #176da0 0%, #166fa1 50%, #194d78 100%);
 }
 
 .table.block.table-compare table th {
