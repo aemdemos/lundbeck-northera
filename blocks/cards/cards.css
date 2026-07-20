@@ -434,3 +434,9 @@ padding: 0;
     padding: 0 12%;
   }
 }
+
+@media (width > 1610px)  {
+  .cards.resource > ul > li {
+    height: 355px;
+  }
+}

@@ -4,46 +4,99 @@
 /**
  * Parser for hero-patient
  * Base block: hero
- * Source: https://www.northera.com/
- * Selector: .random-hero.cmp-hero-banner__desktop
- * Description: Patient photography hero with full-width background image and CTA button.
- *   Extracts the first randomized teaser image and CTA link.
+ * Source: https://northera-stage.d.lundbeckus.com/
+ * Selector: .cmp-layout__herobanner
+ * Description: Patient-photography hero with a full-bleed background image and a
+ *   call-to-action button. The source cycles several randomized teasers; we take
+ *   the first teaser's image and the shared survey CTA.
+ *
+ * Follows the Hero block convention — 1 column, 3 rows:
+ *   Row 1: block name ("hero-patient")   ← added by createBlock
+ *   Row 2: background image
+ *   Row 3: content — survey lead line + call-to-action (text + link)
  * Generated: 2026-06-03
  */
 export default function parse(element, { document }) {
   // Extract the first teaser instance (source has multiple randomized teasers)
   const firstTeaser = element.querySelector('.cmp-teaser');
 
-  // Extract image from first teaser
-  const image = firstTeaser
-    ? firstTeaser.querySelector('.cmp-teaser__image .cmp-image__image')
-    : element.querySelector('img.cmp-image__image, img');
+  // Pick the hero image. The source hero cycles several teasers, and each
+  // patient has TWO renditions: a near-square mobile crop ("*_m.jpg") and a
+  // widescreen desktop banner ("*_header.jpg", ~2664×1420). The desktop banner
+  // is the correct full-bleed hero art (shown un-cropped via object-fit), so
+  // prefer a "_header" image; fall back to the first teaser image otherwise.
+  const allImages = [...element.querySelectorAll('.cmp-teaser__image img, img')];
+  const headerImage = allImages.find((img) => {
+    const asset = img.getAttribute('data-asset')
+      || (img.closest('[data-asset]') && img.closest('[data-asset]').getAttribute('data-asset'))
+      || img.getAttribute('src')
+      || '';
+    return /_header\.(jpg|jpeg|png)/i.test(asset);
+  });
+  const image = headerImage
+    || (firstTeaser
+      ? firstTeaser.querySelector('.cmp-teaser__image .cmp-image__image, img')
+      : element.querySelector('img.cmp-image__image, img'));
 
-  // Extract CTA link from first teaser
-  const ctaLink = firstTeaser
-    ? firstTeaser.querySelector('.cmp-teaser__action-link')
-    : element.querySelector('a.cmp-teaser__action-link, a');
+  // Extract CTA link. The randomized hero splits image and CTA across sibling
+  // teasers — the first teaser may hold only the image — so search the whole
+  // block. Prefer the labelled action link (e.g. "GO TO SURVEY"); all teasers
+  // share the same CTA target. Rebuild a clean anchor so sibling teaser links
+  // and empty image anchors are not carried into the block.
+  const actionLinks = [...element.querySelectorAll('a.cmp-teaser__action-link')];
+  const sourceCta = actionLinks.find((a) => a.textContent.trim())
+    || element.querySelector('a[href]')
+    || null;
 
-  // Build cells: single row, single cell with image + CTA link together
-  // Hero block structure: one content row with background image and call-to-action in same cell
+  // Extract the survey lead line that sits above the CTA (source: a <p> inside
+  // .cmp-imagetext__description, e.g. "Take a survey to find out if NORTHERA…").
+  const leadEl = element.querySelector('.cmp-imagetext__description p, .cmp-imagetext__description');
+
   const cells = [];
+
+  // Row 2: background image (single cell).
+  cells.push([image || '']);
+
+  // Row 3: content — survey lead line (if present) + CTA button.
   const contentCell = [];
-
-  if (image) {
-    contentCell.push(image);
+  if (leadEl && leadEl.textContent.trim()) {
+    const lead = document.createElement('p');
+    lead.textContent = leadEl.textContent.trim();
+    contentCell.push(lead);
   }
-
-  if (ctaLink) {
-    // Wrap CTA in a paragraph for proper block rendering
+  if (sourceCta) {
+    const cta = document.createElement('a');
+    cta.setAttribute('href', sourceCta.getAttribute('href') || sourceCta.href || '');
+    cta.textContent = sourceCta.textContent.trim() || 'Learn More';
     const p = document.createElement('p');
-    p.appendChild(ctaLink);
+    p.appendChild(cta);
     contentCell.push(p);
   }
+  cells.push([contentCell.length ? contentCell : '']);
 
-  if (contentCell.length > 0) {
-    cells.push([contentCell]);
+  // The photography disclaimer ("All individuals featured on this website…")
+  // is default content inside the hero section, rendered below the photo (source:
+  // .text.cmp-text__home_page). Preserve it as a paragraph after the block so it
+  // stays in the same section instead of being discarded with the herobanner.
+  const disclaimerEl = element.querySelector('.cmp-text__home_page p, .cmp-text__home_page');
+  let disclaimer = null;
+  if (disclaimerEl && /real patients and care partners/i.test(disclaimerEl.textContent)) {
+    disclaimer = document.createElement('p');
+    disclaimer.textContent = disclaimerEl.textContent.trim();
   }
 
   const block = WebImporter.Blocks.createBlock(document, { name: 'hero-patient', cells });
   element.replaceWith(block);
+  if (disclaimer) block.after(disclaimer);
+
+  // Tag the homepage's first section with a Section Metadata style so the
+  // photography disclaimer can be styled (see .section.home-intro in
+  // blocks/hero-patient/hero-patient.css). The section selector is consumed by
+  // the columns parser before the sections transformer runs, so we emit the
+  // metadata here — at the end of the first section, before its section break.
+  const sectionMeta = WebImporter.Blocks.createBlock(document, {
+    name: 'Section Metadata',
+    cells: { Style: 'home-intro' },
+  });
+  (disclaimer || block).after(sectionMeta);
 }
