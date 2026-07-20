@@ -271,7 +271,7 @@ main .columns.teaser p {
    30px/36 white padding 10px 0; description 14px/20 #333 (dark, not white). */
 @media (width > 768px) {
   main .columns.teaser > div {
-    padding: 0 15px;
+    padding: 0 8%;
   }
 
   main .columns.teaser > div > div {
@@ -310,9 +310,8 @@ main .columns.teaser p {
   main .columns.teaser > div > div > p:not(:first-child) {
     grid-column: 2;
     align-self: start;
-    font-size: 14px;
-    line-height: 20px;
-    color: #333;
+    font-size: 18px;
+    line-height: 22px;
     text-align: left;
     margin: 0;
   }
