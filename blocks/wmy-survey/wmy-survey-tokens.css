@@ -1,0 +1,35 @@
+/* wmy-survey — static replica of the "What Moves You" survey form.
+   Values extracted from the northera-stage source. */
+.wmy-survey {
+  --wmy-survey-note-color: var(--brand-grey);
+  --wmy-survey-note-size: 16px;
+  --wmy-survey-label-color: var(--brand-blue-dark);
+  --wmy-survey-label-font-family: var(--heading-font-family);
+  --wmy-survey-label-size: 18px;
+  --wmy-survey-label-weight: 700;
+  --wmy-survey-input-height: 52px;
+  --wmy-survey-input-size: 14px;
+  --wmy-survey-input-color: #333;
+  --wmy-survey-input-border: 1px solid #979797;
+  --wmy-survey-input-padding: 15px 10px;
+  --wmy-survey-prompt-color: var(--brand-grey);
+  --wmy-survey-prompt-size: 16px;
+  --wmy-survey-prompt-line-height: 20px;
+  --wmy-survey-counter-color: var(--brand-blue);
+  --wmy-survey-counter-size: 12px;
+  --wmy-survey-textarea-height: 120px;
+  --wmy-survey-consent-color: var(--brand-blue-dark);
+  --wmy-survey-consent-font-family: var(--heading-font-family);
+  --wmy-survey-consent-size: 18px;
+  --wmy-survey-consent-line-height: 20px;
+  --wmy-survey-link-color: var(--brand-cyan);
+  --wmy-survey-submit-font-family: var(--heading-heavy-font-family);
+  --wmy-survey-submit-size: 18px;
+  --wmy-survey-submit-color: var(--brand-blue-dark);
+  --wmy-survey-submit-background: var(--brand-cyan);
+  --wmy-survey-submit-padding: 15px 115px;
+  --wmy-survey-submit-shadow: var(--button-shadow);
+  --wmy-survey-submit-hover-background: var(--brand-cyan-shadow);
+  --wmy-survey-submit-hover-color: #fff;
+  --wmy-survey-submit-hover-shadow: var(--button-hover-shadow);
+}

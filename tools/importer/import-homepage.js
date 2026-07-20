@@ -5,7 +5,7 @@
 import columnsParser from './parsers/columns.js';
 import heroPatientParser from './parsers/hero-patient.js';
 import cardsCtaParser from './parsers/cards-cta.js';
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -38,7 +38,8 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
       ],
@@ -48,7 +49,7 @@ const PAGE_TEMPLATE = {
     { id: 'hp-ask', name: 'Ask for NORTHERA by name (icon + text band)', selector: '.responsivegrid.ask-for-northera', style: null, blocks: ['columns'], defaultContent: [] },
     { id: 'hp-hero', name: 'Random patient-photo hero + survey CTA', selector: '.cmp-layout__herobanner', style: null, blocks: ['hero-patient'], defaultContent: [] },
     { id: 'hp-financial', name: 'Financial assistance quicklink card', selector: '.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
-    { id: 'hp-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'hp-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
@@ -57,7 +58,7 @@ const parsers = {
   columns: columnsParser,
   'hero-patient': heroPatientParser,
   'cards-cta': cardsCtaParser,
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after

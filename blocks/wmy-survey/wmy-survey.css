@@ -1,0 +1,156 @@
+@import url('./wmy-survey-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   wmy-survey — static visual replica of the "What Moves You" survey
+   form. Single-column fields at all breakpoints (source: full-width
+   inputs). Mobile-first; source breakpoints 768/992/1200.
+   ══════════════════════════════════════════════════════════════ */
+
+.wmy-survey .wmy-survey-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wmy-survey .wmy-survey-note {
+  margin: 0;
+  color: var(--wmy-survey-note-color);
+  font-family: var(--body-font-family);
+  font-size: var(--wmy-survey-note-size);
+}
+
+.wmy-survey .wmy-survey-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wmy-survey .wmy-survey-label {
+  color: var(--wmy-survey-label-color);
+  font-family: var(--wmy-survey-label-font-family);
+  font-size: var(--wmy-survey-label-size);
+  font-weight: var(--wmy-survey-label-weight);
+}
+
+.wmy-survey .wmy-survey-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--wmy-survey-input-height);
+  padding: var(--wmy-survey-input-padding);
+  border: var(--wmy-survey-input-border);
+  border-radius: 0;
+  background-color: #fff;
+  font-family: var(--body-font-family);
+  font-size: var(--wmy-survey-input-size);
+  color: var(--wmy-survey-input-color);
+}
+
+.wmy-survey .wmy-survey-prompt {
+  margin: 0;
+  color: var(--wmy-survey-prompt-color);
+  font-family: var(--body-font-family);
+  font-size: var(--wmy-survey-prompt-size);
+  line-height: var(--wmy-survey-prompt-line-height);
+}
+
+.wmy-survey .wmy-survey-prompt a {
+  color: var(--wmy-survey-link-color);
+  text-decoration: none;
+}
+
+.wmy-survey .wmy-survey-checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wmy-survey .wmy-survey-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--wmy-survey-prompt-color);
+  font-family: var(--body-font-family);
+  font-size: var(--wmy-survey-prompt-size);
+  cursor: pointer;
+}
+
+.wmy-survey .wmy-survey-checkbox input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--brand-cyan);
+}
+
+/* textarea + counter share a positioned box; the counter overlays the
+   bottom-right of the textarea (source: absolute, italic, brand-blue). */
+.wmy-survey .wmy-survey-textarea-box {
+  position: relative;
+}
+
+.wmy-survey .wmy-survey-counter {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  color: var(--wmy-survey-counter-color);
+  font-family: var(--body-font-family);
+  font-size: var(--wmy-survey-counter-size);
+  font-style: italic;
+  text-align: right;
+  pointer-events: none;
+}
+
+.wmy-survey .wmy-survey-textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-height: var(--wmy-survey-textarea-height);
+  /* extra bottom padding so typed text doesn't run under the counter */
+  padding: 15px 10px 28px;
+  border: var(--wmy-survey-input-border);
+  border-radius: 0;
+  background-color: #fff;
+  font-family: var(--body-font-family);
+  font-size: var(--wmy-survey-input-size);
+  color: var(--wmy-survey-input-color);
+  resize: vertical;
+}
+
+.wmy-survey .wmy-survey-consent {
+  margin: 0;
+  color: var(--wmy-survey-consent-color);
+  font-family: var(--wmy-survey-consent-font-family);
+  font-size: var(--wmy-survey-consent-size);
+  line-height: var(--wmy-survey-consent-line-height);
+}
+
+.wmy-survey .wmy-survey-consent a {
+  color: var(--wmy-survey-link-color);
+  text-decoration: none;
+}
+
+.wmy-survey .wmy-survey-submit {
+  align-self: flex-start;
+  box-sizing: border-box;
+  max-width: 100%;
+  border: 0;
+  border-radius: 0;
+  padding: var(--wmy-survey-submit-padding);
+  background-color: var(--wmy-survey-submit-background);
+  color: var(--wmy-survey-submit-color);
+  font-family: var(--wmy-survey-submit-font-family);
+  font-size: var(--wmy-survey-submit-size);
+  line-height: 1.2;
+  white-space: nowrap;
+  text-align: center;
+  box-shadow: var(--wmy-survey-submit-shadow);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.wmy-survey .wmy-survey-submit:hover,
+.wmy-survey .wmy-survey-submit:focus {
+  background-color: var(--wmy-survey-submit-hover-background);
+  color: var(--wmy-survey-submit-hover-color);
+  box-shadow: var(--wmy-survey-submit-hover-shadow);
+}

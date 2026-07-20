@@ -729,8 +729,43 @@ main .section.reminders p {
   color: #fff;
 }
 
+/* section metadata - noh-symptoms (source .cmp-carousel_bghdarkblue: brand-blue
+   band, centered white H2 20px mobile / 40px desktop, white intro paragraph).
+   Used by the symptomatic-nOH "Common symptoms of nOH" section. */
+main .section.noh-symptoms {
+  background-color: var(--brand-blue);
+  margin-top: 20px;
+  padding: 0 25px 40px;
+}
+
+main .section.noh-symptoms > div {
+  max-width: var(--max-width-site);
+  padding: 0;
+}
+
+main .section.noh-symptoms h2 {
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  font-size: 20px;
+  line-height: 24px;
+  padding-top: 30px;
+}
+
+main .section.noh-symptoms p {
+  color: #fff;
+  text-align: center;
+}
+
 main .section.dark a { /* @libs */
   color: var(--background-color); /* @libs */
+}
+
+@media (width >= 768px) {
+  main .section.noh-symptoms h2 {
+    font-size: 40px;
+    line-height: 48px;
+  }
 }
 
 main .section.dark a:hover { /* @libs */
@@ -843,6 +878,128 @@ main .section.home-intro > .default-content-wrapper p {
   font-size: 19px;
   line-height: 23px;
   text-align: left;
+}
+
+/* section metadata - wmy-intro ("What Moves You" thank-you intro).
+   The "Home" link is a lone bold link in a paragraph, which EDS auto-decorates
+   into a .button.primary. The source renders it as a plain cyan bold text link,
+   so reset the button chrome back to a text link within this section. */
+main .section.wmy-intro a.button,
+main .section.wmy-intro a.button.primary {
+  display: inline;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  color: var(--brand-cyan);
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  text-decoration: none;
+}
+
+main .section.wmy-intro a.button:hover,
+main .section.wmy-intro a.button.primary:hover,
+main .section.wmy-intro a.button.primary:focus {
+  background: none;
+  box-shadow: none;
+  color: var(--brand-cyan-shadow);
+  text-decoration: underline;
+}
+
+main .section.wmy-intro a.button u {
+  text-decoration: none;
+}
+
+/* What Moves You survey page: the H1 is centered on mobile (global default) but
+   left-aligned on desktop in the source. Scoped to h1 so the thank-you page
+   (which shares wmy-intro but uses an h2) is unaffected. */
+@media (width >= 768px) {
+  main .section.wmy-intro h1 {
+    text-align: left;
+  }
+}
+
+/* section metadata - sitemap (/site-map page).
+   A nested link list rendered as default content. Source: top-level links are
+   cyan Gotham-Bold 18px (each row padded, divided); sub-links are brand-blue
+   Gotham-Medium 16px, indented. Single column at all breakpoints. */
+main .section.sitemap .default-content-wrapper > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* top-level rows */
+main .section.sitemap .default-content-wrapper > ul > li {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--section-divider-color, #e5e5e5);
+}
+
+/* top-level link (the row's own <p><a>) */
+main .section.sitemap .default-content-wrapper > ul > li > p {
+  margin: 0;
+}
+
+main .section.sitemap .default-content-wrapper > ul > li > p > a {
+  display: block;
+  padding: 22px 15px;
+  color: var(--brand-cyan);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* sub-link list, indented under its top-level row */
+main .section.sitemap .default-content-wrapper > ul > li > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 10px;
+}
+
+main .section.sitemap .default-content-wrapper > ul > li > ul > li {
+  margin: 0;
+}
+
+main .section.sitemap .default-content-wrapper > ul > li > ul > li > a {
+  display: block;
+  padding: 15px 25px;
+  color: var(--brand-blue);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+main .section.sitemap .default-content-wrapper > ul > li > ul > li > a:hover {
+  text-decoration: underline;
+}
+
+/* section metadata - find-specialist (find-a-nOH-specialist page).
+   The "Map Mobile" default-content image is edge-to-edge full-bleed on the
+   source (spans the full viewport width, ignoring the section/content gutters).
+   Break the image out of all nested horizontal padding: edge-to-edge on mobile
+   (viewport < 1200), capped at the source's 1200px content width on desktop. */
+main .section.find-specialist .default-content-wrapper p:has(> picture) {
+  width: min(100vw, 1200px);
+  max-width: min(100vw, 1200px);
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+main .section.find-specialist .default-content-wrapper picture,
+main .section.find-specialist .default-content-wrapper picture img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 
 main .section.accent {

@@ -174,10 +174,143 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
    switch from stacked to side-by-side at 768px (col-md/col-lg on the source).
    The base columns block only flips to a row at 900px, so the variant flips
    its own flex-direction here to match the source. */
+/* ══════════════════════════════════════════════════════════════
+   columns-contact — two side-by-side contact blocks (Online / Phone), each an
+   icon above a bold label + a cyan link. Borderless/transparent.
+   Source: coverage-for-northera .cmp-layout__two__imagetext teasers.
+   Mobile (default): stacked, centered. ≥768px: two 50% columns side-by-side.
+   ══════════════════════════════════════════════════════════════ */
+main .columns.contact > div > div {
+  text-align: center;
+}
+
+main .columns.contact img {
+  width: 122px;
+  height: auto;
+}
+
+main .columns.contact p {
+  text-align: center;
+}
+
+main .columns.contact b,
+main .columns.contact strong {
+  color: #58595b;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+main .columns.contact a {
+  color: var(--brand-cyan);
+  font-size: 18px;
+  text-decoration: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   columns-teaser — dark-blue "awareness" band: 2 icon+heading+text teaser
+   columns, white text on brand-blue. Source: every-patient-story-matters
+   #patientbannertext. Mobile-first stacked, centered; ≥768px two columns.
+   ══════════════════════════════════════════════════════════════ */
+main .columns.teaser {
+  background-color: var(--brand-blue);
+}
+
+main .columns.teaser > div > div {
+  text-align: center;
+  padding: 50px 0;
+}
+
+main .columns.teaser img {
+  width: 115px;
+  height: auto;
+}
+
+main .columns.teaser h1,
+main .columns.teaser h2,
+main .columns.teaser h3,
+main .columns.teaser h4 {
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: 700;
+  margin: 10px 0 0;
+}
+
+main .columns.teaser p {
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  line-height: 22px;
+  margin: 0;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   columns-supine — two "reduce the risk" items (icon + caption). Source:
+   .cmp-layout__reduce-the-risk .cmp-layout__imagetext. Mobile: stacked,
+   centered, divider = bottom border on the first item; ≥768px: side-by-side,
+   icon-left + caption-right, vertical divider between items.
+   ══════════════════════════════════════════════════════════════ */
+main .columns.supine {
+  padding: 0 15px;
+}
+
+main .columns.supine > div > div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+main .columns.supine > div > :first-child {
+  border-bottom: 2px solid var(--brand-grey);
+}
+
+main .columns.supine img {
+  max-width: 100%;
+  height: auto;
+}
+
+main .columns.supine p {
+  color: var(--text-color, #333);
+  font-family: var(--body-font-family);
+  margin: 10px 0 0;
+}
+
 @media (width >= 768px) {
     main > .section:first-of-type:has(.columns.icon-text) {
     margin: 0;
     padding: 0;
+  }
+
+  main .columns.contact > div > div {
+    flex: 1;
+  }
+
+  /* supine: icon-left + caption-right per item, vertical divider between */
+  main .columns.supine > div {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  main .columns.supine > div > div {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 35px;
+    text-align: left;
+    padding: 0 50px;
+  }
+
+  main .columns.supine > div > :first-child {
+    border-bottom: 0;
+    border-right: 1px solid var(--brand-grey);
+  }
+
+  main .columns.supine p {
+    margin: 0;
   }
 
    main > .section:first-of-type:has(.columns.icon-text) > div {

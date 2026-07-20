@@ -8,8 +8,26 @@ export default async function decorate(block) {
   block.setAttribute('role', 'region');
   block.setAttribute('aria-roledescription', 'Quote');
 
-  const [quotation, attribution] = [...block.children].map((c) => c.firstElementChild);
+  const rows = [...block.children].map((c) => c.firstElementChild).filter(Boolean);
+
+  // Optional leading patient photo (quote-patient variant): a row whose only
+  // content is an image. Pull it out so the remaining rows are quotation +
+  // attribution (backward compatible with the plain 2-row quote).
+  let photo = null;
+  const photoIdx = rows.findIndex(
+    (el) => el && el.querySelector('picture, img') && !el.textContent.trim(),
+  );
+  if (photoIdx !== -1) {
+    [photo] = rows.splice(photoIdx, 1);
+  }
+
+  const [quotation, attribution] = rows;
   const blockquote = document.createElement('blockquote');
+  // patient photo (if present) renders above the quotation
+  if (photo) {
+    photo.className = 'quote-photo';
+    blockquote.append(photo);
+  }
   // decorate quotation
   quotation.className = 'quote-quotation';
   blockquote.append(quotation);

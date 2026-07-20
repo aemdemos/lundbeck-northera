@@ -77,20 +77,20 @@ padding: 0;
   padding: 0;
 }
 
+/* Mobile default (source < 768px): each row stacks — icon centered on top,
+   text left-aligned full-width below. */
 .cards.reminders > ul > li {
   border: 0;
   background-color: transparent;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  padding: 25px 0;
+  padding: 30px 0;
 }
 
 .cards.reminders > ul > li + li {
   border-top: 1px solid #fff;
 }
-
-
 
 .cards.reminders > ul > li img {
   height: auto;
@@ -98,27 +98,36 @@ padding: 0;
   object-fit: contain;
   display: inline-block;
   margin-bottom: 20px;
-  width: 120px;
+  width: 115px;
   max-width: none;
 }
 
-/* text: white, centered (mobile) */
 .cards.reminders .cards-card-body {
   color: #fff;
   text-align: left;
-  margin-left: 50px;
+  margin-left: 0;
   font-weight: 400;
   min-width: 0;
-  flex: 1;
+  width: 100%;
 }
-
 
 .cards.reminders .cards-card-body p {
   color: #fff;
-  font-size: var(--body-font-size-m);
-  line-height: 30px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
   margin: 0;
+  padding: 0;
   text-align: left;
+}
+
+/* Source highlights ("taken by mouth 3 times per day", "If you miss a dose:")
+   are gold Gotham-Bold. Parser converts the source color spans to <strong>. */
+.cards.reminders .cards-card-body strong {
+  color: #f6af1a;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
 }
 
 .cards.reminders .cards-card-body ul {
@@ -129,21 +138,107 @@ padding: 0;
 .cards.reminders .cards-card-body li {
   color: #fff;
   font-family: var(--body-font-family);
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 20px;
   text-align: left;
   list-style-type: none;
 }
 
+.cards.reminders .cards-card-image {
+  text-align: center;
+  width: 115px;
+}
 
-  .cards.reminders .cards-card-image {
-   flex: 0 0 100px;
-   text-align: center;
-   margin: auto;
-   width: 115px;
+/* ≥768px (source breakpoint): each row becomes icon-left + text-right. */
+@media (width >= 768px) {
+  .cards.reminders > ul > li {
+    flex-direction: row;
+    align-items: center;
+    padding: 25px 0;
   }
 
+  .cards.reminders > ul > li img {
+    width: 120px;
+    margin-bottom: 0;
+  }
+
+  .cards.reminders .cards-card-image {
+    flex: 0 0 100px;
+    margin: auto;
+  }
+
+  .cards.reminders .cards-card-body {
+    margin-left: 50px;
+    width: auto;
+    flex: 1;
+  }
+}
 
 
+
+
+/* ══════════════════════════════════════════════════════════════
+   "benefit" variant — NSC feature/benefit cards (prescribing-northera).
+   Centered, icon-on-top layout: 77px icon, blue heading, grey description.
+   Mobile (default): 1-up stacked full-width. ≥768px: the 3 cards remain
+   vertically stacked within the narrow NSC column (which sits beside the
+   pharmacy column). Borderless, transparent.
+   ══════════════════════════════════════════════════════════════ */
+.cards.benefit > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.cards.benefit > ul > li {
+  border: 0;
+  background-color: transparent;
+  display: block;
+  text-align: center;
+  padding: 5px 15px;
+  margin-bottom: 0;
+}
+
+.cards.benefit .cards-card-image {
+  line-height: 0;
+  text-align: center;
+}
+
+.cards.benefit > ul > li img {
+  width: 77px;
+  height: 77px;
+  aspect-ratio: unset;
+  object-fit: contain;
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.cards.benefit .cards-card-body {
+  margin: 0;
+}
+
+.cards.benefit .cards-card-body h2 {
+  color: #3a6f8f;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 36px;
+  margin: 10px 0;
+  text-align: center;
+  text-transform: none;
+}
+
+.cards.benefit .cards-card-body p {
+  color: #58595b;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 0;
+  text-align: center;
+}
 
 /* ══════════════════════════════════════════════════════════════
    "pharmacy" variant — source .lu-cmp-teaser specialty-pharmacy rows
@@ -432,6 +527,138 @@ padding: 0;
 @media (width > 1400px) {
   main > .section > div:has(.cards.resource) {
     padding: 0 12%;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   "symptoms" variant — 3 common-nOH-symptom tiles (icon on top + centered
+   white title) on the brand-blue band (section style set to brand-blue).
+   Source: .cmp-carousel_bghdarkblue. Mobile: 1-col stacked; ≥768px: 3-across.
+   ══════════════════════════════════════════════════════════════ */
+.cards.symptoms > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.cards.symptoms > ul > li {
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.cards.symptoms > ul > li img {
+  aspect-ratio: unset;
+  object-fit: contain;
+  width: auto;
+  max-width: 100%;
+  padding: 30px 0 0;
+}
+
+.cards.symptoms .cards-card-body {
+  margin: 0;
+}
+
+.cards.symptoms .cards-card-body p {
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  margin: 0;
+  padding: 40px 10px 25px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   "stats" variant — 3 infographic tiles (image + bold caption) with vertical
+   dividers between tiles on desktop; stacked, no dividers on mobile.
+   Source: .symptomatic-noh-condition. Text #333, bold, centered.
+   ══════════════════════════════════════════════════════════════ */
+.cards.stats > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.cards.stats > ul > li {
+  border: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px 30px;
+}
+
+.cards.stats > ul > li img {
+  aspect-ratio: unset;
+  object-fit: contain;
+  width: 90%;
+  max-width: 178px;
+  margin: 0 auto;
+}
+
+.cards.stats .cards-card-image {
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cards.stats .cards-card-body {
+  margin: 0;
+}
+
+.cards.stats .cards-card-body p {
+  color: var(--text-color, #333);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+}
+
+@media (width >= 768px) {
+  .cards.symptoms > ul {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .cards.symptoms > ul > li {
+    flex: 1;
+  }
+
+  .cards.symptoms > ul > li img {
+    padding: 20px 0 0;
+  }
+
+  .cards.symptoms .cards-card-body p {
+    padding: 20px 0 25px;
+  }
+
+  .cards.stats > ul {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .cards.stats > ul > li {
+    flex: 1;
+    border-right: 1px solid #000;
+  }
+
+  .cards.stats > ul > li:last-child {
+    border-right: 0;
+  }
+
+  .cards.stats .cards-card-image {
+    min-height: 215px;
   }
 }
 

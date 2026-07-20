@@ -7,12 +7,21 @@
  * Description: Specialty-pharmacy cards. Each card is a .lu-cmp-teaser with a
  * logo image plus a heading (pharmacy name) and phone/fax paragraphs. Rendered
  * as a vertical stack of logo-left / text-right rows.
- * Selector: .cmp-layout_prescribing_options .lu-cmp-teaser
+ * Selector: .cmp-layout_prescribing_options__teaser .lu-cmp-teaser
  */
 export default function parse(element, { document }) {
-  // Collect all pharmacy teasers under the shared section container so the
-  // whole set becomes a single Cards block.
-  const container = element.closest('.cmp-layout_prescribing_options') || element.parentElement;
+  // Scope to the pharmacy sub-column only. The prescribing-options container
+  // holds TWO teaser groups: the NSC benefit column
+  // (.cmp-layout_prescribing_options__teaser__right) and the pharmacy column
+  // (.cmp-layout_prescribing_options__teaser WITHOUT __right). Resolving to the
+  // broad .cmp-layout_prescribing_options would over-capture all 6 teasers, so
+  // prefer the pharmacy sub-column; fall back to the broad container only when
+  // the sub-column is absent (older single-column pages).
+  const container = element.closest(
+    '.cmp-layout_prescribing_options__teaser:not(.cmp-layout_prescribing_options__teaser__right)',
+  )
+    || element.closest('.cmp-layout_prescribing_options')
+    || element.parentElement;
 
   // Guard against duplicate processing when the parser fires per-teaser: if the
   // block table was already inserted by an earlier call, drop this element.

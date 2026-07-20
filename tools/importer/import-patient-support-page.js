@@ -5,7 +5,7 @@
 import columnsParser from './parsers/columns.js';
 import cardsResourceParser from './parsers/cards-resource.js';
 import cardsCtaParser from './parsers/cards-cta.js';
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -39,7 +39,8 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
       ],
@@ -48,7 +49,7 @@ const PAGE_TEMPLATE = {
   sections: [
     { id: 'ps-resources', name: 'Resources created with you in mind (intro + resource cards)', selector: '.cmp-layout__patientsupport', style: null, blocks: ['columns', 'cards-resource'], defaultContent: [] },
     { id: 'ps-stories', name: 'Real patient stories', selector: '.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
-    { id: 'ps-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'ps-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
@@ -57,7 +58,7 @@ const parsers = {
   columns: columnsParser,
   'cards-resource': cardsResourceParser,
   'cards-cta': cardsCtaParser,
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after
