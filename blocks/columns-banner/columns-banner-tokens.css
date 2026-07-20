@@ -14,8 +14,13 @@
   --columns-banner-daw-text-size: 16px;
   --columns-banner-daw-text-line-height: 30px;
   --columns-banner-daw-icon-width: 159px;
-  --columns-banner-daw-heading-size-desktop: 24px;
-  --columns-banner-daw-heading-line-height-desktop: 28px;
+
+  /* desktop heading matches the source (no size bump: 20px/24) */
+  --columns-banner-daw-heading-size-desktop: 20px;
+  --columns-banner-daw-heading-line-height-desktop: 24px;
+
+  /* desktop band padding (source .write-daw: 10px 109px 10px 104px) */
+  --columns-banner-daw-padding-desktop: 10px 109px 10px 104px;
 
   /* daw-light variant (prescribing-northera "Why Dispense as written matters"):
      pale cyan tint banner with a medium DAW illustration + dark-blue
@@ -30,4 +35,13 @@
   --columns-banner-daw-light-text-line-height: 30px;
   --columns-banner-daw-light-icon-width: 176px;
   --columns-banner-daw-light-icon-width-desktop: 159px;
+}
+
+/* Desktop DAW band padding — the base columns-banner.css sets `20px 0` at
+   >=768px, but the source band keeps its side padding. `main` raises
+   specificity above the base rule so this wins (tokens-only styling). */
+@media (width >= 768px) {
+  main .section .columns-banner.daw {
+    padding: var(--columns-banner-daw-padding-desktop);
+  }
 }

@@ -8,8 +8,8 @@
   --quote-grid-quotation-line-height: 31.5px;
   --quote-grid-attribution-color: var(--brand-grey);
   --quote-grid-attribution-font-family: var(--body-font-family);
-  --quote-grid-attribution-size: 14px;
-  --quote-grid-attribution-line-height: 20px;
+  --quote-grid-attribution-size: 16px;
+  --quote-grid-attribution-line-height: 24px;
   --quote-grid-footnote-color: var(--brand-grey);
   --quote-grid-footnote-font-family: var(--body-font-family);
   --quote-grid-footnote-size: 18px;

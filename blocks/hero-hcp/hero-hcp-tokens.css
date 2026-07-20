@@ -15,7 +15,7 @@
   --hero-hcp-subhead-line-height: 19.8px;
   --hero-hcp-body-color: var(--brand-grey);
   --hero-hcp-body-font-family: var(--body-font-family);
-  --hero-hcp-body-size: 15.6px;
+  --hero-hcp-body-size: 15px;
   --hero-hcp-body-line-height: 20px;
 
   /* desktop: white text overlaid on the flamingo background */
@@ -25,6 +25,20 @@
   --hero-hcp-title-line-height-desktop: 60px;
   --hero-hcp-subhead-color-desktop: #fff;
   --hero-hcp-subhead-size-desktop: 24px;
-  --hero-hcp-subhead-line-height-desktop: 26px;
+  --hero-hcp-subhead-line-height-desktop: 26.4px;
   --hero-hcp-body-color-desktop: #fff;
+
+  /* desktop indication paragraph: source is 16px/24 (mobile is 15/20) */
+  --hero-hcp-body-size-desktop: 16px;
+  --hero-hcp-body-line-height-desktop: 24px;
+}
+
+/* desktop indication size/line-height — the base hero-hcp.css desktop `p` rule
+   only overrides color, so bump size/leading here (tokens-only styling).
+   `main` keeps this above the base rule that the @import loads first. */
+@media (width >= 768px) {
+  main .hero-hcp p {
+    font-size: var(--hero-hcp-body-size-desktop);
+    line-height: var(--hero-hcp-body-line-height-desktop);
+  }
 }
