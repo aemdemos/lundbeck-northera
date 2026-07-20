@@ -290,17 +290,43 @@ main .columns.supine p {
     flex: 1;
   }
 
-  /* teaser (awareness band): ≥768px heading 30px/36 + desc 18px/22, left-aligned */
+  /* teaser (awareness band) ≥768px: within each cell the icon sits left and the
+     heading + description stack to its right, left-aligned (source layout). */
+  main .columns.teaser > div > div {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 24px;
+    text-align: left;
+    padding: 50px 0;
+  }
+
+  main .columns.teaser > div > div > p:first-child:has(img) {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    margin: 0;
+  }
+
+  main .columns.teaser img {
+    width: 115px;
+  }
+
   main .columns.teaser h1,
   main .columns.teaser h2,
   main .columns.teaser h3,
   main .columns.teaser h4 {
+    grid-column: 2;
+    align-self: end;
     font-size: 30px;
     line-height: 36px;
     text-align: left;
+    margin: 0;
   }
 
-  main .columns.teaser p {
+  main .columns.teaser > div > div > p:not(:first-child) {
+    grid-column: 2;
+    align-self: start;
     font-size: 18px;
     line-height: 22px;
     text-align: left;
