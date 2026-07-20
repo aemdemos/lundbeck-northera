@@ -113,10 +113,21 @@ padding: 0;
 
 .cards.reminders .cards-card-body p {
   color: #fff;
-  font-size: var(--body-font-size-m);
-  line-height: 30px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
   margin: 0;
+  padding: 0;
   text-align: left;
+}
+
+/* Source highlights ("taken by mouth 3 times per day", "If you miss a dose:")
+   are gold Gotham-Bold. Parser converts the source color spans to <strong>. */
+.cards.reminders .cards-card-body strong {
+  color: #f6af1a;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
 }
 
 .cards.reminders .cards-card-body ul {
@@ -127,7 +138,8 @@ padding: 0;
 .cards.reminders .cards-card-body li {
   color: #fff;
   font-family: var(--body-font-family);
-  font-size: 18px;
+  font-size: 16px;
+  line-height: 20px;
   text-align: left;
   list-style-type: none;
 }
