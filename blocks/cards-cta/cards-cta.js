@@ -19,6 +19,20 @@ export default function decorate(block) {
     moveInstrumentation(img, optimizedPic.querySelector('img'));
     img.closest('picture').replaceWith(optimizedPic);
   });
+
+  /* Source parity: the entire banner card is clickable — clicking anywhere on
+     it navigates to the card's CTA link. Mark the card as a link surface and
+     forward clicks that aren't already on an interactive element. */
+  ul.querySelectorAll(':scope > li').forEach((li) => {
+    const cta = li.querySelector('a[href]');
+    if (!cta) return;
+    li.classList.add('cards-cta-linked');
+    li.addEventListener('click', (e) => {
+      if (e.target.closest('a, button')) return;
+      cta.click();
+    });
+  });
+
   block.textContent = '';
   block.append(ul);
 }

@@ -31,6 +31,53 @@ const BAR_ID = 'isi-bar';
  * in the left content column at every breakpoint (source parity).
  * @param {HTMLElement} abbreviatedRow the block's first (abbreviated) row
  */
+/**
+ * Opens the ISI: on desktop (≥1200px) clicks the rail expand toggle; otherwise
+ * opens the fixed bottom bar's Important Safety section. Source: the "Important
+ * Safety Information" link (a.open_isi) opens the ISI overlay/bar.
+ */
+function openIsi() {
+  const desktopToggle = document.querySelector('.isi-desktop-toggle');
+  if (desktopToggle && window.matchMedia('(min-width: 1200px)').matches) {
+    desktopToggle.click();
+    return;
+  }
+  const bar = document.getElementById(BAR_ID);
+  const impToggle = bar && bar.querySelector('.isi-bar-section-important .isi-bar-toggle');
+  if (impToggle) impToggle.click();
+}
+
+/**
+ * Wraps the phrase "Important Safety Information" in the please-see blurb with a
+ * cyan link that opens the ISI (source parity: <a class="open_isi">).
+ * @param {HTMLElement} wrapper the .isi-please-see wrapper
+ */
+function linkifyPleaseSee(wrapper) {
+  const walker = document.createTreeWalker(wrapper, NodeFilter.SHOW_TEXT);
+  const phrase = 'Important Safety Information';
+  const targets = [];
+  let node = walker.nextNode();
+  while (node) {
+    if (node.textContent.includes(phrase) && !node.parentElement.closest('a')) targets.push(node);
+    node = walker.nextNode();
+  }
+  targets.forEach((textNode) => {
+    const idx = textNode.textContent.indexOf(phrase);
+    if (idx < 0) return;
+    const after = textNode.splitText(idx);
+    after.splitText(phrase.length);
+    const link = document.createElement('a');
+    link.href = '#';
+    link.className = 'isi-please-see-link';
+    link.textContent = phrase;
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      openIsi();
+    });
+    after.parentNode.replaceChild(link, after);
+  });
+}
+
 let pleaseSeePlaced = false;
 function placePleaseSee(abbreviatedRow) {
   if (!abbreviatedRow) return;
@@ -50,6 +97,9 @@ function placePleaseSee(abbreviatedRow) {
   wrapper.className = 'isi-please-see';
   [...cell.children].forEach((child) => wrapper.append(child));
   section.append(wrapper);
+  // Source parity: "Important Safety Information" in this blurb is a cyan link
+  // that opens the ISI (source <a class="open_isi">). Wrap the phrase in a link.
+  linkifyPleaseSee(wrapper);
   // Source order: the blurb sits right before the ISI section (after cards-cta).
   // At ≥1200px the ISI section becomes an out-of-flow right rail, so the blurb
   // remains the last in-flow content — just above the footer, matching source.

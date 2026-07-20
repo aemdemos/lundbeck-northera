@@ -5,8 +5,10 @@ main > .section:first-of-type:has(.columns.icon-text) {
   padding: 0;
 }
 
-/* base override */
-main > .section:first-of-type:has(.columns.icon-text) > div {
+/* base override — scope to the columns + hero wrappers only, so a sibling
+   block in the same section (e.g. .cards-wrapper) keeps its own padding */
+main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper,
+main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
   padding: 0;
   margin: 0;
 }
@@ -180,7 +182,8 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     padding: 0;
   }
 
-   main > .section:first-of-type:has(.columns.icon-text) > div {
+   main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper,
+   main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
     padding: 0;
     margin: 0;
   }

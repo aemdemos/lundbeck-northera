@@ -46,6 +46,13 @@ main > .section > div:has(.cards-cta) {
   display: flex;
 }
 
+/* Source parity: the whole banner card is a click target (cursor:pointer on
+   the entire card, click forwarded to the CTA link in cards-cta.js) */
+.cards-cta > ul > li.cards-cta-linked,
+.cards-cta > ul > li.cards-cta-linked * {
+  cursor: pointer;
+}
+
 /* body fills the card height so the CTA (last child) can pin to the bottom
    — keeps buttons aligned across side-by-side cards of unequal text length */
 .cards-cta .cards-card-body {

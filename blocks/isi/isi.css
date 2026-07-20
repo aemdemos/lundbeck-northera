@@ -32,6 +32,18 @@ main .isi-please-see a {
   overflow-wrap: anywhere;
 }
 
+/* Source parity: the "Important Safety Information" opener is cyan, no underline */
+main .isi-please-see .isi-please-see-link {
+  color: var(--brand-cyan);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+main .isi-please-see .isi-please-see-link:hover,
+main .isi-please-see .isi-please-see-link:focus {
+  text-decoration: none;
+}
+
 /* block padding (source: .cmp-isi__use / .cmp-isi__importantsafety padding: 0 25px) */
 main .isi {
   padding: 0 var(--isi-section-padding-x);
