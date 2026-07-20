@@ -734,12 +734,14 @@ main .section.patient-story .default-content-wrapper p:has(> picture) img {
   height: auto;
 }
 
-/* ≥900px the content wrapper is inset 11% (of its border-box). A child margin
-   resolves against the wrapper's CONTENT width (78% of the box), so to cancel
-   the 11% side padding the negative margin must be 11/78 ≈ 14.1%. This makes
-   the image span the full content column edge-to-edge (0 → column right) while
-   staying clear of the ISI rail — NOT 100vw. */
-@media (width >= 900px) {
+/* ≥768px the intro (first) section wrapper is inset 11% (of its border-box) by
+   `main > .section:first-of-type > div`. A child margin resolves against the
+   wrapper's CONTENT width (78% of the box), so to cancel the 11% side padding
+   the negative margin must be 11/78 ≈ 14.1%. This makes the image span the full
+   content column edge-to-edge (0 → column right) while staying clear of the ISI
+   rail — NOT 100vw. Matches the source, where the ambassador image is full-bleed
+   from tablet up while the intro text keeps its gutter. */
+@media (width >= 768px) {
   main .section.patient-story .default-content-wrapper p:has(> picture) {
     width: calc(100% + 2 * (100% * 11 / 78));
     margin-left: calc(-1 * 100% * 11 / 78);
