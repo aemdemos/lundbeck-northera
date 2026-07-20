@@ -17,12 +17,11 @@ export default function decorate(block) {
 
   rows.forEach((row) => {
     const cells = [...row.children];
-    const quotation = cells[0];
-    const attribution = cells[1];
+    const [quotation, attribution] = cells;
 
     // A row with only one cell and no quote-like content is the footnote.
     if (cells.length === 1) {
-      footnote = cells[0];
+      [footnote] = cells;
       return;
     }
 

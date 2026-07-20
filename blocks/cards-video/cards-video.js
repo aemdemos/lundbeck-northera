@@ -15,13 +15,20 @@ import { createModal } from '../modal/modal.js';
  * @param {Element} block
  */
 
+function buildAutoplaySrc(playerHref) {
+  if (playerHref.includes('autoplay')) return playerHref;
+
+  const separator = playerHref.includes('?') ? '&' : '?';
+  return `${playerHref}${separator}autoplay=true`;
+}
+
 function buildPlayer(href) {
   const wrapper = document.createElement('div');
   wrapper.className = 'cards-video-player';
   // Strip any deep-link fragment (e.g. #howiuse) before building the player src.
   const playerHref = href.split('#')[0];
   const iframe = document.createElement('iframe');
-  iframe.src = playerHref.includes('autoplay') ? playerHref : `${playerHref}${playerHref.includes('?') ? '&' : '?'}autoplay=true`;
+  iframe.src = buildAutoplaySrc(playerHref);
   iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
   iframe.setAttribute('allowfullscreen', '');
   iframe.setAttribute('title', 'Video player');
@@ -67,6 +74,22 @@ function hashFromHref(href) {
   return m ? `video-${m[1]}` : '';
 }
 
+function getHeadingText(bodyCell, link) {
+  const heading = bodyCell ? bodyCell.querySelector('h2, h3, h4') : null;
+  if (heading) return heading.textContent.trim();
+  if (link) return link.textContent.trim();
+  return '';
+}
+
+function getTranscriptParas(bodyCell, link) {
+  if (!bodyCell) return [];
+
+  const linkPara = link ? link.closest('p') : null;
+  return [...bodyCell.querySelectorAll(':scope > p')].filter((paragraph) => (
+    paragraph !== linkPara && !paragraph.querySelector('a')
+  ));
+}
+
 async function openVideoModal(href, hash, transcriptParas) {
   const content = document.createElement('div');
   content.className = 'cards-video-modal-content';
@@ -82,61 +105,101 @@ async function openVideoModal(href, hash, transcriptParas) {
   showModal();
 }
 
+function resolveCardHref(href, isVideo, hash) {
+  if (isVideo) return hash ? `#${hash}` : '#';
+  if (!href) return '#';
+
+  try {
+    const resolvedUrl = new URL(href, window.location.href);
+    const isAllowedProtocol = resolvedUrl.protocol === 'http:' || resolvedUrl.protocol === 'https:';
+    return isAllowedProtocol ? resolvedUrl.toString() : '#';
+  } catch {
+    return '#';
+  }
+}
+
+function getSafeVideoHref(href) {
+  if (!href) return '';
+
+  try {
+    const resolvedUrl = new URL(href, window.location.href);
+    const isAllowedProtocol = resolvedUrl.protocol === 'http:' || resolvedUrl.protocol === 'https:';
+    const isBrightcoveHost = /(^|\.)brightcove\.net$/i.test(resolvedUrl.hostname);
+    return isAllowedProtocol && isBrightcoveHost ? resolvedUrl.toString() : '';
+  } catch {
+    return '';
+  }
+}
+
+function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo) {
+  const li = document.createElement('li');
+  const trigger = document.createElement('a');
+  trigger.className = 'cards-video-link';
+  trigger.setAttribute('href', resolveCardHref(href, isVideo, hash));
+
+  if (imageCell) {
+    const pic = imageCell.querySelector('picture');
+    if (pic) {
+      const thumb = document.createElement('div');
+      thumb.className = 'cards-video-thumb';
+      thumb.append(pic);
+      trigger.append(thumb);
+    }
+  }
+
+  const desc = document.createElement('div');
+  desc.className = 'cards-video-body';
+  const heading = document.createElement('h3');
+  heading.textContent = headingText;
+  desc.append(heading);
+  trigger.append(desc);
+
+  if (isVideo) {
+    if (hash) trigger.dataset.hash = hash;
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      openVideoModal(href, hash, transcriptParas);
+    });
+  }
+
+  li.append(trigger);
+  return li;
+}
+
+function buildCardFromRow(row) {
+  const cells = [...row.children];
+  const imageCell = cells.find((cell) => cell.querySelector('picture'));
+  const bodyCell = cells.find((cell) => cell !== imageCell) || cells[cells.length - 1];
+  const link = bodyCell ? bodyCell.querySelector('a[href]') : null;
+  const rawHref = link ? link.getAttribute('href') : null;
+  const href = getSafeVideoHref(rawHref);
+  const isVideo = Boolean(href);
+  const hash = isVideo ? hashFromHref(href) : null;
+  const headingText = getHeadingText(bodyCell, link);
+  const transcriptParas = getTranscriptParas(bodyCell, link);
+
+  return {
+    hash,
+    href,
+    isVideo,
+    transcriptParas,
+    li: createCard(imageCell, href, hash, headingText, transcriptParas, isVideo),
+  };
+}
+
 export default function decorate(block) {
   const ul = document.createElement('ul');
+  const videoEntries = new Map();
 
   [...block.children].forEach((row) => {
-    const cells = [...row.children];
-    const imageCell = cells.find((c) => c.querySelector('picture'));
-    const bodyCell = cells.find((c) => c !== imageCell) || cells[cells.length - 1];
-
-    const link = bodyCell ? bodyCell.querySelector('a[href]') : null;
-    const href = link ? link.getAttribute('href') : null;
-    const isVideo = href && /brightcove\.net/.test(href);
-    const hash = isVideo ? hashFromHref(href) : null;
-    const heading = bodyCell ? bodyCell.querySelector('h2, h3, h4') : null;
-    const headingText = (heading ? heading.textContent : (link ? link.textContent : '')).trim();
-    // Transcript = the paragraphs after the video link's own paragraph. DA
-    // strips the wrapper div, so collect trailing <p>s (skip the link's <p>).
-    const linkPara = link ? link.closest('p') : null;
-    const transcriptParas = bodyCell
-      ? [...bodyCell.querySelectorAll(':scope > p')].filter((p) => p !== linkPara && !p.querySelector('a'))
-      : [];
-
-    const li = document.createElement('li');
-    const trigger = document.createElement('a');
-    trigger.className = 'cards-video-link';
-    trigger.href = href || '#';
-
-    if (imageCell) {
-      const pic = imageCell.querySelector('picture');
-      if (pic) {
-        const thumb = document.createElement('div');
-        thumb.className = 'cards-video-thumb';
-        thumb.append(pic);
-        trigger.append(thumb);
-      }
-    }
-
-    const desc = document.createElement('div');
-    desc.className = 'cards-video-body';
-    const h = document.createElement('h3');
-    h.textContent = headingText;
-    desc.append(h);
-    trigger.append(desc);
-
-    // A Brightcove player URL means we open the inline modal; other hrefs
-    // (fragment links) just navigate normally.
-    if (isVideo) {
-      if (hash) trigger.dataset.hash = hash;
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        openVideoModal(href, hash, transcriptParas);
+    const card = buildCardFromRow(row);
+    ul.append(card.li);
+    if (card.isVideo && card.hash && card.href) {
+      videoEntries.set(card.hash, {
+        href: card.href,
+        transcriptParas: card.transcriptParas,
       });
     }
-
-    li.append(trigger);
-    ul.append(li);
   });
 
   ul.querySelectorAll('picture > img').forEach((img) => {
@@ -152,10 +215,10 @@ export default function decorate(block) {
   const openFromHash = () => {
     const hash = window.location.hash.replace('#', '');
     if (!hash) return;
-    const match = [...block.querySelectorAll('.cards-video-link')]
-      .find((a) => a.dataset.hash === hash);
-    if (match) match.click();
+    const entry = videoEntries.get(hash);
+    if (entry) openVideoModal(entry.href, hash, entry.transcriptParas);
   };
+
   window.addEventListener('hashchange', openFromHash);
   openFromHash();
 }

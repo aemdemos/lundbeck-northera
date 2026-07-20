@@ -67,7 +67,7 @@ function textarea(promptEl) {
   const p = document.createElement('p');
   p.className = 'wmy-survey-prompt';
   // preserve any inline markup (e.g. links) from the authored prompt
-  p.innerHTML = promptEl.innerHTML;
+  [...promptEl.childNodes].forEach((node) => p.append(node.cloneNode(true)));
 
   // The textarea + counter share a positioned wrapper so the counter can sit
   // at the bottom-right, overlaid on the textarea (matching the source).
@@ -131,7 +131,7 @@ export default function decorate(block) {
     const consent = document.createElement('p');
     consent.className = 'wmy-survey-consent';
     const consentP = consentRow.querySelector('p') || consentRow;
-    consent.innerHTML = consentP.innerHTML;
+    [...consentP.childNodes].forEach((node) => consent.append(node.cloneNode(true)));
     form.append(consent);
   }
   const submit = document.createElement('button');
