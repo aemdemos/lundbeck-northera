@@ -622,11 +622,9 @@ main > .section > .bg-image img { /* @boilerplate */
 
 main > .section:first-of-type { /* @boilerplate */
   margin-top: 0; /* @boilerplate */
-  padding: 0 15px;
-}
-
-main > .section:first-of-type > div {
-  padding:0 25px;
+  /* horizontal inset is handled uniformly by `main > .section > div` (0 15px),
+     so the section itself carries no side padding (avoids compounding). */
+  padding: 0;
 }
 
 main > .section:first-of-type > div > p {
@@ -641,6 +639,14 @@ main > .section.divider > div:last-child { /* @libs */
 main > .section > div { /* @libs */
   max-width: 540px; /* @libs */
   margin: auto; /* @libs */
+}
+
+/* Mobile content inset = 15px (source parity). All section content columns are
+   inset 15px on phones; full-bleed wrappers (bg images, ISI, embeds, CTA cards,
+   columns-banner) manage their own spacing and are excluded so images/bands
+   still go edge-to-edge. Desktop applies the ~11% gutter (see ≥900px block). */
+main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
+  padding: 0 15px;
 }
 
 main .section.accent > div { /* @libs */
@@ -711,12 +717,13 @@ main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) >
    The awareness band (columns.teaser) and Bob quote (quote.patient) carry their
    own layout. */
 main .section.patient-story .default-content-wrapper p:has(> picture) {
-  /* break out of the section (0 15px) + wrapper (0 25px) side padding so the
-     ambassador hero image is edge-to-edge full width, matching the source. */
-  width: 100vw;
-  max-width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  /* break out of the wrapper's side padding so the ambassador hero image spans
+     the full content column (NOT 100vw — at ≥1200px the ISI rail occupies the
+     right, so 100vw would overflow under the rail). Mobile wrapper pad = 15px. */
+  width: calc(100% + 30px);
+  max-width: none;
+  margin-left: -15px;
+  margin-right: -15px;
 }
 
 main .section.patient-story .default-content-wrapper p:has(> picture) picture,
@@ -725,6 +732,19 @@ main .section.patient-story .default-content-wrapper p:has(> picture) img {
   width: 100%;
   max-width: 100%;
   height: auto;
+}
+
+/* ≥900px the content wrapper is inset 11% (of its border-box). A child margin
+   resolves against the wrapper's CONTENT width (78% of the box), so to cancel
+   the 11% side padding the negative margin must be 11/78 ≈ 14.1%. This makes
+   the image span the full content column edge-to-edge (0 → column right) while
+   staying clear of the ISI rail — NOT 100vw. */
+@media (width >= 900px) {
+  main .section.patient-story .default-content-wrapper p:has(> picture) {
+    width: calc(100% + 2 * (100% * 11 / 78));
+    margin-left: calc(-1 * 100% * 11 / 78);
+    margin-right: calc(-1 * 100% * 11 / 78);
+  }
 }
 
 /* section metadata - reminders (source .cmp-image__textlist: brand-blue,
@@ -1108,7 +1128,7 @@ main .section.accent h6 {
     margin-bottom:0;
   }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .default-content-wrapper, :has(.columns-banner)) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
     padding: 0 11%;
   }
 

@@ -217,6 +217,11 @@ main .columns.teaser {
   background-color: var(--brand-blue);
 }
 
+/* band is full-bleed; its inner content is inset 15px (source parity) */
+main .columns.teaser > div {
+  padding: 0 15px;
+}
+
 main .columns.teaser > div > div {
   text-align: center;
   padding: 50px 0;

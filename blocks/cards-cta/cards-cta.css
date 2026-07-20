@@ -131,15 +131,16 @@ main > .section > div:has(.cards-cta) {
     padding: var(--cards-cta-padding-desktop);
   }
 
-  /* two side-by-side cards share the banner (source: two 50% quicklink CTAs) */
+  /* two side-by-side cards share the banner as flush 50% halves — source has
+     no column gap; each card's content is inset from its own left edge. */
   .cards-cta > ul:has(> li:nth-child(2)) {
     grid-template-columns: 1fr 1fr;
-    column-gap: 90px;
+    column-gap: 0;
   }
 
   .cards-cta .cards-card-body {
     margin:0;
-    padding: 0 17% 0 25px;
+    padding: 0 17% 0 148px;
   }
 
   .cards-cta .cards-card-body h3 {
@@ -153,7 +154,7 @@ main > .section > div:has(.cards-cta) {
 
 @media (width > 992px) {
  .cards-cta .cards-card-body {
-  padding: 0 17% 0 116px;
+  padding: 0 17% 0 148px;
  }
 }
 
