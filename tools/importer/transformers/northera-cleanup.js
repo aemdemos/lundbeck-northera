@@ -72,6 +72,11 @@ export default function transform(hookName, element, payload) {
     // Back-to-top control (found: <a id="toTop" href="#top">) — site shell UI.
     WebImporter.DOMUtils.remove(element, ['#toTop']);
 
+    // Empty "quicklinks" region — on some pages (e.g. treatment-form) this holds
+    // only a decorative background image (blue-teaser-bg-desktop.png) and no
+    // authorable content, so it is not migrated.
+    WebImporter.DOMUtils.remove(element, ['.cmp-layout-quicklinks']);
+
     // Standalone "Please see Important Safety Information…" content fragment.
     // Some pages render this abbreviated blurb as a separate .cq-dd-fragment in
     // the main content, OUTSIDE the ISI experience-fragment. The isi block
