@@ -57,22 +57,26 @@
   padding: 30px 15px;
 }
 
-/* mobile: quote text first, photo below */
-.quote.patient .quote-quotation {
+/* mobile: quote text first, photo below (source: Gotham-Medium 16px/20,
+   brand-blue, normal weight — NOT bold). */
+.quote.patient .quote-quotation,
+.quote.patient .quote-quotation p {
   order: 1;
   color: var(--brand-blue);
-  font-family: var(--heading-font-family);
+  font-family: var(--body-font-family);
   font-size: 16px;
-  line-height: 23px;
-  font-weight: 700;
+  line-height: 20px;
+  font-weight: 400;
 }
 
-.quote.patient .quote-attribution {
+.quote.patient .quote-attribution,
+.quote.patient .quote-attribution p {
   order: 2;
   color: var(--brand-blue);
   font-family: var(--body-font-family);
   font-size: 16px;
   line-height: 20px;
+  font-weight: 500;
   text-align: left;
 }
 
@@ -97,9 +101,14 @@
   display: none;
 }
 
-.quote.patient .quote-quotation p:first-child::before,
+/* source wraps the pull-quote in curly quotes; our parsed text has none, so
+   add them via CSS (matches the base quote block, which the variant reset). */
+.quote.patient .quote-quotation p:first-child::before {
+  content: '“';
+}
+
 .quote.patient .quote-quotation p:last-child::after {
-  content: none;
+  content: '”';
 }
 
 .quote.patient .quote-attribution p:first-child::before {
@@ -114,6 +123,15 @@
   .quote.patient blockquote {
     position: relative;
     padding: 0;
+    /* The quote section wrapper is inset 11% at ≥768px (first/isi gutter rule).
+       Break the banner out of that padding so the photo goes full-bleed across
+       the content column like the source (NOT 100vw — stays clear of the ISI
+       rail on desktop). A child margin resolves against the wrapper's CONTENT
+       width (78% of the box), so 11/78 ≈ 14.1% cancels the 11% side padding. */
+    width: calc(100% + 2 * (100% * 11 / 78));
+    max-width: none;
+    margin-left: calc(-1 * 100% * 11 / 78);
+    margin-right: calc(-1 * 100% * 11 / 78);
   }
 
   .quote.patient .quote-photo-mobile {
@@ -142,8 +160,22 @@
     max-width: 40%;
     padding-left: 12%;
     z-index: 1;
+  }
+
+  /* desktop overlay text (source): quotation grey 18px/30, attribution
+     brand-blue 18px/23. Target the inner <p> to beat the mobile p rules. */
+  .quote.patient .quote-quotation,
+  .quote.patient .quote-quotation p {
+    font-size: 18px;
+    line-height: 30px;
+    color: var(--brand-grey);
+  }
+
+  .quote.patient .quote-attribution,
+  .quote.patient .quote-attribution p {
     font-size: 18px;
     line-height: 23px;
+    color: var(--brand-blue);
   }
 
   .quote.patient .quote-quotation {
