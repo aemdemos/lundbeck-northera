@@ -45,6 +45,12 @@ const PAGE_TEMPLATE = {
       ],
     },
   ],
+  // The intro region (.responsivegrid.patient-story-page) is split further into
+  // three source-faithful sub-sections during transform (see splitIntroSections):
+  // intro (H1 + ambassador image, carries the patient-story style), the
+  // full-bleed awareness band, and the Bob quote. Section style is therefore
+  // null here — the intro sub-section metadata is emitted by that step, not by
+  // the sections transformer.
   sections: [
     { id: 'eps-intro', name: 'Intro + awareness band + Bob quote', selector: '.responsivegrid.patient-story-page', style: null, blocks: ['columns-teaser', 'quote-patient'], defaultContent: [] },
     { id: 'eps-quicklinks', name: 'Quicklink CTA cards', selector: '.responsivegrid.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
@@ -108,6 +114,45 @@ function findBlocksOnPage(document, template) {
   return pageBlocks;
 }
 
+/**
+ * Split the intro region into three source-faithful sections:
+ *   1. intro  — H1 + paragraphs + ambassador image (carries `patient-story`
+ *      style so the ambassador image breaks out full-width)
+ *   2. band   — the dark-blue awareness band (columns.teaser); its own section
+ *      so it renders full-bleed edge-to-edge like the source (the intro-section
+ *      11% gutter no longer applies once it is not the first section)
+ *   3. quote  — the "Introducing Bob" heading/paragraph + quote.patient banner
+ *
+ * The band block was tagged `data-eds-section-break="band"` by the parser.
+ * We insert an <hr> before and after it, and emit a `Section Metadata`
+ * (style=patient-story) at the end of the intro section.
+ */
+function splitIntroSections(main, document) {
+  const band = main.querySelector('[data-eds-section-break="band"]');
+  if (!band || !band.parentNode) return;
+  const parent = band.parentNode;
+
+  // Section Metadata (patient-story) closes the intro section, placed right
+  // before the break that separates intro from the band.
+  const introMeta = WebImporter.Blocks.createBlock(document, {
+    name: 'Section Metadata',
+    cells: { style: 'patient-story' },
+  });
+  parent.insertBefore(introMeta, band);
+
+  // break: intro | band
+  parent.insertBefore(document.createElement('hr'), band);
+
+  // break: band | quote (after the band block)
+  if (band.nextSibling) {
+    parent.insertBefore(document.createElement('hr'), band.nextSibling);
+  } else {
+    parent.appendChild(document.createElement('hr'));
+  }
+
+  band.removeAttribute('data-eds-section-break');
+}
+
 export default {
   transform: (payload) => {
     const {
@@ -124,6 +169,23 @@ export default {
     // teasers/banner and reproduce responsive layout in CSS, so remove the
     // mobile duplicates to avoid repeated content.
     main.querySelectorAll('#patientbannercontainer-mobile, #patientbannerbob-mob').forEach((el) => el.remove());
+
+    // Ambassador hero is a responsive image pair. The source DOM order is
+    // desktop-crop first (phone--hide: patientStories_image.jpg, a 3-photo
+    // composite) then mobile-crop (default--hide: patient_story_image.png, a
+    // single portrait). scripts.js decorateResponsiveImagePairs() tags the FIRST
+    // image-only paragraph as mobile and the SECOND as desktop, so we must place
+    // the MOBILE crop first. Move the mobile-crop image (aem-GridColumn--default--hide)
+    // before its desktop-crop sibling (aem-GridColumn--phone--hide).
+    const desktopCrop = main.querySelector('.patient-story-page .aem-GridColumn--phone--hide img');
+    const mobileCrop = main.querySelector('.patient-story-page .aem-GridColumn--default--hide img');
+    if (desktopCrop && mobileCrop) {
+      const desktopWrap = desktopCrop.closest('.aem-GridColumn--phone--hide');
+      const mobileWrap = mobileCrop.closest('.aem-GridColumn--default--hide');
+      if (desktopWrap && mobileWrap && desktopWrap.parentNode) {
+        desktopWrap.parentNode.insertBefore(mobileWrap, desktopWrap);
+      }
+    }
 
     // 2. Find blocks on page
     const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
@@ -145,6 +207,10 @@ export default {
 
     // 4. afterTransform (final cleanup + section breaks)
     executeTransformers('afterTransform', main, payload);
+
+    // 4b. Split the intro region so the awareness band is its own full-bleed
+    // section (source-faithful) and the patient-story style stays on the intro.
+    splitIntroSections(main, document);
 
     // 5. WebImporter built-in rules
     const hr = document.createElement('hr');

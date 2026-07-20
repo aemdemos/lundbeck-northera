@@ -33,8 +33,9 @@ function normalizeHref(raw) {
 }
 
 export default function parse(element, { document }) {
-  // Row 2: banner background art.
-  const bgImg = element.querySelector('.cmp-teaser__image img, img');
+  // Row 2: banner background art. Two source DOMs are supported: the standard
+  // `.cmp-teaser` internal banner and the treatment-form `.cmp-treatment__banner`.
+  const bgImg = element.querySelector('.cmp-teaser__image img, .cmp-treatment__banner__image img, img');
   let bgCell = '';
   if (bgImg) {
     const img = document.createElement('img');
@@ -46,7 +47,7 @@ export default function parse(element, { document }) {
   // Row 3: content — icon + H1 (title) + CTA (call-to-action).
   const content = document.createElement('div');
 
-  const iconImg = element.querySelector('.cmp-teaser__icon img');
+  const iconImg = element.querySelector('.cmp-teaser__icon img, .cmp-treatment__banner__icon img');
   if (iconImg) {
     const icon = document.createElement('img');
     icon.setAttribute('src', iconImg.getAttribute('src') || iconImg.src || '');
