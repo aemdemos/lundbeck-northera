@@ -749,6 +749,34 @@ main .section.patient-story .default-content-wrapper p:has(> picture) img {
   }
 }
 
+/* quote-container section — the "Introducing Bob" heading + intro paragraph
+   that precede the Bob quote banner. Source mobile: H2 centered, Gotham-Bold
+   20px/22, brand-blue, padding 30px 0 20px. ≥768px: left-aligned 30px/36,
+   padding 50px 0 20px. Intro paragraph is grey and left-aligned. */
+main .section.quote-container .default-content-wrapper h2 {
+  color: var(--brand-blue);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  line-height: 22px;
+  text-align: center;
+  padding: 30px 0 20px;
+  margin: 0;
+}
+
+main .section.quote-container .default-content-wrapper p {
+  color: var(--brand-grey);
+  text-align: left;
+}
+
+@media (width >= 768px) {
+  main .section.quote-container .default-content-wrapper h2 {
+    font-size: 30px;
+    line-height: 36px;
+    text-align: left;
+    padding: 50px 0 20px;
+  }
+}
+
 /* section metadata - reminders (source .cmp-image__textlist: brand-blue,
    centered white h2, side padding 25px, bottom padding 40px) */
 main .section.reminders {
