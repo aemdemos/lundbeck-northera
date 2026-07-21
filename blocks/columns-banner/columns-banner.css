@@ -17,19 +17,6 @@
   order: 0;
 }
 
-@media (width >= 900px) {
-  .columns-banner > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: var(--columns-banner-gap);
-  }
-
-  .columns-banner > div > div {
-    flex: 1;
-    order: unset;
-  }
-}
-
 /* ── daw variant (HCP "Dispense as written" callout) ──────────────────
    Blue banner: Rx icon on the left, white heading + paragraph on the right.
    Mobile-first (icon stacked above text); icon beside text at ≥768px. */
@@ -118,8 +105,20 @@ main .section:has(.columns-banner.daw-light) {
   text-align: left;
 }
 
-/* daw goes side-by-side (icon left, text right) at the lg breakpoint (992px) */
+/* Desktop (≥992px): the generic columns-banner and both variants go
+   side-by-side at the lg breakpoint. One media query for the whole block. */
 @media (width >= 992px) {
+  .columns-banner > div {
+    align-items: center;
+    flex-direction: unset;
+    gap: var(--columns-banner-gap);
+  }
+
+  .columns-banner > div > div {
+    flex: 1;
+    order: unset;
+  }
+
   .columns-banner.daw > div {
     flex-direction: row;
   }
@@ -128,9 +127,7 @@ main .section:has(.columns-banner.daw-light) {
     font-size: var(--columns-banner-daw-heading-size-desktop);
     line-height: var(--columns-banner-daw-heading-line-height-desktop);
   }
-}
 
-@media (width >= 768px) {
   .columns-banner.daw-light {
     padding: 10px 109px 10px 104px;
   }
