@@ -216,12 +216,20 @@ function addBarSection(bar, variant, label, fullRow) {
         if (s !== section) s.classList.remove('open');
       });
     }
+    // Source parity: while the full-screen bar overlay is open, lock the page
+    // behind it so only the overlay's content scrolls (jQuery adds a no-scroll
+    // class to <body>). Without this the page scrolls behind the overlay and the
+    // in-flow ISI observer would slide the bar away, revealing the page.
+    document.body.classList.toggle('isi-bar-open-lock', open);
   };
 
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
     setOpen(!section.classList.contains('open'));
-    if (!inner.querySelector('.isi-bar-section.open')) bar.classList.remove('isi-bar-expanded');
+    if (!inner.querySelector('.isi-bar-section.open')) {
+      bar.classList.remove('isi-bar-expanded');
+      document.body.classList.remove('isi-bar-open-lock');
+    }
   });
 
   inner.append(section);
@@ -286,6 +294,9 @@ function observeSectionVisibility(block) {
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (!bar) return;
+      // While the overlay is expanded the page is scroll-locked (source parity),
+      // so don't let the in-flow ISI observer hide/close it.
+      if (bar.classList.contains('isi-bar-expanded')) return;
       if (entry.isIntersecting) {
         bar.classList.add('isi-bar-hidden');
         bar.classList.remove('isi-bar-expanded');

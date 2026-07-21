@@ -8,6 +8,9 @@
   --cards-cta-padding-desktop: 40px 25px;
   --cards-cta-margin-bottom: 20px;
 
+  /* source parity: ~50px gap above the "Real patient stories" banner */
+  --cards-cta-section-gap: 50px;
+
   /* hover (source): the teal banner flips to a solid light-blue fill and the
      heading + description recolor to dark blue */
   --cards-cta-hover-bg-color: #e8eef4;

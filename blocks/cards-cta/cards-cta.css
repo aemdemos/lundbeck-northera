@@ -11,9 +11,11 @@
 /* The source renders the banner background as authored default content (a
    stray picture) placed before the block — hide it; the bg is applied here. */
 
+/* source parity: ~50px gap above the "Real patient stories" banner */
 main > .section:has(.cards-cta) {
 padding: 0;
-}   
+margin-top: var(--cards-cta-section-gap);
+}
 
 main > .section > div:has(.cards-cta) {
   padding: 0;

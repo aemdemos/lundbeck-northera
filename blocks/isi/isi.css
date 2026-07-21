@@ -368,6 +368,14 @@ main .isi a:hover {
   max-height: none;
 }
 
+/* Source parity: lock the page behind the full-screen bar overlay so only the
+   overlay's content scrolls (jQuery no-scroll on <body>). */
+html:has(> body.isi-bar-open-lock),
+body.isi-bar-open-lock {
+  overflow: hidden;
+  touch-action: none;
+}
+
 /* when expanded the open panel fills the viewport (source: full-screen overlay).
    Scoped through .open so it out-specifies the collapsed .open 40vh cap above. */
 .isi-bar-expanded .isi-bar-section.open .isi-bar-panel {
@@ -568,21 +576,20 @@ main .isi-please-see-section {
     padding-right: 10px;
     overflow-y: scroll;
     scrollbar-gutter: stable;
-    scrollbar-width: thin;
-    scrollbar-color: var(--isi-divider-color) #f2f2f2;
-    box-shadow: inset -2px 0 0 #f2f2f2;
+    scrollbar-width: auto;
+    scrollbar-color: var(--isi-rail-scrollbar-thumb-color) var(--isi-rail-scrollbar-track-color);
   }
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar {
-    width: 2px;
+    width: var(--isi-rail-scrollbar-width);
   }
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar-track {
-    background: #f2f2f2;
+    background: var(--isi-rail-scrollbar-track-color);
   }
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar-thumb {
-    background-color: var(--isi-divider-color);
+    background-color: var(--isi-rail-scrollbar-thumb-color);
     border-radius: 4px;
   }
 
@@ -598,9 +605,8 @@ main .isi-please-see-section {
     padding: 0 15px 20px;
     padding-right: 10px;
     scrollbar-gutter: stable;
-    scrollbar-width: thin;
-    scrollbar-color: var(--isi-divider-color) #f2f2f2;
-    box-shadow: inset -2px 0 0 #f2f2f2;
+    scrollbar-width: auto;
+    scrollbar-color: var(--isi-rail-scrollbar-thumb-color) var(--isi-rail-scrollbar-track-color);
     overflow-y: scroll;
     width: 90%;
     max-height: calc(100vh - 200px);
@@ -612,15 +618,15 @@ main .isi-please-see-section {
   }
 
   main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar {
-    width: 2px;
+    width: var(--isi-rail-scrollbar-width);
   }
 
   main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar-track {
-    background: #f2f2f2;
+    background: var(--isi-rail-scrollbar-track-color);
   }
 
   main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar-thumb {
-    background-color: var(--isi-divider-color);
+    background-color: var(--isi-rail-scrollbar-thumb-color);
     border-radius: 4px;
   }
 
