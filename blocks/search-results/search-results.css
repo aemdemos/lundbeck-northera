@@ -1,0 +1,155 @@
+/*
+ * search-results — styled variant of the Block Collection "search" block.
+ * Matches the Northera source /search page design:
+ *   - white bordered text input (grey #cacaca border)
+ *   - dark-blue (#24475d) "Go" submit button anchored to the input's right edge
+ *   - colored "Search results" heading (#245778)
+ *   - "No Results" empty-state text
+ * Base search JS behavior (client-side query-index.json search) is retained.
+ */
+
+/* search box: relative wrapper so the Go button can be absolutely positioned */
+.search-results .search-results-box {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.search-results .search-results-input {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  height: 51px;
+  margin: 0;
+  padding: 10px 50px 10px 10px;
+  border: 1px solid #cacaca;
+  border-radius: 0;
+  background-color: #fff;
+  color: #333;
+  font-family: var(--body-font-family, "Gotham-Medium", arial, "Helvetica Neue", helvetica, sans-serif);
+  font-size: 20px;
+  font-weight: 400;
+  appearance: none;
+}
+
+.search-results .search-results-input::placeholder {
+  color: #333;
+  opacity: 1;
+}
+
+.search-results .search-results-go {
+  position: absolute;
+  top: 2.5px;
+  right: 2.5px;
+  width: 40px;
+  height: 44px;
+  padding: 7.5px;
+  border: none;
+  border-radius: 4px;
+  background-color: #24475d;
+  color: #fff;
+  font-family: var(--body-font-family, "Gotham-Medium", arial, "Helvetica Neue", helvetica, sans-serif);
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.search-results .search-results-go:hover,
+.search-results .search-results-go:focus {
+  background-color: #1c3a4c;
+}
+
+/* results heading */
+.search-results .search-results-heading {
+  margin: 20px 0;
+  color: #245778;
+  font-family: var(--heading-font-family, "Gotham-Bold", arial, sans-serif);
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+/* results list */
+.search-results ul.search-results-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
+  gap: var(--spacing-m, 24px);
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.search-results ul.search-results-list > li {
+  border: 1px solid var(--border-color, #cacaca);
+}
+
+.search-results ul.search-results-list > li > a {
+  display: block;
+  height: 100%;
+  background-color: transparent;
+  color: currentcolor;
+  cursor: pointer;
+}
+
+.search-results ul.search-results-list > li > a:hover,
+.search-results ul.search-results-list > li > a:focus {
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title,
+.search-results ul.search-results-list > li p {
+  padding: 0 var(--spacing-s, 16px);
+}
+
+.search-results ul.search-results-list > li .search-results-result-title {
+  font-size: 16px;
+  font-weight: normal;
+}
+
+.search-results ul.search-results-list > li .search-results-result-title a {
+  color: currentcolor;
+  text-decoration: none;
+}
+
+.search-results ul.search-results-list > li p {
+  font-size: 14px;
+}
+
+.search-results ul.search-results-list > li .search-results-result-image {
+  aspect-ratio: 4 / 3;
+}
+
+.search-results ul.search-results-list > li picture img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* no results / empty state */
+.search-results ul.search-results-list.no-results {
+  display: block;
+  margin-left: 0;
+}
+
+.search-results ul.search-results-list.no-results > li {
+  border: none;
+  padding: 0;
+  color: #333;
+  font-family: var(--body-font-family, "Gotham-Medium", arial, "Helvetica Neue", helvetica, sans-serif);
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* desktop: wider input, larger heading */
+@media (width >= 900px) {
+  .search-results .search-results-box {
+    max-width: 444px;
+  }
+
+  .search-results .search-results-heading {
+    font-size: 30px;
+  }
+}

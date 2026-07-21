@@ -212,51 +212,16 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/isi.js
+  // tools/importer/parsers/fragment-isi.js
+  var ISI_FRAGMENT_PATH = "/fragments/northera-isi";
   function parse4(element, { document }) {
-    const abbreviatedCell = [];
-    const barWrap = document.querySelector(".isi-mobile-wrap");
-    const barFragment = barWrap ? barWrap.querySelector(".cq-dd-fragment") || barWrap : null;
-    if (barFragment) {
-      const barParagraphs = [...barFragment.querySelectorAll("p")].filter((p) => p.textContent.trim());
-      barParagraphs.forEach((p) => {
-        const clone = p.cloneNode(true);
-        clone.querySelectorAll("a:not([href]), .openisi a").forEach((a) => {
-          a.replaceWith(document.createTextNode(a.textContent));
-        });
-        abbreviatedCell.push(clone);
-      });
-    }
-    if (!abbreviatedCell.length) {
-      const p1 = document.createElement("p");
-      p1.textContent = "Please see Important Safety Information, including Boxed Warning for supine hypertension.";
-      const p2 = document.createElement("p");
-      p2.append(document.createTextNode("For more information, see the full "));
-      const piLink = document.createElement("a");
-      piLink.href = "https://www.lundbeck.com/upload/us/files/pdf/Products/Northera_PI_US_EN.pdf";
-      piLink.textContent = "Prescribing Information";
-      p2.append(piLink);
-      p2.append(document.createTextNode("."));
-      abbreviatedCell.push(p1, p2);
-    }
-    const fullCell = [];
-    const useSection = element.querySelector(".cmp-isi__use");
-    if (useSection) fullCell.push(useSection);
-    const safetySection = element.querySelector('.cmp-isi__importantsafety, [class*="cmp-isi__importantsafety"]');
-    if (safetySection) fullCell.push(safetySection);
-    if (!fullCell.length) {
-      [...element.children].forEach((child) => {
-        if (child.textContent.trim()) fullCell.push(child);
-      });
-    }
-    if (!abbreviatedCell.length && !fullCell.length) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const cells = [];
-    cells.push([abbreviatedCell]);
-    cells.push([fullCell]);
-    const block = WebImporter.Blocks.createBlock(document, { name: "isi", cells });
+    const link = document.createElement("a");
+    link.setAttribute("href", ISI_FRAGMENT_PATH);
+    link.textContent = ISI_FRAGMENT_PATH;
+    const block = WebImporter.Blocks.createBlock(document, {
+      name: "Fragment",
+      cells: [[link]]
+    });
     element.replaceWith(block);
   }
 
@@ -273,6 +238,8 @@ var CustomImportScript = (() => {
       ]);
       WebImporter.DOMUtils.remove(element, [".cmp-isi__model"]);
       WebImporter.DOMUtils.remove(element, [".cmp-layout-isi__desktop"]);
+      WebImporter.DOMUtils.remove(element, [".cmp-specialist__result-section"]);
+      WebImporter.DOMUtils.remove(element, [".cmp-modal", ".videopopup"]);
     }
     if (hookName === TransformHook.afterTransform) {
       WebImporter.DOMUtils.remove(element, [
@@ -295,7 +262,13 @@ var CustomImportScript = (() => {
         'iframe[src*="doubleclick"]',
         'iframe[src*="analytics.twitter"]',
         'iframe[src*="googletagmanager"]',
-        'iframe[src*="facebook.com"]'
+        'iframe[src*="facebook.com"]',
+        // Google reCAPTCHA challenge/badge iframes (injected by the survey form's
+        // reCAPTCHA JS, appended to the body outside the form). The static survey
+        // replica does not include reCAPTCHA, so these are stray.
+        'iframe[src*="google.com/recaptcha"]',
+        'iframe[src*="recaptcha"]',
+        ".grecaptcha-badge"
       ]);
       WebImporter.DOMUtils.remove(element, [
         "script",
@@ -366,7 +339,8 @@ var CustomImportScript = (() => {
         ]
       },
       {
-        name: "isi",
+        // Reference the shared ISI fragment instead of inlining the ISI content.
+        name: "fragment-isi",
         instances: [
           "div.responsivegrid.cmp-layout-isi__phone .experiencefragment"
         ]
@@ -376,14 +350,14 @@ var CustomImportScript = (() => {
       { id: "hp-ask", name: "Ask for NORTHERA by name (icon + text band)", selector: ".responsivegrid.ask-for-northera", style: null, blocks: ["columns"], defaultContent: [] },
       { id: "hp-hero", name: "Random patient-photo hero + survey CTA", selector: ".cmp-layout__herobanner", style: null, blocks: ["hero-patient"], defaultContent: [] },
       { id: "hp-financial", name: "Financial assistance quicklink card", selector: ".cmp-layout-quicklinks", style: null, blocks: ["cards-cta"], defaultContent: [] },
-      { id: "hp-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["isi"], defaultContent: [] }
+      { id: "hp-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["fragment-isi"], defaultContent: [] }
     ]
   };
   var parsers = {
     columns: parse,
     "hero-patient": parse2,
     "cards-cta": parse3,
-    isi: parse4
+    "fragment-isi": parse4
   };
   var transformers = [
     transform,

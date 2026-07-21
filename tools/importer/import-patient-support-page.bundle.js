@@ -67,7 +67,7 @@ var CustomImportScript = (() => {
     const cells = [
       [image || "", textCell.length ? textCell : ""]
     ];
-    const block = WebImporter.Blocks.createBlock(document, { name: "columns", cells });
+    const block = WebImporter.Blocks.createBlock(document, { name: "columns (icon-text)", cells });
     element.replaceWith(block);
   }
 
@@ -155,6 +155,45 @@ var CustomImportScript = (() => {
       return;
     }
     const cardElements = container.querySelectorAll(".image-text-cta");
+    if (cardElements.length === 0) {
+      const cellContent = document.createElement("div");
+      const headingEl = container.querySelector(".cmp-text h2, .cmp-text h3, h2, h3");
+      if (headingEl) {
+        const h3 = document.createElement("h3");
+        h3.textContent = headingEl.textContent.trim();
+        cellContent.appendChild(h3);
+      }
+      const descEl = container.querySelector(".cmp-text p, p");
+      if (descEl) {
+        const p = document.createElement("p");
+        p.textContent = descEl.textContent.trim();
+        cellContent.appendChild(p);
+      }
+      const linkEl = container.querySelector("a.cmp-button, a[href]");
+      if (linkEl) {
+        const href = normalizeHref2(linkEl.getAttribute("href") || linkEl.href || "");
+        const labelEl = linkEl.querySelector(".cmp-button__text, .cmp-label-text");
+        const label = (labelEl ? labelEl.textContent : linkEl.textContent).trim();
+        if (href) {
+          const cta = document.createElement("a");
+          cta.setAttribute("href", href);
+          cta.textContent = label || "Learn More";
+          const ctaP = document.createElement("p");
+          ctaP.appendChild(cta);
+          cellContent.appendChild(ctaP);
+        }
+      }
+      if (cellContent.childNodes.length > 0) {
+        const block2 = WebImporter.Blocks.createBlock(document, {
+          name: "cards-cta (centered)",
+          cells: [[[cellContent]]]
+        });
+        element.replaceWith(block2);
+      } else {
+        element.replaceWith(document.createTextNode(""));
+      }
+      return;
+    }
     const cells = [];
     cardElements.forEach((card) => {
       const headingEl = card.querySelector(".cmp-imagetext__description h3, h3");
@@ -190,51 +229,16 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/isi.js
+  // tools/importer/parsers/fragment-isi.js
+  var ISI_FRAGMENT_PATH = "/fragments/northera-isi";
   function parse4(element, { document }) {
-    const abbreviatedCell = [];
-    const barWrap = document.querySelector(".isi-mobile-wrap");
-    const barFragment = barWrap ? barWrap.querySelector(".cq-dd-fragment") || barWrap : null;
-    if (barFragment) {
-      const barParagraphs = [...barFragment.querySelectorAll("p")].filter((p) => p.textContent.trim());
-      barParagraphs.forEach((p) => {
-        const clone = p.cloneNode(true);
-        clone.querySelectorAll("a:not([href]), .openisi a").forEach((a) => {
-          a.replaceWith(document.createTextNode(a.textContent));
-        });
-        abbreviatedCell.push(clone);
-      });
-    }
-    if (!abbreviatedCell.length) {
-      const p1 = document.createElement("p");
-      p1.textContent = "Please see Important Safety Information, including Boxed Warning for supine hypertension.";
-      const p2 = document.createElement("p");
-      p2.append(document.createTextNode("For more information, see the full "));
-      const piLink = document.createElement("a");
-      piLink.href = "https://www.lundbeck.com/upload/us/files/pdf/Products/Northera_PI_US_EN.pdf";
-      piLink.textContent = "Prescribing Information";
-      p2.append(piLink);
-      p2.append(document.createTextNode("."));
-      abbreviatedCell.push(p1, p2);
-    }
-    const fullCell = [];
-    const useSection = element.querySelector(".cmp-isi__use");
-    if (useSection) fullCell.push(useSection);
-    const safetySection = element.querySelector('.cmp-isi__importantsafety, [class*="cmp-isi__importantsafety"]');
-    if (safetySection) fullCell.push(safetySection);
-    if (!fullCell.length) {
-      [...element.children].forEach((child) => {
-        if (child.textContent.trim()) fullCell.push(child);
-      });
-    }
-    if (!abbreviatedCell.length && !fullCell.length) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const cells = [];
-    cells.push([abbreviatedCell]);
-    cells.push([fullCell]);
-    const block = WebImporter.Blocks.createBlock(document, { name: "isi", cells });
+    const link = document.createElement("a");
+    link.setAttribute("href", ISI_FRAGMENT_PATH);
+    link.textContent = ISI_FRAGMENT_PATH;
+    const block = WebImporter.Blocks.createBlock(document, {
+      name: "Fragment",
+      cells: [[link]]
+    });
     element.replaceWith(block);
   }
 
@@ -251,6 +255,8 @@ var CustomImportScript = (() => {
       ]);
       WebImporter.DOMUtils.remove(element, [".cmp-isi__model"]);
       WebImporter.DOMUtils.remove(element, [".cmp-layout-isi__desktop"]);
+      WebImporter.DOMUtils.remove(element, [".cmp-specialist__result-section"]);
+      WebImporter.DOMUtils.remove(element, [".cmp-modal", ".videopopup"]);
     }
     if (hookName === TransformHook.afterTransform) {
       WebImporter.DOMUtils.remove(element, [
@@ -260,6 +266,12 @@ var CustomImportScript = (() => {
         ".cmp-layout-footer"
       ]);
       WebImporter.DOMUtils.remove(element, ["#toTop"]);
+      [...element.querySelectorAll(".cq-dd-fragment, .contentfragment")].forEach((frag) => {
+        if (frag.closest(".cmp-layout-isi__phone")) return;
+        if (/^\s*Please see Important Safety Information/i.test(frag.textContent || "")) {
+          frag.remove();
+        }
+      });
       WebImporter.DOMUtils.remove(element, [
         "#destination_publishing_iframe_lundbeck_0",
         ".aamIframeLoaded",
@@ -267,7 +279,13 @@ var CustomImportScript = (() => {
         'iframe[src*="doubleclick"]',
         'iframe[src*="analytics.twitter"]',
         'iframe[src*="googletagmanager"]',
-        'iframe[src*="facebook.com"]'
+        'iframe[src*="facebook.com"]',
+        // Google reCAPTCHA challenge/badge iframes (injected by the survey form's
+        // reCAPTCHA JS, appended to the body outside the form). The static survey
+        // replica does not include reCAPTCHA, so these are stray.
+        'iframe[src*="google.com/recaptcha"]',
+        'iframe[src*="recaptcha"]',
+        ".grecaptcha-badge"
       ]);
       WebImporter.DOMUtils.remove(element, [
         "script",
@@ -339,7 +357,8 @@ var CustomImportScript = (() => {
         ]
       },
       {
-        name: "isi",
+        // Reference the shared ISI fragment instead of inlining the ISI content.
+        name: "fragment-isi",
         instances: [
           "div.responsivegrid.cmp-layout-isi__phone .experiencefragment"
         ]
@@ -348,14 +367,14 @@ var CustomImportScript = (() => {
     sections: [
       { id: "ps-resources", name: "Resources created with you in mind (intro + resource cards)", selector: ".cmp-layout__patientsupport", style: null, blocks: ["columns", "cards-resource"], defaultContent: [] },
       { id: "ps-stories", name: "Real patient stories", selector: ".cmp-layout-quicklinks", style: null, blocks: ["cards-cta"], defaultContent: [] },
-      { id: "ps-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["isi"], defaultContent: [] }
+      { id: "ps-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["fragment-isi"], defaultContent: [] }
     ]
   };
   var parsers = {
     columns: parse,
     "cards-resource": parse2,
     "cards-cta": parse3,
-    isi: parse4
+    "fragment-isi": parse4
   };
   var transformers = [
     transform,

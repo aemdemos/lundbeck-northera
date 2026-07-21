@@ -1,0 +1,37 @@
+{
+  "variantName": "columns-oh-types",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-07-20T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://northera-stage.d.lundbeckus.com/for-healthcare-professionals/about-northera",
+    "originPage": "About Northera (HCP internal page)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "colored",
+    "density": "compact",
+    "purpose": "data-table-cards",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "3 columns, each: heading band + list of items",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "3-up blue category cards (heading band + bulleted/short-item list)",
+      "clinical classification tables rendered as side-by-side blue cards"
+    ],
+    "notSuitableFor": [
+      "image-heavy side-by-side content",
+      "icon + text informational strips (use columns-banner)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/for-healthcare-professionals/about-northera"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-20T00:00:00.000Z"
+  }
+}

@@ -1,0 +1,26 @@
+/* hero-hcp-internal design tokens — internal-page icon banner.
+   Values extracted from the northera-stage source (About Northera).
+   Mobile art:  mobile-banner-sky.png
+   Desktop art: northera-HCP-bg-internal-pages.png */
+.hero-hcp-internal {
+  --hero-hcp-internal-bg-desktop: url("/icons/northera-hcp-bg-internal-pages.png");
+  --hero-hcp-internal-ratio-desktop: 1065 / 237;
+
+  /* icon */
+  --hero-hcp-internal-icon-size: 60px;
+
+  /* title — white on the banner at every breakpoint */
+  --hero-hcp-internal-title-color: #fff;
+  --hero-hcp-internal-title-font-family: var(--heading-font-family);
+  --hero-hcp-internal-title-size: 17.55px;
+  --hero-hcp-internal-title-line-height: 24px;
+  --hero-hcp-internal-title-size-desktop: 50px;
+  --hero-hcp-internal-title-line-height-desktop: 50px;
+
+  /* mobile CTA button — yellow, white bold label (hidden on desktop) */
+  --hero-hcp-internal-cta-bg: #f6af1a;
+  --hero-hcp-internal-cta-color: #fff;
+  --hero-hcp-internal-cta-font-family: var(--heading-font-family);
+  --hero-hcp-internal-cta-size: 14px;
+  --hero-hcp-internal-cta-line-height: 20px;
+}

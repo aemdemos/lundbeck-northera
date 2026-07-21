@@ -1,0 +1,38 @@
+{
+  "variantName": "search-results",
+  "baseBlock": "search",
+  "version": "1.0.0",
+  "created": "2026-07-20T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://northera-stage.d.lundbeckus.com/search",
+    "originPage": "site search page",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "search",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "search input + Go submit button + results heading + results/no-results list",
+    "buttonCount": 1,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "site search results pages",
+      "any page needing a styled client-side search backed by query-index.json"
+    ],
+    "notSuitableFor": [
+      "inline / minimal typeahead search without a Go button",
+      "faceted or backend-driven search requiring server pagination"
+    ],
+    "notes": "Functional client-side replacement for the source's dynamic backend search. Author provides a single link to the search index source (e.g. /query-index.json). Styling matches the Northera source: #cacaca-bordered white input, #24475d Go button, #245778 'Search results' heading."
+  },
+  "usage": {
+    "pagesUsing": ["/search"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-20T00:00:00.000Z"
+  }
+}

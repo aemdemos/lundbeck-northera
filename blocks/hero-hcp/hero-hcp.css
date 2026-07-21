@@ -1,0 +1,122 @@
+@import url('./hero-hcp-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   hero-hcp — HCP landing hero.
+   Mobile (default): flamingo image behind, with a white text card floating
+   on top of it (dark-blue heading + dark subhead + grey indication). The
+   image peeks out around the card.
+   Desktop (≥768px): full-width flamingo background with white heading +
+   subhead + indication overlaid on the lower-left.
+   ══════════════════════════════════════════════════════════════ */
+
+main .section:has(.hero-hcp) {
+  padding: 0;
+}
+
+/* mobile image (banner behind the card) */
+.hero-hcp .hero-hcp-image picture,
+.hero-hcp .hero-hcp-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* mobile white text card, pulled up over the image so the flamingo peeks out
+   above and around it. Source (.cmp-teaser__container): bg #fff, padding
+   10px 20px 20px, side margin 15px, and it sits 90px up over the image. */
+.hero-hcp .hero-hcp-content {
+  position: relative;
+  top: -90px;
+  margin: 0 15px -90px;
+  padding: 10px 20px 20px;
+  background-color: #fff;
+  box-shadow: 2px 1px 5px 1px #333;
+}
+
+/* source h1: margin 0, padding 15px 0 */
+.hero-hcp h1 {
+  margin: 0;
+  padding: 15px 0;
+  color: var(--hero-hcp-title-color);
+  font-family: var(--hero-hcp-title-font-family);
+  font-size: var(--hero-hcp-title-size);
+  line-height: var(--hero-hcp-title-line-height);
+  font-weight: 400;
+  text-align: left;
+}
+
+/* source h5: margin 10px 0, padding 0 */
+.hero-hcp h5 {
+  margin: 10px 0;
+  padding: 0;
+  color: var(--hero-hcp-subhead-color);
+  font-family: var(--hero-hcp-subhead-font-family);
+  font-size: var(--hero-hcp-subhead-size);
+  line-height: var(--hero-hcp-subhead-line-height);
+  font-weight: 400;
+}
+
+/* source indication p: margin 0 0 10px, padding 0 */
+.hero-hcp p {
+  margin: 0 0 10px;
+  padding: 0;
+  color: var(--hero-hcp-body-color);
+  font-family: var(--hero-hcp-body-font-family);
+  font-size: var(--hero-hcp-body-size);
+  line-height: var(--hero-hcp-body-line-height);
+}
+
+.hero-hcp sup {
+  font-size: 0.7em;
+}
+
+/* desktop: hide the inline image banner; use the flamingo background with the
+   text overlaid on the lower-left in white. */
+@media (width >= 768px) {
+  .hero-hcp {
+    position: relative;
+    width: min(100vw, 1200px);
+    max-width: min(100vw, 1200px);
+    margin-left: 50%;
+    transform: translateX(-50%);
+    aspect-ratio: var(--hero-hcp-ratio-desktop);
+    background-image: var(--hero-hcp-bg-desktop);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: flex-end;
+    box-sizing: border-box;
+  }
+
+  .hero-hcp .hero-hcp-image {
+    display: none;
+  }
+
+  .hero-hcp .hero-hcp-content {
+    position: static;
+    top: auto;
+    max-width: 66%;
+    margin: 0;
+    padding: 0 0 44px 12.2%;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .hero-hcp h1 {
+    color: var(--hero-hcp-title-color-desktop);
+    font-family: var(--hero-hcp-title-font-family-desktop);
+    font-size: var(--hero-hcp-title-size-desktop);
+    line-height: var(--hero-hcp-title-line-height-desktop);
+  }
+
+  .hero-hcp h5 {
+    color: var(--hero-hcp-subhead-color-desktop);
+    font-size: var(--hero-hcp-subhead-size-desktop);
+    line-height: var(--hero-hcp-subhead-line-height-desktop);
+  }
+
+  .hero-hcp p {
+    color: var(--hero-hcp-body-color-desktop);
+  }
+}

@@ -1,0 +1,77 @@
+@import url('./columns-oh-types-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   columns-oh-types — three "blue card" columns of OH types.
+   Each column: an H5/heading on a dark-blue band, then a list of causes on a
+   light-blue card. Base block: columns.
+   Mobile (default, source ≤767px): cards stacked full-width; body items
+   14px/20px. Desktop (≥768px): three cards side-by-side with a 40px gap; body
+   items 14px/30px.
+   Container padding matches source .cmp-layout_blue-table (10px 15px).
+   ══════════════════════════════════════════════════════════════ */
+
+.columns-oh-types {
+  padding: 10px 15px;
+}
+
+/* mobile-first: stack columns */
+.columns-oh-types > div {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.columns-oh-types > div > div {
+  background-color: var(--oh-card-bg);
+  padding: 0 0 30px;
+  margin: 0;
+}
+
+/* heading band */
+.columns-oh-types h1,
+.columns-oh-types h2,
+.columns-oh-types h3,
+.columns-oh-types h4,
+.columns-oh-types h5,
+.columns-oh-types h6 {
+  margin: 0 0 10px;
+  padding: var(--oh-head-padding);
+  background-color: var(--oh-head-bg);
+  color: var(--oh-head-color);
+  font-family: var(--oh-head-font-family);
+  font-size: var(--oh-head-size);
+  line-height: var(--oh-head-line-height);
+  font-weight: 500;
+  text-align: left;
+}
+
+/* body items (each cause is a paragraph in the source) */
+.columns-oh-types p {
+  margin: 0;
+  padding: 0 20px;
+  color: var(--oh-card-text-color);
+  font-family: var(--oh-body-font-family);
+  font-size: var(--oh-body-size);
+  line-height: var(--oh-body-line-height-mobile);
+  font-weight: 400;
+}
+
+.columns-oh-types sup {
+  font-size: 0.7em;
+}
+
+@media (width >= 768px) {
+  .columns-oh-types > div {
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--oh-gap);
+  }
+
+  .columns-oh-types > div > div {
+    flex: 1;
+  }
+
+  .columns-oh-types p {
+    line-height: var(--oh-body-line-height-desktop);
+  }
+}

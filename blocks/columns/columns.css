@@ -180,6 +180,204 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
    switch from stacked to side-by-side at 768px (col-md/col-lg on the source).
    The base columns block only flips to a row at 900px, so the variant flips
    its own flex-direction here to match the source. */
+
+/* ══════════════════════════════════════════════════════════════
+   columns-teaser — dark-blue "awareness" band: 2 icon+heading+text teaser
+   columns, white text on brand-blue. Source: every-patient-story-matters
+   #patientbannertext. Mobile-first stacked, centered; ≥768px two columns.
+   ══════════════════════════════════════════════════════════════ */
+main .columns.teaser {
+  background-color: var(--brand-blue);
+}
+
+/* band is full-bleed; source mobile band padding is 30px 15px */
+main .columns.teaser > div {
+  padding: 30px 15px;
+}
+
+/* mobile (source #patientbannercontainer-mobile): each item stacked + centered
+   — icon 100px, then heading, then description; heading and description each
+   carry a 10px bottom margin. Items separated by ~20px vertical padding. */
+main .columns.teaser > div > div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+main .columns.teaser img {
+  width: 100px;
+  height: auto;
+}
+
+/* mobile: heading 20px/24 white, 10px below icon + 10px below itself */
+main .columns.teaser h1,
+main .columns.teaser h2,
+main .columns.teaser h3,
+main .columns.teaser h4 {
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  line-height: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin: 10px 0;
+  padding: 0;
+}
+
+/* the icon paragraph carries no extra spacing (icon has 10px gap via heading) */
+main .columns.teaser p:has(img) {
+  margin: 0;
+}
+
+main .columns.teaser p {
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  text-align: center;
+  margin: 0 0 10px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   stacked — insurance-comparison layout (Medicare vs Commercial), rebuilt
+   from the source comparison table as a 2-cell columns block. Each cell is
+   one comparison column: a full-width teal-blue gradient header bar with a
+   white bold centered title, followed by grey-bordered item rows.
+   Mobile (default): the two columns stack (Medicare block, then Commercial
+   block) — each header bar spans full width. ≥768px: two equal 50% columns
+   side-by-side with a shared header row.
+   Source: coverage-for-northera .cmp-text__table (same palette as the former
+   table-compare variant): header gradient #176da0→#166fa1→#194d78, header
+   text #fff Gotham-Bold, cell text #333, borders #878787.
+   ══════════════════════════════════════════════════════════════ */
+  main .columns.stacked > div {
+    margin-bottom: 30px;
+  }
+
+  main > .section:has(.columns.stacked)  > div > p:last-of-type {
+    padding-bottom: 50px;
+   border-bottom: 1px solid var(--columns-stacks-border-color);
+   margin-bottom: 0;
+  }
+
+  main .columns.stacked > div > div {
+  border: 1px solid var(--columns-stacks-border-color);
+  border-top: 0;
+  padding: 0;
+}
+
+/* header bar = the first child (a heading) of each cell */
+main .columns.stacked > div > div > :first-child {
+  margin: 0;
+  background-color: #176da0;
+  background-image: linear-gradient(90deg, #176da0 0%, #166fa1 50%, #194d78 100%);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  padding: 28px 13.6px 27px;
+}
+
+/* item rows = the paragraphs after the header */
+main .columns.stacked > div > div > p:not(:first-child) {
+  margin: 0;
+  border-top: 1px solid #878787;
+  color: var(--columns-stacks-text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  text-align: left;
+  padding: 20px 13.6px;
+}
+
+/* teaser (awareness band) desktop — source breakpoint is min-width:769px
+   (i.e. > 768px, NOT >= 768). Within each item the icon (115px) sits left with
+   a 24px gap; heading + description stack to its right, left-aligned. Source
+   rules (.patient-story-page #patientbannertext): item padding 50px 0; title
+   30px/36 white padding 10px 0; description 14px/20 #333 (dark, not white). */
+@media (width > 768px) {
+  main .columns.teaser > div {
+    padding: 0 8%;
+  }
+
+  main .columns.teaser > div > div {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 24px;
+    text-align: left;
+    padding: 50px 0;
+  }
+
+  main .columns.teaser > div > div > p:first-child:has(img) {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    margin: 0;
+  }
+
+  main .columns.teaser img {
+    width: 115px;
+  }
+
+  main .columns.teaser h1,
+  main .columns.teaser h2,
+  main .columns.teaser h3,
+  main .columns.teaser h4 {
+    grid-column: 2;
+    align-self: end;
+    font-size: 30px;
+    line-height: 36px;
+    text-align: left;
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  main .columns.teaser > div > div > p:not(:first-child) {
+    grid-column: 2;
+    align-self: start;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: left;
+    margin: 0;
+  }
+
+  main .columns.stacked > div > div:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   columns-supine — two "reduce the risk" items (icon + caption). Source:
+   .cmp-layout__reduce-the-risk .cmp-layout__imagetext. Mobile: stacked,
+   centered, divider = bottom border on the first item; ≥768px: side-by-side,
+   icon-left + caption-right, vertical divider between items.
+   ══════════════════════════════════════════════════════════════ */
+main .columns.supine {
+  padding: 0 15px;
+}
+
+main .columns.supine > div > div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+main .columns.supine > div > :first-child {
+  border-bottom: 2px solid var(--brand-grey);
+}
+
+main .columns.supine img {
+  max-width: 100%;
+  height: auto;
+}
+
+main .columns.supine p {
+  color: var(--text-color, #333);
+  font-family: var(--body-font-family);
+  margin: 10px 0 0;
+}
+
 @media (width >= 768px) {
     main > .section:first-of-type:has(.columns.icon-text) {
     margin: 0;
@@ -285,5 +483,34 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
 
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
+  }
+
+  /* stacked: two equal 50% columns side-by-side, equal height, no gap so the
+     grey borders meet. Header bars align in a shared top row; 22px headers. */
+  main .columns.stacked > div {
+    align-items: stretch;
+    gap: 0;
+  }
+
+  main .columns.stacked > div > div {
+    flex: 1;
+    width: 50%;
+    border-left: 0;
+  }
+
+  main .columns.stacked > div > div:first-child {
+    border-left: 1px solid #878787;
+  }
+
+  main .columns.stacked > div > div > :first-child {
+    font-size: 22px;
+    padding: 25px 10px;
+  }
+
+  main .columns.stacked > div > div > p:not(:first-child) {
+    padding: 10px 60px;
+    text-align: left;
+    font-size:18px;
+    line-height: 30px;
   }
 }

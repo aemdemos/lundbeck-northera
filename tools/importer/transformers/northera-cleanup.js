@@ -43,6 +43,19 @@ export default function transform(hookName, element, payload) {
     // fragment the isi block maps to:
     //  - .cmp-layout-isi__desktop  (found line ~1252, desktop-only duplicate: aem-GridColumn--phone--hide)
     WebImporter.DOMUtils.remove(element, ['.cmp-layout-isi__desktop']);
+
+    // Find-a-specialist page: the hidden Google-Maps results panel
+    // (.cmp-specialist__result-section) holds JS-populated placeholder text
+    // ("Results for Your Area", "specialists within 10 miles of…") that is not
+    // authorable content. The static specialist-search block replaces the form;
+    // this results panel is not migrated.
+    WebImporter.DOMUtils.remove(element, ['.cmp-specialist__result-section']);
+
+    // Video popup modals (.cmp-modal / .videopopup) — hidden Bootstrap modal
+    // shells behind the video thumbnail cards (Real Experiences page). They
+    // contribute non-authorable "×" / "Close" button text; the thumbnails
+    // themselves link out to the video experience fragments.
+    WebImporter.DOMUtils.remove(element, ['.cmp-modal', '.videopopup']);
   }
 
   if (hookName === TransformHook.afterTransform) {
@@ -58,6 +71,11 @@ export default function transform(hookName, element, payload) {
 
     // Back-to-top control (found: <a id="toTop" href="#top">) — site shell UI.
     WebImporter.DOMUtils.remove(element, ['#toTop']);
+
+    // Empty "quicklinks" region — on some pages (e.g. treatment-form) this holds
+    // only a decorative background image (blue-teaser-bg-desktop.png) and no
+    // authorable content, so it is not migrated.
+    WebImporter.DOMUtils.remove(element, ['.cmp-layout-quicklinks']);
 
     // Standalone "Please see Important Safety Information…" content fragment.
     // Some pages render this abbreviated blurb as a separate .cq-dd-fragment in
@@ -83,6 +101,12 @@ export default function transform(hookName, element, payload) {
       'iframe[src*="analytics.twitter"]',
       'iframe[src*="googletagmanager"]',
       'iframe[src*="facebook.com"]',
+      // Google reCAPTCHA challenge/badge iframes (injected by the survey form's
+      // reCAPTCHA JS, appended to the body outside the form). The static survey
+      // replica does not include reCAPTCHA, so these are stray.
+      'iframe[src*="google.com/recaptcha"]',
+      'iframe[src*="recaptcha"]',
+      '.grecaptcha-badge',
     ]);
 
     // Non-content elements: scripts, styles, noscript, injected clientlib <link>s.

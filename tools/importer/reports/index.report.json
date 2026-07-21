@@ -1,14 +1,14 @@
 {
   "status": "success",
-  "url": "https://lundbeck-admin:pH6Uuj5k9w8i@northera-stage.d.lundbeckus.com/",
+  "url": "https://northera-stage.d.lundbeckus.com/",
   "path": "index",
-  "timestamp": "2026-07-16T07:25:46.204Z",
+  "timestamp": "2026-07-17T17:32:47.584Z",
   "title": "Neurogenic Orthostatic Hypotension (nOH) Treatment | NORTHERA® (droxidopa)",
   "template": "homepage",
   "blocks": [
     "columns",
     "hero-patient",
     "cards-cta",
-    "isi"
+    "fragment-isi"
   ]
 }

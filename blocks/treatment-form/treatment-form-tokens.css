@@ -1,0 +1,77 @@
+/* treatment-form — static replica of the HCP NORTHERA Treatment Form wizard.
+   Values extracted verbatim from the northera-stage source (computedCss in
+   migration-work/treatment-form/authoring-analysis.json). No guessing. */
+.treatment-form {
+  /* Blue fax callout (cmp-specialty__pharmacy) */
+  --tf-callout-bg: #0188bf;
+  --tf-callout-color: #fff;
+  --tf-callout-padding: 30px;
+  --tf-callout-size: 14px;
+  --tf-callout-phone-color: #ffbc00;
+
+  /* Step header (H2) */
+  --tf-header-color: var(--brand-blue);
+  --tf-header-font-family: var(--heading-font-family);
+  --tf-header-size: 24px;
+  --tf-header-weight: 500;
+
+  /* Helper / info text */
+  --tf-helper-color: #333;
+  --tf-helper-size: 14px;
+  --tf-helper-line-height: 20px;
+
+  /* Field label */
+  --tf-label-color: #333;
+  --tf-label-size: 16px;
+  --tf-label-weight: 700;
+  --tf-label-line-height: 22.86px;
+
+  /* Required asterisk */
+  --tf-required-color: #f00;
+
+  /* Caption (MM/DD/YYYY etc.) */
+  --tf-caption-color: #333;
+  --tf-caption-size: 14px;
+
+  /* Text input */
+  --tf-input-height: 34px;
+  --tf-input-padding: 6px 12px;
+  --tf-input-border: 1px solid #ccc;
+  --tf-input-size: 14px;
+  --tf-input-color: #555;
+  --tf-input-bg: #fff;
+
+  /* Select */
+  --tf-select-border-radius: 4px;
+
+  /* Prompt / choices */
+  --tf-prompt-color: #333;
+  --tf-prompt-size: 16px;
+
+  /* Note / footnote */
+  --tf-note-color: #333;
+  --tf-note-size: 14px;
+
+  /* Buttons (BACK / NEXT / REVIEW) — solid cyan, dark-blue text, hard corners */
+  --tf-btn-bg: var(--brand-cyan);
+  --tf-btn-color: var(--brand-blue-dark);
+  --tf-btn-font-family: var(--heading-heavy-font-family);
+  --tf-btn-size: 18px;
+  --tf-btn-radius: 0;
+  --tf-btn-padding-mobile: 15px 20px;
+  --tf-btn-padding-desktop: 20px 55px;
+  --tf-btn-hover-bg: var(--brand-cyan-shadow);
+  --tf-btn-hover-color: #fff;
+
+  /* Progress bar */
+  --tf-progress-active-color: #fff;
+  --tf-progress-inactive-color: #fff;
+  --tf-progress-size-mobile: 12px;
+  --tf-progress-track: var(--brand-blue);
+  --tf-progress-active-bg: var(--brand-cyan);
+
+  /* Entry CTA buttons (proceedoptions) — same cyan treatment */
+  --tf-cta-bg: var(--brand-cyan);
+  --tf-cta-color: var(--brand-blue-dark);
+  --tf-cta-size: 18px;
+}

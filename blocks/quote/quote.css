@@ -41,3 +41,164 @@
   content: '—'; /* @boilerplate */
   padding-right: 0.5ch; /* @boilerplate */
 }
+
+/* ══════════════════════════════════════════════════════════════
+   quote-patient — patient story banner (Bob). Measured from source.
+   Mobile (default): light-grey banner (#f3f5f8) — patient photo (Bob_m.png)
+   on TOP, then the pull-quote and attribution below (both Gotham-Medium
+   16px/20 brand-blue; quote wrapped in curly quotes).
+   Desktop (≥768px): the photo becomes a cover background on a fixed 522px-tall
+   banner and the quote + attribution (18px/23 brand-blue) overlay it on the
+   left in a ~415px column.
+   ══════════════════════════════════════════════════════════════ */
+.quote.patient blockquote {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--max-width-site);
+
+  /* full-bleed grey banner: cancel the section wrapper's 15px mobile inset */
+  margin: 0 -15px;
+  width: calc(100% + 30px);
+  background-color: #f3f5f8;
+  padding: 0 0 30px;
+}
+
+/* mobile: photo on top (source order), text below */
+.quote.patient .quote-photo {
+  order: 0;
+  text-align: center;
+  margin: 0 0 20px;
+  width: 100%;
+  max-width: none;
+}
+
+.quote.patient .quote-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* mobile shows the portrait crop; the wide desktop crop is hidden */
+.quote.patient .quote-photo-desktop {
+  display: none;
+}
+
+.quote.patient .quote-quotation,
+.quote.patient .quote-quotation p {
+  order: 1;
+  color: var(--brand-blue);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.quote.patient .quote-quotation {
+  padding: 0 15px;
+}
+
+.quote.patient .quote-attribution,
+.quote.patient .quote-attribution p {
+  order: 2;
+  color: var(--brand-blue);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.quote.patient .quote-attribution {
+  padding: 10px 15px 0;
+}
+
+/* source wraps the pull-quote in curly quotes; our parsed text has none, so
+   add them via CSS (matches the base quote block, which the variant reset). */
+.quote.patient .quote-quotation p:first-child::before {
+  content: '“';
+}
+
+.quote.patient .quote-quotation p:last-child::after {
+  content: '”';
+}
+
+.quote.patient .quote-attribution p:first-child::before {
+  content: '—';
+  padding-right: 0.5ch;
+}
+
+/* desktop: the wide farmers-market crop (Bob.png) becomes a cover background on
+   a fixed 522px banner; the quote + attribution overlay it on the left. Source:
+   #patient-banner is position:relative, height 522px, background cover. */
+@media (width >= 768px) {
+  .quote.patient blockquote {
+    position: relative;
+    height: 522px;
+    padding: 0;
+    background-color: transparent;
+    overflow: hidden;
+
+    /* The quote section wrapper is inset 11% at ≥768px (first/isi gutter rule).
+       Break the banner out of that padding so the photo goes full-bleed across
+       the content column like the source (NOT 100vw — stays clear of the ISI
+       rail on desktop). A child margin resolves against the wrapper's CONTENT
+       width (78% of the box), so 11/78 ≈ 14.1% cancels the 11% side padding. */
+    width: calc(100% + 2 * (100% * 11 / 78));
+    max-width: none;
+    margin-left: calc(-1 * 100% * 11 / 78);
+    margin-right: calc(-1 * 100% * 11 / 78);
+  }
+
+  .quote.patient .quote-photo-mobile {
+    display: none;
+  }
+
+
+  /* photo fills the banner as a cover layer behind the text */
+  .quote.patient .quote-photo-desktop {
+    display: block;
+    order: 0;
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .quote.patient .quote-photo-desktop img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* overlay text column on the left (source: ~415px, ~12% left inset) */
+  .quote.patient .quote-quotation,
+  .quote.patient .quote-attribution {
+    position: absolute;
+    left: 0;
+    width: 415px;
+    max-width: 40%;
+    padding: 0 0 0 12%;
+    z-index: 1;
+  }
+
+  /* desktop overlay text (source): quote + attribution both brand-blue 18px/23 */
+  .quote.patient .quote-quotation,
+  .quote.patient .quote-quotation p,
+  .quote.patient .quote-attribution,
+  .quote.patient .quote-attribution p {
+    font-size: 18px;
+    line-height: 23px;
+    color: var(--brand-blue);
+  }
+
+  .quote.patient .quote-quotation {
+    top: 12%;
+  }
+
+  .quote.patient .quote-attribution {
+    bottom: 12%;
+  }
+}

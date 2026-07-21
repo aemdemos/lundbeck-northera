@@ -5,7 +5,7 @@
 import embedParser from './parsers/embed.js';
 import accordionParser from './parsers/accordion.js';
 import cardsCtaParser from './parsers/cards-cta.js';
-import isiParser from './parsers/isi.js';
+import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
 import cleanupTransformer from './transformers/northera-cleanup.js';
@@ -40,17 +40,17 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'isi',
+      // Reference the shared ISI fragment instead of inlining the ISI content.
+      name: 'fragment-isi',
       instances: [
         'div.responsivegrid.cmp-layout-isi__phone .experiencefragment',
-        'div.cmp-isi__use',
       ],
     },
   ],
   sections: [
     { id: 'hnw-intro', name: 'Page intro + explainer video + transcript', selector: 'div.container.responsivegrid.cmp-video_bglightblue.cmp-videobutton__center', style: null, blocks: ['embed', 'accordion'], defaultContent: [] },
     { id: 'hnw-quicklinks', name: 'Quicklink CTA cards (specialist + patient stories)', selector: '.cmp-layout-quicklinks', style: null, blocks: ['cards-cta'], defaultContent: [] },
-    { id: 'hnw-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['isi'], defaultContent: [] },
+    { id: 'hnw-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
 
@@ -59,7 +59,7 @@ const parsers = {
   embed: embedParser,
   accordion: accordionParser,
   'cards-cta': cardsCtaParser,
-  isi: isiParser,
+  'fragment-isi': fragmentIsiParser,
 };
 
 // TRANSFORMER REGISTRY - cleanup runs first, sections after

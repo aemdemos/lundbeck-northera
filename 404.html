@@ -37,18 +37,91 @@
   </script>
   <link rel="stylesheet" href="/styles/styles.css">
   <style>
+    /* Source parity: /404 error page. Mobile-first (source breakpoints 768/992/1200).
+       H1 Gotham-Bold #245778 (20/24 mobile → 50/60 desktop), centered; message
+       Gotham-Medium #58595b (16/20 mobile → 18/30 desktop); "HOME" cyan CTA
+       (full-width mobile → auto-width desktop) with the brand offset shadow. */
     main.error {
       min-height: calc(100vh - var(--nav-height));
       display: flex;
       align-items: center;
     }
 
-    main.error .error-number {
+    main.error .section {
       width: 100%;
+      box-sizing: border-box;
+      max-width: var(--max-width-site);
+      margin: 0 auto;
+      padding: 0 15px;
     }
 
-    main.error .error-number text {
-      font-family: monospace;
+    main.error .error-message {
+      margin: 0;
+      padding: 30px 0;
+      color: var(--brand-blue);
+      font-family: var(--heading-font-family);
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    main.error .error-text {
+      margin: 0 0 20px;
+      color: var(--brand-grey, #58595b);
+      font-family: var(--body-font-family);
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    main.error .button-container {
+      margin: 0 0 40px;
+    }
+
+    main.error a.button.error-button-home {
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 0;
+      background-color: var(--brand-cyan);
+      color: var(--brand-blue-dark);
+      font-family: var(--heading-heavy-font-family);
+      font-size: 18px;
+      line-height: 20px;
+      padding: 18px 110px;
+      text-align: center;
+      border: 0;
+      border-radius: 0;
+      box-shadow: var(--button-shadow);
+      text-decoration: none;
+      transition: box-shadow var(--button-transition, 0.2s ease-in-out);
+    }
+
+    main.error a.button.error-button-home:hover,
+    main.error a.button.error-button-home:focus {
+      background-color: var(--brand-cyan-shadow);
+      color: #fff;
+      box-shadow: var(--button-hover-shadow);
+    }
+
+    @media (width >= 768px) {
+      main.error .error-text {
+        font-size: 18px;
+        line-height: 30px;
+      }
+
+      main.error a.button.error-button-home {
+        display: inline-block;
+        width: auto;
+      }
+    }
+
+    @media (width >= 992px) {
+      main.error .error-message {
+        padding: 50px 0 30px;
+        font-size: 50px;
+        line-height: 60px;
+      }
     }
   </style>
   <link rel="stylesheet" href="/styles/lazy-styles.css">
@@ -58,12 +131,10 @@
   <header></header>
   <main class="error">
     <div class="section">
-      <svg viewBox="1 0 38 18" class="error-number">
-        <text x="0" y="17">404</text>
-      </svg>
-      <h2 class="error-message">Page Not Found</h2>
+      <h1 class="error-message">Page Not Found</h1>
+      <p class="error-text">We&rsquo;re sorry. That page does not exist. Please try another page.</p>
       <p class="button-container">
-        <a href="/" class="button secondary error-button-home">Go home</a>
+        <a href="/" class="button error-button-home">HOME</a>
       </p>
     </div>
   </main>

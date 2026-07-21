@@ -16,4 +16,6 @@
   --columns-icon-text-pad-inline: 15px;
   --columns-icon-text-margin-bottom: 20px;
   --columns-icon-text-margin-bottom-desktop: 50px;
+  --columns-stacks-text-color:#58595b;
+  --columns-stacks-border-color:#878787;
 }

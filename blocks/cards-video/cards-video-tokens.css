@@ -1,0 +1,25 @@
+/* cards-video design tokens — source .cmp-videothumbnail grid on the
+   Real Experiences page. Thumbnail image (16:9-ish, ratio ~1.735) + heading. */
+.cards-video {
+  --cards-video-gap-col: 20px;
+  --cards-video-gap-row: 40px;
+  --cards-video-gap-row-desktop: 80px;
+  --cards-video-thumb-ratio: 446 / 257;
+  --cards-video-title-color: var(--brand-blue);
+  --cards-video-title-font-family: var(--heading-font-family);
+  --cards-video-title-size: 20px;
+  --cards-video-title-line-height: 24px;
+  --cards-video-title-size-desktop: 24px;
+  --cards-video-title-line-height-desktop: 29px;
+  --cards-video-title-margin-top: 10px;
+
+  /* caption variant (HCP Additional Resources): plain grey Gotham-Medium label
+     under the thumbnail; 16px/20px mobile → 18px/30px desktop. */
+  --cards-video-caption-color: var(--brand-grey);
+  --cards-video-caption-font-family: var(--body-font-family);
+  --cards-video-caption-size: 16px;
+  --cards-video-caption-line-height: 20px;
+  --cards-video-caption-size-desktop: 18px;
+  --cards-video-caption-line-height-desktop: 30px;
+  --cards-video-caption-margin: 10px 0 10px;
+}
