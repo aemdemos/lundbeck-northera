@@ -62,4 +62,8 @@
   --cards-cta-centered-desc-size-desktop: 18px;
   --cards-cta-centered-desc-line-height-desktop: 30px;
   --cards-cta-centered-button-padding: 20px 55px;
+
+  /* source: the left-aligned description is offset one 12-col grid unit
+     (8.333%) from the banner edge, while the heading + CTA stay centered. */
+  --cards-cta-centered-desc-offset: 8.3333%;
 }

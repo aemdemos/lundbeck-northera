@@ -183,7 +183,7 @@ main > .section > div:has(.cards-cta) {
    (8.333%) from the banner edge. */
 .cards-cta.centered .cards-card-body p {
   text-align: left;
-  margin-left: 8.3333%;
+  margin-left: var(--cards-cta-centered-desc-offset);
   font-size: var(--cards-cta-centered-desc-size);
   line-height: var(--cards-cta-centered-desc-line-height);
   padding-bottom: 20px;
