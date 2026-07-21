@@ -22,8 +22,8 @@ main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper
   flex-direction: column; /* @boilerplate */
 }
 
-.columns > div > div { /* @boilerplate */
-  order: 1; /* @boilerplate */
+.columns > div > div {
+  order: 1;
 }
 
 .columns > div > .columns-img-col { /* @boilerplate */
