@@ -38,8 +38,12 @@
      offset from the DAW above it. */
   --hero-hcp-width-desktop: 100%;
 
-  /* fixed banner height so the width doesn't inflate the height via the base
-     .css aspect-ratio (source banner is ~380px tall) */
+  /* banner min-height so the width doesn't inflate the height via the base
+     .css aspect-ratio (source banner is ~380px tall). Uses min-height (not a
+     fixed height) so when the overlaid text wraps taller than 380px — e.g. at
+     the 992–1200px range where the column is narrow but text is still desktop-
+     sized — the banner grows to contain it instead of the flex-end content
+     overflowing upward into the DAW band above. */
   --hero-hcp-height-desktop: 380px;
 
   /* desktop content box — source text is flush-left (~15px in) and spans most of
@@ -69,17 +73,19 @@ main > div.section.hero-hcp-container > div.hero-hcp-wrapper {
   }
 
   /* Fill the content-column wrapper (100%), aligned with the DAW + quote bands.
-     Drop the base aspect-ratio and pin a fixed height so the banner stays ~380px
-     regardless of width. Neutralize the base .css self-centering
-     (margin-left:50%/translateX(-50%)) — not needed when the block fills its
-     already-centered wrapper, and it was causing the horizontal offset. */
+     Drop the base aspect-ratio and set a min-height so the banner is ~380px but
+     grows when the overlaid text wraps taller (avoids the flex-end content
+     overflowing up into the DAW band at ~992–1200px). Neutralize the base .css
+     self-centering (margin-left:50%/translateX(-50%)) — not needed when the
+     block fills its already-centered wrapper, and it caused a horizontal offset. */
   main .section .hero-hcp {
     width: var(--hero-hcp-width-desktop);
     max-width: var(--hero-hcp-width-desktop);
     margin-left: 0;
     transform: none;
     aspect-ratio: auto;
-    height: var(--hero-hcp-height-desktop);
+    height: auto;
+    min-height: var(--hero-hcp-height-desktop);
   }
 
   /* flush-left content — override the base .css 12.2% left inset so the heading
