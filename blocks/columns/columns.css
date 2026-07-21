@@ -231,6 +231,50 @@ main .columns.teaser p {
   margin: 0 0 10px;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   stacked — insurance-comparison layout (Medicare vs Commercial), rebuilt
+   from the source comparison table as a 2-cell columns block. Each cell is
+   one comparison column: a full-width teal-blue gradient header bar with a
+   white bold centered title, followed by grey-bordered item rows.
+   Mobile (default): the two columns stack (Medicare block, then Commercial
+   block) — each header bar spans full width. ≥768px: two equal 50% columns
+   side-by-side with a shared header row.
+   Source: coverage-for-northera .cmp-text__table (same palette as the former
+   table-compare variant): header gradient #176da0→#166fa1→#194d78, header
+   text #fff Gotham-Bold, cell text #333, borders #878787.
+   ══════════════════════════════════════════════════════════════ */
+main .columns.stacked > div > div {
+  border: 1px solid #878787;
+  border-top: 0;
+  padding: 0;
+}
+
+/* header bar = the first child (a heading) of each cell */
+main .columns.stacked > div > div > :first-child {
+  margin: 0;
+  background-color: #176da0;
+  background-image: linear-gradient(90deg, #176da0 0%, #166fa1 50%, #194d78 100%);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  padding: 28px 13.6px 27px;
+}
+
+/* item rows = the paragraphs after the header */
+main .columns.stacked > div > div > p:not(:first-child) {
+  margin: 0;
+  border-top: 1px solid #878787;
+  color: #333;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: left;
+  padding: 20px 13.6px;
+}
+
 /* teaser (awareness band) desktop — source breakpoint is min-width:769px
    (i.e. > 768px, NOT >= 768). Within each item the icon (115px) sits left with
    a 24px gap; heading + description stack to its right, left-aligned. Source
@@ -441,5 +485,32 @@ main .columns.supine p {
 
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
+  }
+
+  /* stacked: two equal 50% columns side-by-side, equal height, no gap so the
+     grey borders meet. Header bars align in a shared top row; 22px headers. */
+  main .columns.stacked > div {
+    align-items: stretch;
+    gap: 0;
+  }
+
+  main .columns.stacked > div > div {
+    flex: 1;
+    width: 50%;
+    border-left: 0;
+  }
+
+  main .columns.stacked > div > div:first-child {
+    border-left: 1px solid #878787;
+  }
+
+  main .columns.stacked > div > div > :first-child {
+    font-size: 22px;
+    padding: 25px 10px;
+  }
+
+  main .columns.stacked > div > div > p:not(:first-child) {
+    padding: 10px 60px;
+    text-align: center;
   }
 }
