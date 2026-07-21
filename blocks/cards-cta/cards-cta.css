@@ -138,9 +138,14 @@ main > .section > div:has(.cards-cta) {
 }
 
 @media (width > 992px) {
- .cards-cta .cards-card-body,
- .cards-cta.centered .cards-card-body {
+ .cards-cta .cards-card-body {
   padding: 0 17% 0 116px;
+ }
+
+ /* centered variant keeps zero horizontal padding so the heading + CTA center
+    across the full banner (only the description sits left, offset 8.333%). */
+ .cards-cta.centered .cards-card-body {
+  padding: 0;
  }
 }
 
@@ -156,7 +161,7 @@ main > .section > div:has(.cards-cta) {
 .cards-cta.centered .cards-card-body {
   align-items: stretch;
   text-align: left;
-  margin: 0 15px;
+  margin: 0;
   padding: 0;
 }
 
@@ -173,8 +178,11 @@ main > .section > div:has(.cards-cta) {
   color: var(--cards-cta-title-color);
 }
 
+/* source: the description sits left-aligned, offset one 12-col grid unit
+   (8.333%) from the banner edge. */
 .cards-cta.centered .cards-card-body p {
   text-align: left;
+  margin-left: 8.3333%;
   font-size: var(--cards-cta-centered-desc-size);
   line-height: var(--cards-cta-centered-desc-line-height);
   padding-bottom: 20px;
@@ -184,6 +192,7 @@ main > .section > div:has(.cards-cta) {
    while the description paragraph stays left-aligned. */
 .cards-cta.centered .cards-card-body p:has(a) {
   text-align: center;
+  margin-left: 0;
 }
 
 /* auto-width centered CTA (source button hugs its label: padding 20px 55px) */
@@ -194,9 +203,16 @@ main > .section > div:has(.cards-cta) {
 }
 
 @media (width > 768px) {
+  /* zero the banner's side padding so the description's 8.333% offset and the
+     centered heading/CTA measure against the full banner width. */
+  .cards-cta.centered > ul {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .cards-cta.centered .cards-card-body {
     margin: 0;
-    padding: 0 17% 0 25px;
+    padding: 0;
   }
 
   .cards-cta.centered .cards-card-body a {
