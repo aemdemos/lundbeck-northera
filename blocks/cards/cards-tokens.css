@@ -18,6 +18,7 @@
   --cards-resource-box-padding: 30px 15px;
   --cards-resource-box-padding-desktop: 30px;
   --cards-resource-thumb-width: 138px;
+  --cards-resource-thumb-width-tablet: 75px;
   --cards-resource-img-text-gap: var(--spacing-m, 24px);
   --cards-resource-title-color: var(--brand-blue);
   --cards-resource-title-size: var(--heading-font-size-m, 20px);
