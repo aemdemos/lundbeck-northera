@@ -754,10 +754,30 @@ padding: 0;
     align-items: stretch;
   }
 
+  /* each card becomes icon-left + text-right (source 25%/75% table cells,
+     vertically centered), left-aligned. */
   .cards.contact > ul > li {
     flex: 1;
     max-width: 50%;
     margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+
+  .cards.contact .cards-card-image {
+    flex: 0 0 25%;
+    text-align: left;
+  }
+
+  .cards.contact .cards-card-body {
+    flex: 1;
+    padding-left: 20px;
+  }
+
+  .cards.contact .cards-card-body p {
+    text-align: left;
   }
 
   /* on desktop the divider is the vertical line between the two columns */
