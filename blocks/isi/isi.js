@@ -353,36 +353,28 @@ function setupDesktopExpandToggle(block, variant) {
   };
 
   // Source parity: open slides the panel in from the right over 500ms
-  // ($(model).show("slide",{direction:"right"},500)). Add the expanded class
-  // (panel positioned off-screen right via CSS), then on the next frame add
-  // .isi-open to transition transform → 0. Using the SAME transition for open
-  // and close keeps both directions identical (source uses direction:"right"
-  // for both show and hide).
+  // ($(model).show("slide",{direction:"right"},500)). The CSS keyframe on
+  // .isi-desktop-expanded runs automatically and always animates from its
+  // off-screen `from` state, so the slide-in is guaranteed.
   const open = () => {
     section.classList.remove('isi-closing');
     section.classList.add('isi-desktop-expanded');
-    // force a reflow so the off-screen start position is applied before we
-    // add .isi-open, guaranteeing the transition runs
-    // eslint-disable-next-line no-unused-expressions
-    section.offsetWidth;
-    requestAnimationFrame(() => section.classList.add('isi-open'));
     syncToggleA11y(true);
   };
 
   // Close slides the panel back out to the right over 500ms
-  // ($(model).hide("slide",{direction:"right"},500)); keep the fixed layout via
-  // .isi-desktop-expanded during the transition, then drop both classes on end.
+  // ($(model).hide("slide",{direction:"right"},500)); .isi-closing keeps the
+  // fixed overlay layout while transitioning transform to translateX(100%),
+  // then both classes are removed on transitionend.
   let closing = false;
   const close = () => {
     if (closing || !section.classList.contains('isi-desktop-expanded')) return;
     closing = true;
-    // removing .isi-open transitions transform back to translateX(100%) — the
-    // same 500ms transition used on open, so the direction matches exactly
-    section.classList.remove('isi-open');
+    section.classList.add('isi-closing');
     syncToggleA11y(false);
     const panel = section;
     const finish = () => {
-      section.classList.remove('isi-desktop-expanded');
+      section.classList.remove('isi-desktop-expanded', 'isi-closing');
       closing = false;
     };
     let done = false;
