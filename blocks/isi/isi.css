@@ -578,6 +578,7 @@ main .isi-please-see-section {
     scrollbar-gutter: stable;
     scrollbar-width: auto;
     scrollbar-color: var(--isi-rail-scrollbar-thumb-color) var(--isi-rail-scrollbar-track-color);
+    box-shadow: var(--isi-rail-gutter-line);
   }
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar {
@@ -607,6 +608,7 @@ main .isi-please-see-section {
     scrollbar-gutter: stable;
     scrollbar-width: auto;
     scrollbar-color: var(--isi-rail-scrollbar-thumb-color) var(--isi-rail-scrollbar-track-color);
+    box-shadow: var(--isi-rail-gutter-line);
     overflow-y: scroll;
     width: 90%;
     max-height: calc(100vh - 200px);
