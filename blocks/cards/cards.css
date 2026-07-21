@@ -667,3 +667,70 @@ padding: 0;
     height: 355px;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   "contact" variant — two side-by-side contact tiles (Online / Phone or
+   Call / Visit), each an icon above a bold label + a cyan link. Borderless,
+   transparent, centered. Ported from the former columns.contact variant.
+   Source: .cmp-layout__two__imagetext teasers (coverage-for-northera,
+   prescribing-northera). Mobile (default): stacked, centered.
+   ≥768px: two equal columns side-by-side.
+   ══════════════════════════════════════════════════════════════ */
+.cards.contact > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.cards.contact > ul > li {
+  border: 0;
+  background-color: transparent;
+  text-align: center;
+}
+
+.cards.contact .cards-card-image {
+  text-align: center;
+}
+
+.cards.contact > ul > li img {
+  aspect-ratio: unset;
+  object-fit: contain;
+  width: 122px;
+  height: auto;
+}
+
+.cards.contact .cards-card-body {
+  margin: 0;
+}
+
+.cards.contact .cards-card-body p {
+  text-align: center;
+}
+
+.cards.contact .cards-card-body b,
+.cards.contact .cards-card-body strong {
+  color: #58595b;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.cards.contact .cards-card-body a {
+  color: var(--brand-cyan);
+  font-size: 18px;
+  text-decoration: none;
+}
+
+@media (width >= 768px) {
+  .cards.contact > ul {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .cards.contact > ul > li {
+    flex: 1;
+  }
+}

@@ -176,40 +176,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
    its own flex-direction here to match the source. */
 
 /* ══════════════════════════════════════════════════════════════
-   columns-contact — two side-by-side contact blocks (Online / Phone), each an
-   icon above a bold label + a cyan link. Borderless/transparent.
-   Source: coverage-for-northera .cmp-layout__two__imagetext teasers.
-   Mobile (default): stacked, centered. ≥768px: two 50% columns side-by-side.
-   ══════════════════════════════════════════════════════════════ */
-main .columns.contact > div > div {
-  text-align: center;
-}
-
-main .columns.contact img {
-  width: 122px;
-  height: auto;
-}
-
-main .columns.contact p {
-  text-align: center;
-}
-
-main .columns.contact b,
-main .columns.contact strong {
-  color: #58595b;
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
-}
-
-main .columns.contact a {
-  color: var(--brand-cyan);
-  font-size: 18px;
-  text-decoration: none;
-}
-
-/* ══════════════════════════════════════════════════════════════
    columns-teaser — dark-blue "awareness" band: 2 icon+heading+text teaser
    columns, white text on brand-blue. Source: every-patient-story-matters
    #patientbannertext. Mobile-first stacked, centered; ≥768px two columns.
@@ -352,10 +318,6 @@ main .columns.supine p {
     main > .section:first-of-type:has(.columns.icon-text) {
     margin: 0;
     padding: 0;
-  }
-
-  main .columns.contact > div > div {
-    flex: 1;
   }
 
   /* supine: icon-left + caption-right per item, vertical divider between */
