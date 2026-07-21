@@ -131,6 +131,15 @@ function getSafeVideoHref(href) {
   }
 }
 
+function getSafeHash() {
+  const rawHash = window.location.hash.startsWith('#')
+    ? window.location.hash.slice(1)
+    : window.location.hash;
+
+  if (!/^[a-z0-9-]+$/i.test(rawHash)) return '';
+  return rawHash;
+}
+
 function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo) {
   const li = document.createElement('li');
   const trigger = document.createElement('a');
@@ -196,8 +205,7 @@ export default function decorate(block) {
     ul.append(card.li);
     if (card.isVideo && card.hash && card.href) {
       videoEntries.set(card.hash, {
-        href: card.href,
-        transcriptParas: card.transcriptParas,
+        open: () => openVideoModal(card.href, card.hash, card.transcriptParas),
       });
     }
   });
@@ -213,13 +221,10 @@ export default function decorate(block) {
   // Deep-link support: opening the page with a matching hash (e.g. #howiuse)
   // opens that video, matching the source's deep-linkable behavior.
   const openFromHash = () => {
-    // hash is only a Map lookup key; the opened href (entry.href) is already
-    // validated to an http(s) brightcove.net URL by getSafeVideoHref.
-    // eslint-disable-next-line browser-security/no-insecure-redirects
-    const hash = window.location.hash.replace('#', '');
+    const hash = getSafeHash();
     if (!hash) return;
     const entry = videoEntries.get(hash);
-    if (entry) openVideoModal(entry.href, hash, entry.transcriptParas);
+    if (entry) entry.open();
   };
 
   window.addEventListener('hashchange', openFromHash);

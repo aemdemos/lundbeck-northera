@@ -1,0 +1,476 @@
+@import url('./treatment-form-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   treatment-form — static visual replica of the HCP NORTHERA
+   Treatment Form wizard. Mobile-first (default = mobile). Source
+   breakpoints 768/992/1200 are mapped to EDS 600/900/1200.
+   ══════════════════════════════════════════════════════════════ */
+
+.treatment-form .treatment-form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* ── Blue fax callout (authored row 1) ───────────────────────── */
+.treatment-form .treatment-form-callout {
+  padding: var(--tf-callout-padding);
+  background-color: var(--tf-callout-bg);
+  color: var(--tf-callout-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-callout-size);
+}
+
+.treatment-form .treatment-form-callout h5,
+.treatment-form .treatment-form-callout p {
+  margin: 0 0 8px;
+  color: var(--tf-callout-color);
+  font-size: var(--tf-callout-size);
+}
+
+.treatment-form .treatment-form-callout h5:last-child,
+.treatment-form .treatment-form-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.treatment-form .treatment-form-callout .treatment-form-phone,
+.treatment-form .treatment-form-callout strong {
+  color: var(--tf-callout-phone-color);
+}
+
+/* ── Check-list bullets (authored row 2) ─────────────────────── */
+.treatment-form .treatment-form-bullets ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.treatment-form .treatment-form-bullets li {
+  position: relative;
+  margin-bottom: 14px;
+  padding-left: 34px;
+  color: var(--tf-note-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-helper-size);
+  line-height: var(--tf-helper-line-height);
+}
+
+.treatment-form .treatment-form-bullets li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--brand-cyan);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 12px;
+}
+
+/* ── Entry CTAs (authored row 3) ─────────────────────────────── */
+.treatment-form .treatment-form-cta h2 {
+  margin: 0 0 20px;
+  color: var(--brand-blue);
+  font-family: var(--heading-font-family);
+}
+
+/* Entry CTA solid buttons (START / DOWNLOAD) */
+.treatment-form .treatment-form-cta-button {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--tf-btn-padding-mobile);
+  background-color: var(--tf-cta-bg);
+  color: var(--tf-cta-color);
+  font-family: var(--heading-heavy-font-family);
+  font-size: var(--tf-cta-size);
+  text-align: center;
+  text-decoration: none;
+  box-shadow: var(--button-shadow);
+  transition: box-shadow var(--button-transition), background-color var(--button-transition), color var(--button-transition);
+}
+
+.treatment-form .treatment-form-cta-button:hover,
+.treatment-form .treatment-form-cta-button:focus {
+  background-color: var(--brand-cyan-shadow);
+  color: #fff;
+  box-shadow: var(--button-hover-shadow);
+}
+
+/* helper paragraphs (and the "See an example" inline link) */
+.treatment-form .treatment-form-cta p {
+  margin: 12px 0 24px;
+  color: var(--tf-helper-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-helper-size);
+  line-height: var(--tf-helper-line-height);
+}
+
+.treatment-form .treatment-form-cta p a:not(.treatment-form-cta-button) {
+  color: var(--brand-cyan);
+  text-decoration: none;
+}
+
+.treatment-form .treatment-form-cta p a:not(.treatment-form-cta-button):hover {
+  color: var(--brand-cyan-shadow);
+}
+
+/* ── Progress bar ────────────────────────────────────────────── */
+.treatment-form .treatment-form-progress-desktop {
+  display: none;
+}
+
+.treatment-form .treatment-form-progress-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.treatment-form .treatment-form-progress-mobile li {
+  padding: 8px 12px;
+  background-color: var(--tf-progress-track);
+  color: var(--tf-progress-inactive-color);
+  font-family: var(--heading-font-family);
+  font-size: var(--tf-progress-size-mobile);
+  opacity: 0.6;
+}
+
+.treatment-form .treatment-form-progress-mobile li.active {
+  background-color: var(--tf-progress-active-bg);
+  color: var(--tf-progress-active-color);
+  font-weight: 700;
+  opacity: 1;
+}
+
+.treatment-form .treatment-form-progress-mobile li span {
+  margin-right: 6px;
+  font-weight: 700;
+}
+
+/* ── Steps ───────────────────────────────────────────────────── */
+.treatment-form .treatment-form-steps {
+  margin-top: 24px;
+}
+
+.treatment-form .treatment-form-step[hidden] {
+  display: none;
+}
+
+.treatment-form .treatment-form-topnote {
+  margin: 0 0 16px;
+  color: var(--tf-note-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-note-size);
+  font-weight: 700;
+  line-height: var(--tf-helper-line-height);
+}
+
+.treatment-form .treatment-form-step-header {
+  margin: 0 0 10px;
+  color: var(--tf-header-color);
+  font-family: var(--tf-header-font-family);
+  font-size: var(--tf-header-size);
+  font-weight: var(--tf-header-weight);
+}
+
+.treatment-form .treatment-form-step-helper {
+  margin: 0 0 20px;
+  color: var(--tf-helper-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-helper-size);
+  line-height: var(--tf-helper-line-height);
+}
+
+.treatment-form .treatment-form-subheading {
+  margin: 20px 0 10px;
+  color: var(--brand-blue);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-s);
+}
+
+/* ── Fields ──────────────────────────────────────────────────── */
+.treatment-form .treatment-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 18px;
+}
+
+.treatment-form .treatment-form-label {
+  display: inline-block;
+  color: var(--tf-label-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-label-size);
+  font-weight: var(--tf-label-weight);
+  line-height: var(--tf-label-line-height);
+}
+
+.treatment-form .treatment-form-required {
+  color: var(--tf-required-color);
+  font-size: var(--tf-label-size);
+  font-weight: 800;
+}
+
+.treatment-form .treatment-form-caption {
+  color: var(--tf-caption-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-caption-size);
+  font-style: italic;
+}
+
+.treatment-form .treatment-form-inline-link {
+  color: var(--brand-cyan);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-caption-size);
+  text-decoration: none;
+}
+
+.treatment-form .treatment-form-input {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--tf-input-height);
+  padding: var(--tf-input-padding);
+  border: var(--tf-input-border);
+  border-radius: 0;
+  background-color: var(--tf-input-bg);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-input-size);
+  color: var(--tf-input-color);
+}
+
+.treatment-form .treatment-form-select {
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--tf-input-height);
+  padding-left: 12px;
+  border: var(--tf-input-border);
+  border-radius: var(--tf-select-border-radius);
+  background-color: var(--tf-input-bg);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-input-size);
+  color: var(--tf-input-color);
+}
+
+.treatment-form .treatment-form-prompt {
+  margin: 0;
+  color: var(--tf-prompt-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-prompt-size);
+  font-weight: 700;
+}
+
+.treatment-form .treatment-form-helper {
+  margin: 0;
+  color: var(--tf-helper-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-helper-size);
+  line-height: var(--tf-helper-line-height);
+}
+
+.treatment-form .treatment-form-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.treatment-form .treatment-form-options-inline {
+  flex-flow: row wrap;
+  gap: 20px;
+}
+
+.treatment-form .treatment-form-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: var(--tf-prompt-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-prompt-size);
+  cursor: pointer;
+}
+
+.treatment-form .treatment-form-choice input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--brand-cyan);
+}
+
+.treatment-form .treatment-form-note {
+  margin: 10px 0;
+  color: var(--tf-note-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-note-size);
+  line-height: var(--tf-helper-line-height);
+}
+
+.treatment-form .treatment-form-note-bold {
+  font-weight: 700;
+}
+
+.treatment-form .treatment-form-footnote {
+  margin: 8px 0 0;
+  color: var(--tf-note-color);
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-style: italic;
+  line-height: 18px;
+}
+
+.treatment-form .treatment-form-dispense-note {
+  margin: 8px 0 0;
+  color: var(--tf-note-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-note-size);
+  font-weight: 700;
+}
+
+/* ── Final review screen ─────────────────────────────────────── */
+.treatment-form .treatment-form-final {
+  margin-top: 20px;
+}
+
+.treatment-form .treatment-form-final-note {
+  margin: 0 0 16px;
+  color: var(--brand-blue-dark);
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-s);
+  line-height: 1.4;
+}
+
+.treatment-form .treatment-form-checklist {
+  margin: 16px 0 0;
+  padding-left: 20px;
+  color: var(--tf-note-color);
+  font-family: var(--body-font-family);
+  font-size: var(--tf-note-size);
+  line-height: var(--tf-helper-line-height);
+}
+
+.treatment-form .treatment-form-checklist li {
+  margin-bottom: 10px;
+}
+
+/* ── Nav buttons ─────────────────────────────────────────────── */
+.treatment-form .treatment-form-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.treatment-form .treatment-form-btn {
+  box-sizing: border-box;
+  border: 0;
+  border-radius: var(--tf-btn-radius);
+  padding: var(--tf-btn-padding-mobile);
+  background-color: var(--tf-btn-bg);
+  color: var(--tf-btn-color);
+  font-family: var(--tf-btn-font-family);
+  font-size: var(--tf-btn-size);
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: var(--button-shadow);
+  cursor: pointer;
+  transition: box-shadow var(--button-transition), background-color var(--button-transition), color var(--button-transition);
+}
+
+.treatment-form .treatment-form-btn:hover,
+.treatment-form .treatment-form-btn:focus {
+  background-color: var(--tf-btn-hover-bg);
+  color: var(--tf-btn-hover-color);
+  box-shadow: var(--button-hover-shadow);
+}
+
+.treatment-form .treatment-form-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ══ Tablet+ (source 768px → EDS 600px) ══════════════════════ */
+@media (width >= 600px) {
+  .treatment-form .treatment-form-progress-mobile {
+    display: none;
+  }
+
+  .treatment-form .treatment-form-progress-desktop {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: tf-step;
+  }
+
+  .treatment-form .treatment-form-progress-desktop li {
+    counter-increment: tf-step;
+    position: relative;
+    flex: 1;
+    padding-top: 34px;
+    color: var(--brand-blue);
+    font-family: var(--heading-font-family);
+    font-size: 11px;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  .treatment-form .treatment-form-progress-desktop li::before {
+    content: counter(tf-step);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 26px;
+    height: 26px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background-color: var(--brand-blue);
+    color: #fff;
+    font-size: 13px;
+    line-height: 26px;
+    text-align: center;
+    z-index: 1;
+  }
+
+  .treatment-form .treatment-form-progress-desktop li::after {
+    content: '';
+    position: absolute;
+    top: 13px;
+    left: -50%;
+    width: 100%;
+    height: 3px;
+    background-color: var(--brand-blue);
+    z-index: 0;
+  }
+
+  .treatment-form .treatment-form-progress-desktop li:first-child::after {
+    display: none;
+  }
+
+  .treatment-form .treatment-form-progress-desktop li.active::before,
+  .treatment-form .treatment-form-progress-desktop li.done::before {
+    background-color: var(--brand-cyan);
+  }
+
+  .treatment-form .treatment-form-cta-button {
+    display: inline-block;
+    width: auto;
+    min-width: 515px;
+    max-width: 100%;
+    padding: var(--tf-btn-padding-desktop);
+    text-align: left;
+  }
+
+  .treatment-form .treatment-form-btn {
+    padding: var(--tf-btn-padding-desktop);
+  }
+
+  .treatment-form .treatment-form-input,
+  .treatment-form .treatment-form-select {
+    max-width: 487px;
+  }
+}

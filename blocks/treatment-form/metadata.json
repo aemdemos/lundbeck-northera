@@ -1,0 +1,36 @@
+{
+  "variantName": "treatment-form",
+  "baseBlock": "treatment-form",
+  "version": "1.0.0",
+  "created": "2026-07-20T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://northera-stage.d.lundbeckus.com/for-healthcare-professionals/treatment-form",
+    "originPage": "Treatment Form (HCP)",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "dense",
+    "purpose": "static-form-replica",
+    "imagePattern": "none"
+  },
+  "contentPattern": {
+    "structure": "blue fax callout + two entry CTAs + 6-step wizard (progress bar, labeled fields, BACK/NEXT/REVIEW)",
+    "buttonCount": 2,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "non-functional static visual replicas of large multi-step backend forms that cannot be migrated as functional EDS forms"
+    ],
+    "notSuitableFor": [
+      "functional EDS/Adaptive forms with real submission (use the form block)",
+      "short surveys (see wmy-survey)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/for-healthcare-professionals/treatment-form"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-20T00:00:00.000Z"
+  }
+}

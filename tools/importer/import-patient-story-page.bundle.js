@@ -80,18 +80,28 @@ var CustomImportScript = (() => {
       name: "columns (teaser)",
       cells: [cells]
     });
+    block.setAttribute("data-eds-section-break", "band");
     element.replaceWith(block);
   }
 
   // tools/importer/parsers/quote-patient.js
   function parse2(element, { document }) {
-    const img = [...element.querySelectorAll("img")].find((im) => (im.getAttribute("alt") || "").trim());
-    let photoCell = "";
+    const img = element.querySelector("img");
+    let mobileCell = "";
+    let desktopCell = "";
     if (img) {
-      const el = document.createElement("img");
-      el.setAttribute("src", img.getAttribute("src") || img.src || "");
-      el.setAttribute("alt", img.getAttribute("alt") || "");
-      photoCell = el;
+      const mobileSrc = img.getAttribute("src") || img.src || "";
+      const desktopSrc = mobileSrc.replace(/Bob_m\.png/i, "Bob.png");
+      const m = document.createElement("img");
+      m.setAttribute("src", mobileSrc);
+      m.setAttribute("alt", "Bob (mobile)");
+      mobileCell = m;
+      if (desktopSrc !== mobileSrc) {
+        const dImg = document.createElement("img");
+        dImg.setAttribute("src", desktopSrc);
+        dImg.setAttribute("alt", "Bob (desktop)");
+        desktopCell = dImg;
+      }
     }
     const paragraphs = [...element.querySelectorAll("p")].map((p) => p.textContent.trim()).filter((t) => t.length);
     const attributionText = paragraphs.find((t) => /^[—–-]/.test(t)) || [...element.querySelectorAll("h2, h3")].map((h) => h.textContent.trim()).find((t) => /^[—–-]/.test(t));
@@ -103,7 +113,8 @@ var CustomImportScript = (() => {
     const quotation = document.createElement("p");
     quotation.textContent = quotationText.replace(/^[“"]+/, "").replace(/[”"]+$/, "");
     const cells = [];
-    if (photoCell) cells.push([photoCell]);
+    if (mobileCell) cells.push([mobileCell]);
+    if (desktopCell) cells.push([desktopCell]);
     cells.push([quotation]);
     if (attributionText) {
       const attribution = document.createElement("p");
@@ -347,6 +358,12 @@ var CustomImportScript = (() => {
         ]
       }
     ],
+    // The intro region (.responsivegrid.patient-story-page) is split further into
+    // three source-faithful sub-sections during transform (see splitIntroSections):
+    // intro (H1 + ambassador image, carries the patient-story style), the
+    // full-bleed awareness band, and the Bob quote. Section style is therefore
+    // null here — the intro sub-section metadata is emitted by that step, not by
+    // the sections transformer.
     sections: [
       { id: "eps-intro", name: "Intro + awareness band + Bob quote", selector: ".responsivegrid.patient-story-page", style: null, blocks: ["columns-teaser", "quote-patient"], defaultContent: [] },
       { id: "eps-quicklinks", name: "Quicklink CTA cards", selector: ".responsivegrid.cmp-layout-quicklinks", style: null, blocks: ["cards-cta"], defaultContent: [] },
@@ -397,6 +414,23 @@ var CustomImportScript = (() => {
     console.log(`Found ${pageBlocks.length} block instances on page`);
     return pageBlocks;
   }
+  function splitIntroSections(main, document) {
+    const band = main.querySelector('[data-eds-section-break="band"]');
+    if (!band || !band.parentNode) return;
+    const parent = band.parentNode;
+    const introMeta = WebImporter.Blocks.createBlock(document, {
+      name: "Section Metadata",
+      cells: { style: "patient-story" }
+    });
+    parent.insertBefore(introMeta, band);
+    parent.insertBefore(document.createElement("hr"), band);
+    if (band.nextSibling) {
+      parent.insertBefore(document.createElement("hr"), band.nextSibling);
+    } else {
+      parent.appendChild(document.createElement("hr"));
+    }
+    band.removeAttribute("data-eds-section-break");
+  }
   var import_patient_story_page_default = {
     transform: (payload) => {
       const {
@@ -408,6 +442,15 @@ var CustomImportScript = (() => {
       const main = document.body;
       executeTransformers("beforeTransform", main, payload);
       main.querySelectorAll("#patientbannercontainer-mobile, #patientbannerbob-mob").forEach((el) => el.remove());
+      const desktopCrop = main.querySelector(".patient-story-page .aem-GridColumn--phone--hide img");
+      const mobileCrop = main.querySelector(".patient-story-page .aem-GridColumn--default--hide img");
+      if (desktopCrop && mobileCrop) {
+        const desktopWrap = desktopCrop.closest(".aem-GridColumn--phone--hide");
+        const mobileWrap = mobileCrop.closest(".aem-GridColumn--default--hide");
+        if (desktopWrap && mobileWrap && desktopWrap.parentNode) {
+          desktopWrap.parentNode.insertBefore(mobileWrap, desktopWrap);
+        }
+      }
       const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
       pageBlocks.forEach((block) => {
         if (!block.element.parentNode) return;
@@ -423,6 +466,7 @@ var CustomImportScript = (() => {
         }
       });
       executeTransformers("afterTransform", main, payload);
+      splitIntroSections(main, document);
       const hr = document.createElement("hr");
       main.appendChild(hr);
       WebImporter.rules.createMetadata(main, document);

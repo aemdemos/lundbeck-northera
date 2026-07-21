@@ -56,5 +56,9 @@ export default function parse(element, { document }) {
     name: 'columns (teaser)',
     cells: [cells],
   });
+  // Mark the band so the importer can split it into its own full-bleed section
+  // (the source renders this awareness band as a standalone edge-to-edge band,
+  // not inside the intro column). Consumed during import; not emitted to output.
+  block.setAttribute('data-eds-section-break', 'band');
   element.replaceWith(block);
 }
