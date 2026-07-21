@@ -119,6 +119,15 @@ function getOrCreateBar() {
   inner.className = 'isi-bar-inner';
   bar.append(inner);
   document.body.append(bar);
+
+  // Source parity: the "Use" description peek only shows at the top of the
+  // page; once the user scrolls it collapses to just the "USE" label row.
+  const syncScrolled = () => {
+    bar.classList.toggle('isi-bar-scrolled', window.scrollY > 0);
+  };
+  syncScrolled();
+  window.addEventListener('scroll', syncScrolled, { passive: true });
+
   return bar;
 }
 

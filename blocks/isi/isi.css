@@ -305,10 +305,19 @@ main .isi a:hover {
 }
 
 /* collapsed peek of the "Use" description text under its header (source: an
-   ~80px overflow-hidden teaser of the body copy) */
+   ~80px overflow-hidden teaser of the body copy). Source parity: the peek is
+   only shown at the top of the page — once the user scrolls it slides away,
+   leaving just the "USE" label row. */
 .isi-bar-peek-use {
   max-height: 80px;
   margin-bottom: 20px;
+  overflow: hidden;
+  transition: max-height 0.4s ease, margin-bottom 0.4s ease;
+}
+
+.isi-bar-scrolled .isi-bar-peek-use {
+  max-height: 0;
+  margin-bottom: 0;
 }
 
 .isi-bar-peek-use p {
@@ -320,16 +329,20 @@ main .isi a:hover {
 }
 
 
-/* expandable full panel (hidden until section.open) */
+/* expandable full panel — collapsed by default, animates open via max-height
+   (source: jQuery slideDown/slideUp height animation) */
 .isi-bar-panel {
-  display: none;
-  padding: 0 25px 25px;
-  overflow-y: auto;
-  max-height: calc(40vh - 50px);
+  display: block;
+  padding: 0 25px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease;
 }
 
 .isi-bar-section.open .isi-bar-panel {
-  display: block;
+  padding: 0 25px 25px;
+  overflow-y: auto;
+  max-height: calc(40vh - 50px);
 }
 
 .isi-bar-expanded .isi-bar-section {
