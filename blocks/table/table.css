@@ -125,57 +125,8 @@
   border: var(--table-row-border-width) solid var(--table-border-color); /* @libs */
 }
 
-/* ══════════════════════════════════════════════════════════════
-   table-compare — insurance-comparison table (Medicare vs Commercial).
-   Full teal-blue gradient header bar with WHITE bold centered headers;
-   thin grey cell borders. Source: coverage-for-northera .cmp-text__table.
-   Mobile (default): 18px headers, 20px 13.6px cell padding.
-   ≥768px: 22px headers, two equal 50% columns.
-   ══════════════════════════════════════════════════════════════ */
-.table.block.table-compare table {
-  border: 1px solid #878787;
-  color: #333;
-}
-
-.table.block.table-compare table thead tr {
-  background-color: #176da0;
-  background-image: linear-gradient(90deg, #176da0 0%, #166fa1 50%, #194d78 100%);
-}
-
-.table.block.table-compare table th {
-  border: 1px solid #fff;
-  padding: 28px 13.6px 27px;
-  color: #fff;
-  font-family: var(--heading-font-family);
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1.2;
-  text-align: center;
-}
-
-.table.block.table-compare table td {
-  border: 1px solid #878787;
-  padding: 20px 13.6px;
-  color: #333;
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  line-height: 20px;
-  text-align: left;
-}
-
 @media (width >= 768px) { /* @libs */
   .table.block table td { /* @libs */
     padding: var(--table-cell-padding-block-desktop) var(--table-cell-padding-inline); /* @libs */
-  }
-
-  .table.block.table-compare table th {
-    padding: 25px 10px;
-    font-size: 22px;
-    width: 50%;
-  }
-
-  .table.block.table-compare table td {
-    padding: 10px 60px 0;
-    width: 50%;
   }
 }

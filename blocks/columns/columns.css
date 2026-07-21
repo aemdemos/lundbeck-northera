@@ -176,40 +176,6 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
    its own flex-direction here to match the source. */
 
 /* ══════════════════════════════════════════════════════════════
-   columns-contact — two side-by-side contact blocks (Online / Phone), each an
-   icon above a bold label + a cyan link. Borderless/transparent.
-   Source: coverage-for-northera .cmp-layout__two__imagetext teasers.
-   Mobile (default): stacked, centered. ≥768px: two 50% columns side-by-side.
-   ══════════════════════════════════════════════════════════════ */
-main .columns.contact > div > div {
-  text-align: center;
-}
-
-main .columns.contact img {
-  width: 122px;
-  height: auto;
-}
-
-main .columns.contact p {
-  text-align: center;
-}
-
-main .columns.contact b,
-main .columns.contact strong {
-  color: #58595b;
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
-}
-
-main .columns.contact a {
-  color: var(--brand-cyan);
-  font-size: 18px;
-  text-decoration: none;
-}
-
-/* ══════════════════════════════════════════════════════════════
    columns-teaser — dark-blue "awareness" band: 2 icon+heading+text teaser
    columns, white text on brand-blue. Source: every-patient-story-matters
    #patientbannertext. Mobile-first stacked, centered; ≥768px two columns.
@@ -265,6 +231,60 @@ main .columns.teaser p {
   margin: 0 0 10px;
 }
 
+/* ══════════════════════════════════════════════════════════════
+   stacked — insurance-comparison layout (Medicare vs Commercial), rebuilt
+   from the source comparison table as a 2-cell columns block. Each cell is
+   one comparison column: a full-width teal-blue gradient header bar with a
+   white bold centered title, followed by grey-bordered item rows.
+   Mobile (default): the two columns stack (Medicare block, then Commercial
+   block) — each header bar spans full width. ≥768px: two equal 50% columns
+   side-by-side with a shared header row.
+   Source: coverage-for-northera .cmp-text__table (same palette as the former
+   table-compare variant): header gradient #176da0→#166fa1→#194d78, header
+   text #fff Gotham-Bold, cell text #333, borders #878787.
+   ══════════════════════════════════════════════════════════════ */
+  main .columns.stacked > div {
+    margin-bottom: 30px;
+  }
+
+  main > .section:has(.columns.stacked)  > div > p:last-of-type {
+    padding-bottom: 50px;
+   border-bottom: 1px solid var(--columns-stacks-border-color);
+   margin-bottom: 0;
+  }
+
+  main .columns.stacked > div > div {
+  border: 1px solid var(--columns-stacks-border-color);
+  border-top: 0;
+  padding: 0;
+}
+
+/* header bar = the first child (a heading) of each cell */
+main .columns.stacked > div > div > :first-child {
+  margin: 0;
+  background-color: #176da0;
+  background-image: linear-gradient(90deg, #176da0 0%, #166fa1 50%, #194d78 100%);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  padding: 28px 13.6px 27px;
+}
+
+/* item rows = the paragraphs after the header */
+main .columns.stacked > div > div > p:not(:first-child) {
+  margin: 0;
+  border-top: 1px solid #878787;
+  color: var(--columns-stacks-text-color);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  text-align: left;
+  padding: 20px 13.6px;
+}
+
 /* teaser (awareness band) desktop — source breakpoint is min-width:769px
    (i.e. > 768px, NOT >= 768). Within each item the icon (115px) sits left with
    a 24px gap; heading + description stack to its right, left-aligned. Source
@@ -316,6 +336,10 @@ main .columns.teaser p {
     text-align: left;
     margin: 0;
   }
+
+  main .columns.stacked > div > div:last-child {
+    margin-bottom: 0;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -352,10 +376,6 @@ main .columns.supine p {
     main > .section:first-of-type:has(.columns.icon-text) {
     margin: 0;
     padding: 0;
-  }
-
-  main .columns.contact > div > div {
-    flex: 1;
   }
 
   /* supine: icon-left + caption-right per item, vertical divider between */
@@ -479,5 +499,34 @@ main .columns.supine p {
 
   main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) {
     text-align: left;
+  }
+
+  /* stacked: two equal 50% columns side-by-side, equal height, no gap so the
+     grey borders meet. Header bars align in a shared top row; 22px headers. */
+  main .columns.stacked > div {
+    align-items: stretch;
+    gap: 0;
+  }
+
+  main .columns.stacked > div > div {
+    flex: 1;
+    width: 50%;
+    border-left: 0;
+  }
+
+  main .columns.stacked > div > div:first-child {
+    border-left: 1px solid #878787;
+  }
+
+  main .columns.stacked > div > div > :first-child {
+    font-size: 22px;
+    padding: 25px 10px;
+  }
+
+  main .columns.stacked > div > div > p:not(:first-child) {
+    padding: 10px 60px;
+    text-align: left;
+    font-size:18px;
+    line-height: 30px;
   }
 }
