@@ -368,7 +368,9 @@ main .isi a:hover {
   max-height: none;
 }
 
-.isi-bar-expanded .isi-bar-panel {
+/* when expanded the open panel fills the viewport (source: full-screen overlay).
+   Scoped through .open so it out-specifies the collapsed .open 40vh cap above. */
+.isi-bar-expanded .isi-bar-section.open .isi-bar-panel {
   max-height: calc(100vh - 80px);
   max-height: calc(100dvh - 80px);
 }

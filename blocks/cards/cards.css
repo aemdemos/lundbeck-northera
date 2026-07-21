@@ -373,7 +373,6 @@ padding: 0;
     padding: var(--cards-resource-box-padding-desktop);
     box-sizing: border-box;
     min-width: 0;
-    height: 520px;
   }
 
   .cards.resource .cards-card-image {
@@ -446,11 +445,5 @@ padding: 0;
 @media (width > 1400px) {
   main > .section > div:has(.cards.resource) {
     padding: 0 12%;
-  }
-}
-
-@media (width > 1610px)  {
-  .cards.resource > ul > li {
-    height: 355px;
   }
 }
