@@ -37,6 +37,14 @@
   --columns-banner-daw-light-icon-width-desktop: 159px;
 }
 
+/* The global `main > .section:first-of-type > div` rules in styles.css inset the
+   first section's wrapper (0 25px mobile / 0 11% desktop). The DAW band is a
+   full-bleed blue banner, so zero out that wrapper padding here (the banner sets
+   its own internal padding). Specificity (3 classes) beats the global rule. */
+main > .section.columns-banner-container > .columns-banner-wrapper {
+  padding: 0;
+}
+
 /* Desktop DAW band padding — the base columns-banner.css sets `20px 0` at
    >=768px, but the source band keeps its side padding. `main` raises
    specificity above the base rule so this wins (tokens-only styling). */
