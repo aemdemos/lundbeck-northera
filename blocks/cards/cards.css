@@ -669,25 +669,35 @@ padding: 0;
 }
 
 /* ══════════════════════════════════════════════════════════════
-   "contact" variant — two side-by-side contact tiles (Online / Phone or
-   Call / Visit), each an icon above a bold label + a cyan link. Borderless,
-   transparent, centered. Ported from the former columns.contact variant.
-   Source: .cmp-layout__two__imagetext teasers (coverage-for-northera,
-   prescribing-northera). Mobile (default): stacked, centered.
-   ≥768px: two equal columns side-by-side.
+   "contact" variant — two contact tiles (Online / Phone, or Call / Visit),
+   each a centered icon-on-top above a 22px bold label + a 22px link.
+   Borderless/transparent tiles with a divider between them.
+   Source (verified against raw-css-corpus): #northeramedicare
+   .cmp-layout__two__imagetext teasers on coverage-for-northera and
+   prescribing-northera. Both pages share the #northeramedicare scope, so both
+   render identically:
+     - container padding 0 25px
+     - each card 50% wide, icon-on-top, centered text
+     - label (b/strong) 22px #58595b Gotham-Bold; link 22px, word-break
+     - 1st card: border-bottom 1px #969696 (stacked divider on mobile);
+       ≥768px it becomes the vertical column divider (border-right 1px #58595b)
+     - 2nd card padding-left 25px (≥768px) / 80px (≥1200px) / 0 (mobile)
+   Link colour #0188bf is the site's teaser link/description blue (no explicit
+   anchor colour in source; inherited from .cmp-teaser__description{color:#0188bf}).
    ══════════════════════════════════════════════════════════════ */
 .cards.contact > ul {
   display: flex;
   flex-direction: column;
   gap: 0;
   margin: 0;
-  padding: 0;
+  padding: 0 25px;
 }
 
 .cards.contact > ul > li {
   border: 0;
   background-color: transparent;
   text-align: center;
+  margin-bottom: 20px;
 }
 
 .cards.contact .cards-card-image {
@@ -699,6 +709,7 @@ padding: 0;
   object-fit: contain;
   width: 122px;
   height: auto;
+  margin: 0 auto;
 }
 
 .cards.contact .cards-card-body {
@@ -707,21 +718,34 @@ padding: 0;
 
 .cards.contact .cards-card-body p {
   text-align: center;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  margin: 0;
 }
 
 .cards.contact .cards-card-body b,
 .cards.contact .cards-card-body strong {
   color: #58595b;
-  font-family: var(--body-font-family);
-  font-size: 14px;
+  font-family: var(--heading-font-family);
+  font-size: 22px;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 1.2;
 }
 
 .cards.contact .cards-card-body a {
-  color: var(--brand-cyan);
-  font-size: 18px;
+  color: #0188bf;
+  font-size: 22px;
+  line-height: 30px;
   text-decoration: none;
+  word-break: break-word;
+}
+
+/* 1st card gets a bottom rule that separates the two stacked cards on mobile */
+.cards.contact > ul > li:first-child .cards-card-body {
+  border-bottom: 1px solid #969696;
+  padding-bottom: 20px;
 }
 
 @media (width >= 768px) {
@@ -732,5 +756,27 @@ padding: 0;
 
   .cards.contact > ul > li {
     flex: 1;
+    max-width: 50%;
+    margin-bottom: 0;
+  }
+
+  /* on desktop the divider is the vertical line between the two columns */
+  .cards.contact > ul > li:first-child {
+    border-right: 1px solid #58595b;
+  }
+
+  .cards.contact > ul > li:first-child .cards-card-body {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .cards.contact > ul > li:nth-child(2) {
+    padding-left: 25px;
+  }
+}
+
+@media (width >= 1200px) {
+  .cards.contact > ul > li:nth-child(2) {
+    padding-left: 80px;
   }
 }
