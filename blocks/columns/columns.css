@@ -243,8 +243,18 @@ main .columns.teaser p {
    table-compare variant): header gradient #176da0→#166fa1→#194d78, header
    text #fff Gotham-Bold, cell text #333, borders #878787.
    ══════════════════════════════════════════════════════════════ */
-main .columns.stacked > div > div {
-  border: 1px solid #878787;
+  main .columns.stacked > div {
+    margin-bottom: 30px;
+  }
+
+  main > .section:has(.columns.stacked)  > div > p:last-of-type {
+    padding-bottom: 50px;
+   border-bottom: 1px solid var(--columns-stacks-border-color);
+   margin-bottom: 0;
+  }
+
+  main .columns.stacked > div > div {
+  border: 1px solid var(--columns-stacks-border-color);
   border-top: 0;
   padding: 0;
 }
@@ -267,9 +277,9 @@ main .columns.stacked > div > div > :first-child {
 main .columns.stacked > div > div > p:not(:first-child) {
   margin: 0;
   border-top: 1px solid #878787;
-  color: #333;
+  color: var(--columns-stacks-text-color);
   font-family: var(--body-font-family);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 20px;
   text-align: left;
   padding: 20px 13.6px;
@@ -325,6 +335,10 @@ main .columns.stacked > div > div > p:not(:first-child) {
     line-height: 22px;
     text-align: left;
     margin: 0;
+  }
+
+  main .columns.stacked > div > div:last-child {
+    margin-bottom: 0;
   }
 }
 
@@ -511,6 +525,8 @@ main .columns.supine p {
 
   main .columns.stacked > div > div > p:not(:first-child) {
     padding: 10px 60px;
-    text-align: center;
+    text-align: left;
+    font-size:18px;
+    line-height: 30px;
   }
 }
