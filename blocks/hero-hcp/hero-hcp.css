@@ -76,10 +76,7 @@ main .section:has(.hero-hcp) {
 @media (width >= 992px) {
   .hero-hcp {
     position: relative;
-    width: min(100vw, 1200px);
-    max-width: min(100vw, 1200px);
-    margin-left: 50%;
-    transform: translateX(-50%);
+    width: 100%;
     aspect-ratio: var(--hero-hcp-ratio-desktop);
     background-image: var(--hero-hcp-bg-desktop);
     background-size: cover;

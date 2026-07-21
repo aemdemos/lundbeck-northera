@@ -3,8 +3,8 @@
   --columns-banner-gap: 32px;
 
   /* daw variant (HCP landing "Dispense as written" callout): blue banner with
-     Rx icon + white heading/text. */
-  --columns-banner-daw-bg: #0188bf;
+     Rx icon + white heading/text. Background-color is set on the section in the
+     document (data-background-color). */
   --columns-banner-daw-heading-color: #fff;
   --columns-banner-daw-heading-font-family: var(--heading-font-family);
   --columns-banner-daw-heading-size: 20px;

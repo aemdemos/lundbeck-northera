@@ -24,8 +24,8 @@ main .section:has(.columns-banner.daw) {
   padding: 0;
 }
 
+/* background-color is set on the section in the document (data-background-color) */
 .columns-banner.daw {
-  background-color: var(--columns-banner-daw-bg);
   padding: 10px 15px 20px;
 }
 

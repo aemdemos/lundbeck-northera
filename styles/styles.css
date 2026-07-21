@@ -646,7 +646,7 @@ main > .section > div { /* @libs */
    inset 15px on phones; full-bleed wrappers (bg images, ISI, embeds, CTA cards,
    columns-banner) manage their own spacing and are excluded so images/bands
    still go edge-to-edge. Desktop applies the ~11% gutter (see ≥900px block). */
-main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
+main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp), :has(.columns-quote)) {
   padding: 0 15px;
 }
 
@@ -845,28 +845,6 @@ main .section.daw-blue > div {
   padding: 0;
 }
 
-/* section metadata - quote-grey (HCP landing physician/patient quotes). Source
-   .cmp-layout__searchresult: the light-grey band #f3f5f8 hugs the quote-grid
-   only — a white gap sits above it and the footnote below it stays on white.
-   So the grey paints on the grid (keyed off this section style), NOT the whole
-   section; the section just supplies the ~16px white gap above the grid. */
-main .section.quote-grey {
-  margin: 0;
-  padding: 16px 0 0;
-}
-
-main .section.quote-grey .quote-grid {
-  background-color: #f3f5f8;
-}
-
-/* The footnote (default content below the grid) is inset by the global
-   `main > .section > div` gutter (0 11%/15px). The source keeps it aligned to
-   the grid's left edge (15px), so match the grid gutter. Extra `div` type
-   selectors push this to (0,3,3) to beat the global (0,3,2) rule. */
-main > div.section.quote-grey > div.default-content-wrapper {
-  max-width: var(--max-width-site);
-  padding: 0 15px;
-}
 
 main .section.dark a { /* @libs */
   color: var(--background-color); /* @libs */
@@ -1196,7 +1174,7 @@ main .section.accent h6 {
     margin-bottom:0;
   }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp), :has(.columns-quote)) {
     padding: 0 11%;
   }
 
