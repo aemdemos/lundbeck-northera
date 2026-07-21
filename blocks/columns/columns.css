@@ -5,11 +5,15 @@ main > .section:first-of-type:has(.columns.icon-text) {
   padding: 0;
 }
 
-/* base override — scope to the columns + hero wrappers only, so a sibling
-   block in the same section (e.g. .cards-wrapper) keeps its own padding */
-main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper,
-main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
+/* base override — only the columns wrapper goes full-bleed (the cyan NSC band);
+   the hero H1 wrapper keeps normal flow so it can be inset like the source. A
+   sibling block in the same section (e.g. .cards-wrapper) keeps its own padding. */
+main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper {
   padding: 0;
+  margin: 0;
+}
+
+main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
   margin: 0;
 }
 
@@ -182,13 +186,16 @@ main .columns.stats-callout:has(img) > div > div:not(.columns-img-col) > p:first
     padding: 0;
   }
 
-   main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper,
-   main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
+   main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper {
     padding: 0;
     margin: 0;
   }
 
-  main > .section > div:has(.columns.icon-text) { 
+   main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
+    margin: 0;
+  }
+
+  main > .section > div:has(.columns.icon-text) {
     padding:0;
   }
 
