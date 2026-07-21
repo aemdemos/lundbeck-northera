@@ -213,6 +213,9 @@ export default function decorate(block) {
   // Deep-link support: opening the page with a matching hash (e.g. #howiuse)
   // opens that video, matching the source's deep-linkable behavior.
   const openFromHash = () => {
+    // hash is only a Map lookup key; the opened href (entry.href) is already
+    // validated to an http(s) brightcove.net URL by getSafeVideoHref.
+    // eslint-disable-next-line browser-security/no-insecure-redirects
     const hash = window.location.hash.replace('#', '');
     if (!hash) return;
     const entry = videoEntries.get(hash);

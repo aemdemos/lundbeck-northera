@@ -138,7 +138,8 @@ main > .section > div:has(.cards-cta) {
 }
 
 @media (width > 992px) {
- .cards-cta .cards-card-body {
+ .cards-cta .cards-card-body,
+ .cards-cta.centered .cards-card-body {
   padding: 0 17% 0 116px;
  }
 }
@@ -153,12 +154,14 @@ main > .section > div:has(.cards-cta) {
    18px/30px.
    ══════════════════════════════════════════════════════════════ */
 .cards-cta.centered .cards-card-body {
-  align-items: center;
-  text-align: center;
-  margin: 0;
-  padding: 0 25px;
+  align-items: stretch;
+  text-align: left;
+  margin: 0 15px;
+  padding: 0;
 }
 
+/* source: heading is centered across the banner while the description and CTA
+   stay left-aligned (asymmetric quicklinks callout). */
 .cards-cta.centered .cards-card-body h2,
 .cards-cta.centered .cards-card-body h3,
 .cards-cta.centered .cards-card-body h4 {
@@ -171,10 +174,16 @@ main > .section > div:has(.cards-cta) {
 }
 
 .cards-cta.centered .cards-card-body p {
-  text-align: center;
+  text-align: left;
   font-size: var(--cards-cta-centered-desc-size);
   line-height: var(--cards-cta-centered-desc-line-height);
   padding-bottom: 20px;
+}
+
+/* source: the CTA button is centered across the banner (like the heading),
+   while the description paragraph stays left-aligned. */
+.cards-cta.centered .cards-card-body p:has(a) {
+  text-align: center;
 }
 
 /* auto-width centered CTA (source button hugs its label: padding 20px 55px) */
@@ -185,19 +194,13 @@ main > .section > div:has(.cards-cta) {
 }
 
 @media (width > 768px) {
-  /* keep the centered body centered — override the base left-aligned padding */
   .cards-cta.centered .cards-card-body {
-    padding: 0 25px;
+    margin: 0;
+    padding: 0 17% 0 25px;
   }
 
   .cards-cta.centered .cards-card-body a {
     width: auto;
-  }
-}
-
-@media (width > 768px) {
-  .cards-cta.centered .cards-card-body {
-    padding: 0 25px;
   }
 
   .cards-cta.centered .cards-card-body h2,
