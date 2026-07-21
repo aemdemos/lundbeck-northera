@@ -32,9 +32,11 @@
   --hero-hcp-body-size-desktop: 16px;
   --hero-hcp-body-line-height-desktop: 24px;
 
-  /* desktop banner width — source hero is a 1200px content-column banner (NOT
-     full-bleed): 1200px wide at >=1200 viewports, shrinking to 100vw below. */
-  --hero-hcp-width-desktop: min(100vw, 1200px);
+  /* desktop banner width — fill the content-column wrapper (same width the DAW
+     banner + quotes use, capped at --max-width-site), so all three bands align.
+     NOT a self-centered min(100vw,1200px) — that made the hero narrower than and
+     offset from the DAW above it. */
+  --hero-hcp-width-desktop: 100%;
 
   /* fixed banner height so the width doesn't inflate the height via the base
      .css aspect-ratio (source banner is ~380px tall) */
@@ -46,22 +48,36 @@
   --hero-hcp-content-max-width-desktop: 66%;
 }
 
+/* The global `main > .section > div:not(…, :has(.columns.teaser))` rule insets
+   each section wrapper (0 11% desktop). Its `:not()` list's widest argument is
+   2 classes, so the global rule is (0,3,2). The hero is a full-bleed banner that
+   must fill the content column and left-align with the DAW band above it, so
+   zero that wrapper padding — the extra `div` type selectors push this to
+   (0,3,3) to beat the global rule (the daw wrapper instead escapes it by
+   matching `:has(.columns-banner)` in the `:not()` list). */
+main > div.section.hero-hcp-container > div.hero-hcp-wrapper {
+  padding: 0;
+}
+
 /* desktop indication size/line-height — the base hero-hcp.css desktop `p` rule
    only overrides color, so bump size/leading here (tokens-only styling).
    `main` keeps this above the base rule that the @import loads first. */
-@media (width >= 768px) {
+@media (width >= 992px) {
   main .hero-hcp p {
     font-size: var(--hero-hcp-body-size-desktop);
     line-height: var(--hero-hcp-body-line-height-desktop);
   }
 
-  /* 1200px content-column banner (source width). Drop the base aspect-ratio and
-     pin a fixed height so the banner stays ~380px regardless of width. The base
-     .css centers via margin-left:50%/translateX(-50%), which is correct for the
-     centered EDS content column. */
+  /* Fill the content-column wrapper (100%), aligned with the DAW + quote bands.
+     Drop the base aspect-ratio and pin a fixed height so the banner stays ~380px
+     regardless of width. Neutralize the base .css self-centering
+     (margin-left:50%/translateX(-50%)) — not needed when the block fills its
+     already-centered wrapper, and it was causing the horizontal offset. */
   main .section .hero-hcp {
     width: var(--hero-hcp-width-desktop);
     max-width: var(--hero-hcp-width-desktop);
+    margin-left: 0;
+    transform: none;
     aspect-ratio: auto;
     height: var(--hero-hcp-height-desktop);
   }

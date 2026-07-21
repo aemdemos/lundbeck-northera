@@ -71,8 +71,9 @@ main .section:has(.hero-hcp) {
 }
 
 /* desktop: hide the inline image banner; use the flamingo background with the
-   text overlaid on the lower-left in white. */
-@media (width >= 768px) {
+   text overlaid on the lower-left in white. Source switches to this layout at
+   the lg breakpoint (992px); below that it stays the stacked mobile card. */
+@media (width >= 992px) {
   .hero-hcp {
     position: relative;
     width: min(100vw, 1200px);

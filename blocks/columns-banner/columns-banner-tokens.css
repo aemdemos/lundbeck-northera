@@ -45,10 +45,10 @@ main > .section.columns-banner-container > .columns-banner-wrapper {
   padding: 0;
 }
 
-/* Desktop DAW band padding — the base columns-banner.css sets `20px 0` at
-   >=768px, but the source band keeps its side padding. `main` raises
-   specificity above the base rule so this wins (tokens-only styling). */
-@media (width >= 768px) {
+/* Desktop DAW band padding (source side padding) — applied at the lg
+   breakpoint (992px), matching where the source DAW goes side-by-side. Below
+   992 the block keeps its mobile padding (10px 15px 20px). */
+@media (width >= 992px) {
   main .section .columns-banner.daw {
     padding: var(--columns-banner-daw-padding-desktop);
   }

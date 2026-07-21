@@ -51,7 +51,9 @@
   margin-top: -1px;
 }
 
-@media (width >= 768px) {
+/* Source keeps the quotes stacked (1 col) until the lg breakpoint (992px),
+   then lays them 3-up. */
+@media (width >= 992px) {
   .quote-grid ul {
     grid-template-columns: repeat(3, 1fr);
   }

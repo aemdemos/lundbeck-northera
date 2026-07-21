@@ -1,8 +1,21 @@
 /* quote-grid design tokens — HCP landing physician/patient quote cards.
-   Brand-blue Gotham-Bold quotation + grey Gotham-Medium attribution. */
+   Brand-blue Gotham-Bold quotation + grey Gotham-Medium attribution.
+   The light-grey band behind the grid is applied at the section level via the
+   `quote-grey` section-metadata style (styles.css), not on the block itself. */
+
+/* The global `main > .section > div:not(…, :has(.columns.teaser))` rule insets
+   each section wrapper (0 11% desktop, = (0,3,2) specificity). The source lays
+   the quote cards across nearly the full content column (~15px gutter), so zero
+   that wrapper padding here — the extra `div` type selectors push this to
+   (0,3,3) to beat the global rule. The grey band is applied at the section
+   level via the `quote-grey` style, so the cards fill the same column. The
+   source keeps a ~15px gutter each side (row is left:135/width:1370 within the
+   1400 content column), so match that rather than going fully edge-to-edge. */
+main > div.section.quote-grid-container > div.quote-grid-wrapper {
+  padding: 0 15px;
+}
+
 .quote-grid {
-  /* source .cmp-layout__searchresult container background */
-  --quote-grid-bg: #f3f5f8;
   --quote-grid-border-color: #eeeee4;
   --quote-grid-quotation-color: var(--brand-blue);
   --quote-grid-quotation-font-family: var(--heading-font-family);
@@ -16,7 +29,4 @@
   --quote-grid-footnote-font-family: var(--body-font-family);
   --quote-grid-footnote-size: 18px;
   --quote-grid-footnote-line-height: 22px;
-
-  /* light-grey container background (source .cmp-layout__searchresult) */
-  background-color: var(--quote-grid-bg);
 }

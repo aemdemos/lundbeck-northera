@@ -42,7 +42,10 @@ main .section:has(.columns-banner.daw) {
   padding: 10px 15px 20px;
 }
 
+/* daw stays stacked (icon above text) until the lg breakpoint (992px), even
+   though the generic columns-banner goes side-by-side at 900px */
 .columns-banner.daw > div {
+  flex-direction: column;
   align-items: center;
   gap: 20px;
 }
@@ -115,16 +118,19 @@ main .section:has(.columns-banner.daw-light) {
   text-align: left;
 }
 
-@media (width >= 768px) {
-  .columns-banner.daw {
-    padding: 20px 0;
+/* daw goes side-by-side (icon left, text right) at the lg breakpoint (992px) */
+@media (width >= 992px) {
+  .columns-banner.daw > div {
+    flex-direction: row;
   }
 
   .columns-banner.daw h4 {
     font-size: var(--columns-banner-daw-heading-size-desktop);
     line-height: var(--columns-banner-daw-heading-line-height-desktop);
   }
+}
 
+@media (width >= 768px) {
   .columns-banner.daw-light {
     padding: 10px 109px 10px 104px;
   }
