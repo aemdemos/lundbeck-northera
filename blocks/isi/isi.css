@@ -207,7 +207,7 @@ main .isi a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 20px 25px;
+  padding: 16px 25px;
   cursor: pointer;
   font-family: var(--isi-heading-font);
 }
@@ -282,12 +282,14 @@ main .isi a:hover {
   opacity: 0;
 }
 
-/* collapsed peek of the warning box under the Important Safety header */
+/* collapsed peek of the warning box under the Important Safety header.
+   Source parity: the bottom margin is small so the collapsed bar stays compact
+   (~319px) and doesn't ride up over the content section above it. */
 .isi-bar-peek {
   padding: 0 25px;
   max-height: 90px;
   overflow: hidden;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .isi-bar-peek .isi-warningbox {
