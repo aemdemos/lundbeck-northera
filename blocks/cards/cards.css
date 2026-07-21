@@ -300,7 +300,7 @@ padding: 0;
   justify-content: center;
   gap: 8px;
   box-sizing: border-box;
-  width: auto;
+  width: 100%;
   background-color: var(--cards-resource-cta-background);
   color: var(--cards-resource-cta-color);
   font-family: var(--cards-resource-cta-font-family);
@@ -308,13 +308,13 @@ padding: 0;
   line-height: var(--button-line-height, 1.2);
   padding: var(--cards-resource-cta-padding);
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
   border: 0;
   border-radius: 0;
   box-shadow: var(--cards-resource-cta-shadow);
   text-decoration: none;
   transition: box-shadow var(--button-transition, 0.2s ease-in-out);
-  height: 50px;
+  min-height: 50px;
   max-width: 385px;
 }
 
@@ -342,10 +342,14 @@ padding: 0;
   background: var(--cards-resource-cta-icon-hover-url) no-repeat center / 100%;
 }
 
-/* Tablet (768–991px): 2-up grid, but each card keeps the mobile stacked layout
-   (thumbnail centered on top, text below, CTA at the bottom) — matching the
-   source, which never uses an image-left row until desktop. Thumbnail shrinks
-   to 75px to match the source's tablet sizing. */
+/* Tablet+ (≥768px): 2-up grid. Within each card the thumbnail sits left and
+   title/desc to the right, with the CTA spanning the full width at the bottom —
+   matching the source (image float:left, heading/desc wrap beside it). The card
+   is a grid with a thumbnail column and a text column across two content rows,
+   and a third row (1fr) that grows so the CTA pins to the bottom. The body is
+   display:contents so its children (h3, description, CTA) become grid items
+   directly. The thumbnail is 75px in the tablet range (source sizing) and grows
+   to 138px at desktop. */
 @media (width >= 768px) {
       main > .section:has(.cards.resource) {
    padding: 0;
@@ -362,43 +366,8 @@ padding: 0;
   }
 
   .cards.resource > ul > li {
-    min-width: 0;
-  }
-
-  .cards.resource > ul > li img {
-    width: var(--cards-resource-thumb-width-tablet);
-  }
-}
-
-/* Desktop (≥992px): within each card the thumbnail sits left (138px) and the
-   title/description/CTA to the right. The card is a grid with a thumbnail
-   column and a text column across two content rows, and a third row (1fr) that
-   grows so the CTA pins to the bottom — matching the source's flex-column
-   space-between. The body is display:contents so its children (h3, description,
-   CTA) become grid items directly. */
-@media (width >= 992px) {
-  .cards.cards-2-cols > ul {
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
-  }
-
-  .cards.cards-3-cols > ul {
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-  }
-
-  /* 200%/300% resolves against the 50%/33% grid cell to match the 4-column card width */
-  .cards.cards-2-cols > ul > li {
-    width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
-  }
-
-  .cards.cards-3-cols > ul > li {
-    width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
-  }
-
-  .cards.resource > ul > li {
     display: grid;
-    grid-template-columns: var(--cards-resource-thumb-width) minmax(0, 1fr);
+    grid-template-columns: var(--cards-resource-thumb-width-tablet) minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
     column-gap: var(--cards-resource-img-text-gap);
     padding: var(--cards-resource-box-padding-desktop);
@@ -445,6 +414,32 @@ padding: 0;
     align-self: end;
     margin-top: 0;
     padding-top: 25px;
+  }
+}
+
+/* Desktop (≥992px): the thumbnail grows to its full 138px width. */
+@media (width >= 992px) {
+  .cards.cards-2-cols > ul {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+
+  .cards.cards-3-cols > ul {
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+  }
+
+  /* 200%/300% resolves against the 50%/33% grid cell to match the 4-column card width */
+  .cards.cards-2-cols > ul > li {
+    width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
+  }
+
+  .cards.cards-3-cols > ul > li {
+    width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
+  }
+
+  .cards.resource > ul > li {
+    grid-template-columns: var(--cards-resource-thumb-width) minmax(0, 1fr);
   }
 }
 
