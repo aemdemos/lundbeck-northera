@@ -40,7 +40,10 @@
   --cards-resource-cta-padding-x: 30px;
   --cards-resource-cta-shadow: var(--button-shadow);
   --cards-resource-cta-hover-shadow: var(--button-hover-shadow);
+  --cards-resource-cta-hover-background: var(--brand-cyan-shadow);
+  --cards-resource-cta-hover-color: #fff;
   --cards-resource-cta-icon-url: url("/icons/download.png");
+  --cards-resource-cta-icon-hover-url: url("/icons/download-hover.png");
   --cards-resource-cta-icon-width: 36px;
   --cards-resource-cta-icon-height: 30px;
   

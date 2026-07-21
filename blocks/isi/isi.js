@@ -184,6 +184,18 @@ function addBarSection(bar, variant, label, fullRow) {
     }
   }
 
+  // collapsed peek: the "Use" section shows the start of its description text
+  // peeking below the header (source parity: ~80px overflow-hidden teaser)
+  if (variant === 'use') {
+    const firstPara = panel.querySelector('p');
+    if (firstPara) {
+      const peek = document.createElement('div');
+      peek.className = 'isi-bar-peek isi-bar-peek-use';
+      peek.append(firstPara.cloneNode(true));
+      header.after(peek);
+    }
+  }
+
   const setOpen = (open) => {
     section.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));

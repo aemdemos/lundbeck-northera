@@ -304,6 +304,21 @@ main .isi a:hover {
   margin: 0;
 }
 
+/* collapsed peek of the "Use" description text under its header (source: an
+   ~80px overflow-hidden teaser of the body copy) */
+.isi-bar-peek-use {
+  max-height: 80px;
+  margin-bottom: 20px;
+}
+
+.isi-bar-peek-use p {
+  font-family: var(--isi-body-font);
+  font-size: var(--isi-body-font-size);
+  line-height: var(--isi-body-line-height);
+  color: var(--isi-body-color);
+  margin: 0;
+}
+
 
 /* expandable full panel (hidden until section.open) */
 .isi-bar-panel {

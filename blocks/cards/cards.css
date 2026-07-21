@@ -327,10 +327,19 @@ padding: 0;
   background: var(--cards-resource-cta-icon-url) no-repeat center / 100%;
 }
 
+/* Source hover: bg flips to dark blue (#19527f), text to white, the stacked
+   shadow flips to cyan, and the download icon swaps to its white variant. */
 .cards.resource .cards-card-body a:hover,
 .cards.resource .cards-card-body a:focus {
+  background-color: var(--cards-resource-cta-hover-background);
+  color: var(--cards-resource-cta-hover-color);
   box-shadow: var(--cards-resource-cta-hover-shadow);
   text-decoration: none;
+}
+
+.cards.resource .cards-card-body a:hover::before,
+.cards.resource .cards-card-body a:focus::before {
+  background: var(--cards-resource-cta-icon-hover-url) no-repeat center / 100%;
 }
 
 @media (width >= 768px) {
