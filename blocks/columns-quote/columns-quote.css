@@ -1,0 +1,68 @@
+@import url('./columns-quote-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   columns-quote — physician/patient quote cards (HCP landing).
+   Brand-blue Gotham-Bold quotation + grey attribution. Each card has a
+   1px light border with flush layout (borders touch between cards).
+   1 column on mobile, side-by-side at ≥768px. The section background is
+   set on the document (data-background-color).
+   ══════════════════════════════════════════════════════════════ */
+
+/* white gap above the grey quote band (margin sits outside the section bg),
+   separating it from the hero above — matching the source. */
+main .section:has(.columns-quote) {
+  margin-top: 15px;
+}
+
+/* the grey band spans nearly the full content width (source: ~15px edge
+   gutter); the wrapper is full-bleed, so the block carries that inset itself. */
+.columns-quote {
+  padding: 0 var(--columns-quote-band-inset);
+}
+
+.columns-quote > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.columns-quote > div > div {
+  padding: 0 var(--columns-quote-card-pad);
+  border: 1px solid var(--columns-quote-border-color);
+}
+
+/* collapse touching borders between stacked cards into a single line */
+.columns-quote > div > div + div {
+  margin-top: -1px;
+}
+
+.columns-quote .columns-quote-quotation {
+  margin: 20px 0;
+  color: var(--columns-quote-quotation-color);
+  font-family: var(--columns-quote-quotation-font-family);
+  font-size: var(--columns-quote-quotation-size);
+  line-height: var(--columns-quote-quotation-line-height);
+}
+
+.columns-quote .columns-quote-attribution {
+  margin: 0 0 20px;
+  color: var(--columns-quote-attribution-color);
+  font-family: var(--columns-quote-attribution-font-family);
+  font-size: var(--columns-quote-attribution-size);
+  line-height: var(--columns-quote-attribution-line-height);
+}
+
+@media (width >= 768px) {
+  .columns-quote > div {
+    flex-direction: row;
+  }
+
+  .columns-quote > div > div {
+    flex: 1;
+  }
+
+  /* horizontal row: collapse the vertical borders between columns instead */
+  .columns-quote > div > div + div {
+    margin-top: 0;
+    margin-left: -1px;
+  }
+}
