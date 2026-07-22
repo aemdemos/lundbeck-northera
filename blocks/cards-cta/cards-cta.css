@@ -138,9 +138,14 @@ main > .section > div:has(.cards-cta) {
     column-gap: 0;
   }
 
+ .cards-cta > ul > li:first-child .cards-card-body {
+    margin:0;
+    padding: 0 25px 0 17%;
+  }
+
   .cards-cta .cards-card-body {
     margin:0;
-    padding: 0 17% 0 148px;
+    padding:0 17% 0 25px;
   }
 
   .cards-cta .cards-card-body h3 {
@@ -153,8 +158,12 @@ main > .section > div:has(.cards-cta) {
 }
 
 @media (width > 992px) {
+  .cards-cta > ul > li:first-child .cards-card-body {
+     padding: 0 100px 0 22%;
+  }
+
  .cards-cta .cards-card-body {
-  padding: 0 17% 0 148px;
+  padding: 0 22% 0 100px;
  }
 }
 
@@ -197,18 +206,13 @@ main > .section > div:has(.cards-cta) {
   padding: var(--cards-cta-centered-button-padding);
 }
 
+
 @media (width > 768px) {
   /* keep the centered body centered — override the base left-aligned padding */
-  .cards-cta.centered .cards-card-body {
-    padding: 0 25px;
-  }
-
   .cards-cta.centered .cards-card-body a {
     width: auto;
   }
-}
 
-@media (width > 768px) {
   .cards-cta.centered .cards-card-body {
     padding: 0 25px;
   }
