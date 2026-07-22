@@ -831,6 +831,21 @@ main .section.noh-symptoms p {
   text-align: center;
 }
 
+/* section metadata - daw-blue (HCP landing "Dispense as written" callout:
+   full-bleed brand-blue band #0188bf; the columns-banner.daw block supplies
+   the icon + white heading/text and its own inner padding) */
+main .section.daw-blue {
+  background-color: #0188bf;
+  margin: 0;
+  padding: 0;
+}
+
+main .section.daw-blue > div {
+  max-width: none;
+  padding: 0;
+}
+
+
 main .section.dark a { /* @libs */
   color: var(--background-color); /* @libs */
 }

@@ -13,12 +13,20 @@ main .section:has(.hero-hcp) {
   padding: 0;
 }
 
-/* mobile image (banner behind the card) */
-.hero-hcp .hero-hcp-image picture,
+/* mobile image (banner behind the card). The source art is low-res (360×251);
+   letting it scale to full width makes it a tall blurry block. Cap it as a
+   short banner strip and crop with object-fit so it reads like the source — a
+   thin sky band with the white card overlapping it. */
 .hero-hcp .hero-hcp-image img {
   display: block;
   width: 100%;
-  height: auto;
+  height: var(--hero-hcp-image-height-mobile);
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-hcp .hero-hcp-image picture {
+  display: block;
 }
 
 /* mobile white text card, pulled up over the image so the flamingo peeks out
@@ -70,15 +78,13 @@ main .section:has(.hero-hcp) {
   font-size: 0.7em;
 }
 
-/* desktop: hide the inline image banner; use the flamingo background with the
-   text overlaid on the lower-left in white. */
+/* desktop/tablet: hide the inline image banner; use the flamingo background
+   with the text overlaid on the lower-left in white. Source switches to this
+   layout at 768px; below that it stays the stacked mobile card. */
 @media (width >= 768px) {
   .hero-hcp {
     position: relative;
-    width: min(100vw, 1200px);
-    max-width: min(100vw, 1200px);
-    margin-left: 50%;
-    transform: translateX(-50%);
+    width: 100%;
     aspect-ratio: var(--hero-hcp-ratio-desktop);
     background-image: var(--hero-hcp-bg-desktop);
     background-size: cover;
@@ -108,15 +114,18 @@ main .section:has(.hero-hcp) {
     font-family: var(--hero-hcp-title-font-family-desktop);
     font-size: var(--hero-hcp-title-size-desktop);
     line-height: var(--hero-hcp-title-line-height-desktop);
+    text-shadow: var(--hero-hcp-text-shadow-desktop);
   }
 
   .hero-hcp h5 {
     color: var(--hero-hcp-subhead-color-desktop);
     font-size: var(--hero-hcp-subhead-size-desktop);
     line-height: var(--hero-hcp-subhead-line-height-desktop);
+    text-shadow: var(--hero-hcp-text-shadow-desktop);
   }
 
   .hero-hcp p {
     color: var(--hero-hcp-body-color-desktop);
+    text-shadow: var(--hero-hcp-text-shadow-desktop);
   }
 }

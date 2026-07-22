@@ -3,8 +3,8 @@
   --columns-banner-gap: 32px;
 
   /* daw variant (HCP landing "Dispense as written" callout): blue banner with
-     Rx icon + white heading/text. */
-  --columns-banner-daw-bg: #0188bf;
+     Rx icon + white heading/text. Background-color is set on the section in the
+     document (data-background-color). */
   --columns-banner-daw-heading-color: #fff;
   --columns-banner-daw-heading-font-family: var(--heading-font-family);
   --columns-banner-daw-heading-size: 20px;
@@ -14,8 +14,13 @@
   --columns-banner-daw-text-size: 16px;
   --columns-banner-daw-text-line-height: 30px;
   --columns-banner-daw-icon-width: 159px;
-  --columns-banner-daw-heading-size-desktop: 24px;
-  --columns-banner-daw-heading-line-height-desktop: 28px;
+
+  /* desktop heading matches the source (no size bump: 20px/24) */
+  --columns-banner-daw-heading-size-desktop: 20px;
+  --columns-banner-daw-heading-line-height-desktop: 24px;
+
+  /* desktop band padding (source .write-daw: 10px 109px 10px 104px) */
+  --columns-banner-daw-padding-desktop: 10px 109px 10px 104px;
 
   /* daw-light variant (prescribing-northera "Why Dispense as written matters"):
      pale cyan tint banner with a medium DAW illustration + dark-blue
@@ -30,4 +35,21 @@
   --columns-banner-daw-light-text-line-height: 30px;
   --columns-banner-daw-light-icon-width: 176px;
   --columns-banner-daw-light-icon-width-desktop: 159px;
+}
+
+/* The global `main > .section:first-of-type > div` rules in styles.css inset the
+   first section's wrapper (0 25px mobile / 0 11% desktop). The DAW band is a
+   full-bleed blue banner, so zero out that wrapper padding here (the banner sets
+   its own internal padding). Specificity (3 classes) beats the global rule. */
+main > .section.columns-banner-container > .columns-banner-wrapper {
+  padding: 0;
+}
+
+/* Desktop DAW band padding (source side padding) — applied at the lg
+   breakpoint (992px), matching where the source DAW goes side-by-side. Below
+   992 the block keeps its mobile padding (10px 15px 20px). */
+@media (width >= 992px) {
+  main .section .columns-banner.daw {
+    padding: var(--columns-banner-daw-padding-desktop);
+  }
 }

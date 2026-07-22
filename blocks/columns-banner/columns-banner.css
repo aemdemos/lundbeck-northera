@@ -17,19 +17,6 @@
   order: 0;
 }
 
-@media (width >= 900px) {
-  .columns-banner > div {
-    align-items: center;
-    flex-direction: unset;
-    gap: var(--columns-banner-gap);
-  }
-
-  .columns-banner > div > div {
-    flex: 1;
-    order: unset;
-  }
-}
-
 /* ── daw variant (HCP "Dispense as written" callout) ──────────────────
    Blue banner: Rx icon on the left, white heading + paragraph on the right.
    Mobile-first (icon stacked above text); icon beside text at ≥768px. */
@@ -37,12 +24,15 @@ main .section:has(.columns-banner.daw) {
   padding: 0;
 }
 
+/* background-color is set on the section in the document (data-background-color) */
 .columns-banner.daw {
-  background-color: var(--columns-banner-daw-bg);
   padding: 10px 15px 20px;
 }
 
+/* daw stays stacked (icon above text) until the lg breakpoint (992px), even
+   though the generic columns-banner goes side-by-side at 900px */
 .columns-banner.daw > div {
+  flex-direction: column;
   align-items: center;
   gap: 20px;
 }
@@ -115,9 +105,22 @@ main .section:has(.columns-banner.daw-light) {
   text-align: left;
 }
 
-@media (width >= 768px) {
-  .columns-banner.daw {
-    padding: 20px 0;
+/* Desktop (≥992px): the generic columns-banner and both variants go
+   side-by-side at the lg breakpoint. One media query for the whole block. */
+@media (width >= 992px) {
+  .columns-banner > div {
+    align-items: center;
+    flex-direction: unset;
+    gap: var(--columns-banner-gap);
+  }
+
+  .columns-banner > div > div {
+    flex: 1;
+    order: unset;
+  }
+
+  .columns-banner.daw > div {
+    flex-direction: row;
   }
 
   .columns-banner.daw h4 {
