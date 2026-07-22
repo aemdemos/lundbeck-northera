@@ -8,13 +8,13 @@
  * only — nothing is submitted anywhere).
  *
  * The 189-field wizard is a fixed medical document, so its model lives in this
- * file (STEPS) rather than in authored content. The portable, page-editable
- * copy is read from the block's authored rows, in visual order:
- *   Row 1 (callout): the blue "IF PRESCRIBING THROUGH THE NSC…" fax note.
- *   Row 2 (bullets): the "Please ensure the following" check-list (4 items).
- *   Row 3 (cta):     H2 "There are 2 ways to proceed" + the two CTA links,
- *                    their helper paragraphs, and the "or" divider.
- * The 6-step wizard is rendered by JS after these rows.
+ * file (STEPS) rather than in authored content. The one portable, page-editable
+ * row is:
+ *   Row 1 (cta): H2 "There are 2 ways to proceed" + the two CTA links and their
+ *                helper paragraphs.
+ * The 6-step wizard is rendered by JS after this row. The blue fax callout and
+ * "Please ensure the following" check-list live in a separate columns.form
+ * block in the intro section above.
  *
  * @param {Element} block
  */
@@ -570,34 +570,6 @@ function buildNav(index, total, onBack, onNext) {
   return nav;
 }
 
-function wrapPhoneNumber(element) {
-  const phoneMatch = element.textContent.match(/\d{3}-\d{3}-\d{4}/);
-  if (!phoneMatch || element.querySelector('.treatment-form-phone')) return;
-
-  const phoneNumber = phoneMatch[0];
-  const fragment = document.createDocumentFragment();
-
-  [...element.childNodes].forEach((node) => {
-    if (node.nodeType !== Node.TEXT_NODE) {
-      fragment.append(node.cloneNode(true));
-      return;
-    }
-
-    const parts = node.textContent.split(phoneNumber);
-    parts.forEach((part, indexPart) => {
-      if (part) fragment.append(document.createTextNode(part));
-      if (indexPart < parts.length - 1) {
-        const phoneSpan = document.createElement('span');
-        phoneSpan.className = 'treatment-form-phone';
-        phoneSpan.textContent = phoneNumber;
-        fragment.append(phoneSpan);
-      }
-    });
-  });
-
-  element.replaceChildren(fragment);
-}
-
 function buildWizard() {
   const wizard = document.createElement('div');
   wizard.className = 'treatment-form-wizard';
@@ -641,21 +613,10 @@ export default function decorate(block) {
   const container = document.createElement('div');
   container.className = 'treatment-form-container';
 
-  // Row 1: blue fax callout. Row 2: check-list bullets. Row 3: entry CTAs.
-  const [calloutRow, bulletsRow, ctaRow] = rows;
+  // Row 1: entry CTAs (H2 + START/DOWNLOAD links + helper copy). The blue fax
+  // callout + check-list are handled separately by the columns.form block above.
+  const [ctaRow] = rows;
 
-  if (calloutRow) {
-    const callout = styleAuthoredRow(calloutRow, 'treatment-form-callout');
-    // Markdown import strips the source's fax-number span, so re-wrap the fax
-    // number here to render it yellow (matches the source treatment).
-    callout.querySelectorAll('h5, p').forEach((el) => {
-      wrapPhoneNumber(el);
-    });
-    container.append(callout);
-  }
-  if (bulletsRow) {
-    container.append(styleAuthoredRow(bulletsRow, 'treatment-form-bullets'));
-  }
   if (ctaRow) {
     const cta = styleAuthoredRow(ctaRow, 'treatment-form-cta');
     // A CTA paragraph that contains only a link is a solid button; a paragraph

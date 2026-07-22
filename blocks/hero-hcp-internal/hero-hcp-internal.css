@@ -15,9 +15,18 @@ main .section:has(.hero-hcp-internal) {
   padding: 0;
 }
 
+main .section:has(.hero-hcp-internal) .default-content-wrapper > h2 {
+padding: 40px 0 30px;
+}
+
+main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
+ font-size: 14px;
+ line-height: 22px;
+}
+
 .hero-hcp-internal {
   position: relative;
-  margin: 15px 0;
+  margin:0;
 }
 
 /* mobile banner image */
@@ -25,15 +34,16 @@ main .section:has(.hero-hcp-internal) {
 .hero-hcp-internal .hero-hcp-internal-image img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 200px;
 }
 
 /* overlaid content, lower-left of the banner */
 .hero-hcp-internal .hero-hcp-internal-content {
-  position: absolute;
-  left: 0;
   bottom: 8px;
-  padding: 10px 20px 20px;
+  position:absolute;
+  display:table;
+  top:10%;
+  left:7%;
 }
 
 .hero-hcp-internal .hero-hcp-internal-icon img {
@@ -43,14 +53,16 @@ main .section:has(.hero-hcp-internal) {
 }
 
 .hero-hcp-internal h1 {
-  margin: 0;
-  padding: 0;
   color: var(--hero-hcp-internal-title-color);
   font-family: var(--hero-hcp-internal-title-font-family);
   font-size: var(--hero-hcp-internal-title-size);
   line-height: var(--hero-hcp-internal-title-line-height);
   font-weight: 700;
   text-align: left;
+  display: table-cell;
+  vertical-align: middle;
+  float: none;
+  padding: 20px 0 30px 30px;
 }
 
 /* mobile CTA button (yellow) */
@@ -73,7 +85,6 @@ main .section:has(.hero-hcp-internal) {
     position: relative;
     width: min(100vw, 1200px);
     max-width: min(100vw, 1200px);
-    margin: 15px auto;
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
     background-image: var(--hero-hcp-internal-bg-desktop);
     background-size: cover;
@@ -104,4 +115,13 @@ main .section:has(.hero-hcp-internal) {
   .hero-hcp-internal .hero-hcp-internal-content a {
     display: none;
   }
+
+  .hero-hcp-internal .hero-hcp-internal-icon img {
+    width: var(--hero-hcp-internal-icon-size-desktop);
+  }
+
+
+main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
+ margin-bottom: 10px;
+}
 }
