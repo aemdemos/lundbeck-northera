@@ -646,7 +646,7 @@ main > .section > div { /* @libs */
    inset 15px on phones; full-bleed wrappers (bg images, ISI, embeds, CTA cards,
    columns-banner) manage their own spacing and are excluded so images/bands
    still go edge-to-edge. Desktop applies the ~11% gutter (see ≥900px block). */
-main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
+main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
   padding: 0 15px;
 }
 
@@ -1061,11 +1061,25 @@ main .section.sitemap .default-content-wrapper > ul > li > ul > li > a:hover {
    source (spans the full viewport width, ignoring the section/content gutters).
    Break the image out of all nested horizontal padding: edge-to-edge on mobile
    (viewport < 1200), capped at the source's 1200px content width on desktop. */
+
+/* The map image shares a default-content-wrapper with the H1/intro. To make the
+   map fill the section content column edge-to-edge — matching the
+   specialist-search banner below it — the wrapper's own gutter is zeroed and the
+   H1/intro text is re-inset instead (percentage margins can't cancel percentage
+   padding, since they resolve against different boxes). The picture paragraph
+   then spans the full column at every breakpoint. */
+main > .section.find-specialist > .default-content-wrapper:has(> p > picture) {
+  padding-inline: 0;
+}
+
+main > .section.find-specialist > .default-content-wrapper > :not(p:has(> picture)) {
+  padding-inline: 15px;
+}
+
 main .section.find-specialist .default-content-wrapper p:has(> picture) {
-  width: min(100vw, 1200px);
-  max-width: min(100vw, 1200px);
-  margin-left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
 }
 
 main .section.find-specialist .default-content-wrapper picture,
@@ -1159,12 +1173,18 @@ main .section.accent h6 {
     margin-bottom:0;
   }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
     padding: 0 11%;
   }
 
-main > .section:first-of-type > div {
+main > .section:first-of-type > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(> p > picture), :has(.columns-banner), :has(.columns.teaser)) {
   padding:0 11%;
+}
+
+/* map wrapper stays un-guttered at desktop; only its text children are re-inset
+   at the 11% gutter, so the map paragraph fills the column (matches the banner). */
+main > .section.find-specialist > .default-content-wrapper > :not(p:has(> picture)) {
+  padding-inline: 11%;
 }
 
 main > .section:first-of-type > div > p {

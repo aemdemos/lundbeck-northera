@@ -10,14 +10,15 @@
 
 /* source: the search section is a full-bleed banner image (cover) at least
    492px tall; a white form card sits over it — flush-left on mobile,
-   floated right on desktop. Break out of the section/content gutters so the
-   banner reaches the edges (matching the map above it): edge-to-edge on
-   mobile, 1200px on desktop. */
+   floated right on desktop. The banner fills its content column edge-to-edge.
+   Its wrapper is excluded from the section gutter (see styles.css gutter
+   exclusion list), so `width: 100%` here spans the full content column at
+   every breakpoint — no forced 1200px / 100vw that would overflow the column
+   (which is narrowed by the ISI rail at >=1200px) and leave an empty side gap. */
 .specialist-search {
-  width: min(100vw, 1200px);
-  max-width: min(100vw, 1200px);
-  margin-left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
   min-height: var(--specialist-search-banner-min-height);
   background-image: var(--specialist-search-banner-image);
   background-color: transparent;
