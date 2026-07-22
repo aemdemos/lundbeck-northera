@@ -4,7 +4,7 @@
   --specialist-search-banner-image: url("/icons/specialist-search-banner.png");
   --specialist-search-banner-min-height: 492px;
   --specialist-search-helper-font-family: var(--body-font-family);
-  --specialist-search-helper-size: 18px;
+  --specialist-search-helper-size: 16px;
   --specialist-search-helper-color: var(--brand-grey);
   --specialist-search-zip-font-family: var(--body-font-family);
   --specialist-search-zip-size: 18px;
@@ -12,7 +12,7 @@
   --specialist-search-zip-height: 46px;
   --specialist-search-zip-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><g fill="none" stroke="%23969696" stroke-width="2"><circle cx="10" cy="10" r="7"/><line x1="15" y1="15" x2="22" y2="22" stroke-linecap="round"/></g></svg>');
   --specialist-search-terms-font-family: var(--body-font-family);
-  --specialist-search-terms-size: 18px;
+  --specialist-search-terms-size: 16px;
   --specialist-search-terms-color: var(--brand-grey);
   --specialist-search-terms-link-color: var(--brand-cyan);
   --specialist-search-submit-font-family: var(--heading-heavy-font-family);
