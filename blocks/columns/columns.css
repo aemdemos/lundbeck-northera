@@ -379,7 +379,7 @@ main .columns.supine p {
 }
 
 /* Blue fax-instruction box: the two H5 lines stack (no gap) to read as one
-   #0188bf box; white bold 14px/20 body text; the fax number (in <strong>) is
+   #0188bf box; white bold 16px/25 body text; the fax number (in <strong>) is
    highlighted yellow. Source: .cmp-specialty__pharmacy. */
 main .columns.form h5 {
   margin: 0;
@@ -387,9 +387,9 @@ main .columns.form h5 {
   background-color: #0188bf;
   color: #fff;
   font-family: var(--body-font-family);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
-  line-height: 20px;
+  line-height: 25px;
 }
 
 main .columns.form h5:first-of-type {
@@ -430,9 +430,9 @@ main .columns.form p::before {
   content: '';
   position: absolute;
   top: 25px;
-  left: 25px;
-  width: 20px;
-  height: 20px;
+  left: 15px;
+  width: 30px;
+  height: 30px;
   background-image: url('/icons/blue-ticked.png');
   background-repeat: no-repeat;
   background-position: center;
