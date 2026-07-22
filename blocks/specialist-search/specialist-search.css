@@ -10,14 +10,15 @@
 
 /* source: the search section is a full-bleed banner image (cover) at least
    492px tall; a white form card sits over it — flush-left on mobile,
-   floated right on desktop. Break out of the section/content gutters so the
-   banner reaches the edges (matching the map above it): edge-to-edge on
-   mobile, 1200px on desktop. */
+   floated right on desktop. The banner fills its content column edge-to-edge.
+   Its wrapper is excluded from the section gutter (see styles.css gutter
+   exclusion list), so `width: 100%` here spans the full content column at
+   every breakpoint — no forced 1200px / 100vw that would overflow the column
+   (which is narrowed by the ISI rail at >=1200px) and leave an empty side gap. */
 .specialist-search {
-  width: min(100vw, 1200px);
-  max-width: min(100vw, 1200px);
-  margin-left: 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
   min-height: var(--specialist-search-banner-min-height);
   background-image: var(--specialist-search-banner-image);
   background-color: transparent;
@@ -36,8 +37,7 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 250px;
-  max-width: 100%;
+  max-width: 385px;
   box-sizing: border-box;
   padding: 30px;
   background-color: #fff;
@@ -120,6 +120,7 @@
   box-shadow: var(--specialist-search-submit-shadow);
   cursor: pointer;
   transition: box-shadow 0.2s ease-in-out, background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+width: 100%;
 }
 
 .specialist-search .specialist-search-submit:hover,
@@ -127,6 +128,16 @@
   background-color: var(--specialist-search-submit-hover-background);
   color: var(--specialist-search-submit-hover-color);
   box-shadow: var(--specialist-search-submit-hover-shadow);
+}
+
+
+main .section.find-specialist > div > p {
+  font-size: var(--specialist-search-helper-size);
+}
+
+main .section.find-specialist > div > p:last-child:not(:has(picture)) {
+  margin: 0;
+  padding:50px 0;
 }
 
 /* desktop: source floats the white form card to the right side of the banner
@@ -140,4 +151,19 @@
   .specialist-search .specialist-search-form {
     width: 385px;
   }
+
+  main .section.find-specialist > div > p {
+   font-size: var(--body-font-size-m);
+  }
+
+  .specialist-search .specialist-search-helper {
+    font-size: var(--body-font-size-m);
+    line-height: 22px;
+  }
+
+  specialist-search .specialist-search-terms-text, .specialist-search .specialist-search-terms-text p {
+    font-size: var(--body-font-size-m);
+    line-height: 30px;
+  }
+ 
 }

@@ -118,8 +118,8 @@ padding: 0;
   line-height: 20px;
   font-weight: 400;
   margin: 0;
-  padding: 0;
   text-align: left;
+  padding: 0 15px;
 }
 
 /* Source highlights ("taken by mouth 3 times per day", "If you miss a dose:")
@@ -149,30 +149,6 @@ padding: 0;
   width: 115px;
 }
 
-/* ≥768px (source breakpoint): each row becomes icon-left + text-right. */
-@media (width >= 768px) {
-  .cards.reminders > ul > li {
-    flex-direction: row;
-    align-items: center;
-    padding: 25px 0;
-  }
-
-  .cards.reminders > ul > li img {
-    width: 120px;
-    margin-bottom: 0;
-  }
-
-  .cards.reminders .cards-card-image {
-    flex: 0 0 100px;
-    margin: auto;
-  }
-
-  .cards.reminders .cards-card-body {
-    margin-left: 50px;
-    width: auto;
-    flex: 1;
-  }
-}
 
 
 
@@ -409,8 +385,6 @@ padding: 0;
    max-width: 385px;
 }
 
-/* left download icon (source .cmp-label-icon::before: absolute, left:10px,
-   vertically centered, 36x30) */
 .cards.resource .cards-card-body a::before {
   content: '';
   position: absolute;
@@ -428,107 +402,7 @@ padding: 0;
   text-decoration: none;
 }
 
-@media (width >= 768px) {
-      main > .section:has(.cards.resource) {
-   padding: 0;
-  }
 
-  main > .section > div:has(.cards.resource) {
-    padding: 0 10%;
-  }
-
-  .cards.resource > ul {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--cards-resource-gap-desktop);
-    align-items: stretch;
-  }
-
-  /* Within each card (source .cmp-imagetext__container): thumbnail + title/desc
-     on the top row, CTA spanning the full width at the bottom. The card is a
-     grid with a thumbnail column and a text column across two content rows, and
-     a third row (1fr) that grows so the CTA pins to the bottom — matching the
-     source's flex-column space-between. The body is display:contents so its
-     children (h3, description, CTA) become grid items directly. */
-  .cards.resource > ul > li {
-    display: grid;
-    grid-template-columns: var(--cards-resource-thumb-width) 1fr;
-    grid-template-rows: auto auto 1fr;
-    column-gap: var(--cards-resource-img-text-gap);
-    padding: var(--cards-resource-box-padding-desktop);
-    height: 500px;
-  }
-
-  .cards.resource .cards-card-image {
-    grid-column: 1;
-    grid-row: 1 / 3;
-    margin-bottom: 0;
-    text-align: left;
-  }
-
-  .cards.resource > ul > li img {
-    width: 100%;
-  }
-
-  .cards.resource .cards-card-body {
-    display: contents;
-  }
-
-  /* title + description in the right column beside the thumbnail */
-  .cards.resource .cards-card-body h3 {
-    grid-column: 2;
-    grid-row: 1;
-    align-self: start;
-    font-size: var(--cards-resource-title-size-desktop);
-  }
-
-  .cards.resource .cards-card-body p:not(:last-child) {
-    grid-column: 2;
-    grid-row: 2;
-    align-self: start;
-    font-size: var(--cards-resource-desc-size-desktop);
-    line-height: var(--cards-resource-desc-line-height-desktop);
-  }
-
-  /* CTA spans both columns on the bottom row, pinned to the card bottom */
-  .cards.resource .cards-card-body p:last-child:has(a) {
-    grid-column: 1 / -1;
-    grid-row: 3;
-    align-self: end;
-    margin-top: 0;
-    padding-top: 25px;
-  }
-}
-
-@media (width > 992px) {
-  .cards.cards-2-cols > ul {
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
-  }
-
-  .cards.cards-3-cols > ul {
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-  }
-
-  /* 200%/300% resolves against the 50%/33% grid cell to match the 4-column card width */
-  .cards.cards-2-cols > ul > li {
-    width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
-  }
-
-  .cards.cards-3-cols > ul > li {
-    width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
-  }
-
-   .cards.resource > ul > li {
-    height: 520px;
-}
-}
-
-@media (width > 1400px) {
-  main > .section > div:has(.cards.resource) {
-    padding: 0 12%;
-  }
-}
 
 /* ══════════════════════════════════════════════════════════════
    "symptoms" variant — 3 common-nOH-symptom tiles (icon on top + centered
@@ -625,7 +499,164 @@ padding: 0;
   margin: 0;
 }
 
+
+.cards.contact > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0 25px;
+}
+
+.cards.contact > ul > li {
+  border: 0;
+  background-color: transparent;
+  text-align: center;
+}
+
+.cards.contact .cards-card-image {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.cards.contact > ul > li img {
+  aspect-ratio: unset;
+  object-fit: contain;
+  width: 122px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.cards.contact .cards-card-body {
+  margin: 0;
+}
+
+.cards.contact .cards-card-body p {
+  text-align: center;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  margin: 0;
+}
+
+.cards.contact .cards-card-body b,
+.cards.contact .cards-card-body strong {
+  color: #58595b;
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.cards.contact .cards-card-body a {
+  font-size: 16px;
+  line-height: 30px;
+  text-decoration: none;
+  font-weight: 700;
+  font-family: var(--heading-font-family);
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* 1st card gets a bottom rule that separates the two stacked cards on mobile */
+.cards.contact > ul > li:first-child .cards-card-body {
+  border-bottom: 1px solid #969696;
+  padding-bottom: 20px;
+}
+
 @media (width >= 768px) {
+  .cards.reminders > ul > li {
+    flex-direction: row;
+    align-items: center;
+    padding: 25px 0;
+  }
+
+  .cards.reminders > ul > li img {
+    width: 120px;
+    margin-bottom: 0;
+  }
+
+  .cards.reminders .cards-card-image {
+    flex: 0 0 100px;
+    margin: auto;
+  }
+
+  .cards.reminders .cards-card-body {
+    margin-left: 50px;
+    width: auto;
+    flex: 1;
+  }
+
+      main > .section:has(.cards.resource) {
+   padding: 0;
+  }
+
+  main > .section > div:has(.cards.resource) {
+    padding: 0 10%;
+  }
+
+  .cards.resource > ul {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--cards-resource-gap-desktop);
+    align-items: stretch;
+  }
+
+  /* Within each card (source .cmp-imagetext__container): thumbnail + title/desc
+     on the top row, CTA spanning the full width at the bottom. The card is a
+     grid with a thumbnail column and a text column across two content rows, and
+     a third row (1fr) that grows so the CTA pins to the bottom — matching the
+     source's flex-column space-between. The body is display:contents so its
+     children (h3, description, CTA) become grid items directly. */
+  .cards.resource > ul > li {
+    display: grid;
+    grid-template-columns: var(--cards-resource-thumb-width) 1fr;
+    grid-template-rows: auto auto 1fr;
+    column-gap: var(--cards-resource-img-text-gap);
+    padding: var(--cards-resource-box-padding-desktop);
+    height: 500px;
+  }
+
+  .cards.resource .cards-card-image {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  .cards.resource > ul > li img {
+    width: 100%;
+  }
+
+  .cards.resource .cards-card-body {
+    display: contents;
+  }
+
+  /* title + description in the right column beside the thumbnail */
+  .cards.resource .cards-card-body h3 {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    font-size: var(--cards-resource-title-size-desktop);
+  }
+
+  .cards.resource .cards-card-body p:not(:last-child) {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    font-size: var(--cards-resource-desc-size-desktop);
+    line-height: var(--cards-resource-desc-line-height-desktop);
+  }
+
+  /* CTA spans both columns on the bottom row, pinned to the card bottom */
+  .cards.resource .cards-card-body p:last-child:has(a) {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    align-self: end;
+    margin-top: 0;
+    padding-top: 25px;
+  }
+
   .cards.symptoms > ul {
     flex-direction: row;
     align-items: stretch;
@@ -659,6 +690,119 @@ padding: 0;
 
   .cards.stats .cards-card-image {
     min-height: 215px;
+  }
+
+  main > .section:has(.cards.contact) {
+    padding: 0 7%;
+  }
+
+  main > .section:has(.cards.contact)>div {
+    padding: 0 15px;
+  }
+
+  main > .section:has(.cards.contact) h1 {
+ padding-bottom: 30px;
+ font-weight: 500;
+  }
+
+  main > .section:has(.cards.contact) p {
+    font-size: 18px;
+        color: #58595b;
+        line-height: 30px
+  }
+
+    main > .section:has(.cards.contact) p strong {
+    font-weight: 700;
+    font-family: var(--heading-font-family);
+  }
+  
+  .cards.contact > ul {
+    flex-direction: row;
+    align-items: stretch;
+    padding:0;
+  }
+
+  /* each card becomes icon-left + text-right (source 25%/75% table cells,
+     vertically centered), left-aligned. */
+  .cards.contact > ul > li {
+    flex: 1;
+    max-width: 50%;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+  }
+
+  .cards.contact .cards-card-image {
+    flex: 0 0 35%;
+    text-align: left;
+  }
+
+  .cards.contact .cards-card-body {
+    flex: 1;
+    padding-left: 20px;
+  }
+
+  .cards.contact .cards-card-body p {
+    text-align: left;
+  }
+
+  .cards.contact .cards-card-body a {
+    font-size: 18px;
+  }
+
+  /* on desktop the divider is the vertical line between the two columns */
+  .cards.contact > ul > li:first-child {
+    border-right: 1px solid #58595b;
+  }
+
+  .cards.contact > ul > li:first-child .cards-card-body {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .cards.contact > ul > li:nth-child(2) {
+    padding-left: 25px;
+  }
+}
+
+
+@media (width > 992px) {
+  .cards.cards-2-cols > ul {
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+
+  .cards.cards-3-cols > ul {
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
+  }
+
+  /* 200%/300% resolves against the 50%/33% grid cell to match the 4-column card width */
+  .cards.cards-2-cols > ul > li {
+    width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
+  }
+
+  .cards.cards-3-cols > ul > li {
+    width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
+  }
+
+   .cards.resource > ul > li {
+    height: 520px;
+}
+}
+
+@media (width >= 1200px) {
+  .cards.contact > ul > li:nth-child(2) {
+    padding-left: 80px;
+  }
+}
+
+
+@media (width > 1400px) {
+  main > .section > div:has(.cards.resource) {
+    padding: 0 12%;
   }
 }
 
