@@ -125,3 +125,10 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
  margin-bottom: 10px;
 }
 }
+
+/* ≥1400px: banner fills the full content column (no 1200px cap) */
+@media (width >= 1400px) {
+  .hero-hcp-internal {
+    max-width: none;
+  }
+}

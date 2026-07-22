@@ -11,11 +11,52 @@
   gap: 30px;
 }
 
+/* entry CTAs and wizard are mutually exclusive views; [hidden] must win over
+   the flex/display rules below. */
+.treatment-form .treatment-form-cta[hidden],
+.treatment-form .treatment-form-wizard[hidden] {
+  display: none;
+}
+
 /* ── Entry CTAs (authored row 1) ─────────────────────────────── */
 .treatment-form .treatment-form-cta h2 {
-  margin: 0 0 20px;
+  margin: 0;
+  padding: 40px 0 30px;
   color: var(--brand-blue);
   font-family: var(--heading-font-family);
+}
+
+/* "or" divider between the two CTA rows: a horizontal line broken by a small
+   filled pill in the centre. */
+.treatment-form .treatment-form-cta-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.treatment-form .treatment-form-cta-divider::before,
+.treatment-form .treatment-form-cta-divider::after {
+  content: '';
+  flex: 1;
+  height: 3px;
+  background-color: var(--tf-divider-color);
+}
+
+.treatment-form .treatment-form-cta-divider span {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--tf-divider-color);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 700;
 }
 
 /* Entry CTA solid buttons (START / DOWNLOAD) */
@@ -404,6 +445,27 @@
     max-width: 100%;
     padding: var(--tf-btn-padding-desktop);
     text-align: left;
+  }
+
+  /* Desktop: button on the left, its helper copy on the right. */
+  .treatment-form .treatment-form-cta-row {
+    display: grid;
+    grid-template-columns: minmax(0, 515px) 1fr;
+    align-items: center;
+    column-gap: 55px;
+  }
+
+  .treatment-form .treatment-form-cta-row .treatment-form-cta-button {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .treatment-form .treatment-form-cta-row p:not(:has(.treatment-form-cta-button)) {
+    margin: 0;
+  }
+
+  .treatment-form .treatment-form-cta-divider {
+    margin: 30px 0;
   }
 
   .treatment-form .treatment-form-btn {

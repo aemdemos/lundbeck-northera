@@ -74,4 +74,7 @@
   --tf-cta-bg: var(--brand-cyan);
   --tf-cta-color: var(--brand-blue-dark);
   --tf-cta-size: 18px;
+
+  /* "or" divider between the two CTAs (source #0188bf) */
+  --tf-divider-color: #0188bf;
 }
