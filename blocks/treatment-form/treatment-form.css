@@ -439,10 +439,6 @@
   }
 
   .treatment-form .treatment-form-cta-button {
-    display: inline-block;
-    width: auto;
-    min-width: 515px;
-    max-width: 100%;
     padding: var(--tf-btn-padding-desktop);
     text-align: left;
   }
