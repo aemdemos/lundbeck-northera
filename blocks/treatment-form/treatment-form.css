@@ -447,7 +447,19 @@
     text-align: left;
   }
 
-  /* Desktop: button on the left, its helper copy on the right. */
+  .treatment-form .treatment-form-btn {
+    padding: var(--tf-btn-padding-desktop);
+  }
+
+  .treatment-form .treatment-form-input,
+  .treatment-form .treatment-form-select {
+    max-width: 487px;
+  }
+}
+
+/* ══ Wide (source 1024px) — CTA two-column layout ═════════════ */
+@media (width >= 1024px) {
+  /* button on the left, its helper copy on the right. */
   .treatment-form .treatment-form-cta-row {
     display: grid;
     grid-template-columns: minmax(0, 515px) 1fr;
@@ -466,14 +478,5 @@
 
   .treatment-form .treatment-form-cta-divider {
     margin: 30px 0;
-  }
-
-  .treatment-form .treatment-form-btn {
-    padding: var(--tf-btn-padding-desktop);
-  }
-
-  .treatment-form .treatment-form-input,
-  .treatment-form .treatment-form-select {
-    max-width: 487px;
   }
 }
