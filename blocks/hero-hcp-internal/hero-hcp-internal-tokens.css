@@ -7,12 +7,13 @@
   --hero-hcp-internal-ratio-desktop: 1065 / 237;
 
   /* icon */
-  --hero-hcp-internal-icon-size: 60px;
+  --hero-hcp-internal-icon-size: 70px;
+  --hero-hcp-internal-icon-size-desktop: 112px;
 
   /* title — white on the banner at every breakpoint */
   --hero-hcp-internal-title-color: #fff;
   --hero-hcp-internal-title-font-family: var(--heading-font-family);
-  --hero-hcp-internal-title-size: 17.55px;
+  --hero-hcp-internal-title-size: 20px;
   --hero-hcp-internal-title-line-height: 24px;
   --hero-hcp-internal-title-size-desktop: 50px;
   --hero-hcp-internal-title-line-height-desktop: 50px;

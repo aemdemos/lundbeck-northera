@@ -5,72 +5,13 @@
    Treatment Form wizard. Mobile-first (default = mobile). Source
    breakpoints 768/992/1200 are mapped to EDS 600/900/1200.
    ══════════════════════════════════════════════════════════════ */
-
 .treatment-form .treatment-form-container {
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
 
-/* ── Blue fax callout (authored row 1) ───────────────────────── */
-.treatment-form .treatment-form-callout {
-  padding: var(--tf-callout-padding);
-  background-color: var(--tf-callout-bg);
-  color: var(--tf-callout-color);
-  font-family: var(--body-font-family);
-  font-size: var(--tf-callout-size);
-}
-
-.treatment-form .treatment-form-callout h5,
-.treatment-form .treatment-form-callout p {
-  margin: 0 0 8px;
-  color: var(--tf-callout-color);
-  font-size: var(--tf-callout-size);
-}
-
-.treatment-form .treatment-form-callout h5:last-child,
-.treatment-form .treatment-form-callout p:last-child {
-  margin-bottom: 0;
-}
-
-.treatment-form .treatment-form-callout .treatment-form-phone,
-.treatment-form .treatment-form-callout strong {
-  color: var(--tf-callout-phone-color);
-}
-
-/* ── Check-list bullets (authored row 2) ─────────────────────── */
-.treatment-form .treatment-form-bullets ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.treatment-form .treatment-form-bullets li {
-  position: relative;
-  margin-bottom: 14px;
-  padding-left: 34px;
-  color: var(--tf-note-color);
-  font-family: var(--body-font-family);
-  font-size: var(--tf-helper-size);
-  line-height: var(--tf-helper-line-height);
-}
-
-.treatment-form .treatment-form-bullets li::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: var(--brand-cyan);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 12px;
-}
-
-/* ── Entry CTAs (authored row 3) ─────────────────────────────── */
+/* ── Entry CTAs (authored row 1) ─────────────────────────────── */
 .treatment-form .treatment-form-cta h2 {
   margin: 0 0 20px;
   color: var(--brand-blue);

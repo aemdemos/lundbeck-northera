@@ -646,7 +646,7 @@ main > .section > div { /* @libs */
    inset 15px on phones; full-bleed wrappers (bg images, ISI, embeds, CTA cards,
    columns-banner) manage their own spacing and are excluded so images/bands
    still go edge-to-edge. Desktop applies the ~11% gutter (see ≥900px block). */
-main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
+main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal)) {
   padding: 0 15px;
 }
 
@@ -1188,13 +1188,10 @@ main .section.accent h6 {
     margin-bottom:0;
   }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser)) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal)) {
     padding: 0 11%;
   }
 
-main > .section:first-of-type > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(> p > picture), :has(.columns-banner), :has(.columns.teaser)) {
-  padding:0 11%;
-}
 
 /* map wrapper stays un-guttered at desktop; only its text children are re-inset
    at the 11% gutter, so the map paragraph fills the column (matches the banner). */
