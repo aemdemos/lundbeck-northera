@@ -83,8 +83,8 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
 @media (width >= 768px) {
   .hero-hcp-internal {
     position: relative;
-    width: min(100vw, 1200px);
-    max-width: min(100vw, 1200px);
+    width: 100%;
+    max-width: 1200px;
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
     background-image: var(--hero-hcp-internal-bg-desktop);
     background-size: cover;
