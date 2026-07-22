@@ -2,10 +2,9 @@
 
 /* ══════════════════════════════════════════════════════════════
    columns-quote — physician/patient quote cards (HCP landing).
-   Brand-blue Gotham-Bold quotation + grey attribution. Each card has a
-   1px light border with flush layout (borders touch between cards).
-   Stacked on mobile, 3-up at ≥768px. The grey band behind the cards is
-   set at the section level in the document (data-background-color).
+   Brand-blue Gotham-Bold quotation + grey attribution. Each card carries a
+   light-grey fill with white gutters between the cards, on a white section —
+   matching the source. Stacked on mobile, 3-up at ≥768px.
    ══════════════════════════════════════════════════════════════ */
 
 /* The global `main > .section > div:not(…)` rule insets each section wrapper
@@ -24,6 +23,10 @@ main .section.columns-quote-container {
 
 .columns-quote {
   padding: 0 var(--columns-quote-band-inset);
+
+  /* white behind the cards so the flex-gap gutters read white and the grey is
+     carried only by the cards (source moved the grey off the section band). */
+  background-color: #fff;
 }
 
 .columns-quote > div {
@@ -31,16 +34,19 @@ main .section.columns-quote-container {
   flex-direction: column;
 }
 
+/* each card: light-grey fill, flush against the next card with a thin divider
+   line between them (source has no gap — the cards touch, separated by a 1px
+   border). Flex column so the attribution can pin to the bottom. */
 .columns-quote > div > div {
   display: flex;
   flex-direction: column;
   padding: 0 var(--columns-quote-card-pad);
-  border: 1px solid var(--columns-quote-border-color);
+  background-color: var(--columns-quote-card-bg);
 }
 
-/* collapse touching borders between stacked cards into a single line */
+/* divider between stacked cards on mobile */
 .columns-quote > div > div + div {
-  margin-top: -1px;
+  border-top: 1px solid var(--columns-quote-border-color);
 }
 
 .columns-quote .columns-quote-quotation {
@@ -68,10 +74,10 @@ main .section.columns-quote-container {
     flex: 1;
   }
 
-  /* horizontal row: collapse the vertical borders between columns instead */
+  /* horizontal row: divider becomes a vertical line between columns */
   .columns-quote > div > div + div {
-    margin-top: 0;
-    margin-left: -1px;
+    border-top: 0;
+    border-left: 1px solid var(--columns-quote-border-color);
   }
 
   /* guarantee a minimum gap between the quote and its attribution even on the

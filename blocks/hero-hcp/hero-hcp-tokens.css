@@ -4,6 +4,11 @@
   --hero-hcp-bg-desktop: url("/icons/northera-hcp-bg-desktop.png");
   --hero-hcp-ratio-desktop: 1210 / 380;
 
+  /* mobile banner image height (source shows a thin sky strip, not a tall
+     block). Only used below 768px; at ≥768px the inline image is hidden and the
+     CSS background overlay takes over. */
+  --hero-hcp-image-height-mobile: 200px;
+
   /* mobile: dark text on a white card below the image banner */
   --hero-hcp-title-color: var(--brand-blue);
   --hero-hcp-title-font-family: var(--body-font-family);
@@ -18,7 +23,10 @@
   --hero-hcp-body-size: 15px;
   --hero-hcp-body-line-height: 20px;
 
-  /* desktop: white text overlaid on the flamingo background */
+  /* desktop: white text overlaid on the flamingo background. A soft drop shadow
+     keeps the white heading + text legible over the light sky (source uses a
+     subtle text-shadow on the overlaid teaser text). */
+  --hero-hcp-text-shadow-desktop: 0 1px 3px rgb(0 0 0 / 45%);
   --hero-hcp-title-color-desktop: #fff;
   --hero-hcp-title-font-family-desktop: var(--heading-font-family);
   --hero-hcp-title-size-desktop: 48px;
@@ -38,8 +46,10 @@
      offset from the DAW above it. */
   --hero-hcp-width-desktop: 100%;
 
-  /* small white gap at the top and right edges of the desktop banner */
-  --hero-hcp-gap-desktop: 15px;
+  /* thin white gap at the right edge of the desktop banner, and a thin
+     hairline gap above it (the source shows only a ~2px line over the hero). */
+  --hero-hcp-gap-desktop: 5px;
+  --hero-hcp-gap-top-desktop: 2px;
 
   /* banner min-height so the width doesn't inflate the height via the base
      .css aspect-ratio (source banner is ~380px tall). Uses min-height (not a
@@ -66,10 +76,11 @@ main > div.section.hero-hcp-container > div.hero-hcp-wrapper {
   padding: 0;
 }
 
-/* desktop indication size/line-height — the base hero-hcp.css desktop `p` rule
-   only overrides color, so bump size/leading here (tokens-only styling).
-   `main` keeps this above the base rule that the @import loads first. */
-@media (width >= 992px) {
+/* desktop/tablet indication size/line-height — the base hero-hcp.css desktop
+   `p` rule only overrides color, so bump size/leading here (tokens-only styling).
+   `main` keeps this above the base rule that the @import loads first. Matches the
+   source, which switches to the overlay layout at 768px. */
+@media (width >= 768px) {
   main .hero-hcp p {
     font-size: var(--hero-hcp-body-size-desktop);
     line-height: var(--hero-hcp-body-line-height-desktop);
@@ -86,9 +97,9 @@ main > div.section.hero-hcp-container > div.hero-hcp-wrapper {
     max-width: calc(var(--hero-hcp-width-desktop) - var(--hero-hcp-gap-desktop));
     margin-left: 0;
 
-    /* small white gap above and to the right of the banner (source has the sky
-       art inset slightly from the DAW band above and the right content edge). */
-    margin-top: var(--hero-hcp-gap-desktop);
+    /* thin hairline above the banner + a small inset from the right content edge
+       (source has the sky art nearly flush to the DAW band, offset from the right). */
+    margin-top: var(--hero-hcp-gap-top-desktop);
     transform: none;
     aspect-ratio: auto;
     height: auto;

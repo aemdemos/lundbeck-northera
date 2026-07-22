@@ -1,10 +1,11 @@
 /* columns-quote design tokens — HCP landing physician/patient quote cards.
-   Brand-blue Gotham-Bold quotation + grey Gotham-Medium attribution. The
-   grey band behind the cards is set at the section level in the document
-   (data-background-color), not on the block. */
+   Brand-blue Gotham-Bold quotation + grey Gotham-Medium attribution. Each
+   card carries a light-grey fill (#f3f5f8) with white gutters between the
+   cards, sitting on a white section — matching the source. */
 .columns-quote {
   --columns-quote-band-inset: 15px;
   --columns-quote-card-pad: 30px;
+  --columns-quote-card-bg: #f3f5f8;
   --columns-quote-border-color: #eeeee4;
   --columns-quote-quotation-color: var(--brand-blue);
   --columns-quote-quotation-font-family: var(--heading-font-family);
