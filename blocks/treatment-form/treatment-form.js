@@ -670,8 +670,14 @@ export default function decorate(block) {
     if (startLink) {
       startLink.addEventListener('click', (e) => {
         e.preventDefault();
+        // Source flow: the form takes over the page. Hide the entry CTAs and the
+        // whole intro section above (hero banner + intro copy + fax callout), so
+        // only the wizard remains.
         cta.hidden = true;
         wizard.hidden = false;
+        const section = block.closest('.section');
+        const introSection = section?.previousElementSibling;
+        if (introSection?.classList.contains('section')) introSection.hidden = true;
         wizard.scrollIntoView({ block: 'start' });
       });
     }
