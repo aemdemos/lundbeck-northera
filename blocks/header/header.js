@@ -3,6 +3,80 @@ import decorateSearch from '../search/search.js';
 
 const DESKTOP_MQ = window.matchMedia('(min-width: 1201px)');
 
+function getClosedHeaderHeight() {
+  return DESKTOP_MQ.matches
+    ? 'var(--header-height)'
+    : 'calc(var(--header-mobile-utility-height) + var(--header-mobile-main-height))';
+}
+
+function normalizePath(pathname) {
+  if (!pathname) return '/';
+  let normalized = pathname.toLowerCase();
+
+  normalized = normalized.replace(/\.html$/, '');
+  if (normalized !== '/' && normalized.endsWith('/')) {
+    normalized = normalized.slice(0, -1);
+  }
+
+  return normalized || '/';
+}
+
+function isPathMatch(currentPath, candidatePath) {
+  if (!candidatePath) return false;
+  if (currentPath === candidatePath) return true;
+  return currentPath.startsWith(`${candidatePath}/`);
+}
+
+function markActiveMenu(menu) {
+  if (!menu) return;
+
+  const currentPath = normalizePath(window.location.pathname);
+
+  menu.querySelectorAll('.nav-link-item').forEach((item) => {
+    const links = item.querySelectorAll(':scope > a, :scope > .nav-dropdown a');
+    let hasMatch = false;
+
+    links.forEach((link) => {
+      let url;
+      try {
+        url = new URL(link.href, window.location.origin);
+      } catch {
+        return;
+      }
+
+      const candidatePath = normalizePath(url.pathname);
+      const isMatch = isPathMatch(currentPath, candidatePath);
+      if (isMatch) {
+        hasMatch = true;
+        link.setAttribute('aria-current', 'page');
+      }
+    });
+
+    item.classList.toggle('active', hasMatch);
+  });
+}
+
+function setExpandedHeight(element, expanded) {
+  if (!element) return;
+  element.style.maxHeight = expanded ? `${element.scrollHeight}px` : '0px';
+}
+
+function updateMobileHeaderHeight(wrapper) {
+  if (!wrapper) return;
+  const header = wrapper.closest('header');
+  if (!header) return;
+  header.style.height = getClosedHeaderHeight();
+}
+
+function closeDropdowns(scope = document) {
+  scope.querySelectorAll('.nav-link-item.open').forEach((item) => {
+    item.classList.remove('open');
+    const toggle = item.querySelector(':scope > .nav-dropdown-toggle');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    setExpandedHeight(item.querySelector(':scope > .nav-dropdown'), false);
+  });
+}
+
 /**
  * Fetch the nav fragment as plain HTML. Dual-fetch: localhost/aem up serves
  * /content/nav.plain.html; DA/EDS serves ${navPath}.plain.html.
@@ -76,8 +150,8 @@ function buildSearch() {
       decorateSearch(searchBlock);
       const input = searchBlock.querySelector('input');
       if (input) {
-        input.placeholder = "I'm searching for...";
-        input.setAttribute('aria-label', "I'm searching for...");
+        input.placeholder = 'I\'m searching for...';
+        input.setAttribute('aria-label', 'I\'m searching for...');
       }
     }
     if (!open) {
@@ -142,7 +216,7 @@ function decorateMain(brandSection, navSection) {
   hamburger.className = 'nav-hamburger';
   hamburger.setAttribute('aria-label', 'Toggle navigation');
   hamburger.setAttribute('aria-expanded', 'false');
-  hamburger.innerHTML = '<span class="nav-hamburger-icon"></span>';
+  hamburger.innerHTML = '<span class=\'nav-hamburger-icon\'></span>';
   inner.append(hamburger);
 
   // Nav links
@@ -177,13 +251,21 @@ function decorateMain(brandSection, navSection) {
       // while the text label always navigates (matches source behavior).
       const chevron = document.createElement('button');
       chevron.className = 'nav-dropdown-toggle';
-      chevron.setAttribute('aria-label', `Expand ${topLink ? topLink.textContent.trim() : 'menu'}`);
+      chevron.setAttribute(
+        'aria-label',
+        `Expand ${topLink ? topLink.textContent.trim() : 'menu'}`,
+      );
       chevron.setAttribute('aria-expanded', 'false');
       chevron.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const open = item.classList.toggle('open');
+        const open = !item.classList.contains('open');
+        item.classList.toggle('open', open);
         chevron.setAttribute('aria-expanded', open ? 'true' : 'false');
+        setExpandedHeight(panel, open);
+        requestAnimationFrame(() =>
+          updateMobileHeaderHeight(bar.closest('.nav-wrapper')),
+        );
       });
       item.append(chevron, panel);
 
@@ -198,8 +280,19 @@ function decorateMain(brandSection, navSection) {
     menu.append(item);
   });
 
+  markActiveMenu(menu);
+
   navLinks.append(menu);
   inner.append(navLinks);
+
+  navLinks.addEventListener('transitionend', (event) => {
+    if (event.propertyName !== 'max-height') return;
+    const wrapper = bar.closest('.nav-wrapper');
+    if (!wrapper || !wrapper.classList.contains('nav-mobile-open')) return;
+    navLinks.classList.add('is-open-complete');
+    navLinks.style.maxHeight = 'none';
+    updateMobileHeaderHeight(wrapper);
+  });
 
   // Search
   inner.append(buildSearch());
@@ -208,15 +301,26 @@ function decorateMain(brandSection, navSection) {
 
   hamburger.addEventListener('click', () => {
     const open = hamburger.getAttribute('aria-expanded') === 'true';
+    const nextOpen = !open;
     hamburger.setAttribute('aria-expanded', open ? 'false' : 'true');
-    bar.closest('.nav-wrapper').classList.toggle('nav-mobile-open', !open);
+    const wrapper = bar.closest('.nav-wrapper');
+    wrapper.classList.toggle('nav-mobile-open', nextOpen);
+    navLinks.classList.remove('is-open-complete');
+    if (nextOpen) {
+      setExpandedHeight(navLinks, true);
+    } else {
+      if (navLinks.style.maxHeight === 'none') {
+        navLinks.style.maxHeight = `${navLinks.scrollHeight}px`;
+      }
+      requestAnimationFrame(() => setExpandedHeight(navLinks, false));
+    }
+    if (!nextOpen) {
+      closeDropdowns(wrapper);
+    }
+    requestAnimationFrame(() => updateMobileHeaderHeight(wrapper));
   });
 
   return bar;
-}
-
-function closeDropdowns() {
-  document.querySelectorAll('.nav-link-item.open').forEach((el) => el.classList.remove('open'));
 }
 
 /**
@@ -226,7 +330,9 @@ function closeDropdowns() {
 export default async function decorate(block) {
   const doc = await fetchNav();
   block.textContent = '';
-  if (!doc) return;
+  if (!doc) {
+    return;
+  }
 
   const sections = [...doc.children];
   const [utilitySection, brandSection, navSection] = sections;
@@ -234,27 +340,47 @@ export default async function decorate(block) {
   const wrapper = document.createElement('div');
   wrapper.className = 'nav-wrapper';
 
-  if (utilitySection) wrapper.append(decorateUtility(utilitySection));
-  if (brandSection && navSection) wrapper.append(decorateMain(brandSection, navSection));
+  if (utilitySection) {
+    wrapper.append(decorateUtility(utilitySection));
+  }
+  if (brandSection && navSection) {
+    wrapper.append(decorateMain(brandSection, navSection));
+  }
 
   block.append(wrapper);
+  setExpandedHeight(wrapper.querySelector('.nav-links'), false);
+  closeDropdowns(wrapper);
 
   // Close dropdowns on Escape and outside click
-  window.addEventListener('keydown', (e) => { if (e.code === 'Escape') closeDropdowns(); });
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Escape') {
+      closeDropdowns(wrapper);
+      updateMobileHeaderHeight(wrapper);
+    }
+  });
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav-link-item')) closeDropdowns();
+    if (!e.target.closest('.nav-link-item')) {
+      closeDropdowns(wrapper);
+      updateMobileHeaderHeight(wrapper);
+    }
   });
 
   // Reset state when crossing the desktop/mobile breakpoint
   DESKTOP_MQ.addEventListener('change', () => {
-    closeDropdowns();
+    closeDropdowns(wrapper);
     wrapper.classList.remove('nav-mobile-open');
+    setExpandedHeight(wrapper.querySelector('.nav-links'), false);
+    updateMobileHeaderHeight(wrapper);
     const hb = wrapper.querySelector('.nav-hamburger');
-    if (hb) hb.setAttribute('aria-expanded', 'false');
+    if (hb) {
+      hb.setAttribute('aria-expanded', 'false');
+    }
     const st = wrapper.querySelector('.nav-search-toggle');
     if (st) {
       st.setAttribute('aria-expanded', 'false');
       st.closest('.nav-search').classList.remove('nav-search-open');
     }
   });
+
+  window.addEventListener('resize', () => updateMobileHeaderHeight(wrapper));
 }
