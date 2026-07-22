@@ -4,6 +4,11 @@
   --hero-hcp-bg-desktop: url("/icons/northera-hcp-bg-desktop.png");
   --hero-hcp-ratio-desktop: 1210 / 380;
 
+  /* mobile banner image height (source shows a thin sky strip, not a tall
+     block). Only used below 768px; at ≥768px the inline image is hidden and the
+     CSS background overlay takes over. */
+  --hero-hcp-image-height-mobile: 200px;
+
   /* mobile: dark text on a white card below the image banner */
   --hero-hcp-title-color: var(--brand-blue);
   --hero-hcp-title-font-family: var(--body-font-family);
@@ -15,16 +20,96 @@
   --hero-hcp-subhead-line-height: 19.8px;
   --hero-hcp-body-color: var(--brand-grey);
   --hero-hcp-body-font-family: var(--body-font-family);
-  --hero-hcp-body-size: 15.6px;
+  --hero-hcp-body-size: 15px;
   --hero-hcp-body-line-height: 20px;
 
-  /* desktop: white text overlaid on the flamingo background */
+  /* desktop: white text overlaid on the flamingo background. A soft drop shadow
+     keeps the white heading + text legible over the light sky (source uses a
+     subtle text-shadow on the overlaid teaser text). */
+  --hero-hcp-text-shadow-desktop: 0 1px 3px rgb(0 0 0 / 45%);
   --hero-hcp-title-color-desktop: #fff;
   --hero-hcp-title-font-family-desktop: var(--heading-font-family);
   --hero-hcp-title-size-desktop: 48px;
   --hero-hcp-title-line-height-desktop: 60px;
   --hero-hcp-subhead-color-desktop: #fff;
   --hero-hcp-subhead-size-desktop: 24px;
-  --hero-hcp-subhead-line-height-desktop: 26px;
+  --hero-hcp-subhead-line-height-desktop: 26.4px;
   --hero-hcp-body-color-desktop: #fff;
+
+  /* desktop indication paragraph: source is 16px/24 (mobile is 15/20) */
+  --hero-hcp-body-size-desktop: 16px;
+  --hero-hcp-body-line-height-desktop: 24px;
+
+  /* desktop banner width — fill the content-column wrapper (same width the DAW
+     banner + quotes use, capped at --max-width-site), so all three bands align.
+     NOT a self-centered min(100vw,1200px) — that made the hero narrower than and
+     offset from the DAW above it. */
+  --hero-hcp-width-desktop: 100%;
+
+  /* thin white gap at the right edge of the desktop banner, and a thin
+     hairline gap above it (the source shows only a ~2px line over the hero). */
+  --hero-hcp-gap-desktop: 5px;
+  --hero-hcp-gap-top-desktop: 2px;
+
+  /* banner min-height so the width doesn't inflate the height via the base
+     .css aspect-ratio (source banner is ~380px tall). Uses min-height (not a
+     fixed height) so when the overlaid text wraps taller than 380px — e.g. at
+     the 992–1200px range where the column is narrow but text is still desktop-
+     sized — the banner grows to contain it instead of the flex-end content
+     overflowing upward into the DAW band above. */
+  --hero-hcp-height-desktop: 380px;
+
+  /* desktop content box — source text is flush-left (~15px in) and spans most of
+     the banner width, NOT the base .css 12.2% left inset + 66% cap */
+  --hero-hcp-content-padding-desktop: 0 0 44px 15px;
+  --hero-hcp-content-max-width-desktop: 66%;
+}
+
+/* The global `main > .section > div:not(…, :has(.columns.teaser))` rule insets
+   each section wrapper (0 11% desktop). Its `:not()` list's widest argument is
+   2 classes, so the global rule is (0,3,2). The hero is a full-bleed banner that
+   must fill the content column and left-align with the DAW band above it, so
+   zero that wrapper padding — the extra `div` type selectors push this to
+   (0,3,3) to beat the global rule (the daw wrapper instead escapes it by
+   matching `:has(.columns-banner)` in the `:not()` list). */
+main > div.section.hero-hcp-container > div.hero-hcp-wrapper {
+  padding: 0;
+}
+
+/* desktop/tablet indication size/line-height — the base hero-hcp.css desktop
+   `p` rule only overrides color, so bump size/leading here (tokens-only styling).
+   `main` keeps this above the base rule that the @import loads first. Matches the
+   source, which switches to the overlay layout at 768px. */
+@media (width >= 768px) {
+  main .hero-hcp p {
+    font-size: var(--hero-hcp-body-size-desktop);
+    line-height: var(--hero-hcp-body-line-height-desktop);
+  }
+
+  /* Fill the content-column wrapper (100%), aligned with the DAW + quote bands.
+     Drop the base aspect-ratio and set a min-height so the banner is ~380px but
+     grows when the overlaid text wraps taller (avoids the flex-end content
+     overflowing up into the DAW band at ~992–1200px). Neutralize the base .css
+     self-centering (margin-left:50%/translateX(-50%)) — not needed when the
+     block fills its already-centered wrapper, and it caused a horizontal offset. */
+  main .section .hero-hcp {
+    width: calc(var(--hero-hcp-width-desktop) - var(--hero-hcp-gap-desktop));
+    max-width: calc(var(--hero-hcp-width-desktop) - var(--hero-hcp-gap-desktop));
+    margin-left: 0;
+
+    /* thin hairline above the banner + a small inset from the right content edge
+       (source has the sky art nearly flush to the DAW band, offset from the right). */
+    margin-top: var(--hero-hcp-gap-top-desktop);
+    transform: none;
+    aspect-ratio: auto;
+    height: auto;
+    min-height: var(--hero-hcp-height-desktop);
+  }
+
+  /* flush-left content — override the base .css 12.2% left inset so the heading
+     starts near the banner edge like the source (~15px in) */
+  main .section .hero-hcp .hero-hcp-content {
+    padding: var(--hero-hcp-content-padding-desktop);
+    max-width: var(--hero-hcp-content-max-width-desktop);
+  }
 }
