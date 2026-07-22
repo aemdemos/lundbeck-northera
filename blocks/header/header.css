@@ -539,13 +539,13 @@ header .nav-utility-links a {
     background: none;
   }
 
-  /* hover: the whole item cell fills with the dropdown gray (source #e8ecf0),
-     so the highlight spans the full main-bar height, not just the text box */
-  header .nav-link-item.has-dropdown:hover {
+  /* hover: every top-level item cell fills with the same gray highlight,
+     so both dropdown and non-dropdown items behave consistently. */
+  header .nav-link-item:hover {
     background: var(--header-dropdown-bg);
   }
 
-  header .nav-link-item.has-dropdown:hover > a {
+  header .nav-link-item:hover > a {
     color: var(--header-dropdown-link-color);
   }
 
