@@ -63,15 +63,22 @@
   --tf-btn-hover-bg: var(--brand-cyan-shadow);
   --tf-btn-hover-color: #fff;
 
-  /* Progress bar */
+  /* Progress bar — light-grey circles/connectors, grey inactive labels,
+     brand-cyan active label, subtle bottom border (source parity) */
   --tf-progress-active-color: #fff;
   --tf-progress-inactive-color: #fff;
+  --tf-progress-inactive-label: #b5b5b5;
   --tf-progress-size-mobile: 12px;
-  --tf-progress-track: var(--brand-blue);
+  --tf-progress-title-size-mobile: 24px;
+  --tf-progress-track: #d7d7d7;
   --tf-progress-active-bg: var(--brand-cyan);
+  --tf-progress-border: 1px solid #e5e5e5;
 
   /* Entry CTA buttons (proceedoptions) — same cyan treatment */
   --tf-cta-bg: var(--brand-cyan);
   --tf-cta-color: var(--brand-blue-dark);
   --tf-cta-size: 18px;
+
+  /* "or" divider between the two CTAs (source #0188bf) */
+  --tf-divider-color: #0188bf;
 }

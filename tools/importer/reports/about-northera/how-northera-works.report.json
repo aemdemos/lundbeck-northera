@@ -1,0 +1,17 @@
+{
+  "status": "success",
+  "url": "https://northera-stage.d.lundbeckus.com/about-northera/how-northera-works",
+  "path": "about-northera/how-northera-works",
+  "timestamp": "2026-07-17T17:46:32.324Z",
+  "title": "Learn How NORTHERA Works | NORTHERA® (droxidopa)",
+  "template": "how-northera-works-page",
+  "blocks": [
+    "embed",
+    "embed",
+    "accordion",
+    "accordion",
+    "cards-cta",
+    "cards-cta",
+    "fragment-isi"
+  ]
+}

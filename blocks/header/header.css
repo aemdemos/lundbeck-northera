@@ -446,6 +446,14 @@ header .nav-utility-links a {
   display:inline;
   width:100%;
 }
+
+/* At 768–1200px the utility links stop wrapping, so the utility bar collapses
+   from ~60px to ~40px. Shrink the reserved header height to match its actual
+   content (40px utility + 103px main) — otherwise a ~20px empty gap appears
+   between the header and the page banner. */
+header {
+  height: calc(40px + var(--header-mobile-main-height));
+}
   }
 
 

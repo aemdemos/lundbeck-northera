@@ -617,20 +617,74 @@ export default function decorate(block) {
   // callout + check-list are handled separately by the columns.form block above.
   const [ctaRow] = rows;
 
+  const wizard = buildWizard();
+  // The wizard (progress bar + form) is hidden until the "START THE ONLINE
+  // TREATMENT FORM" CTA is clicked, matching the source flow (entry CTAs first,
+  // then the first form page replaces them).
+  wizard.hidden = true;
+
+  let startLink;
   if (ctaRow) {
     const cta = styleAuthoredRow(ctaRow, 'treatment-form-cta');
+    const paras = [...cta.querySelectorAll(':scope > p')];
     // A CTA paragraph that contains only a link is a solid button; a paragraph
     // with text (helper copy, possibly with an inline link) is not. Mark the
     // button anchors so CSS can style them distinctly from inline links.
-    cta.querySelectorAll('p').forEach((p) => {
+    paras.forEach((p) => {
       const link = p.querySelector('a');
       const onlyLink = link && p.textContent.trim() === link.textContent.trim();
       if (onlyLink) link.classList.add('treatment-form-cta-button');
     });
+
+    // Source groups each solid button with the helper copy that follows it into
+    // a row (button left / helper right at desktop) and separates the two rows
+    // with an "or" divider (a horizontal line broken by a small pill). Rebuild
+    // that structure: a new row opens at every button paragraph and absorbs the
+    // following helper paragraph(s) until the next button.
+    const ctaRows = [];
+    let currentRow = null;
+    paras.forEach((p) => {
+      if (p.querySelector('a.treatment-form-cta-button')) {
+        currentRow = document.createElement('div');
+        currentRow.className = 'treatment-form-cta-row';
+        ctaRows.push(currentRow);
+      }
+      if (currentRow) currentRow.append(p);
+    });
+    ctaRows.forEach((row, i) => {
+      if (i > 0) {
+        const divider = document.createElement('div');
+        divider.className = 'treatment-form-cta-divider';
+        const pill = document.createElement('span');
+        pill.textContent = 'or';
+        divider.append(pill);
+        cta.append(divider);
+      }
+      cta.append(row);
+    });
+
+    // The START link (href "#treatment-form") reveals the wizard in place of the
+    // entry CTAs. The DOWNLOAD link is a real PDF and is left as a normal link.
+    startLink = cta.querySelector('a[href$="#treatment-form"]')
+      || cta.querySelector('.treatment-form-cta-button');
+    if (startLink) {
+      startLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Source flow: the form takes over the page. Hide the entry CTAs and the
+        // whole intro section above (hero banner + intro copy + fax callout), so
+        // only the wizard remains.
+        cta.hidden = true;
+        wizard.hidden = false;
+        const section = block.closest('.section');
+        const introSection = section?.previousElementSibling;
+        if (introSection?.classList.contains('section')) introSection.hidden = true;
+        wizard.scrollIntoView({ block: 'start' });
+      });
+    }
     container.append(cta);
   }
 
-  container.append(buildWizard());
+  container.append(wizard);
 
   block.textContent = '';
   block.append(container);

@@ -83,8 +83,8 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
 @media (width >= 768px) {
   .hero-hcp-internal {
     position: relative;
-    width: min(100vw, 1200px);
-    max-width: min(100vw, 1200px);
+    width: 100%;
+    max-width: 1200px;
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
     background-image: var(--hero-hcp-internal-bg-desktop);
     background-size: cover;
@@ -100,8 +100,8 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {
-    position: static;
-    left: auto;
+    top: 17%;
+    left: 2%;
     bottom: auto;
     padding: 10px 20px 38px;
   }
@@ -124,4 +124,11 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
 main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
  margin-bottom: 10px;
 }
+}
+
+/* ≥1400px: banner fills the full content column (no 1200px cap) */
+@media (width >= 1400px) {
+  .hero-hcp-internal {
+    max-width: none;
+  }
 }

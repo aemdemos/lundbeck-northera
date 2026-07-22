@@ -6,7 +6,7 @@ import heroHcpInternalParser from './parsers/hero-hcp-internal.js';
 import cardsBenefitParser from './parsers/cards-benefit.js';
 import cardsPharmacyParser from './parsers/cards-pharmacy.js';
 import dawBannerLightParser from './parsers/daw-banner-light.js';
-import columnsContactParser from './parsers/columns-contact.js';
+import cardsContactParser from './parsers/cards-contact.js';
 import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
@@ -46,7 +46,7 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'columns-contact',
+      name: 'cards-contact',
       instances: [
         'div.responsivegrid.cmp-layout__two__imagetext',
       ],
@@ -64,7 +64,7 @@ const PAGE_TEMPLATE = {
     { id: 'presc-choose', name: 'Choose the option heading', selector: 'div#text-6b7309ab70.cmp-text', style: null, blocks: [], defaultContent: [] },
     { id: 'presc-options', name: 'Prescribing options comparison', selector: 'div.responsivegrid.cmp-layout_prescribing_options__teaser__right', style: null, blocks: ['cards-benefit', 'cards-pharmacy'], defaultContent: [] },
     { id: 'presc-daw', name: 'Why "Dispense as written" matters', selector: 'div.responsivegrid.ask-for-northera', style: null, blocks: ['daw-banner-light'], defaultContent: [] },
-    { id: 'presc-pa', name: 'Prior authorization (CoverMyMeds)', selector: 'div#northeramedicare.cmp-container', style: null, blocks: ['columns-contact'], defaultContent: [] },
+    { id: 'presc-pa', name: 'Prior authorization (CoverMyMeds)', selector: 'div#northeramedicare.cmp-container', style: null, blocks: ['cards-contact'], defaultContent: [] },
     { id: 'presc-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
@@ -75,7 +75,7 @@ const parsers = {
   'cards-benefit': cardsBenefitParser,
   'cards-pharmacy': cardsPharmacyParser,
   'daw-banner-light': dawBannerLightParser,
-  'columns-contact': columnsContactParser,
+  'cards-contact': cardsContactParser,
   'fragment-isi': fragmentIsiParser,
 };
 

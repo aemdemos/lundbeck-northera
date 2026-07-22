@@ -1,17 +1,17 @@
 {
   "status": "success",
-  "url": "https://lundbeck-admin:pH6Uuj5k9w8i@northera-stage.d.lundbeckus.com/patient-support",
+  "url": "https://northera-stage.d.lundbeckus.com/patient-support",
   "path": "patient-support",
-  "timestamp": "2026-07-10T15:48:05.774Z",
+  "timestamp": "2026-07-17T17:47:19.432Z",
   "title": "Helpful nOH and NORTHERA Resources |NORTHERA® (droxidopa)",
   "template": "patient-support-page",
   "blocks": [
+    "columns",
     "cards-resource",
     "cards-resource",
     "cards-resource",
     "cards-resource",
     "cards-cta",
-    "isi",
-    "isi"
+    "fragment-isi"
   ]
 }

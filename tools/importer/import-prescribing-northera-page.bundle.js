@@ -57,7 +57,7 @@ var CustomImportScript = (() => {
     }
   }
   function parse(element, { document }) {
-    const bgImg = element.querySelector(".cmp-teaser__image img, img");
+    const bgImg = element.querySelector(".cmp-teaser__image img, .cmp-treatment__banner__image img, img");
     let bgCell = "";
     if (bgImg) {
       const img = document.createElement("img");
@@ -66,7 +66,7 @@ var CustomImportScript = (() => {
       bgCell = img;
     }
     const content = document.createElement("div");
-    const iconImg = element.querySelector(".cmp-teaser__icon img");
+    const iconImg = element.querySelector(".cmp-teaser__icon img, .cmp-treatment__banner__icon img");
     if (iconImg) {
       const icon = document.createElement("img");
       icon.setAttribute("src", iconImg.getAttribute("src") || iconImg.src || "");
@@ -196,7 +196,7 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/columns-contact.js
+  // tools/importer/parsers/cards-contact.js
   function normalizeHref2(raw) {
     if (!raw) return "";
     try {
@@ -213,14 +213,15 @@ var CustomImportScript = (() => {
   }
   function parse5(element, { document }) {
     const teasers = [...element.querySelectorAll(".cmp-teaser")];
-    const cells = teasers.map((teaser) => {
-      const cell = document.createElement("div");
+    const rows = teasers.map((teaser) => {
+      const imageCell = document.createElement("div");
+      const bodyCell = document.createElement("div");
       const img = teaser.querySelector(".cmp-teaser__image img, img");
       if (img) {
         const el = document.createElement("img");
         el.setAttribute("src", img.getAttribute("src") || img.src || "");
         el.setAttribute("alt", img.getAttribute("alt") || "");
-        cell.appendChild(el);
+        imageCell.appendChild(el);
       }
       const desc = teaser.querySelector(".cmp-teaser__description");
       if (desc) {
@@ -230,19 +231,19 @@ var CustomImportScript = (() => {
             clone.querySelectorAll("a[href]").forEach((a) => {
               a.setAttribute("href", normalizeHref2(a.getAttribute("href") || a.href || ""));
             });
-            cell.appendChild(clone);
+            bodyCell.appendChild(clone);
           }
         });
       }
-      return cell;
-    }).filter((c) => c.children.length);
-    if (!cells.length) {
+      return [imageCell, bodyCell];
+    }).filter((cells) => cells[0].children.length || cells[1].children.length);
+    if (!rows.length) {
       element.replaceWith(...element.childNodes);
       return;
     }
     const block = WebImporter.Blocks.createBlock(document, {
-      name: "columns (contact)",
-      cells: [cells]
+      name: "cards (contact)",
+      cells: rows
     });
     element.replaceWith(block);
   }
@@ -284,6 +285,7 @@ var CustomImportScript = (() => {
         ".cmp-layout-footer"
       ]);
       WebImporter.DOMUtils.remove(element, ["#toTop"]);
+      WebImporter.DOMUtils.remove(element, [".cmp-layout-quicklinks"]);
       [...element.querySelectorAll(".cq-dd-fragment, .contentfragment")].forEach((frag) => {
         if (frag.closest(".cmp-layout-isi__phone")) return;
         if (/^\s*Please see Important Safety Information/i.test(frag.textContent || "")) {
@@ -380,7 +382,7 @@ var CustomImportScript = (() => {
         ]
       },
       {
-        name: "columns-contact",
+        name: "cards-contact",
         instances: [
           "div.responsivegrid.cmp-layout__two__imagetext"
         ]
@@ -398,7 +400,7 @@ var CustomImportScript = (() => {
       { id: "presc-choose", name: "Choose the option heading", selector: "div#text-6b7309ab70.cmp-text", style: null, blocks: [], defaultContent: [] },
       { id: "presc-options", name: "Prescribing options comparison", selector: "div.responsivegrid.cmp-layout_prescribing_options__teaser__right", style: null, blocks: ["cards-benefit", "cards-pharmacy"], defaultContent: [] },
       { id: "presc-daw", name: 'Why "Dispense as written" matters', selector: "div.responsivegrid.ask-for-northera", style: null, blocks: ["daw-banner-light"], defaultContent: [] },
-      { id: "presc-pa", name: "Prior authorization (CoverMyMeds)", selector: "div#northeramedicare.cmp-container", style: null, blocks: ["columns-contact"], defaultContent: [] },
+      { id: "presc-pa", name: "Prior authorization (CoverMyMeds)", selector: "div#northeramedicare.cmp-container", style: null, blocks: ["cards-contact"], defaultContent: [] },
       { id: "presc-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["fragment-isi"], defaultContent: [] }
     ]
   };
@@ -407,7 +409,7 @@ var CustomImportScript = (() => {
     "cards-benefit": parse2,
     "cards-pharmacy": parse3,
     "daw-banner-light": parse4,
-    "columns-contact": parse5,
+    "cards-contact": parse5,
     "fragment-isi": parse6
   };
   var transformers = [
