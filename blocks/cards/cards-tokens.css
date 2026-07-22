@@ -18,6 +18,7 @@
   --cards-resource-box-padding: 30px 15px;
   --cards-resource-box-padding-desktop: 30px;
   --cards-resource-thumb-width: 138px;
+  --cards-resource-thumb-width-tablet: 75px;
   --cards-resource-img-text-gap: var(--spacing-m, 24px);
   --cards-resource-title-color: var(--brand-blue);
   --cards-resource-title-size: var(--heading-font-size-m, 20px);
@@ -27,7 +28,7 @@
   --cards-resource-desc-size: var(--body-font-size-s, 16px);
   --cards-resource-desc-size-desktop: var(--body-font-size-m, 18px);
   --cards-resource-desc-line-height: 20px;
-  --cards-resource-desc-line-height-desktop: 22px;
+  --cards-resource-desc-line-height-desktop: 30px;
 
   /* resource CTA — site standard cyan button (see --button-* tokens) with a
      left download icon. Source: bg #02bded, text #1f4763 Gotham-Black 18px,
@@ -40,7 +41,10 @@
   --cards-resource-cta-padding-x: 30px;
   --cards-resource-cta-shadow: var(--button-shadow);
   --cards-resource-cta-hover-shadow: var(--button-hover-shadow);
+  --cards-resource-cta-hover-background: var(--brand-cyan-shadow);
+  --cards-resource-cta-hover-color: #fff;
   --cards-resource-cta-icon-url: url("/icons/download.png");
+  --cards-resource-cta-icon-hover-url: url("/icons/download-hover.png");
   --cards-resource-cta-icon-width: 36px;
   --cards-resource-cta-icon-height: 30px;
   

@@ -31,6 +31,53 @@ const BAR_ID = 'isi-bar';
  * in the left content column at every breakpoint (source parity).
  * @param {HTMLElement} abbreviatedRow the block's first (abbreviated) row
  */
+/**
+ * Opens the ISI: on desktop (≥1200px) clicks the rail expand toggle; otherwise
+ * opens the fixed bottom bar's Important Safety section. Source: the "Important
+ * Safety Information" link (a.open_isi) opens the ISI overlay/bar.
+ */
+function openIsi() {
+  const desktopToggle = document.querySelector('.isi-desktop-toggle');
+  if (desktopToggle && window.matchMedia('(min-width: 1200px)').matches) {
+    desktopToggle.click();
+    return;
+  }
+  const bar = document.getElementById(BAR_ID);
+  const impToggle = bar && bar.querySelector('.isi-bar-section-important .isi-bar-toggle');
+  if (impToggle) impToggle.click();
+}
+
+/**
+ * Wraps the phrase "Important Safety Information" in the please-see blurb with a
+ * cyan link that opens the ISI (source parity: <a class="open_isi">).
+ * @param {HTMLElement} wrapper the .isi-please-see wrapper
+ */
+function linkifyPleaseSee(wrapper) {
+  const walker = document.createTreeWalker(wrapper, NodeFilter.SHOW_TEXT);
+  const phrase = 'Important Safety Information';
+  const targets = [];
+  let node = walker.nextNode();
+  while (node) {
+    if (node.textContent.includes(phrase) && !node.parentElement.closest('a')) targets.push(node);
+    node = walker.nextNode();
+  }
+  targets.forEach((textNode) => {
+    const idx = textNode.textContent.indexOf(phrase);
+    if (idx < 0) return;
+    const after = textNode.splitText(idx);
+    after.splitText(phrase.length);
+    const link = document.createElement('a');
+    link.href = '#';
+    link.className = 'isi-please-see-link';
+    link.textContent = phrase;
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      openIsi();
+    });
+    after.parentNode.replaceChild(link, after);
+  });
+}
+
 let pleaseSeePlaced = false;
 function placePleaseSee(abbreviatedRow) {
   if (!abbreviatedRow) return;
@@ -50,6 +97,9 @@ function placePleaseSee(abbreviatedRow) {
   wrapper.className = 'isi-please-see';
   [...cell.children].forEach((child) => wrapper.append(child));
   section.append(wrapper);
+  // Source parity: "Important Safety Information" in this blurb is a cyan link
+  // that opens the ISI (source <a class="open_isi">). Wrap the phrase in a link.
+  linkifyPleaseSee(wrapper);
   // Source order: the blurb sits right before the ISI section (after cards-cta).
   // At ≥1200px the ISI section becomes an out-of-flow right rail, so the blurb
   // remains the last in-flow content — just above the footer, matching source.
@@ -69,6 +119,15 @@ function getOrCreateBar() {
   inner.className = 'isi-bar-inner';
   bar.append(inner);
   document.body.append(bar);
+
+  // Source parity: the "Use" description peek only shows at the top of the
+  // page; once the user scrolls it collapses to just the "USE" label row.
+  const syncScrolled = () => {
+    bar.classList.toggle('isi-bar-scrolled', window.scrollY > 0);
+  };
+  syncScrolled();
+  window.addEventListener('scroll', syncScrolled, { passive: true });
+
   return bar;
 }
 
@@ -134,6 +193,18 @@ function addBarSection(bar, variant, label, fullRow) {
     }
   }
 
+  // collapsed peek: the "Use" section shows the start of its description text
+  // peeking below the header (source parity: ~80px overflow-hidden teaser)
+  if (variant === 'use') {
+    const firstPara = panel.querySelector('p');
+    if (firstPara) {
+      const peek = document.createElement('div');
+      peek.className = 'isi-bar-peek isi-bar-peek-use';
+      peek.append(firstPara.cloneNode(true));
+      header.after(peek);
+    }
+  }
+
   const setOpen = (open) => {
     section.classList.toggle('open', open);
     toggle.setAttribute('aria-expanded', String(open));
@@ -145,12 +216,20 @@ function addBarSection(bar, variant, label, fullRow) {
         if (s !== section) s.classList.remove('open');
       });
     }
+    // Source parity: while the full-screen bar overlay is open, lock the page
+    // behind it so only the overlay's content scrolls (jQuery adds a no-scroll
+    // class to <body>). Without this the page scrolls behind the overlay and the
+    // in-flow ISI observer would slide the bar away, revealing the page.
+    document.body.classList.toggle('isi-bar-open-lock', open);
   };
 
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
     setOpen(!section.classList.contains('open'));
-    if (!inner.querySelector('.isi-bar-section.open')) bar.classList.remove('isi-bar-expanded');
+    if (!inner.querySelector('.isi-bar-section.open')) {
+      bar.classList.remove('isi-bar-expanded');
+      document.body.classList.remove('isi-bar-open-lock');
+    }
   });
 
   inner.append(section);
@@ -215,6 +294,9 @@ function observeSectionVisibility(block) {
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (!bar) return;
+      // While the overlay is expanded the page is scroll-locked (source parity),
+      // so don't let the in-flow ISI observer hide/close it.
+      if (bar.classList.contains('isi-bar-expanded')) return;
       if (entry.isIntersecting) {
         bar.classList.add('isi-bar-hidden');
         bar.classList.remove('isi-bar-expanded');
@@ -273,8 +355,7 @@ function setupDesktopExpandToggle(block, variant) {
   const closeBtn = makeCloseButton();
   section.append(closeBtn);
 
-  const setExpanded = (expanded) => {
-    section.classList.toggle('isi-desktop-expanded', expanded);
+  const syncToggleA11y = (expanded) => {
     toggle.setAttribute('aria-expanded', String(expanded));
     toggle.setAttribute(
       'aria-label',
@@ -282,14 +363,53 @@ function setupDesktopExpandToggle(block, variant) {
     );
   };
 
+  // Source parity: open slides the panel in from the right over 500ms
+  // ($(model).show("slide",{direction:"right"},500)). The CSS keyframe on
+  // .isi-desktop-expanded runs automatically and always animates from its
+  // off-screen `from` state, so the slide-in is guaranteed.
+  const open = () => {
+    section.classList.remove('isi-closing');
+    section.classList.add('isi-desktop-expanded');
+    syncToggleA11y(true);
+  };
+
+  // Close slides the panel back out to the right over 500ms
+  // ($(model).hide("slide",{direction:"right"},500)); .isi-closing keeps the
+  // fixed overlay layout while transitioning transform to translateX(100%),
+  // then both classes are removed on transitionend.
+  let closing = false;
+  const close = () => {
+    if (closing || !section.classList.contains('isi-desktop-expanded')) return;
+    closing = true;
+    section.classList.add('isi-closing');
+    syncToggleA11y(false);
+    const panel = section;
+    const finish = () => {
+      section.classList.remove('isi-desktop-expanded', 'isi-closing');
+      closing = false;
+    };
+    let done = false;
+    const onEnd = (ev) => {
+      if (ev && ev.propertyName && ev.propertyName !== 'transform') return;
+      if (done) return;
+      done = true;
+      panel.removeEventListener('transitionend', onEnd);
+      finish();
+    };
+    panel.addEventListener('transitionend', onEnd);
+    // fallback in case transitionend doesn't fire
+    setTimeout(onEnd, 600);
+  };
+
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
-    setExpanded(!section.classList.contains('isi-desktop-expanded'));
+    if (section.classList.contains('isi-desktop-expanded') && !closing) close();
+    else open();
   });
 
   closeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    setExpanded(false);
+    close();
   });
 }
 
@@ -303,7 +423,32 @@ const DESKTOP_RAIL_MQ = window.matchMedia('(min-width: 1200px)');
  * the important block to fill from its own top down to the content column's
  * bottom. Runs on load, on resize, and when content height changes.
  */
+/**
+ * When the ISI arrives via a fragment, its `.section.isi-container` ends up
+ * nested inside `main > .section.fragment-container > .fragment-wrapper`, so the
+ * rail layout (CSS `main:has(> .section.isi-container)` and the queries below)
+ * never matches. Hoist the ISI section — and its sibling "Please see…" section —
+ * up to be direct children of `main`, replacing the now-empty fragment container.
+ * Idempotent: no-op once the rail is already a direct child of main.
+ */
+function hoistRailToMain() {
+  const railSection = document.querySelector('.section.isi-container');
+  if (!railSection) return;
+  const main = railSection.closest('main');
+  if (!main || railSection.parentElement === main) return;
+
+  const topSection = [...main.children].find((c) => c.contains(railSection));
+  if (!topSection || topSection === railSection) return;
+
+  const frag = document.createDocumentFragment();
+  const pleaseSee = topSection.querySelector('.section.isi-please-see-section');
+  if (pleaseSee) frag.append(pleaseSee);
+  frag.append(railSection);
+  main.replaceChild(frag, topSection);
+}
+
 function syncRailHeight() {
+  hoistRailToMain();
   const railSection = document.querySelector('main > .section.isi-container');
   if (!railSection) return;
 

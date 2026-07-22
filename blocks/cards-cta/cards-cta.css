@@ -11,9 +11,11 @@
 /* The source renders the banner background as authored default content (a
    stray picture) placed before the block — hide it; the bg is applied here. */
 
+/* source parity: ~50px gap above the "Real patient stories" banner */
 main > .section:has(.cards-cta) {
 padding: 0;
-}   
+margin-top: var(--cards-cta-section-gap);
+}
 
 main > .section > div:has(.cards-cta) {
   padding: 0;
@@ -44,6 +46,13 @@ main > .section > div:has(.cards-cta) {
   border: 0;
   background: none;
   display: flex;
+}
+
+/* Source parity: the whole banner card is a click target (cursor:pointer on
+   the entire card, click forwarded to the CTA link in cards-cta.js) */
+.cards-cta > ul > li.cards-cta-linked,
+.cards-cta > ul > li.cards-cta-linked * {
+  cursor: pointer;
 }
 
 /* body fills the card height so the CTA (last child) can pin to the bottom

@@ -362,9 +362,14 @@ padding: 0;
   padding-top: 25px;
 }
 
+/* Source .cmp-text-cta button: the button hugs its content — icon + label sit
+   inline as a centered group (not full width, not icon pinned to the edge).
+   Padding 15px 10px, content centered, icon 36x30 immediately before the text. */
 .cards.resource .cards-card-body a {
-  position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   box-sizing: border-box;
   width: 100%;
   background-color: var(--cards-resource-cta-background);
@@ -373,198 +378,49 @@ padding: 0;
   font-size: var(--cards-resource-cta-font-size);
   line-height: var(--button-line-height, 1.2);
   padding: var(--cards-resource-cta-padding);
-  padding-left: calc(var(--cards-resource-cta-icon-left) + var(--cards-resource-cta-icon-width) + 10px);
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
   border: 0;
   border-radius: 0;
   box-shadow: var(--cards-resource-cta-shadow);
   text-decoration: none;
   transition: box-shadow var(--button-transition, 0.2s ease-in-out);
   min-height: 50px;
-   max-width: 385px;
+  max-width: 385px;
 }
 
+/* inline download icon before the label (source .cmp-label-icon::before, 36x30) */
 .cards.resource .cards-card-body a::before {
   content: '';
-  position: absolute;
-  left: var(--cards-resource-cta-icon-left);
-  top: 50%;
-  transform: translateY(-50%);
+  flex: none;
   width: var(--cards-resource-cta-icon-width);
   height: var(--cards-resource-cta-icon-height);
   background: var(--cards-resource-cta-icon-url) no-repeat center / 100%;
 }
 
+/* Source hover: bg flips to dark blue (#19527f), text to white, the stacked
+   shadow flips to cyan, and the download icon swaps to its white variant. */
 .cards.resource .cards-card-body a:hover,
 .cards.resource .cards-card-body a:focus {
+  background-color: var(--cards-resource-cta-hover-background);
+  color: var(--cards-resource-cta-hover-color);
   box-shadow: var(--cards-resource-cta-hover-shadow);
   text-decoration: none;
 }
 
-
-
-/* ══════════════════════════════════════════════════════════════
-   "symptoms" variant — 3 common-nOH-symptom tiles (icon on top + centered
-   white title) on the brand-blue band (section style set to brand-blue).
-   Source: .cmp-carousel_bghdarkblue. Mobile: 1-col stacked; ≥768px: 3-across.
-   ══════════════════════════════════════════════════════════════ */
-.cards.symptoms > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  padding: 0;
+.cards.resource .cards-card-body a:hover::before,
+.cards.resource .cards-card-body a:focus::before {
+  background: var(--cards-resource-cta-icon-hover-url) no-repeat center / 100%;
 }
 
-.cards.symptoms > ul > li {
-  border: 0;
-  background-color: transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.cards.symptoms > ul > li img {
-  aspect-ratio: unset;
-  object-fit: contain;
-  width: auto;
-  max-width: 100%;
-  padding: 30px 0 0;
-}
-
-.cards.symptoms .cards-card-body {
-  margin: 0;
-}
-
-.cards.symptoms .cards-card-body p {
-  color: #fff;
-  font-family: var(--heading-font-family);
-  font-size: 18px;
-  line-height: 22px;
-  text-align: center;
-  margin: 0;
-  padding: 40px 10px 25px;
-}
-
-/* ══════════════════════════════════════════════════════════════
-   "stats" variant — 3 infographic tiles (image + bold caption) with vertical
-   dividers between tiles on desktop; stacked, no dividers on mobile.
-   Source: .symptomatic-noh-condition. Text #333, bold, centered.
-   ══════════════════════════════════════════════════════════════ */
-.cards.stats > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  padding: 0;
-}
-
-.cards.stats > ul > li {
-  border: 0;
-  background-color: transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 15px 30px;
-}
-
-.cards.stats > ul > li img {
-  aspect-ratio: unset;
-  object-fit: contain;
-  width: 90%;
-  max-width: 178px;
-  margin: 0 auto;
-}
-
-.cards.stats .cards-card-image {
-  min-height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cards.stats .cards-card-body {
-  margin: 0;
-}
-
-.cards.stats .cards-card-body p {
-  color: var(--text-color, #333);
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 700;
-  text-align: center;
-  margin: 0;
-}
-
-
-.cards.contact > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin: 0;
-  padding: 0 25px;
-}
-
-.cards.contact > ul > li {
-  border: 0;
-  background-color: transparent;
-  text-align: center;
-}
-
-.cards.contact .cards-card-image {
-  text-align: center;
-  padding: 20px 0;
-}
-
-.cards.contact > ul > li img {
-  aspect-ratio: unset;
-  object-fit: contain;
-  width: 122px;
-  height: auto;
-  margin: 0 auto;
-}
-
-.cards.contact .cards-card-body {
-  margin: 0;
-}
-
-.cards.contact .cards-card-body p {
-  text-align: center;
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 20px;
-  margin: 0;
-}
-
-.cards.contact .cards-card-body b,
-.cards.contact .cards-card-body strong {
-  color: #58595b;
-  font-family: var(--heading-font-family);
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-.cards.contact .cards-card-body a {
-  font-size: 16px;
-  line-height: 30px;
-  text-decoration: none;
-  font-weight: 700;
-  font-family: var(--heading-font-family);
-  word-break: normal;
-  overflow-wrap: anywhere;
-}
-
-/* 1st card gets a bottom rule that separates the two stacked cards on mobile */
-.cards.contact > ul > li:first-child .cards-card-body {
-  border-bottom: 1px solid #969696;
-  padding-bottom: 20px;
-}
-
+/* Tablet+ (≥768px): 2-up grid. Within each card the thumbnail sits left and
+   title/desc to the right, with the CTA spanning the full width at the bottom —
+   matching the source (image float:left, heading/desc wrap beside it). The card
+   is a grid with a thumbnail column and a text column across two content rows,
+   and a third row (1fr) that grows so the CTA pins to the bottom. The body is
+   display:contents so its children (h3, description, CTA) become grid items
+   directly. The thumbnail is 75px in the tablet range (source sizing) and grows
+   to 138px at desktop. */
 @media (width >= 768px) {
   .cards.reminders > ul > li {
     flex-direction: row;
@@ -597,24 +453,19 @@ padding: 0;
   }
 
   .cards.resource > ul {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--cards-resource-gap-desktop);
     align-items: stretch;
   }
 
-  /* Within each card (source .cmp-imagetext__container): thumbnail + title/desc
-     on the top row, CTA spanning the full width at the bottom. The card is a
-     grid with a thumbnail column and a text column across two content rows, and
-     a third row (1fr) that grows so the CTA pins to the bottom — matching the
-     source's flex-column space-between. The body is display:contents so its
-     children (h3, description, CTA) become grid items directly. */
   .cards.resource > ul > li {
     display: grid;
-    grid-template-columns: var(--cards-resource-thumb-width) 1fr;
+    grid-template-columns: var(--cards-resource-thumb-width-tablet) minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
     column-gap: var(--cards-resource-img-text-gap);
     padding: var(--cards-resource-box-padding-desktop);
-    height: 500px;
+    box-sizing: border-box;
+    min-width: 0;
   }
 
   .cards.resource .cards-card-image {
@@ -767,8 +618,8 @@ padding: 0;
   }
 }
 
-
-@media (width > 992px) {
+/* Desktop (≥992px): the thumbnail grows to its full 138px width. */
+@media (width >= 992px) {
   .cards.cards-2-cols > ul {
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
@@ -788,9 +639,9 @@ padding: 0;
     width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
   }
 
-   .cards.resource > ul > li {
-    height: 520px;
-}
+  .cards.resource > ul > li {
+    grid-template-columns: var(--cards-resource-thumb-width) minmax(0, 1fr);
+  }
 }
 
 @media (width >= 1200px) {
@@ -803,11 +654,5 @@ padding: 0;
 @media (width > 1400px) {
   main > .section > div:has(.cards.resource) {
     padding: 0 12%;
-  }
-}
-
-@media (width > 1610px)  {
-  .cards.resource > ul > li {
-    height: 355px;
   }
 }

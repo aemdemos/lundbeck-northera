@@ -32,6 +32,18 @@ main .isi-please-see a {
   overflow-wrap: anywhere;
 }
 
+/* Source parity: the "Important Safety Information" opener is cyan, no underline */
+main .isi-please-see .isi-please-see-link {
+  color: var(--brand-cyan);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+main .isi-please-see .isi-please-see-link:hover,
+main .isi-please-see .isi-please-see-link:focus {
+  text-decoration: none;
+}
+
 /* block padding (source: .cmp-isi__use / .cmp-isi__importantsafety padding: 0 25px) */
 main .isi {
   padding: 0 var(--isi-section-padding-x);
@@ -166,7 +178,6 @@ main .isi a:hover {
   inset: auto 0 0;
   z-index: 20;
   background-color: #fff;
-  border-top: 1px solid var(--isi-divider-color);
   box-shadow: 0 -2px 6px rgb(0 0 0 / 12%);
   max-height: 52vh;
   overflow: hidden;
@@ -195,7 +206,7 @@ main .isi a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 20px 25px;
+  padding: 16px 25px;
   cursor: pointer;
   font-family: var(--isi-heading-font);
 }
@@ -270,12 +281,14 @@ main .isi a:hover {
   opacity: 0;
 }
 
-/* collapsed peek of the warning box under the Important Safety header */
+/* collapsed peek of the warning box under the Important Safety header.
+   Source parity: the bottom margin is small so the collapsed bar stays compact
+   (~319px) and doesn't ride up over the content section above it. */
 .isi-bar-peek {
   padding: 0 25px;
   max-height: 90px;
   overflow: hidden;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .isi-bar-peek .isi-warningbox {
@@ -292,17 +305,45 @@ main .isi a:hover {
   margin: 0;
 }
 
+/* collapsed peek of the "Use" description text under its header (source: an
+   ~80px overflow-hidden teaser of the body copy). Source parity: the peek is
+   only shown at the top of the page — once the user scrolls it slides away,
+   leaving just the "USE" label row. */
+.isi-bar-peek-use {
+  max-height: 80px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  transition: max-height 0.4s ease, margin-bottom 0.4s ease;
+}
 
-/* expandable full panel (hidden until section.open) */
+.isi-bar-scrolled .isi-bar-peek-use {
+  max-height: 0;
+  margin-bottom: 0;
+}
+
+.isi-bar-peek-use p {
+  font-family: var(--isi-body-font);
+  font-size: var(--isi-body-font-size);
+  line-height: var(--isi-body-line-height);
+  color: var(--isi-body-color);
+  margin: 0;
+}
+
+
+/* expandable full panel — collapsed by default, animates open via max-height
+   (source: jQuery slideDown/slideUp height animation) */
 .isi-bar-panel {
-  display: none;
-  padding: 0 25px 25px;
-  overflow-y: auto;
-  max-height: calc(40vh - 50px);
+  display: block;
+  padding: 0 25px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease;
 }
 
 .isi-bar-section.open .isi-bar-panel {
-  display: block;
+  padding: 0 25px 25px;
+  overflow-y: auto;
+  max-height: calc(40vh - 50px);
 }
 
 .isi-bar-expanded .isi-bar-section {
@@ -327,7 +368,17 @@ main .isi a:hover {
   max-height: none;
 }
 
-.isi-bar-expanded .isi-bar-panel {
+/* Source parity: lock the page behind the full-screen bar overlay so only the
+   overlay's content scrolls (jQuery no-scroll on <body>). */
+html:has(> body.isi-bar-open-lock),
+body.isi-bar-open-lock {
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* when expanded the open panel fills the viewport (source: full-screen overlay).
+   Scoped through .open so it out-specifies the collapsed .open 40vh cap above. */
+.isi-bar-expanded .isi-bar-section.open .isi-bar-panel {
   max-height: calc(100vh - 80px);
   max-height: calc(100dvh - 80px);
 }
@@ -431,10 +482,27 @@ main .isi a:hover {
     box-sizing: border-box;
   }
 
+  /* Source parity: on expand the left content, please-see blurb and site header
+     stay visible but dim to 0.2 opacity (jQuery sets opacity 0.2); the model
+     panel slides in over them. The 5% gutter at left shows the dimmed page. */
   main:has(> .section.isi-container.isi-desktop-expanded) > .section:not(.isi-container) {
-    display: none;
+    opacity: 0.2;
+    pointer-events: none;
+    transition: opacity 300ms ease;
   }
 
+  body:has(main > .section.isi-container.isi-desktop-expanded) > header {
+    opacity: 0.2;
+    pointer-events: none;
+    transition: opacity 300ms ease;
+  }
+
+  /* Source: $(model).show("slide",{direction:"right"},500) — the overlay slides
+     in from the right edge over 500ms. A keyframe (which always animates from
+     its `from` state) guarantees the slide-in even when the class is added in
+     the same frame; close uses a matching transform transition out to the right
+     via .isi-closing, so both directions match (source uses direction:"right"
+     for both show and hide). */
   main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container {
     position: fixed;
     width: 95%;
@@ -446,6 +514,18 @@ main .isi a:hover {
     overflow-y: auto;
     height: 100%;
     padding: 50px 15% 30px 50px;
+    animation: isi-slide-in-right 500ms ease;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded.isi-closing) > .section.isi-container {
+    animation: none;
+    transform: translateX(100%);
+    transition: transform 500ms ease;
+  }
+
+  @keyframes isi-slide-in-right {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
   }
 
   main:has(> .section.isi-container) > .section.isi-container > div {
@@ -496,21 +576,21 @@ main .isi-please-see-section {
     padding-right: 10px;
     overflow-y: scroll;
     scrollbar-gutter: stable;
-    scrollbar-width: thin;
-    scrollbar-color: var(--isi-divider-color) #f2f2f2;
-    box-shadow: inset -2px 0 0 #f2f2f2;
+    scrollbar-width: auto;
+    scrollbar-color: var(--isi-rail-scrollbar-thumb-color) var(--isi-rail-scrollbar-track-color);
+    box-shadow: var(--isi-rail-gutter-line);
   }
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar {
-    width: 2px;
+    width: var(--isi-rail-scrollbar-width);
   }
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar-track {
-    background: #f2f2f2;
+    background: var(--isi-rail-scrollbar-track-color);
   }
 
   main:has(> .section.isi-container) .isi.isi-use .isi-use-body::-webkit-scrollbar-thumb {
-    background-color: var(--isi-divider-color);
+    background-color: var(--isi-rail-scrollbar-thumb-color);
     border-radius: 4px;
   }
 
@@ -526,9 +606,9 @@ main .isi-please-see-section {
     padding: 0 15px 20px;
     padding-right: 10px;
     scrollbar-gutter: stable;
-    scrollbar-width: thin;
-    scrollbar-color: var(--isi-divider-color) #f2f2f2;
-    box-shadow: inset -2px 0 0 #f2f2f2;
+    scrollbar-width: auto;
+    scrollbar-color: var(--isi-rail-scrollbar-thumb-color) var(--isi-rail-scrollbar-track-color);
+    box-shadow: var(--isi-rail-gutter-line);
     overflow-y: scroll;
     width: 90%;
     max-height: calc(100vh - 200px);
@@ -540,15 +620,15 @@ main .isi-please-see-section {
   }
 
   main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar {
-    width: 2px;
+    width: var(--isi-rail-scrollbar-width);
   }
 
   main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar-track {
-    background: #f2f2f2;
+    background: var(--isi-rail-scrollbar-track-color);
   }
 
   main:has(> .section.isi-container) .isi.isi-important::-webkit-scrollbar-thumb {
-    background-color: var(--isi-divider-color);
+    background-color: var(--isi-rail-scrollbar-thumb-color);
     border-radius: 4px;
   }
 

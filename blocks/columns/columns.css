@@ -5,9 +5,15 @@ main > .section:first-of-type:has(.columns.icon-text) {
   padding: 0;
 }
 
-/* base override */
-main > .section:first-of-type:has(.columns.icon-text) > div {
+/* base override — only the columns wrapper goes full-bleed (the cyan NSC band);
+   the hero H1 wrapper keeps normal flow so it can be inset like the source. A
+   sibling block in the same section (e.g. .cards-wrapper) keeps its own padding. */
+main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper {
   padding: 0;
+  margin: 0;
+}
+
+main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
   margin: 0;
 }
 
@@ -16,8 +22,8 @@ main > .section:first-of-type:has(.columns.icon-text) > div {
   flex-direction: column; /* @boilerplate */
 }
 
-.columns > div > div { /* @boilerplate */
-  order: 1; /* @boilerplate */
+.columns > div > div {
+  order: 1;
 }
 
 .columns > div > .columns-img-col { /* @boilerplate */
@@ -378,38 +384,16 @@ main .columns.supine p {
     padding: 0;
   }
 
-  /* supine: icon-left + caption-right per item, vertical divider between */
-  main .columns.supine > div {
-    flex-direction: row;
-    align-items: stretch;
-    gap: 0;
-  }
-
-  main .columns.supine > div > div {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 35px;
-    text-align: left;
-    padding: 0 50px;
-  }
-
-  main .columns.supine > div > :first-child {
-    border-bottom: 0;
-    border-right: 1px solid var(--brand-grey);
-  }
-
-  main .columns.supine p {
-    margin: 0;
-  }
-
-   main > .section:first-of-type:has(.columns.icon-text) > div {
+   main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper {
     padding: 0;
     margin: 0;
   }
 
-  main > .section > div:has(.columns.icon-text) { 
+   main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
+    margin: 0;
+  }
+
+  main > .section > div:has(.columns.icon-text) {
     padding:0;
   }
 

@@ -40,6 +40,12 @@
 
   /* rail (≥1200px) */
   --isi-rail-padding: 16px;
+  --isi-rail-scrollbar-width: 12px;
+  --isi-rail-scrollbar-thumb-color: var(--isi-divider-color);
+  --isi-rail-scrollbar-track-color: #f2f2f2;
+
+  /* persistent grey right-edge line (source draws the scroll gutter track) */
+  --isi-rail-gutter-line: inset -2px 0 0 #f2f2f2;
 
   /* content+rail unit cap (source .cmp-layout-main-section: 1680px, centered) */
   --isi-layout-max-width: 1680px;
