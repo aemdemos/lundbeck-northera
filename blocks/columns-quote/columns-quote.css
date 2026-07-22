@@ -4,7 +4,7 @@
    columns-quote — physician/patient quote cards (HCP landing).
    Brand-blue Gotham-Bold quotation + grey attribution. Each card has a
    1px light border with flush layout (borders touch between cards).
-   Stacked on mobile, 3-up at ≥992px. The grey band behind the cards is
+   Stacked on mobile, 3-up at ≥768px. The grey band behind the cards is
    set at the section level in the document (data-background-color).
    ══════════════════════════════════════════════════════════════ */
 
@@ -32,6 +32,8 @@ main .section.columns-quote-container {
 }
 
 .columns-quote > div > div {
+  display: flex;
+  flex-direction: column;
   padding: 0 var(--columns-quote-card-pad);
   border: 1px solid var(--columns-quote-border-color);
 }
@@ -50,14 +52,14 @@ main .section.columns-quote-container {
 }
 
 .columns-quote .columns-quote-attribution {
-  margin: 0 0 20px;
+  margin: auto 0 20px;
   color: var(--columns-quote-attribution-color);
   font-family: var(--columns-quote-attribution-font-family);
   font-size: var(--columns-quote-attribution-size);
   line-height: var(--columns-quote-attribution-line-height);
 }
 
-@media (width >= 992px) {
+@media (width >= 768px) {
   .columns-quote > div {
     flex-direction: row;
   }
@@ -70,5 +72,20 @@ main .section.columns-quote-container {
   .columns-quote > div > div + div {
     margin-top: 0;
     margin-left: -1px;
+  }
+
+  /* guarantee a minimum gap between the quote and its attribution even on the
+     tallest card (which sets the row height, so its attribution otherwise sits
+     directly under the quote). Shorter cards still bottom-pin via margin-top:auto. */
+  .columns-quote .columns-quote-quotation {
+    margin-bottom: 40px;
+  }
+
+  /* the standalone footnote paragraph that follows the quote band ("*Patient
+     experiences vary…"). The global wrapper rule indents it ~11%; pull it back
+     to align near the quote band's left edge like the source (a literal is used
+     because the --columns-quote-* tokens are scoped to .columns-quote only). */
+  main > div.section.columns-quote-container + div.section > div {
+    padding-left: 15px;
   }
 }

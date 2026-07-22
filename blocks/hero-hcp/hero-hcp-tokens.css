@@ -38,6 +38,9 @@
      offset from the DAW above it. */
   --hero-hcp-width-desktop: 100%;
 
+  /* small white gap at the top and right edges of the desktop banner */
+  --hero-hcp-gap-desktop: 15px;
+
   /* banner min-height so the width doesn't inflate the height via the base
      .css aspect-ratio (source banner is ~380px tall). Uses min-height (not a
      fixed height) so when the overlaid text wraps taller than 380px — e.g. at
@@ -79,9 +82,13 @@ main > div.section.hero-hcp-container > div.hero-hcp-wrapper {
      self-centering (margin-left:50%/translateX(-50%)) — not needed when the
      block fills its already-centered wrapper, and it caused a horizontal offset. */
   main .section .hero-hcp {
-    width: var(--hero-hcp-width-desktop);
-    max-width: var(--hero-hcp-width-desktop);
+    width: calc(var(--hero-hcp-width-desktop) - var(--hero-hcp-gap-desktop));
+    max-width: calc(var(--hero-hcp-width-desktop) - var(--hero-hcp-gap-desktop));
     margin-left: 0;
+
+    /* small white gap above and to the right of the banner (source has the sky
+       art inset slightly from the DAW band above and the right content edge). */
+    margin-top: var(--hero-hcp-gap-desktop);
     transform: none;
     aspect-ratio: auto;
     height: auto;

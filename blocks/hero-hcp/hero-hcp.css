@@ -13,12 +13,20 @@ main .section:has(.hero-hcp) {
   padding: 0;
 }
 
-/* mobile image (banner behind the card) */
-.hero-hcp .hero-hcp-image picture,
+/* mobile image (banner behind the card). The source art is low-res (360×251);
+   letting it scale to full width at tablet widths makes it a ~600px-tall blurry
+   block. Cap it as a banner strip and crop with object-fit so it reads like the
+   source — a short sky band with the white card overlapping it. */
 .hero-hcp .hero-hcp-image img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-hcp .hero-hcp-image picture {
+  display: block;
 }
 
 /* mobile white text card, pulled up over the image so the flamingo peeks out
