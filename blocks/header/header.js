@@ -210,6 +210,10 @@ function decorateMain(brandSection, navSection) {
     const open = hamburger.getAttribute('aria-expanded') === 'true';
     hamburger.setAttribute('aria-expanded', open ? 'false' : 'true');
     bar.closest('.nav-wrapper').classList.toggle('nav-mobile-open', !open);
+    const header = bar.closest('header');
+    if (header) {
+      header.style.height = open ? 'var(--header-height)' : 'auto';
+    }
   });
 
   return bar;
@@ -249,6 +253,8 @@ export default async function decorate(block) {
   DESKTOP_MQ.addEventListener('change', () => {
     closeDropdowns();
     wrapper.classList.remove('nav-mobile-open');
+    const header = wrapper.closest('header');
+    if (header) header.style.height = 'var(--header-height)';
     const hb = wrapper.querySelector('.nav-hamburger');
     if (hb) hb.setAttribute('aria-expanded', 'false');
     const st = wrapper.querySelector('.nav-search-toggle');

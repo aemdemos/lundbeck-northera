@@ -8,10 +8,10 @@
    accordion. Desktop (≥1201px) is layered on via a min-width media query.
    ══════════════════════════════════════════════════════════════ */
 
-/* Size the header to its content instead of the boilerplate fixed height,
-   so the open mobile accordion pushes page content down (not overlaps it). */
+/* Keep initial header height stable to prevent CLS; JS switches to auto only
+   while the mobile menu is explicitly open. */
 header {
-  height: auto;
+  height: var(--header-height);
 }
 
 header .nav-wrapper {
