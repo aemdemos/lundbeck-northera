@@ -3,6 +3,7 @@
 
 // PARSER IMPORTS
 import heroHcpInternalParser from './parsers/hero-hcp-internal.js';
+import columnsFormParser from './parsers/columns-form.js';
 import treatmentFormParser from './parsers/treatment-form.js';
 import fragmentIsiParser from './parsers/fragment-isi.js';
 
@@ -13,7 +14,7 @@ import sectionsTransformer from './transformers/northera-sections.js';
 // PAGE TEMPLATE CONFIGURATION
 const PAGE_TEMPLATE = {
   name: 'treatment-form-page',
-  description: 'HCP Treatment Form page: an internal-page icon hero banner, an intro H2 + paragraphs, then a treatment-form block (blue fax callout + check-list + two entry CTAs + a static 6-step prescription wizard replica), then the shared ISI fragment. The live interactive form (backend submit, PDF, session-timeout modals) is NOT migrated.',
+  description: 'HCP Treatment Form page. Section 1: internal-page icon hero banner + intro H2/paragraphs + a columns.form block (blue fax callout + check-list). Section 2: a treatment-form block (two entry CTAs + a static 6-step prescription wizard replica). Section 3: the shared ISI fragment. The live interactive form (backend submit, PDF, session-timeout modals) is NOT migrated.',
   urls: [
     'https://northera-stage.d.lundbeckus.com/for-healthcare-professionals/treatment-form',
   ],
@@ -25,9 +26,15 @@ const PAGE_TEMPLATE = {
       ],
     },
     {
-      name: 'treatment-form',
+      name: 'columns-form',
       instances: [
         'div.cmp-treatment__textcontainer .cmp-specialty__pharmacy',
+      ],
+    },
+    {
+      name: 'treatment-form',
+      instances: [
+        'div.proceedoptions',
       ],
     },
     {
@@ -38,9 +45,11 @@ const PAGE_TEMPLATE = {
       ],
     },
   ],
+  // Section 1 = hero + intro + columns.form (no break before the intro so it
+  // joins the hero). The treatment-form parser inserts its own <hr> before the
+  // wizard, starting Section 2. Section 3 = ISI (break before it here).
   sections: [
-    { id: 'tf-hero', name: 'Treatment Form banner', selector: 'div.treatmentform .cmp-treatment__banner', style: null, blocks: ['hero-hcp-internal'], defaultContent: [] },
-    { id: 'tf-intro', name: 'Intro + treatment form wizard', selector: 'div.cmp-treatment__textcontainer', style: null, blocks: ['treatment-form'], defaultContent: [] },
+    { id: 'tf-hero', name: 'Banner + intro + how-to-submit', selector: 'div.treatmentform .cmp-treatment__banner', style: null, blocks: ['hero-hcp-internal', 'columns-form'], defaultContent: [] },
     { id: 'tf-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
 };
@@ -48,6 +57,7 @@ const PAGE_TEMPLATE = {
 // PARSER REGISTRY
 const parsers = {
   'hero-hcp-internal': heroHcpInternalParser,
+  'columns-form': columnsFormParser,
   'treatment-form': treatmentFormParser,
   'fragment-isi': fragmentIsiParser,
 };

@@ -2,8 +2,8 @@
 /* global WebImporter */
 
 // PARSER IMPORTS
-import tableCompareParser from './parsers/table-compare.js';
-import columnsContactParser from './parsers/columns-contact.js';
+import columnsStackedParser from './parsers/columns-stacked.js';
+import cardsContactParser from './parsers/cards-contact.js';
 import fragmentIsiParser from './parsers/fragment-isi.js';
 
 // TRANSFORMER IMPORTS
@@ -13,19 +13,19 @@ import sectionsTransformer from './transformers/northera-sections.js';
 // PAGE TEMPLATE CONFIGURATION
 const PAGE_TEMPLATE = {
   name: 'coverage-page',
-  description: 'Patient support "Coverage for NORTHERA" page: a Prescription Insurance Coverage section (H1 + intro + a Medicare-vs-Commercial comparison table [table-compare] + commercial-insurance paragraphs), a Medicare Extra Help section (heading + list + two contact columns [columns-contact: Online / Phone]), a legal disclaimer (default content), then the shared ISI fragment.',
+  description: 'Patient support "Coverage for NORTHERA" page: a Prescription Insurance Coverage section (H1 + intro + a Medicare-vs-Commercial comparison [columns (stacked): stacked on mobile, two columns at >=768px] + commercial-insurance paragraphs), a Medicare Extra Help section (heading + list + two contact cards [cards (contact): Online / Phone]), a legal disclaimer (default content), then the shared ISI fragment.',
   urls: [
     'https://northera-stage.d.lundbeckus.com/patient-support/coverage-for-northera',
   ],
   blocks: [
     {
-      name: 'table-compare',
+      name: 'columns-stacked',
       instances: [
         '.cmp-text__table.aem-GridColumn--phone--hide table',
       ],
     },
     {
-      name: 'columns-contact',
+      name: 'cards-contact',
       instances: [
         '#northeramedicare .cmp-layout__two__imagetext',
       ],
@@ -39,8 +39,8 @@ const PAGE_TEMPLATE = {
     },
   ],
   sections: [
-    { id: 'cov-coverage', name: 'Prescription Insurance Coverage (intro + comparison table)', selector: '#northeracoverage.cmp-container', style: null, blocks: ['table-compare'], defaultContent: [] },
-    { id: 'cov-medicare', name: 'Medicare Extra Help (+ contact columns)', selector: '#northeramedicare.cmp-container', style: null, blocks: ['columns-contact'], defaultContent: [] },
+    { id: 'cov-coverage', name: 'Prescription Insurance Coverage (intro + comparison)', selector: '#northeracoverage.cmp-container', style: null, blocks: ['columns-stacked'], defaultContent: [] },
+    { id: 'cov-medicare', name: 'Medicare Extra Help (+ contact cards)', selector: '#northeramedicare.cmp-container', style: null, blocks: ['cards-contact'], defaultContent: [] },
     { id: 'cov-info', name: 'Legal disclaimer', selector: '#coverageinfo.cmp-container', style: null, blocks: [], defaultContent: [] },
     { id: 'cov-isi', name: 'Important Safety Information', selector: 'div.responsivegrid.cmp-layout-isi__phone', style: null, blocks: ['fragment-isi'], defaultContent: [] },
   ],
@@ -48,8 +48,8 @@ const PAGE_TEMPLATE = {
 
 // PARSER REGISTRY
 const parsers = {
-  'table-compare': tableCompareParser,
-  'columns-contact': columnsContactParser,
+  'columns-stacked': columnsStackedParser,
+  'cards-contact': cardsContactParser,
   'fragment-isi': fragmentIsiParser,
 };
 

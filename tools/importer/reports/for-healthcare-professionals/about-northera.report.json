@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://northera-stage.d.lundbeckus.com/for-healthcare-professionals/about-northera",
+  "path": "for-healthcare-professionals/about-northera",
+  "timestamp": "2026-07-20T07:58:25.197Z",
+  "title": "About Northera",
+  "template": "hcp-about-northera-page",
+  "blocks": [
+    "hero-hcp-internal",
+    "columns-oh-types",
+    "fragment-isi"
+  ]
+}

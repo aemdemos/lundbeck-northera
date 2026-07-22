@@ -1,0 +1,8 @@
+{
+  "status": "failed",
+  "url": "http://localhost:8099/for-healthcare-professionals/treatment-form.html",
+  "path": "for-healthcare-professionals/treatment-form.html",
+  "timestamp": "2026-07-20T15:58:45.498Z",
+  "error": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8099/for-healthcare-professionals/treatment-form.html\nCall log:\n  - navigating to \"http://localhost:8099/for-healthcare-professionals/treatment-form.html\", waiting until \"domcontentloaded\"\n",
+  "errorStack": "page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:8099/for-healthcare-professionals/treatment-form.html\nCall log:\n  - navigating to \"http://localhost:8099/for-healthcare-professionals/treatment-form.html\", waiting until \"domcontentloaded\"\n\n    at processUrl (/home/node/.excat-marketplaces/excat-marketplace/excat/skills/excat-content-import/scripts/run-bulk-import.js:440:18)\n    at async main (/home/node/.excat-marketplaces/excat-marketplace/excat/skills/excat-content-import/scripts/run-bulk-import.js:620:22)"
+}

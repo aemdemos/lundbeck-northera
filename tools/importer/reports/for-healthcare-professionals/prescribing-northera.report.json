@@ -1,0 +1,20 @@
+{
+  "status": "success",
+  "url": "http://localhost:8097/for-healthcare-professionals/prescribing-northera.html",
+  "path": "for-healthcare-professionals/prescribing-northera",
+  "timestamp": "2026-07-21T11:38:49.477Z",
+  "title": "",
+  "template": "prescribing-northera-page",
+  "blocks": [
+    "hero-hcp-internal",
+    "cards-benefit",
+    "cards-benefit",
+    "cards-benefit",
+    "cards-pharmacy",
+    "cards-pharmacy",
+    "cards-pharmacy",
+    "daw-banner-light",
+    "cards-contact",
+    "fragment-isi"
+  ]
+}

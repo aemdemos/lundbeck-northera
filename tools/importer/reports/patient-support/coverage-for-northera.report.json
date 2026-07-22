@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "http://localhost:8096/patient-support/coverage-for-northera.html",
+  "path": "patient-support/coverage-for-northera",
+  "timestamp": "2026-07-21T13:28:41.486Z",
+  "title": "",
+  "template": "coverage-page",
+  "blocks": [
+    "columns-stacked",
+    "cards-contact",
+    "fragment-isi"
+  ]
+}

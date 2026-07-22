@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "http://localhost:8099/for-healthcare-professionals/treatment-form.html",
+  "path": "for-healthcare-professionals/treatment-form",
+  "timestamp": "2026-07-22T10:26:53.250Z",
+  "title": "",
+  "template": "treatment-form-page",
+  "blocks": [
+    "hero-hcp-internal",
+    "columns-form",
+    "treatment-form",
+    "fragment-isi"
+  ]
+}

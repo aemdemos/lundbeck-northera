@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://northera-stage.d.lundbeckus.com/for-healthcare-professionals",
+  "path": "for-healthcare-professionals",
+  "timestamp": "2026-07-17T17:47:07.757Z",
+  "title": "For Healthcare Professionals | NORTHERA® (droxidopa)",
+  "template": "hcp-landing-page",
+  "blocks": [
+    "daw-banner",
+    "hero-hcp",
+    "quote-grid",
+    "fragment-isi"
+  ]
+}

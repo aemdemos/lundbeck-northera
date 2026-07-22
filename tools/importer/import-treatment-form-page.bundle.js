@@ -98,6 +98,43 @@ var CustomImportScript = (() => {
     element.replaceWith(block);
   }
 
+  // tools/importer/parsers/columns-form.js
+  function parse2(element, { document }) {
+    const rows = [];
+    const calloutCell = document.createElement("div");
+    [...element.querySelectorAll("h5")].forEach((h5) => {
+      const el = document.createElement("h5");
+      el.innerHTML = h5.innerHTML;
+      el.querySelectorAll(".cmp-pharma__phone").forEach((span) => {
+        const strong = document.createElement("strong");
+        strong.textContent = span.textContent.trim();
+        span.replaceWith(strong);
+      });
+      calloutCell.appendChild(el);
+    });
+    rows.push([calloutCell]);
+    const container = element.closest(".cmp-treatment__textcontainer") || document;
+    const list = container.querySelector(".cmp-treatment__list ul, .cmp-treatment__list");
+    if (list) {
+      [...list.querySelectorAll("li")].forEach((li) => {
+        const cell = document.createElement("div");
+        const p = document.createElement("p");
+        p.textContent = li.textContent.trim();
+        cell.appendChild(p);
+        rows.push([cell]);
+      });
+    }
+    const block = WebImporter.Blocks.createBlock(document, {
+      name: "columns (form)",
+      cells: rows
+    });
+    element.replaceWith(block);
+    if (list) {
+      const listWrap = list.closest(".cmp-treatment__list") || list;
+      listWrap.remove();
+    }
+  }
+
   // tools/importer/parsers/treatment-form.js
   function normalizeHref2(raw) {
     if (!raw) return "";
@@ -113,84 +150,53 @@ var CustomImportScript = (() => {
       return raw;
     }
   }
-  function parse2(element, { document }) {
-    const cells = [];
-    const calloutCell = document.createElement("div");
-    calloutCell.innerHTML = element.innerHTML;
-    calloutCell.querySelectorAll(".cmp-pharma__phone").forEach((span) => {
-      const s = document.createElement("span");
-      s.className = "treatment-form-phone";
-      s.textContent = span.textContent.trim();
-      span.replaceWith(s);
-    });
-    cells.push([calloutCell]);
-    const container = element.closest(".cmp-treatment__textcontainer") || document;
-    const list = container.querySelector(".cmp-treatment__list ul, .cmp-treatment__list");
-    const listCell = document.createElement("div");
-    if (list) {
-      const ul = document.createElement("ul");
-      [...list.querySelectorAll("li")].forEach((li) => {
-        const item = document.createElement("li");
-        item.textContent = li.textContent.trim();
-        ul.appendChild(item);
-      });
-      listCell.appendChild(ul);
-    }
-    cells.push([listCell]);
-    const proceed = document.querySelector(".proceedoptions .get_started-blk") || document.querySelector(".proceedoptions");
+  function parse3(element, { document }) {
+    const proceed = element.querySelector(".get_started-blk") || element;
     const ctaCell = document.createElement("div");
-    if (proceed) {
-      const h2 = proceed.querySelector("h2");
-      if (h2) {
-        const h = document.createElement("h2");
-        h.textContent = h2.textContent.trim();
-        ctaCell.appendChild(h);
-      }
-      [...proceed.querySelectorAll(".cmp-teaser__action-container")].forEach((c) => {
-        const link = c.querySelector("a");
-        if (link) {
-          const p = document.createElement("p");
-          const a = document.createElement("a");
-          const href = link.getAttribute("href");
-          a.setAttribute("href", href ? normalizeHref2(href) : "#treatment-form");
-          const label = c.querySelector(".cmp-button__text") || link;
-          a.textContent = label.textContent.trim();
-          p.appendChild(a);
-          ctaCell.appendChild(p);
-        }
-        const right = c.querySelector(".right-blk");
-        if (right) {
-          [...right.querySelectorAll("p")].forEach((rp) => {
-            if (!rp.textContent.trim() && !rp.querySelector("a")) return;
-            const p = document.createElement("p");
-            p.innerHTML = rp.innerHTML;
-            p.querySelectorAll("a[href]").forEach((a) => {
-              a.setAttribute("href", normalizeHref2(a.getAttribute("href") || a.href || ""));
-            });
-            ctaCell.appendChild(p);
-          });
-        }
-      });
+    const h2 = proceed.querySelector("h2");
+    if (h2) {
+      const h = document.createElement("h2");
+      h.textContent = h2.textContent.trim();
+      ctaCell.appendChild(h);
     }
-    cells.push([ctaCell]);
+    [...proceed.querySelectorAll(".cmp-teaser__action-container")].forEach((c) => {
+      const link = c.querySelector("a");
+      if (link) {
+        const p = document.createElement("p");
+        const a = document.createElement("a");
+        const href = link.getAttribute("href");
+        a.setAttribute("href", href ? normalizeHref2(href) : "#treatment-form");
+        const label = c.querySelector(".cmp-button__text") || link;
+        a.textContent = label.textContent.trim();
+        p.appendChild(a);
+        ctaCell.appendChild(p);
+      }
+      const right = c.querySelector(".right-blk");
+      if (right) {
+        [...right.querySelectorAll("p")].forEach((rp) => {
+          if (!rp.textContent.trim() && !rp.querySelector("a")) return;
+          const p = document.createElement("p");
+          p.innerHTML = rp.innerHTML;
+          p.querySelectorAll("a[href]").forEach((a) => {
+            a.setAttribute("href", normalizeHref2(a.getAttribute("href") || a.href || ""));
+          });
+          ctaCell.appendChild(p);
+        });
+      }
+    });
     const block = WebImporter.Blocks.createBlock(document, {
       name: "treatment-form",
-      cells
+      cells: [[ctaCell]]
     });
-    element.replaceWith(block);
-    if (list) {
-      const listWrap = list.closest(".cmp-treatment__list") || list;
-      listWrap.remove();
-    }
+    const hr = document.createElement("hr");
+    element.replaceWith(hr, block);
     const formBlk = document.querySelector(".container-fluid.cmp-treatmentform_2");
     if (formBlk) formBlk.remove();
-    const proceedBlk = document.querySelector(".proceedoptions");
-    if (proceedBlk) proceedBlk.remove();
   }
 
   // tools/importer/parsers/fragment-isi.js
   var ISI_FRAGMENT_PATH = "/fragments/northera-isi";
-  function parse3(element, { document }) {
+  function parse4(element, { document }) {
     const link = document.createElement("a");
     link.setAttribute("href", ISI_FRAGMENT_PATH);
     link.textContent = ISI_FRAGMENT_PATH;
@@ -292,7 +298,7 @@ var CustomImportScript = (() => {
   // tools/importer/import-treatment-form-page.js
   var PAGE_TEMPLATE = {
     name: "treatment-form-page",
-    description: "HCP Treatment Form page: an internal-page icon hero banner, an intro H2 + paragraphs, then a treatment-form block (blue fax callout + check-list + two entry CTAs + a static 6-step prescription wizard replica), then the shared ISI fragment. The live interactive form (backend submit, PDF, session-timeout modals) is NOT migrated.",
+    description: "HCP Treatment Form page. Section 1: internal-page icon hero banner + intro H2/paragraphs + a columns.form block (blue fax callout + check-list). Section 2: a treatment-form block (two entry CTAs + a static 6-step prescription wizard replica). Section 3: the shared ISI fragment. The live interactive form (backend submit, PDF, session-timeout modals) is NOT migrated.",
     urls: [
       "https://northera-stage.d.lundbeckus.com/for-healthcare-professionals/treatment-form"
     ],
@@ -304,9 +310,15 @@ var CustomImportScript = (() => {
         ]
       },
       {
-        name: "treatment-form",
+        name: "columns-form",
         instances: [
           "div.cmp-treatment__textcontainer .cmp-specialty__pharmacy"
+        ]
+      },
+      {
+        name: "treatment-form",
+        instances: [
+          "div.proceedoptions"
         ]
       },
       {
@@ -317,16 +329,19 @@ var CustomImportScript = (() => {
         ]
       }
     ],
+    // Section 1 = hero + intro + columns.form (no break before the intro so it
+    // joins the hero). The treatment-form parser inserts its own <hr> before the
+    // wizard, starting Section 2. Section 3 = ISI (break before it here).
     sections: [
-      { id: "tf-hero", name: "Treatment Form banner", selector: "div.treatmentform .cmp-treatment__banner", style: null, blocks: ["hero-hcp-internal"], defaultContent: [] },
-      { id: "tf-intro", name: "Intro + treatment form wizard", selector: "div.cmp-treatment__textcontainer", style: null, blocks: ["treatment-form"], defaultContent: [] },
+      { id: "tf-hero", name: "Banner + intro + how-to-submit", selector: "div.treatmentform .cmp-treatment__banner", style: null, blocks: ["hero-hcp-internal", "columns-form"], defaultContent: [] },
       { id: "tf-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["fragment-isi"], defaultContent: [] }
     ]
   };
   var parsers = {
     "hero-hcp-internal": parse,
-    "treatment-form": parse2,
-    "fragment-isi": parse3
+    "columns-form": parse2,
+    "treatment-form": parse3,
+    "fragment-isi": parse4
   };
   var transformers = [
     transform,

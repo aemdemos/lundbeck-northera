@@ -41,7 +41,7 @@ var CustomImportScript = (() => {
     default: () => import_coverage_page_default
   });
 
-  // tools/importer/parsers/table-compare.js
+  // tools/importer/parsers/columns-stacked.js
   function parse(element, { document }) {
     const table = element.matches("table") ? element : element.querySelector("table");
     if (!table) {
@@ -49,29 +49,46 @@ var CustomImportScript = (() => {
       return;
     }
     const trs = [...table.querySelectorAll("tr")];
+    if (!trs.length) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
     const colCount = trs.reduce((max, tr) => Math.max(max, tr.children.length), 0);
-    const rows = trs.map((tr) => {
-      const cells = [...tr.children].map((cell) => {
-        const div = document.createElement("div");
-        [...cell.childNodes].forEach((n) => div.appendChild(n.cloneNode(true)));
-        if (!div.childNodes.length) div.textContent = cell.textContent.trim();
-        return div;
+    const cells = [];
+    for (let c = 0; c < colCount; c += 1) {
+      const cell = document.createElement("div");
+      trs.forEach((tr, r) => {
+        const src = tr.children[c];
+        const text = src ? src.textContent.trim() : "";
+        if (!text) return;
+        if (r === 0) {
+          const h = document.createElement("h3");
+          h.textContent = text;
+          cell.appendChild(h);
+        } else {
+          const p = document.createElement("p");
+          if (src.children.length) {
+            [...src.childNodes].forEach((n) => p.appendChild(n.cloneNode(true)));
+          } else {
+            p.textContent = text;
+          }
+          cell.appendChild(p);
+        }
       });
-      while (cells.length < colCount) cells.push(document.createElement("div"));
-      return cells;
-    }).filter((cells) => cells.length);
-    if (!rows.length) {
+      if (cell.children.length) cells.push(cell);
+    }
+    if (!cells.length) {
       element.replaceWith(...element.childNodes);
       return;
     }
     const block = WebImporter.Blocks.createBlock(document, {
-      name: "table (table-compare)",
-      cells: rows
+      name: "columns (stacked)",
+      cells: [cells]
     });
     element.replaceWith(block);
   }
 
-  // tools/importer/parsers/columns-contact.js
+  // tools/importer/parsers/cards-contact.js
   function normalizeHref(raw) {
     if (!raw) return "";
     try {
@@ -88,14 +105,15 @@ var CustomImportScript = (() => {
   }
   function parse2(element, { document }) {
     const teasers = [...element.querySelectorAll(".cmp-teaser")];
-    const cells = teasers.map((teaser) => {
-      const cell = document.createElement("div");
+    const rows = teasers.map((teaser) => {
+      const imageCell = document.createElement("div");
+      const bodyCell = document.createElement("div");
       const img = teaser.querySelector(".cmp-teaser__image img, img");
       if (img) {
         const el = document.createElement("img");
         el.setAttribute("src", img.getAttribute("src") || img.src || "");
         el.setAttribute("alt", img.getAttribute("alt") || "");
-        cell.appendChild(el);
+        imageCell.appendChild(el);
       }
       const desc = teaser.querySelector(".cmp-teaser__description");
       if (desc) {
@@ -105,19 +123,19 @@ var CustomImportScript = (() => {
             clone.querySelectorAll("a[href]").forEach((a) => {
               a.setAttribute("href", normalizeHref(a.getAttribute("href") || a.href || ""));
             });
-            cell.appendChild(clone);
+            bodyCell.appendChild(clone);
           }
         });
       }
-      return cell;
-    }).filter((c) => c.children.length);
-    if (!cells.length) {
+      return [imageCell, bodyCell];
+    }).filter((cells) => cells[0].children.length || cells[1].children.length);
+    if (!rows.length) {
       element.replaceWith(...element.childNodes);
       return;
     }
     const block = WebImporter.Blocks.createBlock(document, {
-      name: "columns (contact)",
-      cells: [cells]
+      name: "cards (contact)",
+      cells: rows
     });
     element.replaceWith(block);
   }
@@ -159,6 +177,7 @@ var CustomImportScript = (() => {
         ".cmp-layout-footer"
       ]);
       WebImporter.DOMUtils.remove(element, ["#toTop"]);
+      WebImporter.DOMUtils.remove(element, [".cmp-layout-quicklinks"]);
       [...element.querySelectorAll(".cq-dd-fragment, .contentfragment")].forEach((frag) => {
         if (frag.closest(".cmp-layout-isi__phone")) return;
         if (/^\s*Please see Important Safety Information/i.test(frag.textContent || "")) {
@@ -225,19 +244,19 @@ var CustomImportScript = (() => {
   // tools/importer/import-coverage-page.js
   var PAGE_TEMPLATE = {
     name: "coverage-page",
-    description: 'Patient support "Coverage for NORTHERA" page: a Prescription Insurance Coverage section (H1 + intro + a Medicare-vs-Commercial comparison table [table-compare] + commercial-insurance paragraphs), a Medicare Extra Help section (heading + list + two contact columns [columns-contact: Online / Phone]), a legal disclaimer (default content), then the shared ISI fragment.',
+    description: 'Patient support "Coverage for NORTHERA" page: a Prescription Insurance Coverage section (H1 + intro + a Medicare-vs-Commercial comparison [columns (stacked): stacked on mobile, two columns at >=768px] + commercial-insurance paragraphs), a Medicare Extra Help section (heading + list + two contact cards [cards (contact): Online / Phone]), a legal disclaimer (default content), then the shared ISI fragment.',
     urls: [
       "https://northera-stage.d.lundbeckus.com/patient-support/coverage-for-northera"
     ],
     blocks: [
       {
-        name: "table-compare",
+        name: "columns-stacked",
         instances: [
           ".cmp-text__table.aem-GridColumn--phone--hide table"
         ]
       },
       {
-        name: "columns-contact",
+        name: "cards-contact",
         instances: [
           "#northeramedicare .cmp-layout__two__imagetext"
         ]
@@ -251,15 +270,15 @@ var CustomImportScript = (() => {
       }
     ],
     sections: [
-      { id: "cov-coverage", name: "Prescription Insurance Coverage (intro + comparison table)", selector: "#northeracoverage.cmp-container", style: null, blocks: ["table-compare"], defaultContent: [] },
-      { id: "cov-medicare", name: "Medicare Extra Help (+ contact columns)", selector: "#northeramedicare.cmp-container", style: null, blocks: ["columns-contact"], defaultContent: [] },
+      { id: "cov-coverage", name: "Prescription Insurance Coverage (intro + comparison)", selector: "#northeracoverage.cmp-container", style: null, blocks: ["columns-stacked"], defaultContent: [] },
+      { id: "cov-medicare", name: "Medicare Extra Help (+ contact cards)", selector: "#northeramedicare.cmp-container", style: null, blocks: ["cards-contact"], defaultContent: [] },
       { id: "cov-info", name: "Legal disclaimer", selector: "#coverageinfo.cmp-container", style: null, blocks: [], defaultContent: [] },
       { id: "cov-isi", name: "Important Safety Information", selector: "div.responsivegrid.cmp-layout-isi__phone", style: null, blocks: ["fragment-isi"], defaultContent: [] }
     ]
   };
   var parsers = {
-    "table-compare": parse,
-    "columns-contact": parse2,
+    "columns-stacked": parse,
+    "cards-contact": parse2,
     "fragment-isi": parse3
   };
   var transformers = [
