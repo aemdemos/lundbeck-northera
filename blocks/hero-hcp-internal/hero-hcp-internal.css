@@ -100,8 +100,8 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {
-    position: static;
-    left: auto;
+    top: 17%;
+    left: 2%;
     bottom: auto;
     padding: 10px 20px 38px;
   }
