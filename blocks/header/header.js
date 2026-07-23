@@ -1,5 +1,4 @@
-import { getMetadata, decorateIcons, loadCSS } from '../../scripts/aem.js';
-import decorateSearch from '../search/search.js';
+import { getMetadata, decorateIcons } from '../../scripts/aem.js';
 
 const DESKTOP_MQ = window.matchMedia('(min-width: 1201px)');
 
@@ -93,8 +92,19 @@ async function fetchNav() {
 }
 
 /**
- * Builds the search control: a magnifying-glass icon that expands to reveal
- * the shared search block (blocks/search) rather than a bespoke form.
+ * Resolve the /search results page path, mirroring any "/content" prefix used
+ * on environments that serve pages under it (e.g. local dev).
+ * @returns {string}
+ */
+function searchPagePath() {
+  const contentPrefix = window.location.pathname.startsWith('/content/') ? '/content' : '';
+  return `${contentPrefix}/search`;
+}
+
+/**
+ * Builds the search control: a magnifying-glass icon that expands to reveal a
+ * text input. Submitting (Enter or Go) navigates to the /search page with the
+ * query in ?q=, where the search-results block renders the matches.
  * @returns {HTMLElement}
  */
 function buildSearch() {
@@ -113,21 +123,35 @@ function buildSearch() {
   searchIcon.append(searchImg);
   toggle.append(searchIcon);
 
-  // Panel hosts the shared search block; source is the site query index.
+  // Panel: a simple form that redirects to the /search results page on submit.
   const panel = document.createElement('div');
   panel.className = 'nav-search-panel';
-  const searchBlock = document.createElement('div');
-  searchBlock.className = 'search block';
-  const source = document.createElement('a');
-  source.href = `${window.hlx.codeBasePath}/query-index.json`;
-  source.textContent = source.href;
-  searchBlock.append(source);
+  const form = document.createElement('form');
+  form.className = 'nav-search-form';
+  form.setAttribute('role', 'search');
+  const input = document.createElement('input');
+  input.type = 'search';
+  input.className = 'nav-search-input';
+  input.name = 'q';
+  input.placeholder = 'I\'m searching for...';
+  input.setAttribute('aria-label', 'I\'m searching for...');
+  form.append(input);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const query = input.value.trim();
+    if (!query) return;
+    const url = new URL(searchPagePath(), window.location.origin);
+    url.searchParams.set('q', query);
+    window.location.assign(url.toString());
+  });
 
   // Close button (white X) — matches the source's open search bar.
   const close = document.createElement('button');
   close.className = 'nav-search-close';
+  close.type = 'button';
   close.setAttribute('aria-label', 'Close search');
-  panel.append(searchBlock, close);
+  panel.append(form, close);
 
   const closeSearch = () => {
     toggle.setAttribute('aria-expanded', 'false');
@@ -138,26 +162,12 @@ function buildSearch() {
     closeSearch();
   });
 
-  let decorated = false;
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
     const open = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
     wrapper.classList.toggle('nav-search-open', !open);
-    if (!open && !decorated) {
-      decorated = true;
-      loadCSS(`${window.hlx.codeBasePath}/blocks/search/search.css`);
-      decorateSearch(searchBlock);
-      const input = searchBlock.querySelector('input');
-      if (input) {
-        input.placeholder = 'I\'m searching for...';
-        input.setAttribute('aria-label', 'I\'m searching for...');
-      }
-    }
-    if (!open) {
-      const input = searchBlock.querySelector('input');
-      if (input) input.focus();
-    }
+    if (!open) input.focus();
   });
 
   wrapper.append(toggle, panel);
@@ -196,9 +206,10 @@ function decorateUtility(section) {
  * but semantically brand on the left, nav links + search on the right).
  * @param {Element} brandSection
  * @param {Element} navSection
+ * @param {boolean} withSearch Whether ":search:" was authored in the nav.
  * @returns {HTMLElement}
  */
-function decorateMain(brandSection, navSection) {
+function decorateMain(brandSection, navSection, withSearch) {
   const bar = document.createElement('div');
   bar.className = 'nav-main';
   const inner = document.createElement('div');
@@ -294,8 +305,8 @@ function decorateMain(brandSection, navSection) {
     updateMobileHeaderHeight(wrapper);
   });
 
-  // Search
-  inner.append(buildSearch());
+  // Search — only when ":search:" is authored in the nav.
+  if (withSearch) inner.append(buildSearch());
 
   bar.append(inner);
 
@@ -337,6 +348,24 @@ export default async function decorate(block) {
   const sections = [...doc.children];
   const [utilitySection, brandSection, navSection] = sections;
 
+  // The search control is opt-in: it renders only when ":search:" is authored
+  // in the nav. That token is delivered either as literal ":search:" text or,
+  // once icons are decorated, as a <span class="icon icon-search">. Detect
+  // either form, then strip the token so it never renders as a stray nav item.
+  let withSearch = false;
+  if (navSection) {
+    const iconToken = navSection.querySelector('.icon-search, span.icon.icon-search');
+    if (iconToken) {
+      withSearch = true;
+      (iconToken.closest('li') || iconToken).remove();
+    } else if (/:search:/i.test(navSection.textContent)) {
+      withSearch = true;
+      [...navSection.querySelectorAll('li, p')].forEach((el) => {
+        if (/^\s*:search:\s*$/i.test(el.textContent)) el.remove();
+      });
+    }
+  }
+
   const wrapper = document.createElement('div');
   wrapper.className = 'nav-wrapper';
 
@@ -344,7 +373,7 @@ export default async function decorate(block) {
     wrapper.append(decorateUtility(utilitySection));
   }
   if (brandSection && navSection) {
-    wrapper.append(decorateMain(brandSection, navSection));
+    wrapper.append(decorateMain(brandSection, navSection, withSearch));
   }
 
   block.append(wrapper);

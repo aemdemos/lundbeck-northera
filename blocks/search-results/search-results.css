@@ -8,6 +8,11 @@
  * Base search JS behavior (client-side query-index.json search) is retained.
  */
 
+/* /search page uses a muted grey background behind the results */
+body:has(.search-results) main {
+  background-color: var(--page-bg-muted);
+}
+
 /* search box: relative wrapper so the Go button can be absolutely positioned */
 .search-results .search-results-box {
   position: relative;
@@ -105,12 +110,13 @@
 }
 
 .search-results ul.search-results-list > li .search-results-result-title {
+  color: var(--brand-cyan, #02bded);
   font-size: 16px;
   font-weight: normal;
 }
 
 .search-results ul.search-results-list > li .search-results-result-title a {
-  color: currentcolor;
+  color: var(--brand-cyan, #02bded);
   text-decoration: none;
 }
 
@@ -118,14 +124,17 @@
   font-size: 14px;
 }
 
-.search-results ul.search-results-list > li .search-results-result-image {
-  aspect-ratio: 4 / 3;
+/* matched search terms (wrapped in <mark> by the block JS) */
+.search-results ul.search-results-list > li mark {
+  background-color: transparent;
+  color: var(--brand-cyan, #02bded);
+  font-family: var(--heading-font-family, "Gotham-Bold", arial, sans-serif);
+  font-weight: 700;
 }
 
-.search-results ul.search-results-list > li picture img {
-  display: block;
-  width: 100%;
-  object-fit: cover;
+/* source /search shows text-only results — hide the thumbnail image */
+.search-results ul.search-results-list > li .search-results-result-image {
+  display: none;
 }
 
 /* no results / empty state */
