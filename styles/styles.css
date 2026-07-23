@@ -647,7 +647,7 @@ main > .section > div { /* @libs */
    inset 15px on phones; full-bleed wrappers (bg images, ISI, embeds, CTA cards,
    columns-banner) manage their own spacing and are excluded so images/bands
    still go edge-to-edge. Desktop applies the ~11% gutter (see ≥900px block). */
-main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal)) {
+main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal, .search-results), :has(.quote.patient)) {
   padding: 0 15px;
 }
 
@@ -1189,7 +1189,7 @@ main .section.accent h6 {
     margin-bottom:0;
   }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal)) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal), :has(.search-results)) {
     padding: 0 11%;
   }
 
