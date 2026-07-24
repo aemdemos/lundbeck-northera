@@ -30,6 +30,12 @@
   display: block;
 }
 
+/* homepage hero: the banner picture is wrapped in a <p> whose default 30px
+   bottom margin leaves a white gap above the lead line — remove it. */
+main .section.home-intro .hero-patient > div:has(picture) p {
+  margin: 0;
+}
+
 .hero-patient img {
   display: block;
   width: 100%;
@@ -131,12 +137,17 @@
 
   .hero-patient > div:has(a) {
     position: absolute;
-    z-index: 1;
+    z-index: 9;
     max-width: var(--hero-patient-content-max-width);
     padding: 0;
     background-color: transparent;
-    margin-left: 12.2%;
-    bottom:44px;
+    margin-left: 12%;
+    bottom:75px;
+  }
+
+  /* homepage hero: the survey lead line shows on mobile only, hidden ≥768px */
+  main .section.home-intro .hero-patient > div:has(a) p:not(:has(a)) {
+    display: none;
   }
 
   /* desktop lead line: larger line-height */
@@ -151,12 +162,25 @@
     width: auto;
     padding: var(--hero-patient-button-padding-desktop);
     text-align: center;
+    font-size: 16px;
+    min-width: 271px;
+   line-height: 12px;
   }
+}
+
+@media (width > 991px) {
+  .hero-patient a {
+    line-height: 20px;
+  }
+      
+  .hero-patient > div:has(a) {
+    bottom: 82px;
+    }
 }
 
 @media (width > 1200px) {
   .hero-patient > div:has(a) {
-    bottom:65px;
+    bottom:75px;
   }
   
 }

@@ -14,13 +14,15 @@
 /* source parity: ~50px gap above the "Real patient stories" banner */
 main > .section:has(.cards-cta) {
 padding: 0;
-margin-top: var(--cards-cta-section-gap);
 }
 
 main > .section > div:has(.cards-cta) {
   padding: 0;
 }
 
+main > .section.home-intro:has(.cards-cta) {
+  margin-top:0;
+}
 
 .cards-cta-container .default-content-wrapper:has(> p > picture:only-child) {
   display: none;
@@ -174,6 +176,20 @@ main > .section > div:has(.cards-cta) {
  .cards-cta .cards-card-body {
   padding: 0 22% 0 100px;
  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   cards-cta (single) — the single full-width banner used on the homepage
+   and /patient-support. Mobile is identical to the base cards-cta; at ≥768px
+   the card body uses a tighter left inset (12%) than the base (17–22%).
+   ══════════════════════════════════════════════════════════════ */
+@media (width >= 768px) {
+  /* match the base's specificity (it targets `> ul > li:first-child ...` and
+     `> ul > li ...`) so this single-banner inset wins at both ≥768 and ≥992. */
+  .cards-cta.single > ul > li:first-child .cards-card-body,
+  .cards-cta.single > ul > li .cards-card-body {
+    padding: 0 25px 0 12%;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════

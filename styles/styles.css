@@ -647,7 +647,7 @@ main > .section > div { /* @libs */
    inset 15px on phones; full-bleed wrappers (bg images, ISI, embeds, CTA cards,
    columns-banner) manage their own spacing and are excluded so images/bands
    still go edge-to-edge. Desktop applies the ~11% gutter (see ≥900px block). */
-main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal, .search-results), :has(.quote.patient)) {
+main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal, .search-results), :has(.quote.patient),:has(.hero-patient)) {
   padding: 0 15px;
 }
 
@@ -1177,19 +1177,18 @@ main .section.accent h6 {
   main .section.home-intro > .default-content-wrapper p {
     position: relative;
     z-index: 1;
-    margin: -40px 0 0;
+    margin: -77px 0 0;
     padding: 10px 20px;
     background-color: rgb(255 255 255 / 50%);
     font-size: var(--body-font-size-xs);
     line-height: var(--body-line-height);
-    margin-left:11%;
   }
 
   main .section.home-intro > .columns-wrapper > div {
     margin-bottom:0;
   }
 
-  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal), :has(.search-results)) {
+  main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal), :has(.search-results),:has(.hero-patient)) {
     padding: 0 11%;
   }
 
@@ -1238,7 +1237,7 @@ main > .section:first-of-type > div > p {
     }
   }
 
-@media (width >= 992px) { /* @libs */
+@media (width > 991px) { /* @libs */
   body[data-breadcrumbs] { /* @libs */
     --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
   }
@@ -1251,6 +1250,9 @@ main > .section > div { /* @libs */
   max-width: var(--max-width-site); /* @libs */
 }
 
+    main .section.home-intro > .default-content-wrapper p {
+      padding-left: 10px;
+    }
 
 main .section.stats-callout > div:not(.bg-image) {
   max-width: 960px;
