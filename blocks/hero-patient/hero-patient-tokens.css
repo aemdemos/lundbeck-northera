@@ -22,7 +22,7 @@
   --hero-patient-button-font-family: var(--heading-heavy-font-family, "Gotham-Black", "Helvetica Neue", helvetica, arial, sans-serif);
   --hero-patient-button-font-size: 18px;
   --hero-patient-button-padding: 20px 55px;
-  --hero-patient-button-padding-desktop: 20px 55px;
+  --hero-patient-button-padding-desktop: 16px 55px;
   --hero-patient-button-shadow:
     1px 1px 0 #19527f, 2px 2px 0 #19527f, 3px 3px 0 #19527f,
     4px 4px 0 #19527f, 5px 5px 0 #19527f;
