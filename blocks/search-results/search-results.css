@@ -1,3 +1,5 @@
+@import url('./search-results-token.css');
+
 /*
  * search-results — styled variant of the Block Collection "search" block.
  * Matches the Northera source /search page design:
@@ -7,6 +9,12 @@
  *   - "No Results" empty-state text
  * Base search JS behavior (client-side query-index.json search) is retained.
  */
+
+main > .section > div:has(.search-results) {
+padding:20px 8.33%;
+background-color: var(--page-bg-muted);
+margin-bottom: 20px;
+}
 
 /* search box: relative wrapper so the Go button can be absolutely positioned */
 .search-results .search-results-box {
@@ -55,6 +63,8 @@
   font-weight: 400;
   line-height: 1;
   cursor: pointer;
+  text-overflow: clip;
+  box-shadow: none;
 }
 
 .search-results .search-results-go:hover,
@@ -70,20 +80,19 @@
   font-size: 18px;
   font-weight: 500;
   text-transform: none;
+  padding: 0;
 }
 
 /* results list */
 .search-results ul.search-results-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
-  gap: var(--spacing-m, 24px);
+  display: block;
   margin: 0;
   padding-left: 0;
   list-style: none;
 }
 
 .search-results ul.search-results-list > li {
-  border: 1px solid var(--border-color, #cacaca);
+  border-bottom: solid 1px #ccc;
 }
 
 .search-results ul.search-results-list > li > a {
@@ -99,33 +108,37 @@
   text-decoration: none;
 }
 
-.search-results ul.search-results-list > li .search-results-result-title,
-.search-results ul.search-results-list > li p {
-  padding: 0 var(--spacing-s, 16px);
-}
 
 .search-results ul.search-results-list > li .search-results-result-title {
-  font-size: 16px;
-  font-weight: normal;
+  font-size: var(--search-results-heading-text-size);
+  font-family :var(--body-font-family);
+  padding:0;
+  margin: .75rem 0 .5rem;
+  line-height: 26px;
 }
 
 .search-results ul.search-results-list > li .search-results-result-title a {
-  color: currentcolor;
+  color: var(--brand-cyan);
   text-decoration: none;
+   font-weight: normal;
 }
 
 .search-results ul.search-results-list > li p {
-  font-size: 14px;
+  font-size: var(--heading-font-size-xs);
+  margin: 0 0 10px;
 }
 
+/* matched search terms (wrapped in <mark> by the block JS) */
+.search-results ul.search-results-list > li mark {
+  background-color: transparent;
+  color: var(--brand-cyan, #02bded);
+  font-family: var(--heading-font-family, "Gotham-Bold", arial, sans-serif);
+  font-weight: 700;
+}
+
+/* source /search shows text-only results — hide the thumbnail image */
 .search-results ul.search-results-list > li .search-results-result-image {
-  aspect-ratio: 4 / 3;
-}
-
-.search-results ul.search-results-list > li picture img {
-  display: block;
-  width: 100%;
-  object-fit: cover;
+  display: none;
 }
 
 /* no results / empty state */
@@ -141,6 +154,13 @@
   font-family: var(--body-font-family, "Gotham-Medium", arial, "Helvetica Neue", helvetica, sans-serif);
   font-size: 14px;
   font-weight: 400;
+}
+
+@media (width > 768px){
+  .search-results ul.search-results-list > li p {
+    font-size: var(--heading-font-size-s);
+    line-height: 30px;
+  }
 }
 
 /* desktop: wider input, larger heading */
