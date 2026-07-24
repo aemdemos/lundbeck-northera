@@ -311,66 +311,7 @@ main .columns.stacked > div > div > p:not(:first-child) {
    a 24px gap; heading + description stack to its right, left-aligned. Source
    rules (.patient-story-page #patientbannertext): item padding 50px 0; title
    30px/36 white padding 10px 0; description 14px/20 #333 (dark, not white). */
-@media (width > 768px) {
-  main .columns.teaser > div {
-    padding: 0 8%;
-  }
 
-  main .columns.teaser > div > div {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto;
-    align-items: center;
-    column-gap: 24px;
-    text-align: left;
-    padding: 50px 0;
-  }
-
-  main .columns.teaser > div > div > p:first-child:has(img) {
-    grid-row: 1 / 3;
-    grid-column: 1;
-    margin: 0;
-  }
-
-  main .columns.teaser img {
-    width: 115px;
-  }
-
-  main .columns.teaser h1,
-  main .columns.teaser h2,
-  main .columns.teaser h3,
-  main .columns.teaser h4 {
-    grid-column: 2;
-    align-self: end;
-    font-size: 30px;
-    line-height: 36px;
-    text-align: left;
-    margin: 0;
-    padding: 10px 0;
-  }
-
-  main .columns.teaser > div > div > p:not(:first-child) {
-    grid-column: 2;
-    align-self: start;
-    font-size: 18px;
-    line-height: 22px;
-    text-align: left;
-    margin: 0;
-  }
-
-  main .columns.stacked > div > div:last-child {
-    margin-bottom: 0;
-  }
-
-  main .section.home-intro .columns.icon-text > div > .columns-img-col {
-    width:159px;
-  }
-
-main .section.home-intro .columns.icon-text > div > .columns-img-col img {
-      width: 159px;
-    height: 101px;
-  }
-}
 
 /* ══════════════════════════════════════════════════════════════
    columns-supine — two "reduce the risk" items (icon + caption). Source:
@@ -463,7 +404,67 @@ main .columns.form p::before {
   background-size: contain;
 }
 
-@media (width >= 768px) {
+
+@media (width > 768px) {
+ main .columns.teaser > div {
+    padding: 0 8%;
+  }
+
+  main .columns.teaser > div > div {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    align-items: center;
+    column-gap: 24px;
+    text-align: left;
+    padding: 50px 0;
+  }
+
+  main .columns.teaser > div > div > p:first-child:has(img) {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    margin: 0;
+  }
+
+  main .columns.teaser img {
+    width: 115px;
+  }
+
+  main .columns.teaser h1,
+  main .columns.teaser h2,
+  main .columns.teaser h3,
+  main .columns.teaser h4 {
+    grid-column: 2;
+    align-self: end;
+    font-size: 30px;
+    line-height: 36px;
+    text-align: left;
+    margin: 0;
+    padding: 10px 0;
+  }
+
+  main .columns.teaser > div > div > p:not(:first-child) {
+    grid-column: 2;
+    align-self: start;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: left;
+    margin: 0;
+  }
+
+  main .columns.stacked > div > div:last-child {
+    margin-bottom: 0;
+  }
+
+  main .section.home-intro .columns.icon-text > div > .columns-img-col {
+    width:159px;
+  }
+
+main .section.home-intro .columns.icon-text > div > .columns-img-col img {
+      width: 159px;
+     height: 101px;
+  }
+
     main > .section:first-of-type:has(.columns.icon-text) {
     margin: 0;
     padding: 0;
@@ -539,6 +540,12 @@ main .columns.form p::before {
     flex: 1;
     padding: 20px 0 20px 20px;
   }
+
+  main .section.home-intro .columns.icon-text > div > div:not(.columns-img-col) {
+    padding-left: 20px;
+    padding-top: 0;
+    padding-bottom: 0;
+  } 
 
   main .columns.icon-text > div > div:not(.columns-img-col) > p:first-child {
     border-top: none;
