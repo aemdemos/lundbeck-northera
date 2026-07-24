@@ -13,6 +13,21 @@ main > .section:first-of-type:has(.columns.icon-text) > .columns-wrapper {
   margin: 0;
 }
 
+main .section.home-intro .columns.icon-text {
+  margin-bottom:0;
+}
+
+main .section.home-intro .columns.icon-text > div > div:not(.columns-img-col) > p:last-child {
+  color: var(--columns-icon-text-homepage-color);
+  font-size:var( --body-font-size-s);
+  line-height: 30px;
+}
+
+main .section.home-intro .columns.icon-text > div > .columns-img-col img {
+  width: 176px;
+  height: 116px;
+}
+
 main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
   margin: 0;
 }
@@ -345,6 +360,15 @@ main .columns.stacked > div > div > p:not(:first-child) {
 
   main .columns.stacked > div > div:last-child {
     margin-bottom: 0;
+  }
+
+  main .section.home-intro .columns.icon-text > div > .columns-img-col {
+    width:177px;
+  }
+
+main .section.home-intro .columns.icon-text > div > .columns-img-col img {
+      width: 159px;
+    height: 101px;
   }
 }
 
