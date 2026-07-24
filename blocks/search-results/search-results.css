@@ -86,8 +86,6 @@ margin-bottom: 20px;
 /* results list */
 .search-results ul.search-results-list {
   display: block;
-  grid-template-columns: repeat(auto-fill, minmax(278px, 1fr));
-  gap: var(--spacing-m, 24px);
   margin: 0;
   padding-left: 0;
   list-style: none;
