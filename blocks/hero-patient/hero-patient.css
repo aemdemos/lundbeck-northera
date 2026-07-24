@@ -30,6 +30,12 @@
   display: block;
 }
 
+/* homepage hero: the banner picture is wrapped in a <p> whose default 30px
+   bottom margin leaves a white gap above the lead line — remove it. */
+main .section.home-intro .hero-patient > div:has(picture) p {
+  margin: 0;
+}
+
 .hero-patient img {
   display: block;
   width: 100%;
