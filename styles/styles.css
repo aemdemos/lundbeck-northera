@@ -804,6 +804,49 @@ main .section.reminders p {
   color: #fff;
 }
 
+/* section metadata - nsc-prescription (Your NORTHERA Prescription first section).
+   The two informational callouts ("Your physician can send…" and "If you have
+   commercial insurance…") render as light-grey rounded boxes. Source has the
+   pair sharing a subtle divider; here each is an independent rounded box. They
+   are the 2nd and 3rd paragraphs of the section content (1st = "Call the NSC
+   toll-free…", 4th = "Support along the way" h2). */
+main .section.nsc-prescription > .default-content-wrapper > p:nth-of-type(2),
+main .section.nsc-prescription > .default-content-wrapper > p:nth-of-type(3) {
+  margin: 20px 0 0;
+  padding: 25px 30px;
+  border-radius: 6px;
+  background-color: var(--page-bg-muted);
+  color: var(--brand-blue-dark);
+  font-weight: 400;
+}
+
+main .section.nsc-prescription > .default-content-wrapper > p:nth-of-type(3) {
+  margin-top: 15px;
+}
+
+/* section metadata - support-band ("Support along the way" on Your NORTHERA
+   Prescription). Muted-grey band with a centered heading; the icon-text blocks
+   inside drop their own light-blue band so the section grey shows through. */
+main .section.support-band {
+  background-color: var(--page-bg-muted);
+  margin-top: 0;
+  padding: 40px 0;
+}
+
+main .section.support-band .default-content-wrapper > h2 {
+  color: var(--brand-blue);
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+/* let the section's grey show through the icon-text blocks (their default
+   light-blue band + borders are for the white-section usage elsewhere) */
+main .section.support-band .columns.icon-text {
+  background-color: transparent;
+  border: 0;
+  margin-bottom: 0;
+}
+
 /* section metadata - noh-symptoms (source .cmp-carousel_bghdarkblue: brand-blue
    band, centered white H2 20px mobile / 40px desktop, white intro paragraph).
    Used by the symptomatic-nOH "Common symptoms of nOH" section. */
