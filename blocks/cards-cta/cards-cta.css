@@ -179,6 +179,20 @@ main > .section.home-intro:has(.cards-cta) {
 }
 
 /* ══════════════════════════════════════════════════════════════
+   cards-cta (single) — the single full-width banner used on the homepage
+   and /patient-support. Mobile is identical to the base cards-cta; at ≥768px
+   the card body uses a tighter left inset (12%) than the base (17–22%).
+   ══════════════════════════════════════════════════════════════ */
+@media (width >= 768px) {
+  /* match the base's specificity (it targets `> ul > li:first-child ...` and
+     `> ul > li ...`) so this single-banner inset wins at both ≥768 and ≥992. */
+  .cards-cta.single > ul > li:first-child .cards-card-body,
+  .cards-cta.single > ul > li .cards-card-body {
+    padding: 0 25px 0 12%;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
    cards-cta (centered) — source .cmp-layout-quicklinks single
    centered callout ("Resources are available now" / Thank-You page).
    Same teal banner, but heading + description + CTA are all centered,
