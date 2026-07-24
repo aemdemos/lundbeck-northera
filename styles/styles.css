@@ -1237,7 +1237,7 @@ main > .section:first-of-type > div > p {
     }
   }
 
-@media (width >= 992px) { /* @libs */
+@media (width > 991px) { /* @libs */
   body[data-breadcrumbs] { /* @libs */
     --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
   }
@@ -1250,6 +1250,9 @@ main > .section > div { /* @libs */
   max-width: var(--max-width-site); /* @libs */
 }
 
+    main .section.home-intro > .default-content-wrapper p {
+      padding-left: 10px;
+    }
 
 main .section.stats-callout > div:not(.bg-image) {
   max-width: 960px;

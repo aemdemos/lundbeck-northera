@@ -477,6 +477,7 @@ main .section.home-intro .columns.icon-text > div > .columns-img-col img {
 
    main > .section:first-of-type:has(.columns.icon-text) > .default-content-wrapper {
     margin: 0;
+    padding-right:0;
   }
 
   main > .section > div:has(.columns.icon-text) {
