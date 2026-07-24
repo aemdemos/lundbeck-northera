@@ -36,6 +36,12 @@
   height: auto;
 }
 
+/* art direction: mobile portrait banner by default, desktop widescreen hidden
+   (only applies when two images are authored — see hero-patient.js) */
+.hero-patient picture.hero-patient-image-desktop {
+  display: none;
+}
+
 /* content row (lead line + CTA), stacked below the image on a light blue-gray band */
 .hero-patient > div:has(a) {
   order: 1;
@@ -101,6 +107,15 @@
     position: absolute;
     z-index: -1;
     inset: 0;
+  }
+
+  /* swap to the widescreen desktop banner (only when both are authored) */
+  .hero-patient picture.hero-patient-image-mobile {
+    display: none;
+  }
+
+  .hero-patient picture.hero-patient-image-desktop {
+    display: block;
   }
 
   .hero-patient picture {
