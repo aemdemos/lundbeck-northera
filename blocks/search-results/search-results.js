@@ -82,6 +82,32 @@ export async function fetchData(source) {
   return json.data;
 }
 
+// Source parity: result descriptions are truncated to a fixed length and
+// suffixed with " ..." (cut at a word boundary so no word is split).
+const DESCRIPTION_MAX_CHARS = 150;
+
+function trimTrailingSpacesAndPunctuation(value) {
+  let end = value.length;
+  while (end > 0) {
+    const ch = value[end - 1];
+    if (ch === ' ' || ch === '\t' || ch === '\n' || ch === '\r' || ch === '.' || ch === ',' || ch === ';' || ch === ':') {
+      end -= 1;
+    } else {
+      break;
+    }
+  }
+  return end === value.length ? value : value.slice(0, end);
+}
+
+function truncateDescription(text) {
+  const value = String(text).trim();
+  if (value.length <= DESCRIPTION_MAX_CHARS) return value;
+  const clipped = value.slice(0, DESCRIPTION_MAX_CHARS);
+  const lastSpace = clipped.lastIndexOf(' ');
+  const base = lastSpace > 0 ? clipped.slice(0, lastSpace) : clipped;
+  return `${trimTrailingSpacesAndPunctuation(base)} ...`;
+}
+
 function renderResult(result, searchTerms, titleTag) {
   const li = document.createElement('li');
   const a = document.createElement('a');
@@ -105,7 +131,7 @@ function renderResult(result, searchTerms, titleTag) {
   }
   if (result.description) {
     const description = document.createElement('p');
-    description.textContent = result.description;
+    description.textContent = truncateDescription(result.description);
     highlightTextElements(searchTerms, [description]);
     a.append(description);
   }
