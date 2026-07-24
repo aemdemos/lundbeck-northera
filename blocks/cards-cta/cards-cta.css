@@ -238,9 +238,3 @@ main > .section.home-intro:has(.cards-cta) {
     line-height: var(--cards-cta-centered-desc-line-height-desktop);
   }
 }
-
-@media (width > 991px) {
- .cards-cta > ul > li:first-child .cards-card-body {
-  padding: 0 100px 0 11%;
- }
-}
