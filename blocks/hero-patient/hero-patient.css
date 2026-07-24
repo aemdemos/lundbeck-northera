@@ -139,6 +139,11 @@
     bottom:75px;
   }
 
+  /* homepage hero: the survey lead line shows on mobile only, hidden ≥768px */
+  main .section.home-intro .hero-patient > div:has(a) p:not(:has(a)) {
+    display: none;
+  }
+
   /* desktop lead line: larger line-height */
   .hero-patient > div:has(a) p:not(:has(a)) {
     font-size: var(--hero-patient-lead-size-desktop);
