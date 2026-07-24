@@ -1177,7 +1177,7 @@ main .section.accent h6 {
   main .section.home-intro > .default-content-wrapper p {
     position: relative;
     z-index: 1;
-    margin: -40px 0 0;
+    margin: -77px 0 0;
     padding: 10px 20px;
     background-color: rgb(255 255 255 / 50%);
     font-size: var(--body-font-size-xs);
