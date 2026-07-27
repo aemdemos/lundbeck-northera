@@ -1,0 +1,27 @@
+@import url('./randomizer-tokens.css');
+
+.randomizer {
+  height: var(--randomizer-height-mobile, auto);
+  overflow: auto;
+}
+
+/* suppress nested section padding */
+.randomizer > .section {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.randomizer > .section:first-of-type {
+  padding-top: 0;
+}
+
+.randomizer > .section:last-of-type {
+  padding-bottom: 0;
+}
+
+/* Desktop+ */
+@media (width >= 900px) {
+  .randomizer {
+    height: var(--randomizer-height-desktop, auto);
+  }
+}
