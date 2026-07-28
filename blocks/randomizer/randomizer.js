@@ -17,8 +17,8 @@ export default async function decorate(block) {
   const heightMobile = heightMobileRow?.textContent.trim();
   const heightDesktop = heightDesktopRow?.textContent.trim();
 
-  if (heightMobile) block.style.setProperty('--randomizer-height-mobile', heightMobile);
-  if (heightDesktop) block.style.setProperty('--randomizer-height-desktop', heightDesktop);
+  if (heightMobile) block.style.setProperty('min-height', heightMobile);
+  if (heightDesktop) block.style.setProperty('height', heightDesktop);
 
   block.replaceChildren();
   if (!urls.length) return;
