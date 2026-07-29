@@ -26,20 +26,6 @@
           "name": "urls",
           "label": "URLs",
           "multi": true
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "height-mobile",
-          "label": "Height (Mobile)",
-          "value": ""
-        },
-        {
-          "component": "text",
-          "valueType": "string",
-          "name": "height-desktop",
-          "label": "Height (Desktop)",
-          "value": ""
         }
       ]
     }

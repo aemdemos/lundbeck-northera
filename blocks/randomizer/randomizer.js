@@ -9,16 +9,7 @@ import { loadFragment } from '../fragment/fragment.js';
  * @param {Element} block
  */
 export default async function decorate(block) {
-  const [urlsRow, heightMobileRow, heightDesktopRow] = [...block.children];
-
-  const urls = urlsRow
-    ? [...urlsRow.querySelectorAll('a')].map((a) => a.getAttribute('href')).filter(Boolean)
-    : [];
-  const heightMobile = heightMobileRow?.textContent.trim();
-  const heightDesktop = heightDesktopRow?.textContent.trim();
-
-  if (heightMobile) block.style.setProperty('min-height', heightMobile);
-  if (heightDesktop) block.style.setProperty('height', heightDesktop);
+  const urls = [...block.querySelectorAll('a')].map((a) => a.getAttribute('href')).filter(Boolean);
 
   block.replaceChildren();
   if (!urls.length) return;
