@@ -1,3 +1,5 @@
+/* eslint-disable secure-coding/no-insecure-comparison
+-- this is browser-side EDS code, not Node server auth logic. Not secret material; public DOM/content metadata validation. */
 import {
   buildBlock,
   createOptimizedPicture,
@@ -714,7 +716,6 @@ function applySplitBoundaryPass(el) {
     const next = children.at(i + 2);
 
     const isPrevText = prev.nodeType === Node.TEXT_NODE;
-    // eslint-disable-next-line secure-coding/detect-object-injection
     const isMidInline = mid.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(mid.nodeName);
     const isNextText = next.nodeType === Node.TEXT_NODE;
 
@@ -755,9 +756,7 @@ function applySplitBoundaryPass(el) {
       }
     } else if (!isPrevText && mid.nodeType === Node.TEXT_NODE && !isNextText && next.children.length === 0) {
       // Pattern B: <inline>prefix[[</inline> "classes" <inline>]content]</inline>
-      // eslint-disable-next-line secure-coding/detect-object-injection
       const isPrevInline = prev.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(prev.nodeName);
-      // eslint-disable-next-line secure-coding/detect-object-injection
       const isNextInline = next.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(next.nodeName);
       const openerText = prev.textContent;
       const closerText = next.textContent;
@@ -882,7 +881,6 @@ function hoistAlignmentAcrossInlines(el) {
     // If the bracket expression is fully contained in this node, replaceTextNode handles it
     if (/^\[\[[^\]]+\][^\]]*\]/.test(tail)) continue; // eslint-disable-line no-continue
 
-    // eslint-disable-next-line sonarjs/slow-regex
     const classMatch = tail.match(/^\[\[([a-zA-Z0-9_,-]+)\]/);
     if (!classMatch) continue; // eslint-disable-line no-continue
 
@@ -905,6 +903,72 @@ function hoistAlignmentAcrossInlines(el) {
   }
 }
 
+const MULTI_NODE_OPEN_RE = /\[\[([a-z0-9,-]+)\]/;
+
+// Finds a "[[classes]" opener whose closing "]" is not in the same text node, and locates
+// that closing "]" across any run of plain text and SPLIT_INLINE_TAGS elements that follows
+// (e.g. content broken up by one or more <br>). Used to catch spans that the fixed 3-node
+// window in applySplitBoundaryPass can't reach.
+function findMultiNodeSpanBoundary(el) {
+  const children = [...el.childNodes];
+  for (let i = 0; i < children.length; i += 1) {
+    const openNode = children.at(i);
+    if (openNode.nodeType !== Node.TEXT_NODE) continue; // eslint-disable-line no-continue
+
+    const openMatch = openNode.nodeValue.match(MULTI_NODE_OPEN_RE);
+    if (!openMatch) continue; // eslint-disable-line no-continue
+
+    const afterOpen = openMatch.index + openMatch[0].length;
+    if (openNode.nodeValue.slice(afterOpen).includes(']')) continue; // eslint-disable-line no-continue
+
+    const classes = parseSplitClasses(openMatch[1]);
+    if (!classes.length) continue; // eslint-disable-line no-continue
+
+    for (let j = i + 1; j < children.length; j += 1) {
+      const node = children.at(j);
+      if (node.nodeType === Node.TEXT_NODE) {
+        const closeIdx = node.nodeValue.indexOf(']');
+        if (closeIdx !== -1) {
+          return {
+            openNode, afterOpen, openIndex: openMatch.index, classes, closeNode: node, closeIdx,
+          };
+        }
+      } else if (!SPLIT_INLINE_TAGS.has(node.nodeName)) {
+        break;
+      }
+    }
+  }
+  return null;
+}
+
+function applyMultiNodeSpanTag(el) {
+  const boundary = findMultiNodeSpanBoundary(el);
+  if (!boundary) return false;
+  const {
+    openNode, afterOpen, openIndex, classes, closeNode, closeIdx,
+  } = boundary;
+
+  const range = document.createRange();
+  range.setStart(openNode, afterOpen);
+  range.setEnd(closeNode, closeIdx);
+
+  const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
+  const fragment = range.extractContents();
+  if (regularClasses.length) {
+    const span = document.createElement('span');
+    span.className = regularClasses.join(' ');
+    span.appendChild(fragment);
+    range.insertNode(span);
+  } else {
+    range.insertNode(fragment);
+  }
+  if (alignClasses.length) el.classList.add(...alignClasses);
+
+  openNode.nodeValue = openNode.nodeValue.slice(0, openIndex);
+  closeNode.nodeValue = closeNode.nodeValue.slice(1);
+  return true;
+}
+
 export function decorateSpanTags(element) {
   element.querySelectorAll(SPAN_TAG_SELECTOR).forEach((el) => {
     if (el.textContent.includes('[[')) hoistAlignmentAcrossInlines(el);
@@ -912,6 +976,10 @@ export function decorateSpanTags(element) {
     const nodes = collectTextNodes(el, '[[');
     nodes.forEach((n) => replaceTextNode(n, el));
     applySplitBoundaryPass(el);
+
+    while (el.textContent.includes('[[')) {
+      if (!applyMultiNodeSpanTag(el)) break;
+    }
   });
 
   cleanAttributes(element);
@@ -1066,7 +1134,7 @@ function decorateNestedSections(main) {
  * Decorates the main element.
  * @param {Element} main The main element
  */
-// eslint-disable-next-line import/prefer-default-export
+
 /**
  * Tags responsive image pairs authored as two consecutive image-only
  * paragraphs (e.g. a portrait/mobile chart followed by a wide/desktop chart).
@@ -1280,7 +1348,6 @@ async function loadLazy(doc) {
  * without impacting the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
   const importDelayed = () => import('./delayed.js');
 
   if ('requestIdleCallback' in window) {
@@ -1312,7 +1379,6 @@ export async function loadPage() {
 
 // DA UE Editor support before page load
 if (window.location.hostname.includes('ue.da.live')) {
-  // eslint-disable-next-line import/no-unresolved
   await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
 }
 loadPage();
