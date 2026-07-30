@@ -61,11 +61,24 @@ padding: 0;
 }
 
 .cards.stats > ul > li img {
-  width: auto;
-  max-width: 200px;
+  width: 100%;
   height: auto;
   aspect-ratio: unset;
   object-fit: contain;
+}
+
+/* each graphic renders at its own source size (source .lu-cmp-teaser ico-*-image):
+   1) "1/5" ico-number 178px, 2) "4 in 5" ico-person 282px, 3) "Nearly 100%" ico-percent 176px */
+.cards.stats > ul > li:nth-child(1) img {
+  max-width: 178px;
+}
+
+.cards.stats > ul > li:nth-child(2) img {
+  max-width: 282px;
+}
+
+.cards.stats > ul > li:nth-child(3) img {
+  max-width: 176px;
 }
 
 .cards.stats .cards-card-body {
@@ -726,11 +739,6 @@ padding: 0;
      the infographics render at their intended size, matching the source. */
   .cards.stats.cards-3-cols > ul > li {
     width: 100%;
-  }
-
-  .cards.stats > ul > li img {
-    width: 100%;
-    max-width: 200px;
   }
 
   .cards.resource > ul > li {
