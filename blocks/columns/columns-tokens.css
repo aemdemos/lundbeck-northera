@@ -20,3 +20,49 @@
   --columns-stacks-border-color:#878787;
   --columns-icon-text-homepage-color:#245778;
 }
+
+/* ══════════════════════════════════════════════════════════════
+   columns-supine — two "reduce the risk" items (icon + caption). Source:
+   .cmp-layout__reduce-the-risk .cmp-layout__imagetext. Mobile: stacked,
+   centered, divider = bottom border on the first item; >768px: side-by-side,
+   icon-left + caption-right, vertical divider between items.
+   Scoped .columns.supine (2 classes) so it outranks the boilerplate .columns
+   rules regardless of this file being imported first.
+   ══════════════════════════════════════════════════════════════ */
+main .columns.supine {
+  padding: 0 15px;
+}
+
+main .columns.supine > div > div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+main .columns.supine > div > :first-child {
+  border-bottom: 2px solid var(--brand-grey);
+}
+
+main .columns.supine img {
+  width: 119px;
+  max-width: 100%;
+  height: auto;
+}
+
+main .columns.supine p {
+  color: var(--text-color, #333);
+  font-family: var(--body-font-family);
+  margin: 10px 0 0;
+}
+
+@media (width > 768px) {
+  /* side-by-side at desktop with a vertical divider between the two items;
+     replaces the mobile bottom border with a right border on the first item. */
+  main .columns.supine > div {
+    align-items: stretch;
+  }
+
+  main .columns.supine > div > :first-child {
+    border-bottom: 0;
+    border-right: 2px solid var(--brand-grey);
+  }
+}
