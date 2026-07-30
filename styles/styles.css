@@ -305,6 +305,14 @@ main .default-content-wrapper ul {
   padding-inline-start: 0.9em;
 }
 
+/* list text matches the source's 18px / 1.43 body size (top-level items wrap
+   their text in <p>; nested items hold text directly in <li>) */
+main .default-content-wrapper ul li,
+main .default-content-wrapper ul li p {
+  font-size: 18px;
+  line-height: 1.43;
+}
+
 main .default-content-wrapper ul ul {
   padding-inline-start: 2.5em;
   margin-top: 0;
