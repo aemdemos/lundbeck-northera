@@ -221,10 +221,6 @@ header .nav-dropdown {
   transition: max-height 0.3s ease;
 }
 
-header .nav-link-item.open .nav-dropdown {
-  border-top: var(--header-mobile-subitem-divider);
-}
-
 header .nav-dropdown > li + li {
   border-top: var(--header-mobile-subitem-divider);
 }
