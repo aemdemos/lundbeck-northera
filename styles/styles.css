@@ -291,7 +291,7 @@ blockquote {
 
 /* body copy on white uses brand blue on the source */
 main p {
-  font-size: var(--body-font-size-ms);
+  font-size: var(--body-font-size-m);
   line-height: 20px;
   color: var(--brand-grey);
   margin-bottom: 30px;
