@@ -297,6 +297,23 @@ main p {
   margin-bottom: 30px;
 }
 
+/* default-content bullet lists: brand-cyan markers (matching inline links) and
+   a tighter indent to match the source (the browser default 40px indent is too
+   deep). Scoped to default content so block-owned lists — e.g. ISI, cards —
+   keep their own styling. */
+main .default-content-wrapper ul {
+  padding-inline-start: 0.8em;
+}
+
+main .default-content-wrapper ul ul {
+  padding-inline-start: 1.5em;
+  margin-top: 0;
+}
+
+main .default-content-wrapper ul li::marker {
+  color: var(--brand-cyan);
+}
+
 code,
 pre {
   font-family: var(--fixed-font-family);
