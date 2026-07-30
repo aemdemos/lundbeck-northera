@@ -297,12 +297,12 @@ main p {
   margin-bottom: 30px;
 }
 
-/* default-content bullet lists: brand-cyan markers (matching inline links) and
-   a tighter indent to match the source (the browser default 40px indent is too
-   deep). Scoped to default content so block-owned lists — e.g. ISI, cards —
-   keep their own styling. */
+/* default-content bullet lists: enlarged brand-cyan markers (matching inline
+   links) and a tighter indent to match the source (the browser default 40px
+   indent is too deep). Scoped to default content so block-owned lists — e.g.
+   ISI, cards — keep their own styling. */
 main .default-content-wrapper ul {
-  padding-inline-start: 0.8em;
+  padding-inline-start: 0.9em;
 }
 
 main .default-content-wrapper ul ul {
@@ -312,6 +312,13 @@ main .default-content-wrapper ul ul {
 
 main .default-content-wrapper ul li::marker {
   color: var(--brand-cyan);
+  font-size: 1.5em;
+}
+
+/* nested items are open discs in the source's default (black) marker color */
+main .default-content-wrapper ul ul li::marker {
+  color: #000;
+  font-size: 1em;
 }
 
 code,
