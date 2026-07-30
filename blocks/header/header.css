@@ -237,6 +237,7 @@ header .nav-dropdown a {
   box-sizing: border-box;
   line-height: 1.3;
   text-align: left;
+  border-bottom: 1px solid #245778;
 }
 
 header .nav-dropdown a:hover {
