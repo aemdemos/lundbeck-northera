@@ -305,18 +305,18 @@ main .default-content-wrapper ul {
   padding-inline-start: 0.9em;
 }
 
-/* list text matches the source's 18px / 1.43 body size (top-level items wrap
-   their text in <p>; nested items hold text directly in <li>) */
+/* list text matches the source's 18px body size with open 1.6 line-height
+   (top-level items wrap their text in <p>; nested items hold text in <li>) */
 main .default-content-wrapper ul li,
 main .default-content-wrapper ul li p {
   font-size: 18px;
-  line-height: 1.43;
+  line-height: 1.6;
 }
 
 /* even vertical rhythm between every item — drive spacing from the <li> so
    nested items (no inner <p>) get the same gap as top-level ones */
 main .default-content-wrapper ul li {
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 
 main .default-content-wrapper ul li p {
