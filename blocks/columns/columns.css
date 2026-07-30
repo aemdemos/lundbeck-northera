@@ -333,6 +333,7 @@ main .columns.supine > div > :first-child {
 }
 
 main .columns.supine img {
+  width: 190px;
   max-width: 100%;
   height: auto;
 }
@@ -551,6 +552,18 @@ main .section.home-intro .columns.icon-text > div > .columns-img-col img {
   main .columns.icon-text > div > div:not(.columns-img-col) > p:first-child {
     border-top: none;
     padding-top: 0;
+  }
+
+  /* supine: side-by-side at desktop with a vertical divider between the two
+     items (source .cmp-layout__reduce-the-risk). Replaces the mobile bottom
+     border with a right border on the first item. */
+  main .columns.supine > div {
+    align-items: stretch;
+  }
+
+  main .columns.supine > div > :first-child {
+    border-bottom: 0;
+    border-right: 2px solid var(--brand-grey);
   }
 
   main .columns.stats-callout > div {

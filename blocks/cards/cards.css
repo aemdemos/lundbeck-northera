@@ -35,6 +35,16 @@ padding: 0;
   object-fit: var(--cards-image-object-fit); /* @boilerplate */
 }
 
+/* stats infographics (source .cmp-carousel associated-conditions): show the
+   full graphic — no crop. Overrides the boilerplate cover + 4/3 ratio. */
+.cards.stats > ul > li img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: unset;
+  object-fit: contain;
+}
+
 .cards.image-left > ul > li,
 .cards.image-right > ul > li {
   display: flex; /* @boilerplate */
@@ -541,8 +551,18 @@ padding: 0;
     border-right: 0;
   }
 
+  /* graphics share a common top line (source layout): all three start at the
+     same top, and the min-height reserves space for the tallest so the captions
+     below still align across the three columns. */
   .cards.stats .cards-card-image {
-    min-height: 215px;
+    min-height: 240px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .cards.stats .cards-card-body {
+    margin-top: 10px;
   }
 
   main > .section:has(.cards.contact) {
@@ -639,6 +659,17 @@ padding: 0;
 
   .cards.cards-3-cols > ul > li {
     width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
+  }
+
+  /* stats columns fill their full 1/3 cell (not the 3/4 resource-card width) so
+     the infographics render at their intended size, matching the source. */
+  .cards.stats.cards-3-cols > ul > li {
+    width: 100%;
+  }
+
+  .cards.stats > ul > li img {
+    width: 100%;
+    max-width: 240px;
   }
 
   .cards.resource > ul > li {
