@@ -87,10 +87,17 @@ padding: 0;
 
 /* symptoms cards (source .cmp-carousel common-symptoms): circular icon + label,
    centered. Mobile default = stacked centered; ≥768px = 3-up row (see below). */
+.cards.symptoms > ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
 .cards.symptoms > ul > li {
   border: 0;
   background-color: transparent;
   text-align: center;
+  padding: 20px 0;
 }
 
 .cards.symptoms .cards-card-image {
@@ -594,6 +601,7 @@ padding: 0;
 
   .cards.symptoms > ul > li {
     flex: 1;
+    padding: 0;
   }
 
   .cards.symptoms > ul > li img {
