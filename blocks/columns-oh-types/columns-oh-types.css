@@ -22,9 +22,15 @@
 }
 
 .columns-oh-types > div > div {
-  background-color: var(--oh-card-bg);
-  padding: 0 0 30px;
+  background-color: var(--oh-card-bg-plain);
+  padding: 0 0 20px;
   margin: 0;
+  border: 1px solid var(--oh-card-border);
+}
+
+/* only the first column body is light-blue; others stay white (source parity) */
+.columns-oh-types > div > div:first-child {
+  background-color: var(--oh-card-bg);
 }
 
 /* heading band */
@@ -43,6 +49,11 @@
   line-height: var(--oh-head-line-height);
   font-weight: 500;
   text-align: left;
+}
+
+/* first body item sits a little below the heading band */
+.columns-oh-types > div > div > p:first-of-type {
+  padding-top: 15px;
 }
 
 /* body items (each cause is a paragraph in the source) */
@@ -71,7 +82,21 @@
     flex: 1;
   }
 
+  /* collapse adjacent column borders into a single grid line */
+  .columns-oh-types > div > div + div {
+    margin-left: -1px;
+  }
+
   .columns-oh-types p {
     line-height: var(--oh-body-line-height-desktop);
+  }
+}
+
+/* Tablet only: the global 11% content gutter over-narrows the table so the
+   "Non-neurogenic" header wraps. Pull the table section back toward full width
+   (source keeps the blue table wider than the body copy at this size). */
+@media (width >= 768px) and (width < 900px) {
+  main > .section.columns-oh-types-container > div.columns-oh-types-wrapper {
+    padding-inline: 15px;
   }
 }

@@ -12,7 +12,7 @@
    ══════════════════════════════════════════════════════════════ */
 
 main .section:has(.hero-hcp-internal) {
-  padding: 0;
+  padding: 20px 15px 30px;
 }
 
 main .section:has(.hero-hcp-internal) .default-content-wrapper > h2 {
@@ -37,13 +37,20 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   height: 200px;
 }
 
-/* overlaid content, lower-left of the banner */
+/* overlaid content, lower-left of the banner — icon + title on one line */
 .hero-hcp-internal .hero-hcp-internal-content {
   bottom: 8px;
-  position:absolute;
-  display:table;
-  top:10%;
-  left:7%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  top: 10%;
+  left: 7%;
+}
+
+.hero-hcp-internal .hero-hcp-internal-icon {
+  margin: 0;
+  flex: 0 0 auto;
 }
 
 .hero-hcp-internal .hero-hcp-internal-icon img {
@@ -59,24 +66,16 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   line-height: var(--hero-hcp-internal-title-line-height);
   font-weight: 700;
   text-align: left;
-  display: table-cell;
-  vertical-align: middle;
   float: none;
-  padding: 20px 0 30px 30px;
+  margin: 0;
+  padding: 0;
 }
 
-/* mobile CTA button (yellow) */
+/* the breadcrumb-style "For Healthcare Professionals" link is not part of the
+   hero design at any breakpoint in the source — hide it (was rendering as a
+   stray yellow button on mobile and crowding the title). */
 .hero-hcp-internal .hero-hcp-internal-content a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 50px 10px 12px;
-  background-color: var(--hero-hcp-internal-cta-bg);
-  color: var(--hero-hcp-internal-cta-color);
-  font-family: var(--hero-hcp-internal-cta-font-family);
-  font-size: var(--hero-hcp-internal-cta-size);
-  line-height: var(--hero-hcp-internal-cta-line-height);
-  font-weight: 700;
-  text-decoration: none;
+  display: none;
 }
 
 /* desktop: CSS background art, larger title, CTA hidden */
@@ -100,20 +99,17 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {
-    top: 17%;
+    top: 50%;
     left: 2%;
     bottom: auto;
-    padding: 10px 20px 38px;
+    transform: translateY(-50%);
+    gap: 24px;
+    padding: 0 20px;
   }
 
   .hero-hcp-internal h1 {
     font-size: var(--hero-hcp-internal-title-size-desktop);
     line-height: var(--hero-hcp-internal-title-line-height-desktop);
-  }
-
-  /* CTA button hidden on desktop (matches source) */
-  .hero-hcp-internal .hero-hcp-internal-content a {
-    display: none;
   }
 
   .hero-hcp-internal .hero-hcp-internal-icon img {
