@@ -84,6 +84,16 @@ padding: 0;
   text-align: center;
 }
 
+/* circular icons — show full (no 4/3 crop) at their natural size. Overrides the
+   boilerplate cover + 4/3 ratio that was clipping the head circles. */
+.cards.symptoms > ul > li img {
+  width: auto;
+  max-width: 140px;
+  height: auto;
+  aspect-ratio: unset;
+  object-fit: contain;
+}
+
 .cards.symptoms .cards-card-body {
   text-align: center;
 }
@@ -720,7 +730,7 @@ padding: 0;
 
   .cards.stats > ul > li img {
     width: 100%;
-    max-width: 240px;
+    max-width: 200px;
   }
 
   .cards.resource > ul > li {
