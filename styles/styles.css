@@ -918,6 +918,31 @@ main .section.dark a { /* @libs */
   }
 }
 
+/* symptomatic-nOH page (source parity). Scoped by structural landmarks unique
+   to this page (the embed hero + the stats/supine blocks) so the rules survive
+   copy edits and affect no other page:
+   - the three major section titles are centered with generous top padding
+   - the Q&A subheadings (the section right after the video) are grey, bold, smaller
+   - that section's closing "Patient experiences vary…" line is brand-blue and bold */
+main > .section:has(.embed) + .section > .default-content-wrapper h2,
+main > .section:has(.cards.stats) > .default-content-wrapper h2,
+main > .section:has(.columns.supine) > .default-content-wrapper h2 {
+  text-align: center;
+  padding-top: 40px;
+}
+
+main > .section:has(.embed) + .section > .default-content-wrapper h3 {
+  font-size: var(--heading-font-size-m);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-color-light);
+}
+
+main > .section:has(.embed) + .section > .default-content-wrapper > p {
+  color: var(--brand-primary);
+  font-family: var(--heading-font-family);
+  font-weight: var(--font-weight-bold);
+}
+
 main .section.dark a:hover { /* @libs */
   color: var(--brand-primary-light); /* @libs */
 }

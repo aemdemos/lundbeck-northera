@@ -36,13 +36,56 @@ padding: 0;
 }
 
 /* stats infographics (source .cmp-carousel associated-conditions): show the
-   full graphic — no crop. Overrides the boilerplate cover + 4/3 ratio. */
+   full graphic — no crop. Overrides the boilerplate cover + 4/3 ratio.
+   Mobile (default): stacked, centered, capped icon size, with a horizontal
+   divider between items. Desktop switches to the 3-up row (see ≥768/≥992px). */
+.cards.stats > ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.cards.stats > ul > li {
+  border: 0;
+  background-color: transparent;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.cards.stats > ul > li + li {
+  border-top: 1px solid #000;
+}
+
+.cards.stats .cards-card-image {
+  text-align: center;
+}
+
 .cards.stats > ul > li img {
   width: auto;
-  max-width: 100%;
+  max-width: 200px;
   height: auto;
   aspect-ratio: unset;
   object-fit: contain;
+}
+
+.cards.stats .cards-card-body {
+  text-align: center;
+}
+
+/* symptoms cards (source .cmp-carousel common-symptoms): circular icon + label,
+   centered. Mobile default = stacked centered; ≥768px = 3-up row (see below). */
+.cards.symptoms > ul > li {
+  border: 0;
+  background-color: transparent;
+  text-align: center;
+}
+
+.cards.symptoms .cards-card-image {
+  text-align: center;
+}
+
+.cards.symptoms .cards-card-body {
+  text-align: center;
 }
 
 .cards.image-left > ul > li,
@@ -521,6 +564,7 @@ padding: 0;
   }
 
   .cards.symptoms > ul {
+    display: flex;
     flex-direction: row;
     align-items: stretch;
   }
@@ -538,6 +582,7 @@ padding: 0;
   }
 
   .cards.stats > ul {
+    display: flex;
     flex-direction: row;
     align-items: stretch;
   }
@@ -545,6 +590,12 @@ padding: 0;
   .cards.stats > ul > li {
     flex: 1;
     border-right: 1px solid #000;
+    padding: 0;
+  }
+
+  /* reset the mobile horizontal divider — desktop uses the vertical one */
+  .cards.stats > ul > li + li {
+    border-top: 0;
   }
 
   .cards.stats > ul > li:last-child {
