@@ -576,8 +576,9 @@ main .icon.icon-bullet { /* @libs */
 .center, .center-mobile {
   text-align: center;
 
-  &.columns .columns-img-col img {
-    display: inline-block;
+  &.columns .columns-img-col img,
+  &.columns-img-col img {
+    display: inline-block !important;
   }
 
   ol, ul {
@@ -594,16 +595,18 @@ main .icon.icon-bullet { /* @libs */
 .left, .left-mobile {
   text-align: left;
 
-  &.columns .columns-img-col img {
-    display: inline-block;
+  &.columns .columns-img-col img,
+  &.columns-img-col img {
+    display: inline-block !important;
   }
 }
 
 .right, .right-mobile {
   text-align: right;
 
-  &.columns .columns-img-col img {
-    display: inline-block;
+  &.columns .columns-img-col img,
+  &.columns-img-col img {
+    display: inline-block !important;
   }
 
   ol, ul {
@@ -773,21 +776,6 @@ main .section.patient-story .default-content-wrapper p:has(> picture) img {
   height: auto;
 }
 
-/* ≥768px the intro (first) section wrapper is inset 11% (of its border-box) by
-   `main > .section:first-of-type > div`. A child margin resolves against the
-   wrapper's CONTENT width (78% of the box), so to cancel the 11% side padding
-   the negative margin must be 11/78 ≈ 14.1%. This makes the image span the full
-   content column edge-to-edge (0 → column right) while staying clear of the ISI
-   rail — NOT 100vw. Matches the source, where the ambassador image is full-bleed
-   from tablet up while the intro text keeps its gutter. */
-@media (width >= 768px) {
-  main .section.patient-story .default-content-wrapper p:has(> picture) {
-    width: calc(100% + 2 * (100% * 11 / 78));
-    margin-left: calc(-1 * 100% * 11 / 78);
-    margin-right: calc(-1 * 100% * 11 / 78);
-  }
-}
-
 /* quote-container section — the "Introducing Bob" heading + intro paragraph
    that precede the Bob quote banner. Source mobile: H2 centered, Gotham-Bold
    20px/22, brand-blue, padding 30px 0 20px. ≥768px: left-aligned 30px/36,
@@ -805,15 +793,6 @@ main .section.quote-container .default-content-wrapper h2 {
 main .section.quote-container .default-content-wrapper p {
   color: var(--brand-grey);
   text-align: left;
-}
-
-@media (width >= 768px) {
-  main .section.quote-container .default-content-wrapper h2 {
-    font-size: 30px;
-    line-height: 36px;
-    text-align: left;
-    padding: 50px 0 20px;
-  }
 }
 
 /* section metadata - reminders (source .cmp-image__textlist: brand-blue,
@@ -946,13 +925,6 @@ main .section.daw-blue > div {
 
 main .section.dark a { /* @libs */
   color: var(--background-color); /* @libs */
-}
-
-@media (width >= 768px) {
-  main .section.noh-symptoms h2 {
-    font-size: 40px;
-    line-height: 48px;
-  }
 }
 
 main .section.dark a:hover { /* @libs */
@@ -1099,15 +1071,6 @@ main .section.wmy-intro a.button.primary:focus {
 
 main .section.wmy-intro a.button u {
   text-decoration: none;
-}
-
-/* What Moves You survey page: the H1 is centered on mobile (global default) but
-   left-aligned on desktop in the source. Scoped to h1 so the thank-you page
-   (which shares wmy-intro but uses an h2) is unaffected. */
-@media (width >= 768px) {
-  main .section.wmy-intro h1 {
-    text-align: left;
-  }
 }
 
 /* section metadata - sitemap (/site-map page).
@@ -1279,8 +1242,9 @@ main .section.accent h6 {
     .center-desktop {
       text-align: center;
     
-      &.columns .columns-img-col img {
-        display: inline-block;
+      &.columns .columns-img-col img,
+      &.columns-img-col img {
+        display: inline-block !important;
       }
     
       ol, ul {
@@ -1297,16 +1261,18 @@ main .section.accent h6 {
     .left-desktop {
       text-align: left;
     
-      &.columns .columns-img-col img {
-        display: inline-block;
+      &.columns .columns-img-col img,
+      &.columns-img-col img {
+        display: inline-block !important;
       }
     }
     
     .right-desktop {
       text-align: right;
     
-      &.columns .columns-img-col img {
-        display: inline-block;
+      &.columns .columns-img-col img,
+      &.columns-img-col img {
+        display: inline-block !important;
       }
     
       ol, ul {
@@ -1363,6 +1329,28 @@ main .section.accent h6 {
 
   main p.img-pair-desktop {
     display: block;
+  }
+
+  main .section.wmy-intro h1 {
+    text-align: left;
+  }
+
+  main .section.patient-story .default-content-wrapper p:has(> picture) {
+    width: calc(100% + 2 * (100% * 11 / 78));
+    margin-left: calc(-1 * 100% * 11 / 78);
+    margin-right: calc(-1 * 100% * 11 / 78);
+  }
+
+  main .section.noh-symptoms h2 {
+    font-size: 40px;
+    line-height: 48px;
+  }
+
+  main .section.quote-container .default-content-wrapper h2 {
+    font-size: 30px;
+    line-height: 36px;
+    text-align: left;
+    padding: 50px 0 20px;
   }
 
   main .section.reminders > div {
