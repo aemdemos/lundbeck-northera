@@ -314,9 +314,10 @@ main .default-content-wrapper ul li::marker {
   color: var(--brand-cyan);
 }
 
-/* nested items are open discs in the source's default (black) marker color */
+/* nested items are open discs, slightly larger and in the softer brand-grey */
 main .default-content-wrapper ul ul li::marker {
-  color: #000;
+  color: var(--brand-grey);
+  font-size: 1.15em;
 }
 
 code,
