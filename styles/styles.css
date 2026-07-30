@@ -313,6 +313,20 @@ main .default-content-wrapper ul li p {
   line-height: 1.43;
 }
 
+/* even vertical rhythm between every item — drive spacing from the <li> so
+   nested items (no inner <p>) get the same gap as top-level ones */
+main .default-content-wrapper ul li {
+  margin-bottom: 20px;
+}
+
+main .default-content-wrapper ul li p {
+  margin-bottom: 0;
+}
+
+main .default-content-wrapper ul li:last-child {
+  margin-bottom: 0;
+}
+
 main .default-content-wrapper ul ul {
   padding-inline-start: 2.5em;
   margin-top: 0;
