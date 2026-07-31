@@ -19,7 +19,7 @@
   /* body items */
   --oh-body-font-family: var(--body-font-family);
   --oh-body-size: 14px;
-  --oh-body-line-height-mobile: 20px;
+  --oh-body-line-height-mobile: 28px;
   --oh-body-line-height-desktop: 24px;
   --oh-gap: 0px;
 }

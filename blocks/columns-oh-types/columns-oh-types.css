@@ -14,11 +14,11 @@
   padding: 10px 15px;
 }
 
-/* mobile-first: stack columns */
+/* mobile-first: stack columns contiguously (no gaps between cards) */
 .columns-oh-types > div {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 0;
 }
 
 .columns-oh-types > div > div {
