@@ -948,11 +948,17 @@ main .section.support-band .default-content-wrapper > h2 {
 main .section.support-band .columns-wrapper > h3 {
   font-size: 30px;
   line-height: 36px;
+  font-family: gotham-bold;
 }
 
 main .section.support-band .columns-wrapper > h4 {
   font-size: 30px;
   line-height: 36px;
+  font-family: gotham-bold;
+}
+
+main .section.section.support-band .columns-wrapper .columns-img-col > div {
+  border: 0;
 }
 
 
