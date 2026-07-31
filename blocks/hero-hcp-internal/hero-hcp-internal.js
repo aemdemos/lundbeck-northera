@@ -1,3 +1,5 @@
+import { buildPictureContentFromImageCell, collectBlockCellImageSources } from '../../scripts/utils.js';
+
 /**
  * hero-hcp-internal — internal-page (e.g. About Northera) icon banner.
  * Source is the AEM "bannericon" teaser: a full-width sky/blue banner image with
@@ -19,32 +21,22 @@ export default function decorate(block) {
 
   if (imageRow) {
     imageRow.classList.add('hero-hcp-internal-image');
+
+    const imageCell = imageRow.firstElementChild;
+    if (imageCell && collectBlockCellImageSources(imageCell).length > 1) {
+      const built = buildPictureContentFromImageCell(imageCell);
+      imageCell.replaceChildren(built);
+    }
   }
   if (contentRow) {
     const cell = contentRow.firstElementChild;
     if (cell) cell.classList.add('hero-hcp-internal-content');
 
-    // the first image inside the content cell is the small circular icon.
-    // The author markup can nest the icon <picture>, the <h1> and the CTA link
-    // inside a single wrapping <p>; flatten so icon / title / CTA are direct
-    // children of the flex content cell and can lay out side-by-side.
-    const picture = contentRow.querySelector('picture');
-    const h1 = contentRow.querySelector('h1');
-    const cta = contentRow.querySelector('a');
-    if (cell && picture) {
-      const iconWrap = document.createElement('span');
-      iconWrap.className = 'hero-hcp-internal-icon';
-      iconWrap.append(picture);
-      cell.prepend(iconWrap);
-      if (h1) iconWrap.after(h1);
-      if (cta) {
-        const ctaP = cta.closest('p') || cta;
-        cell.append(ctaP);
-      }
-      // remove any now-empty wrapper paragraphs left behind
-      cell.querySelectorAll('p').forEach((p) => {
-        if (!p.textContent.trim() && !p.querySelector('picture, img, a')) p.remove();
-      });
+    // the first image inside the content cell is the small circular icon
+    const icon = contentRow.querySelector('img');
+    if (icon) {
+      const iconWrap = icon.closest('p, div') || icon.parentElement;
+      if (iconWrap) iconWrap.classList.add('hero-hcp-internal-icon');
     }
   }
 }
