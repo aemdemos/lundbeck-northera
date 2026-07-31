@@ -103,6 +103,14 @@
   box-shadow: var(--button-hover-shadow);
 }
 
+.modal dialog .leaving-site .button-wrapper .button:hover:focus {
+  opacity: 1;
+  background-color: var(--button-primary-hover-background);
+  border-color: var(--button-primary-hover-border-color);
+  color: var(--button-primary-hover-color);
+  box-shadow: var(--button-hover-shadow);
+}
+
 .modal dialog .leaving-site .button-wrapper .button:focus {
   opacity: 1;
   background-color: var(--button-primary-background);
