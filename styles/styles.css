@@ -313,47 +313,48 @@ main p {
   margin-bottom: 30px;
 }
 
-/* default-content bullet lists: brand-cyan markers (matching inline links) at
-   normal text size, with a tighter indent to match the source (the browser
-   default 40px indent is too deep). Scoped to default content so block-owned
-   lists — e.g. ISI, cards — keep their own styling. */
-main .default-content-wrapper ul {
+/* global bullet lists: brand-cyan markers (matching inline links) at normal
+   text size, with a tighter indent to match the source (the browser default
+   40px indent is too deep). Applied globally so content lists inside blocks
+   (e.g. columns) get the styling too; block lists that use <ul> structurally
+   set list-style: none, so the marker-color rules are a no-op for them. */
+main ul {
   padding-inline-start: 0.9em;
 }
 
 /* list text matches the source's 18px body size with open 1.6 line-height
    (top-level items wrap their text in <p>; nested items hold text in <li>) */
-main .default-content-wrapper ul li,
-main .default-content-wrapper ul li p {
+main ul li,
+main ul li p {
   font-size: 18px;
   line-height: 1.6;
 }
 
 /* even vertical rhythm between every item — drive spacing from the <li> so
    nested items (no inner <p>) get the same gap as top-level ones */
-main .default-content-wrapper ul li {
+main ul li {
   margin-bottom: 28px;
 }
 
-main .default-content-wrapper ul li p {
+main ul li p {
   margin-bottom: 0;
 }
 
-main .default-content-wrapper ul li:last-child {
+main ul li:last-child {
   margin-bottom: 0;
 }
 
-main .default-content-wrapper ul ul {
+main ul ul {
   padding-inline-start: 2.5em;
   margin-top: 0;
 }
 
-main .default-content-wrapper ul li::marker {
+main ul li::marker {
   color: var(--brand-cyan);
 }
 
 /* nested items are open discs, slightly larger and in the softer brand-grey */
-main .default-content-wrapper ul ul li::marker {
+main ul ul li::marker {
   color: var(--brand-grey);
   font-size: 1.15em;
 }
