@@ -8,18 +8,6 @@
   --hero-hcp-internal-ratio-mobile: 390 / 150;
   --hero-hcp-internal-max-width: 1200px;
 
-  /* dark navy overlay on the sky art (source darkens the banner this way — a
-     gradient over the image, not a background-color). Mobile: strong navy at the
-     top fading to reveal the sky strip at the bottom. Tablet/desktop use no
-     overlay (bright sky); legibility there comes from the title text-shadow. */
-  --hero-hcp-internal-overlay: linear-gradient(
-    to bottom,
-    rgb(36 71 93 / 92%) 0%,
-    rgb(36 71 93 / 82%) 45%,
-    rgb(36 71 93 / 30%) 80%,
-    rgb(36 71 93 / 0%) 100%
-  );
-
   /* content layout */
   --hero-hcp-internal-content-gap: 16px;
   --hero-hcp-internal-content-gap-desktop: 24px;
@@ -41,16 +29,20 @@
   --hero-hcp-internal-title-line-height-desktop: 50px;
   --hero-hcp-internal-title-shadow: 0 1px 3px rgb(0 0 0 / 35%);
 
-  /* default-content directly below the banner (intro paragraph) */
-  --hero-hcp-internal-intro-size: 14px;
-  --hero-hcp-internal-intro-line-height: 22px;
-  --hero-hcp-internal-intro-margin-bottom-desktop: 10px;
-  --hero-hcp-internal-heading-padding: 40px 0 30px;
-
   /* mobile CTA button — yellow, white bold label (hidden in this design) */
   --hero-hcp-internal-cta-bg: #f6af1a;
   --hero-hcp-internal-cta-color: #fff;
   --hero-hcp-internal-cta-font-family: var(--heading-font-family);
   --hero-hcp-internal-cta-size: 14px;
   --hero-hcp-internal-cta-line-height: 20px;
+}
+
+/* Page-level tokens — these style default content OUTSIDE the block (subsection
+   headings + intro paragraphs on HCP internal pages), so they must be declared
+   on a scope those elements can see, not on .hero-hcp-internal. */
+main:has(.hero-hcp-internal) {
+  --hero-hcp-internal-intro-size: 14px;
+  --hero-hcp-internal-intro-line-height: 22px;
+  --hero-hcp-internal-intro-margin-bottom-desktop: 10px;
+  --hero-hcp-internal-heading-padding: 40px 0 30px;
 }

@@ -13,7 +13,9 @@ main .section:has(.hero-hcp-internal) {
   padding: var(--hero-hcp-internal-section-padding);
 }
 
-main .section:has(.hero-hcp-internal) .default-content-wrapper > h2 {
+/* HCP internal-page subsection headings (source: 40px top / 30px bottom).
+   Scoped to pages that use this hero, so global h2 spacing is untouched. */
+main:has(.hero-hcp-internal) .default-content-wrapper > h2 {
   padding: var(--hero-hcp-internal-heading-padding);
 }
 
@@ -27,12 +29,12 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   margin: 0;
   width: 100%;
   aspect-ratio: var(--hero-hcp-internal-ratio-mobile);
-  background-image: var(--hero-hcp-internal-overlay), var(--hero-hcp-internal-bg-desktop);
+  background-image: var(--hero-hcp-internal-bg-desktop);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   box-sizing: border-box;
 }
 
@@ -81,13 +83,11 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   display: none;
 }
 
-/* desktop: wider (shorter) banner ratio, bright sky (no overlay), larger title */
+/* desktop: wider (shorter) banner ratio, larger title */
 @media (width >= 768px) {
   .hero-hcp-internal {
     max-width: var(--hero-hcp-internal-max-width);
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
-    background-image: var(--hero-hcp-internal-bg-desktop);
-    align-items: center;
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {

@@ -49,19 +49,14 @@
   text-align: left;
 }
 
-/* first body item sits a little below the heading band */
-.columns-oh-types > div > div > p:first-of-type {
-  padding-top: var(--oh-first-item-pad-top);
-}
-
 /* body items (each cause is a paragraph in the source) */
 .columns-oh-types p {
-  margin: 0;
+  margin: var(--oh-body-margin);
   padding: var(--oh-body-padding);
   color: var(--oh-card-text-color);
   font-family: var(--oh-body-font-family);
   font-size: var(--oh-body-size);
-  line-height: var(--oh-body-line-height-mobile);
+  line-height: var(--oh-body-line-height);
   font-weight: var(--oh-body-weight);
 }
 
@@ -83,10 +78,6 @@
   /* collapse adjacent column borders into a single grid line */
   .columns-oh-types > div > div + div {
     margin-left: -1px;
-  }
-
-  .columns-oh-types p {
-    line-height: var(--oh-body-line-height-desktop);
   }
 }
 

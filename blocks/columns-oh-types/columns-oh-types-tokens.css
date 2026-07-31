@@ -19,14 +19,14 @@
   --oh-head-padding: 20px;
   --oh-head-margin: 0 0 10px;
 
-  /* body items */
+  /* body items — source: 14px Gotham-Medium, margin 0 0 10px, padding 0 20px,
+     line 30px */
   --oh-body-font-family: var(--body-font-family);
   --oh-body-size: 14px;
-  --oh-body-weight: 400;
+  --oh-body-weight: 500;               /* source: Gotham-Medium */
   --oh-body-padding: 0 20px;
-  --oh-body-line-height-mobile: 28px;
-  --oh-body-line-height-desktop: 24px;
-  --oh-first-item-pad-top: 5px;
+  --oh-body-margin: 0 0 10px;
+  --oh-body-line-height: 30px;
   --oh-sup-size: 0.7em;
 
   /* card + layout */
