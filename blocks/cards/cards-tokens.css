@@ -6,8 +6,8 @@
   --cards-card-border-color: var(--border-color); /* @boilerplate */
   --cards-card-background: var(--color-surface); /* @boilerplate */
   --cards-card-body-margin: var(--spacing-s); /* @boilerplate */
-  --cards-image-aspect-ratio: 4 / 3; /* @boilerplate */
-  --cards-image-object-fit: cover; /* @boilerplate */
+  --cards-image-aspect-ratio: unset; /* @boilerplate */
+  --cards-image-object-fit: contain; /* @boilerplate */
   --cards-image-side-width: 30%; /* @boilerplate */
   --cards-text-font-size-s: 16px;
 
