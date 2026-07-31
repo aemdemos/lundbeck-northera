@@ -945,12 +945,12 @@ main .section.support-band .default-content-wrapper > h2 {
   margin: 0 0 0 150px;
 }
 
-main .section.support-band .default-content-wrapper > h3 {
+main .section.support-band .columns-wrapper > h3 {
   font-size: 30px;
   line-height: 36px;
 }
 
-main .section.support-band .default-content-wrapper > h4 {
+main .section.support-band .columns-wrapper > h4 {
   font-size: 30px;
   line-height: 36px;
 }
