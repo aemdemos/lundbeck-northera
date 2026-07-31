@@ -1,3 +1,5 @@
+import { buildPictureContentFromImageCell, collectBlockCellImageSources } from '../../scripts/utils.js';
+
 /**
  * hero-hcp-internal — internal-page (e.g. About Northera) icon banner.
  * Source is the AEM "bannericon" teaser: a full-width sky/blue banner image with
@@ -19,6 +21,12 @@ export default function decorate(block) {
 
   if (imageRow) {
     imageRow.classList.add('hero-hcp-internal-image');
+
+    const imageCell = imageRow.firstElementChild;
+    if (imageCell && collectBlockCellImageSources(imageCell).length > 1) {
+      const built = buildPictureContentFromImageCell(imageCell);
+      imageCell.replaceChildren(built);
+    }
   }
   if (contentRow) {
     const cell = contentRow.firstElementChild;
