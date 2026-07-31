@@ -12,6 +12,12 @@
   --columns-banner-img-col-max-width: 440px;
   --columns-banner-vertical-padding: 50px;
 
+  /* the "Image above is not an actual…" disclaimer is a small italic footnote
+     in a lighter/muted grey than the body text */
+  --columns-banner-disclaimer-font-size: 13px;
+  --columns-banner-disclaimer-line-height: 18px;
+  --columns-banner-disclaimer-color: #7a7d81;
+
   /* daw variant (HCP landing "Dispense as written" callout): blue banner with
      Rx icon + white heading/text. Background-color is set on the section in the
      document (data-background-color). */
@@ -55,9 +61,16 @@ main > .section.columns-banner-container > .columns-banner-wrapper {
   padding: 0;
 }
 
-/* plain copay-card banner: source teaser carries 50px top/bottom padding */
+/* plain copay-card banner: source teaser carries 50px top padding */
 .columns-banner:not(.daw, .daw-light) {
-  padding: var(--columns-banner-vertical-padding) 0;
+  padding: var(--columns-banner-vertical-padding) 0 0 0;
+}
+
+/* the "Image above is not an actual…" disclaimer is a small italic footnote */
+.columns-banner:not(.daw, .daw-light) p:has(em) {
+  color: var(--columns-banner-disclaimer-color);
+  font-size: var(--columns-banner-disclaimer-font-size);
+  line-height: var(--columns-banner-disclaimer-line-height);
 }
 
 /* Desktop DAW band padding (source side padding) — applied at the lg
