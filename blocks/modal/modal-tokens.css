@@ -97,7 +97,7 @@
 
 .modal dialog .leaving-site .button-wrapper .button:hover {
   opacity: 1;
-  box-shadow: var(button-hover-shadow);
+  box-shadow: var(--button-hover-shadow);
 }
 
 .modal dialog .leaving-site .button-wrapper .button:focus {
