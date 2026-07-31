@@ -1,15 +1,17 @@
 /* hero-hcp-internal design tokens — internal-page icon banner.
-   Values extracted from the northera-stage source (About Northera).
-   Mobile art:  mobile-banner-sky.png
-   Desktop art: northera-HCP-bg-internal-pages.png */
+   All tunable values live here; hero-hcp-internal.css holds only structure.
+   Values extracted from the northera-stage source (About Northera). */
 .hero-hcp-internal {
+  /* banner art + shape */
   --hero-hcp-internal-bg-desktop: url("/icons/northera-hcp-bg-internal-pages.png");
   --hero-hcp-internal-ratio-desktop: 1534 / 200;
   --hero-hcp-internal-ratio-mobile: 390 / 150;
+  --hero-hcp-internal-max-width: 1200px;
 
   /* dark navy overlay on the sky art (source darkens the banner this way — a
      gradient over the image, not a background-color). Mobile: strong navy at the
-     top fading to reveal the sky strip at the bottom. */
+     top fading to reveal the sky strip at the bottom. Tablet/desktop use no
+     overlay (bright sky); legibility there comes from the title text-shadow. */
   --hero-hcp-internal-overlay: linear-gradient(
     to bottom,
     rgb(36 71 93 / 92%) 0%,
@@ -18,6 +20,13 @@
     rgb(36 71 93 / 0%) 100%
   );
 
+  /* content layout */
+  --hero-hcp-internal-content-gap: 16px;
+  --hero-hcp-internal-content-gap-desktop: 24px;
+  --hero-hcp-internal-content-padding: 20px;
+  --hero-hcp-internal-section-padding: 0 0 30px;          /* mobile/tablet */
+  --hero-hcp-internal-section-padding-desktop: 20px 15px 30px;
+
   /* icon */
   --hero-hcp-internal-icon-size: 70px;
   --hero-hcp-internal-icon-size-desktop: 112px;
@@ -25,12 +34,20 @@
   /* title — white on the banner at every breakpoint */
   --hero-hcp-internal-title-color: #fff;
   --hero-hcp-internal-title-font-family: var(--heading-font-family);
+  --hero-hcp-internal-title-weight: 700;
   --hero-hcp-internal-title-size: 20px;
   --hero-hcp-internal-title-line-height: 24px;
   --hero-hcp-internal-title-size-desktop: 50px;
   --hero-hcp-internal-title-line-height-desktop: 50px;
+  --hero-hcp-internal-title-shadow: 0 1px 3px rgb(0 0 0 / 35%);
 
-  /* mobile CTA button — yellow, white bold label (hidden on desktop) */
+  /* default-content directly below the banner (intro paragraph) */
+  --hero-hcp-internal-intro-size: 14px;
+  --hero-hcp-internal-intro-line-height: 22px;
+  --hero-hcp-internal-intro-margin-bottom-desktop: 10px;
+  --hero-hcp-internal-heading-padding: 40px 0 30px;
+
+  /* mobile CTA button — yellow, white bold label (hidden in this design) */
   --hero-hcp-internal-cta-bg: #f6af1a;
   --hero-hcp-internal-cta-color: #fff;
   --hero-hcp-internal-cta-font-family: var(--heading-font-family);

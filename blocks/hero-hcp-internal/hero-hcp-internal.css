@@ -2,27 +2,24 @@
 
 /* ══════════════════════════════════════════════════════════════
    hero-hcp-internal — internal-page icon banner.
-   Mobile (default): the sky banner image on top, with an overlaid icon +
-   white H1 + yellow CTA button on the lower-left (absolute, over the image).
-   Desktop (≥768px): full-width banner background art with an overlaid icon +
-   large white H1 on the lower-left; the CTA button is hidden (as in source).
-   Source measurements: title Gotham-Bold 17.55px/24px (mobile) → 50px/50px
-   (desktop); icon 60px; CTA bg #f6af1a, white bold 14px, padding 10px 50px
-   10px 12px; container padding 10px 20px 20px, absolute lower-left.
+   Structure only — all tunable values live in hero-hcp-internal-tokens.css.
+   Mobile (default): navy-gradient-over-sky banner, icon + white H1 near the top,
+   full-bleed. Desktop (≥768px): wider/shorter bright-sky banner, icon + large
+   H1 centered, inset from the page edges. Same sky image at all breakpoints.
    ══════════════════════════════════════════════════════════════ */
 
 /* mobile + tablet: banner is full-bleed (edge-to-edge), only a gap below it */
 main .section:has(.hero-hcp-internal) {
-  padding: 0 0 30px;
+  padding: var(--hero-hcp-internal-section-padding);
 }
 
 main .section:has(.hero-hcp-internal) .default-content-wrapper > h2 {
-padding: 40px 0 30px;
+  padding: var(--hero-hcp-internal-heading-padding);
 }
 
 main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
- font-size: 14px;
- line-height: 22px;
+  font-size: var(--hero-hcp-internal-intro-size);
+  line-height: var(--hero-hcp-internal-intro-line-height);
 }
 
 .hero-hcp-internal {
@@ -49,8 +46,8 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   position: static;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
+  gap: var(--hero-hcp-internal-content-gap);
+  padding: var(--hero-hcp-internal-content-padding);
 }
 
 .hero-hcp-internal .hero-hcp-internal-icon {
@@ -69,12 +66,12 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   font-family: var(--hero-hcp-internal-title-font-family);
   font-size: var(--hero-hcp-internal-title-size);
   line-height: var(--hero-hcp-internal-title-line-height);
-  font-weight: 700;
+  font-weight: var(--hero-hcp-internal-title-weight);
   text-align: left;
   float: none;
   margin: 0;
   padding: 0;
-  text-shadow: 0 1px 3px rgb(0 0 0 / 35%);
+  text-shadow: var(--hero-hcp-internal-title-shadow);
 }
 
 /* the breadcrumb-style "For Healthcare Professionals" link is not part of the
@@ -84,20 +81,17 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   display: none;
 }
 
-/* desktop: wider (shorter) banner ratio, lighter even overlay, larger title */
+/* desktop: wider (shorter) banner ratio, bright sky (no overlay), larger title */
 @media (width >= 768px) {
   .hero-hcp-internal {
-    max-width: 1200px;
+    max-width: var(--hero-hcp-internal-max-width);
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
-
-    /* tablet/desktop: bright sky, no dark wash (legibility comes from the
-       title's text-shadow); mobile keeps the navy gradient */
     background-image: var(--hero-hcp-internal-bg-desktop);
     align-items: center;
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {
-    gap: 24px;
+    gap: var(--hero-hcp-internal-content-gap-desktop);
   }
 
   .hero-hcp-internal h1 {
@@ -109,21 +103,20 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
     width: var(--hero-hcp-internal-icon-size-desktop);
   }
 
-
-main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
- margin-bottom: 10px;
-}
+  main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
+    margin-bottom: var(--hero-hcp-internal-intro-margin-bottom-desktop);
+  }
 }
 
 /* desktop: banner is inset from the page edges with a gap above it
    (tablet keeps it full-bleed) */
 @media (width >= 900px) {
   main .section:has(.hero-hcp-internal) {
-    padding: 20px 15px 30px;
+    padding: var(--hero-hcp-internal-section-padding-desktop);
   }
 }
 
-/* ≥1400px: banner fills the full content column (no 1200px cap) */
+/* ≥1400px: banner fills the full content column (no cap) */
 @media (width >= 1400px) {
   .hero-hcp-internal {
     max-width: none;
