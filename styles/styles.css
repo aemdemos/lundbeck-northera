@@ -634,6 +634,10 @@ main .icon.icon-bullet { /* @libs */
     text-align: left;
   }
  }
+
+ picture {
+  display: inline-block;
+ }
 }
 
 .center, .center-mobile {
