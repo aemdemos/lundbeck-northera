@@ -42,7 +42,10 @@
    on a scope those elements can see, not on .hero-hcp-internal. */
 main:has(.hero-hcp-internal) {
   --hero-hcp-internal-intro-size: 14px;
-  --hero-hcp-internal-intro-line-height: 22px;
+  --hero-hcp-internal-intro-line-height: 30px;
   --hero-hcp-internal-intro-margin-bottom-desktop: 10px;
   --hero-hcp-internal-heading-padding: 40px 0 30px;
+
+  /* body/reference paragraphs (source: 18px Gotham-Medium #58595B, margin 0 0 10px) */
+  --hero-hcp-internal-body-margin: 0 0 10px;
 }

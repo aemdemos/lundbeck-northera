@@ -24,6 +24,14 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   line-height: var(--hero-hcp-internal-intro-line-height);
 }
 
+/* body + reference paragraphs across HCP internal-page sections share a tight
+   uniform margin + line-height (source: margin 0 0 10px, line-height 30px) so
+   all "References:" lists match. */
+main:has(.hero-hcp-internal) .default-content-wrapper > p {
+  margin: var(--hero-hcp-internal-body-margin);
+  line-height: var(--hero-hcp-internal-intro-line-height);
+}
+
 .hero-hcp-internal {
   position: relative;
   margin: 0;
