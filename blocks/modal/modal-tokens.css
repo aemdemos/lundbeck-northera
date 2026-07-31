@@ -92,6 +92,7 @@
   padding: 0 55px;
   line-height: 55px;
   text-align: center;
+  box-shadow: var(--button-shadow);
 }
 
 .modal dialog .leaving-site .button-wrapper .button:hover {
