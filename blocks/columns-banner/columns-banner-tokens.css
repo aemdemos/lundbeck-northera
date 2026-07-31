@@ -3,14 +3,15 @@
   --columns-banner-gap: 32px;
 
   /* plain columns-banner (paying-for-northera copay-card banner): the source is
-     a 10-col grid — the image column spans 5/10 (half the banner) through the
-     tablet/desktop range, and the image itself is capped at its source size so
-     it never gets oversized on very wide screens. The source teaser also
-     carries 50px top/bottom padding inside the banner. */
-  --columns-banner-img-col-basis-tablet: 50%; /* 5/10 */
-  --columns-banner-img-col-basis-desktop: 55%;
-  --columns-banner-img-col-max-width: 440px;
+     a 10-col grid. The image column is half the banner from tablet up to the
+     desktop breakpoint (992px), then widens to 60%. The copay card fills its
+     column (capped at the image's native width so it never upscales). The
+     source teaser also carries 50px top padding inside the banner. */
+  --columns-banner-img-col-basis-tablet: 50%;
+  --columns-banner-img-col-basis-desktop: 60%;
+  --columns-banner-img-col-max-width: 772px; /* native image width */
   --columns-banner-vertical-padding: 50px;
+  --columns-banner-side-inset: 12%; /* source content gutter (vs site-wide 11%) */
 
   /* the "Image above is not an actual…" disclaimer is a small italic footnote
      in a lighter/muted grey than the body text */
@@ -97,13 +98,28 @@ main > .section.columns-banner-container > .columns-banner-wrapper {
     order: unset;
   }
 
-  /* the copay-card image column spans 5/12 of the grid on tablet (source), and
-     the image itself is capped so it never exceeds the source size. */
+  /* the copay-card image column takes half the banner on tablet; the card
+     fills its column (capped at native width so it never upscales). */
   .columns-banner:not(.daw, .daw-light) > div > .columns-banner-img-col {
     flex: 0 1 var(--columns-banner-img-col-basis-tablet);
   }
 
   .columns-banner:not(.daw, .daw-light) > div > .columns-banner-img-col img {
     max-width: var(--columns-banner-img-col-max-width);
+  }
+
+  /* the copay-card banner uses the source's 12% content gutter (the site-wide
+     default is 11%); scope it to the plain banner's wrapper only. */
+  main > .section.columns-banner-container > .columns-banner-wrapper:has(.columns-banner:not(.daw, .daw-light)) {
+    padding: 0 var(--columns-banner-side-inset);
+  }
+}
+
+/* Desktop (≥992px): the image column gets more room so the copay card is
+   larger relative to the text. Matches the source's tablet→desktop breakpoint
+   (below 992px the block keeps the tablet 50% split). */
+@media (width >= 992px) {
+  .columns-banner:not(.daw, .daw-light) > div > .columns-banner-img-col {
+    flex-basis: var(--columns-banner-img-col-basis-desktop);
   }
 }
