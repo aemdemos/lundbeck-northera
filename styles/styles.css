@@ -864,6 +864,13 @@ main .section.support-band .columns.icon-text {
   margin-bottom: 0;
 }
 
+/* section metadata - light-blue (paying-for-northera copay-card banner section):
+   full-width muted grey-blue band (#f3f5f8) behind the columns-banner + the
+   "Image above…" disclaimer. */
+main .section.light-blue {
+  background-color: var(--page-bg-muted);
+}
+
 /* section metadata - noh-symptoms (source .cmp-carousel_bghdarkblue: brand-blue
    band, centered white H2 20px mobile / 40px desktop, white intro paragraph).
    Used by the symptomatic-nOH "Common symptoms of nOH" section. */
