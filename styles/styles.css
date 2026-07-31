@@ -98,6 +98,7 @@
   --icon-size: 24px;
   --h1-max-width: 16em;
   --section-margin-top:30px;
+  --flex-group-gap: 30px;
 
   /* nav heights */
   --nav-height: 200px;
@@ -1051,9 +1052,29 @@ main .section.or-divider .default-content-wrapper > p:nth-of-type(2) {
   text-align: center;
 }
 
+/* flex sections — adjacent sections with style=flex are wrapped by JS in a
+   .flex-group (see groupFlexSections in scripts.js). Each group is its own
+   flex context; a non-flex section breaks the run. Mobile: stack vertically.
+   The row layout is applied at >=768px (see that media block). */
+main .flex-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--flex-group-gap);
+  box-sizing: border-box;
+  max-width: var(--max-width-site);
+  margin: 0 auto;
+  padding: 0 15px;
+}
 
-main .section.dark a { /* @libs */
-  color: var(--background-color); /* @libs */
+main .flex-group > .section.flex {
+  margin: 0;
+}
+
+/* prescribing-northera: NSC | or-divider | Pharmacy laid side-by-side. The
+   or-divider is a fixed narrow middle column; NSC and Pharmacy share the rest.
+   Row layout engages at >=768px (see media block); mobile stays stacked. */
+main .flex-group:has(> .section.or-divider) {
+  align-items: stretch;
 }
 
 @media (width >= 768px) {
@@ -1539,6 +1560,38 @@ align-items: stretch;
 main .flex-group > .section.flex {
 flex: 1 1 0;
 min-width: 0;
+}
+
+/* or-divider is the narrow fixed middle column between the NSC and pharmacy
+   columns; it carries the vertical blue rule with the "or" badge centered on it. */
+main .flex-group > .section.or-divider.flex {
+  flex: 0 0 80px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* vertical blue rule spanning the full height behind the "or" badge */
+main .flex-group > .section.or-divider.flex::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: var(--brand-cyan);
+  transform: translateX(-50%);
+}
+
+/* inside the side-by-side layout the or-divider holds only the badge; the CTA,
+   heading and intro belong to the NSC/pharmacy columns visually, but since they
+   are authored in this section they stack centered. Keep the wrapper centered
+   and let the badge sit on the rule. */
+main .flex-group > .section.or-divider.flex > .default-content-wrapper {
+  position: relative;
+  z-index: 1;
 }
 
 main .section.sitemap .columns > div > div > ul > li > p > a {
