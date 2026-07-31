@@ -58,13 +58,13 @@ main > .section.columns-banner-container > .columns-banner-wrapper {
    paying-for-northera) goes side-by-side — image-left, text-right. The daw /
    daw-light variants are excluded; they keep their own stacking until 992px. */
 @media (width >= 768px) {
-  .columns-banner:not(.daw):not(.daw-light) > div {
+  .columns-banner:not(.daw, .daw-light) > div {
     align-items: center;
     flex-direction: unset;
     gap: var(--columns-banner-gap);
   }
 
-  .columns-banner:not(.daw):not(.daw-light) > div > div {
+  .columns-banner:not(.daw, .daw-light) > div > div {
     flex: 1;
     order: unset;
   }
