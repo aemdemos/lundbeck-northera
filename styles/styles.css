@@ -51,7 +51,7 @@
   --background-color: #fff;
   --light-color: #f5f5f5;
   --dark-color: var(--brand-blue);
-  --text-color: #333;
+  --text-color: #58595b;
   --text-color-light: #58595b;
   --link-color: var(--brand-blue);
   --link-hover-color: var(--brand-cyan-shadow);
@@ -250,7 +250,7 @@ h2 {
   line-height: 22px;
   color: var(--brand-primary);
   margin:0;
-  padding: 20px 0 0;
+  padding: 30px 0 20px;
 }
 
 h3 {
@@ -1272,7 +1272,7 @@ main .section.accent h6 {
    font-size: 30px;
    line-height: 36px;
    margin: 0;
-   padding: 50px 0 0;
+   padding: 40px 0 30px;
   }
 
   /* ==== START alignment + display for desktop ==== */
