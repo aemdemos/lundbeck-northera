@@ -313,35 +313,7 @@ main .columns.stacked > div > div > p:not(:first-child) {
    30px/36 white padding 10px 0; description 14px/20 #333 (dark, not white). */
 
 
-/* ══════════════════════════════════════════════════════════════
-   columns-supine — two "reduce the risk" items (icon + caption). Source:
-   .cmp-layout__reduce-the-risk .cmp-layout__imagetext. Mobile: stacked,
-   centered, divider = bottom border on the first item; ≥768px: side-by-side,
-   icon-left + caption-right, vertical divider between items.
-   ══════════════════════════════════════════════════════════════ */
-main .columns.supine {
-  padding: 0 15px;
-}
-
-main .columns.supine > div > div {
-  text-align: center;
-  padding: 20px 0;
-}
-
-main .columns.supine > div > :first-child {
-  border-bottom: 2px solid var(--brand-grey);
-}
-
-main .columns.supine img {
-  max-width: 100%;
-  height: auto;
-}
-
-main .columns.supine p {
-  color: var(--text-color, #333);
-  font-family: var(--body-font-family);
-  margin: 10px 0 0;
-}
+/* columns-supine variant rules live in columns-tokens.css (base + >768px) */
 
 /* Blue fax-instruction box: the two H5 lines stack (no gap) to read as one
    #0188bf box; white bold 16px/25 body text; the fax number (in <strong>) is
@@ -552,6 +524,8 @@ main .section.home-intro .columns.icon-text > div > .columns-img-col img {
     border-top: none;
     padding-top: 0;
   }
+
+  /* supine >768px rules live in columns-tokens.css */
 
   main .columns.stats-callout > div {
     flex-direction: row;

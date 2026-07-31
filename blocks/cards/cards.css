@@ -35,6 +35,8 @@ padding: 0;
   object-fit: var(--cards-image-object-fit); /* @boilerplate */
 }
 
+/* stats + symptoms variant rules live in cards-tokens.css (base + breakpoints) */
+
 .cards.image-left > ul > li,
 .cards.image-right > ul > li {
   display: flex; /* @boilerplate */
@@ -510,40 +512,7 @@ padding: 0;
     padding-top: 25px;
   }
 
-  .cards.symptoms > ul {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  .cards.symptoms > ul > li {
-    flex: 1;
-  }
-
-  .cards.symptoms > ul > li img {
-    padding: 20px 0 0;
-  }
-
-  .cards.symptoms .cards-card-body p {
-    padding: 20px 0 25px;
-  }
-
-  .cards.stats > ul {
-    flex-direction: row;
-    align-items: stretch;
-  }
-
-  .cards.stats > ul > li {
-    flex: 1;
-    border-right: 1px solid #000;
-  }
-
-  .cards.stats > ul > li:last-child {
-    border-right: 0;
-  }
-
-  .cards.stats .cards-card-image {
-    min-height: 215px;
-  }
+  /* stats + symptoms ≥768px rules live in cards-tokens.css */
 
   main > .section:has(.cards.contact) {
     padding: 0 7%;
@@ -640,6 +609,8 @@ padding: 0;
   .cards.cards-3-cols > ul > li {
     width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
   }
+
+  /* stats .cards-3-cols override lives in cards-tokens.css */
 
   .cards.resource > ul > li {
     grid-template-columns: var(--cards-resource-thumb-width) minmax(0, 1fr);
