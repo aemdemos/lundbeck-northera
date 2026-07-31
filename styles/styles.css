@@ -1529,6 +1529,13 @@ main .section.stats-callout > div:not(.bg-image) {
     height: var(--nav-height); /* @libs */
   }
 
+  /* generic content H2 scales to 40px at wide desktop (source:
+     .cmp-layout__about-northera h2 — the DTC layout wrapper; line-height
+     stays 36px). Section-scoped H2s keep their own sizes via specificity. */
+  h2 {
+    font-size: 40px;
+  }
+
   main .section.stats-callout > div:not(.bg-image) {
     max-width: 1140px;
   }
