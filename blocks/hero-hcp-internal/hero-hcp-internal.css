@@ -35,7 +35,7 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   box-sizing: border-box;
 }
 
@@ -44,13 +44,13 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   display: none;
 }
 
-/* overlaid content, icon + title on one line, vertically centered */
+/* overlaid content, icon + title on one line, near the top of the banner */
 .hero-hcp-internal .hero-hcp-internal-content {
   position: static;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 0 20px;
+  padding: 20px;
 }
 
 .hero-hcp-internal .hero-hcp-internal-icon {
@@ -74,6 +74,7 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   float: none;
   margin: 0;
   padding: 0;
+  text-shadow: 0 1px 3px rgb(0 0 0 / 35%);
 }
 
 /* the breadcrumb-style "For Healthcare Professionals" link is not part of the
@@ -83,11 +84,16 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   display: none;
 }
 
-/* desktop: wider (shorter) banner ratio, larger title */
+/* desktop: wider (shorter) banner ratio, lighter even overlay, larger title */
 @media (width >= 768px) {
   .hero-hcp-internal {
     max-width: 1200px;
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
+
+    /* tablet/desktop: bright sky, no dark wash (legibility comes from the
+       title's text-shadow); mobile keeps the navy gradient */
+    background-image: var(--hero-hcp-internal-bg-desktop);
+    align-items: center;
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {
