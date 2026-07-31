@@ -253,6 +253,13 @@ h2 {
   padding: 30px 0 20px;
 }
 
+/* default-content H2s are centered on the source (.cmp-heading__center).
+   Section-scoped H2 rules (e.g. quote-container) override this via higher
+   specificity where the source left-aligns. */
+main .default-content-wrapper h2 {
+  text-align: center;
+}
+
 h3 {
   font-size: var(--heading-font-size-xl);
   font-family: var(--body-font-family);
@@ -301,6 +308,7 @@ blockquote {
 /* body copy on white uses brand blue on the source */
 main p {
   font-size: var(--body-font-size-m);
+  line-height: 30px;
   color: var(--text-color);
   margin-bottom: 30px;
 }
