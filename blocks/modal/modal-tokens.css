@@ -98,6 +98,13 @@
   opacity: 1;
 }
 
+.modal dialog .leaving-site .button-wrapper .button:focus {
+  opacity: 1;
+  background-color: var(--button-primary-background);
+  border-color: var(--button-primary-border-color);
+  color: var(--button-primary-color);
+}
+
 @media (width >= 768px) {
   .modal dialog:has(.leaving-site) {
     inset: 30px auto auto 50%;
