@@ -991,29 +991,14 @@ main .section.daw-blue > div {
   padding: 0;
 }
 
-/* section metadata - or-divider (prescribing-northera). Transitional band that
-   separates the NSC benefit column from the specialty-pharmacy column in the
-   stacked flow. Holds the "Start the treatment form" CTA, a cyan circular "or"
-   badge, and the "Direct to a Specialty Pharmacy" heading + intro. Centered.
-   Content order within the wrapper: p(button), p("or"), h3, p(intro). */
-main .section.or-divider {
+/* prescribing-northera "Start the treatment form" — the lone link at the end of
+   the NSC flex column, rendered as the site cyan CTA, centered. */
+main .flex-group > .section.flex:has(.cards.benefit) .default-content-wrapper > p:last-child {
   text-align: center;
+  margin: 20px 0 0;
 }
 
-main .section.or-divider .default-content-wrapper > h3 {
-  text-align: center;
-}
-
-main .section.or-divider .default-content-wrapper > p {
-  text-align: center;
-}
-
-/* "Start the treatment form" — lone link rendered as the site cyan CTA */
-main .section.or-divider .default-content-wrapper > p:first-child {
-  margin: 0 0 20px;
-}
-
-main .section.or-divider .default-content-wrapper > p:first-child a {
+main .flex-group > .section.flex:has(.cards.benefit) .default-content-wrapper > p:last-child a {
   display: inline-block;
   background-color: var(--button-primary-background);
   color: var(--button-primary-color);
@@ -1026,15 +1011,23 @@ main .section.or-divider .default-content-wrapper > p:first-child a {
   transition: var(--button-transition);
 }
 
-main .section.or-divider .default-content-wrapper > p:first-child a:hover,
-main .section.or-divider .default-content-wrapper > p:first-child a:focus {
+main .flex-group > .section.flex:has(.cards.benefit) .default-content-wrapper > p:last-child a:hover,
+main .flex-group > .section.flex:has(.cards.benefit) .default-content-wrapper > p:last-child a:focus {
   background-color: var(--button-primary-hover-background);
   color: var(--button-primary-hover-color);
   box-shadow: var(--button-hover-shadow);
 }
 
-/* "or" — cyan circular badge (source .cmp-layout_prescriptions_or) */
-main .section.or-divider .default-content-wrapper > p:nth-of-type(2) {
+/* section metadata - or-divider (prescribing-northera). The narrow middle
+   column between the NSC and pharmacy flex columns; its only content is the
+   word "or", rendered as a cyan circular badge sitting on the vertical rule
+   (the rule itself is drawn by the .flex-group > .or-divider.flex::before at
+   >=768px). Centered. */
+main .section.or-divider {
+  text-align: center;
+}
+
+main .section.or-divider .default-content-wrapper > p {
   box-sizing: border-box;
   width: 55px;
   height: 55px;
@@ -1585,10 +1578,7 @@ main .flex-group > .section.or-divider.flex::before {
   transform: translateX(-50%);
 }
 
-/* inside the side-by-side layout the or-divider holds only the badge; the CTA,
-   heading and intro belong to the NSC/pharmacy columns visually, but since they
-   are authored in this section they stack centered. Keep the wrapper centered
-   and let the badge sit on the rule. */
+/* the badge sits above the vertical rule (its white border masks the line) */
 main .flex-group > .section.or-divider.flex > .default-content-wrapper {
   position: relative;
   z-index: 1;
