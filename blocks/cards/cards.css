@@ -156,11 +156,12 @@ padding: 0;
 
 
 /* ══════════════════════════════════════════════════════════════
-   "benefit" variant — NSC feature/benefit cards (prescribing-northera).
-   Centered, icon-on-top layout: 77px icon, blue heading, grey description.
-   Mobile (default): 1-up stacked full-width. ≥768px: the 3 cards remain
-   vertically stacked within the narrow NSC column (which sits beside the
-   pharmacy column). Borderless, transparent.
+   "benefit" variant — NSC feature/benefit rows (prescribing-northera).
+   Source .lu-cmp-teaser rows: icon left (~24% col, ~77px), text right
+   (blue heading + grey description, left-aligned). Borderless, transparent,
+   vertically stacked. All breakpoints keep the icon-left row layout; mobile
+   simply narrows. Two classes (.cards.benefit) so it outranks the
+   boilerplate .cards grid and the JS-added .cards-3-cols rules.
    ══════════════════════════════════════════════════════════════ */
 .cards.benefit > ul {
   display: flex;
@@ -173,27 +174,34 @@ padding: 0;
 .cards.benefit > ul > li {
   border: 0;
   background-color: transparent;
-  display: block;
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  text-align: left;
   padding: 5px 15px;
   margin-bottom: 0;
+  width: auto;
 }
 
 .cards.benefit .cards-card-image {
+  flex: 0 0 24%;
   line-height: 0;
   text-align: center;
 }
 
 .cards.benefit > ul > li img {
-  width: 77px;
-  height: 77px;
+  width: auto;
+  max-width: 77px;
+  height: auto;
   aspect-ratio: unset;
   object-fit: contain;
   display: inline-block;
-  margin: 0 auto;
 }
 
 .cards.benefit .cards-card-body {
+  flex: 1;
+  min-width: 0;
   margin: 0;
 }
 
@@ -202,20 +210,20 @@ padding: 0;
   font-family: var(--heading-font-family);
   font-size: 20px;
   font-weight: 500;
-  line-height: 36px;
-  margin: 10px 0;
-  text-align: center;
+  line-height: 24px;
+  margin: 0 0 10px;
+  text-align: left;
   text-transform: none;
 }
 
 .cards.benefit .cards-card-body p {
   color: #58595b;
   font-family: var(--body-font-family);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 20px;
   margin: 0;
-  text-align: center;
+  text-align: left;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -240,16 +248,19 @@ padding: 0;
   align-items: center;
   gap: 25px;
   padding: 5px 15px;
+  width: auto;
 }
 
+/* logo column: source ~35% wide, logo image capped at its native ~123px */
 .cards.pharmacy .cards-card-image {
-  flex: 0 0 200px;
+  flex: 0 0 35%;
   line-height: 0;
+  text-align: center;
 }
 
 .cards.pharmacy > ul > li img {
   width: auto;
-  max-width: 100%;
+  max-width: 123px;
   height: auto;
   aspect-ratio: unset;
   object-fit: contain;
@@ -266,8 +277,8 @@ padding: 0;
   font-family: var(--heading-font-family);
   font-size: 20px;
   font-weight: 500;
-  line-height: 36px;
-  margin: 10px 0;
+  line-height: 24px;
+  margin: 0 0 10px;
   text-align: left;
 }
 
@@ -278,6 +289,12 @@ padding: 0;
   line-height: 20px;
   margin: 0;
   text-align: left;
+}
+
+/* "Phone"/"Fax" labels are Gotham-Bold on the source */
+.cards.pharmacy .cards-card-body strong {
+  font-family: var(--heading-font-family);
+  font-weight: var(--font-weight-bold);
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -608,6 +625,13 @@ padding: 0;
 
   .cards.cards-3-cols > ul > li {
     width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
+  }
+
+  /* benefit + pharmacy are vertically stacked full-width rows, not a 3-up
+     grid — neutralize the .cards-3-cols per-card width calc the JS adds. */
+  .cards.benefit.cards-3-cols > ul > li,
+  .cards.pharmacy.cards-3-cols > ul > li {
+    width: auto;
   }
 
   /* stats .cards-3-cols override lives in cards-tokens.css */

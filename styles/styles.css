@@ -990,6 +990,67 @@ main .section.daw-blue > div {
   padding: 0;
 }
 
+/* section metadata - or-divider (prescribing-northera). Transitional band that
+   separates the NSC benefit column from the specialty-pharmacy column in the
+   stacked flow. Holds the "Start the treatment form" CTA, a cyan circular "or"
+   badge, and the "Direct to a Specialty Pharmacy" heading + intro. Centered.
+   Content order within the wrapper: p(button), p("or"), h3, p(intro). */
+main .section.or-divider {
+  text-align: center;
+}
+
+main .section.or-divider .default-content-wrapper > h3 {
+  text-align: center;
+}
+
+main .section.or-divider .default-content-wrapper > p {
+  text-align: center;
+}
+
+/* "Start the treatment form" — lone link rendered as the site cyan CTA */
+main .section.or-divider .default-content-wrapper > p:first-child {
+  margin: 0 0 20px;
+}
+
+main .section.or-divider .default-content-wrapper > p:first-child a {
+  display: inline-block;
+  background-color: var(--button-primary-background);
+  color: var(--button-primary-color);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  line-height: var(--button-line-height);
+  padding: var(--button-padding);
+  box-shadow: var(--button-shadow);
+  text-decoration: none;
+  transition: var(--button-transition);
+}
+
+main .section.or-divider .default-content-wrapper > p:first-child a:hover,
+main .section.or-divider .default-content-wrapper > p:first-child a:focus {
+  background-color: var(--button-primary-hover-background);
+  color: var(--button-primary-hover-color);
+  box-shadow: var(--button-hover-shadow);
+}
+
+/* "or" — cyan circular badge (source .cmp-layout_prescriptions_or) */
+main .section.or-divider .default-content-wrapper > p:nth-of-type(2) {
+  box-sizing: border-box;
+  width: 55px;
+  height: 55px;
+  margin: 25px auto;
+  padding: 0;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  background: var(--brand-cyan);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 23px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 45px;
+  text-align: center;
+}
+
 
 main .section.dark a { /* @libs */
   color: var(--background-color); /* @libs */
