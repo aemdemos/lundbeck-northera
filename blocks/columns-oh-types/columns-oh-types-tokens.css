@@ -26,7 +26,8 @@
   --oh-body-weight: 500;               /* source: Gotham-Medium */
   --oh-body-padding: 0 20px;
   --oh-body-margin: 0 0 10px;
-  --oh-body-line-height: 30px;
+  --oh-body-line-height: 20px;           /* mobile <768px */
+  --oh-body-line-height-desktop: 30px;   /* ≥768px */
   --oh-sup-size: 0.7em;
 
   /* card + layout */

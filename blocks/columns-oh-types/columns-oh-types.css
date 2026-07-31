@@ -79,6 +79,10 @@
   .columns-oh-types > div > div + div {
     margin-left: -1px;
   }
+
+  .columns-oh-types p {
+    line-height: var(--oh-body-line-height-desktop);
+  }
 }
 
 /* Tablet only: the global 11% content gutter over-narrows the table so the
