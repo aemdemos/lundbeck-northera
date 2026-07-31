@@ -1,27 +1,57 @@
 /* hero-hcp-internal design tokens — internal-page icon banner.
-   Values extracted from the northera-stage source (About Northera).
-   Mobile art:  mobile-banner-sky.png
-   Desktop art: northera-HCP-bg-internal-pages.png */
+   All tunable values live here; hero-hcp-internal.css holds only structure.
+   Values extracted from the northera-stage source (About Northera). */
 .hero-hcp-internal {
+  /* banner art + shape */
   --hero-hcp-internal-bg-desktop: url("/icons/northera-hcp-bg-internal-pages.png");
-  --hero-hcp-internal-ratio-desktop: 1065 / 237;
+  --hero-hcp-internal-ratio-desktop: 1534 / 200;
+  --hero-hcp-internal-height-mobile: 100px;               /* source: fixed 100px */
+  --hero-hcp-internal-margin: 15px 0;                     /* source: 15px top/bottom (all sizes) */
+  --hero-hcp-internal-max-width: 1200px;
 
-  /* icon */
-  --hero-hcp-internal-icon-size: 70px;
+  /* content layout — mobile: content absolute at top-left, padding 10px 20px 20px */
+  --hero-hcp-internal-content-gap: 16px;
+  --hero-hcp-internal-content-gap-desktop: 24px;
+  --hero-hcp-internal-content-padding: 10px 20px 20px;
+  --hero-hcp-internal-content-padding-desktop: 0 20px;
+  --hero-hcp-internal-section-padding: 0 0 30px;          /* mobile/tablet */
+  --hero-hcp-internal-section-padding-desktop: 20px 15px 30px;
+
+  /* icon — source: 60px, 0.8 opacity on mobile */
+  --hero-hcp-internal-icon-size: 60px;
+  --hero-hcp-internal-icon-opacity: 0.8;
   --hero-hcp-internal-icon-size-desktop: 112px;
 
-  /* title — white on the banner at every breakpoint */
+  /* title — white on the banner at every breakpoint (source mobile: 4.5vw/24px,
+     padding 15px 0 15px 15px; desktop: 50px/50px) */
   --hero-hcp-internal-title-color: #fff;
   --hero-hcp-internal-title-font-family: var(--heading-font-family);
-  --hero-hcp-internal-title-size: 20px;
+  --hero-hcp-internal-title-weight: 700;
+  --hero-hcp-internal-title-size: 4.5vw;
   --hero-hcp-internal-title-line-height: 24px;
+  --hero-hcp-internal-title-padding: 15px 0 15px 15px;
   --hero-hcp-internal-title-size-desktop: 50px;
   --hero-hcp-internal-title-line-height-desktop: 50px;
+  --hero-hcp-internal-title-shadow: 0 1px 3px rgb(0 0 0 / 35%);
 
-  /* mobile CTA button — yellow, white bold label (hidden on desktop) */
+  /* mobile CTA button — yellow, white bold label (hidden in this design) */
   --hero-hcp-internal-cta-bg: #f6af1a;
   --hero-hcp-internal-cta-color: #fff;
   --hero-hcp-internal-cta-font-family: var(--heading-font-family);
   --hero-hcp-internal-cta-size: 14px;
   --hero-hcp-internal-cta-line-height: 20px;
+}
+
+/* Page-level tokens — these style default content OUTSIDE the block (subsection
+   headings + intro paragraphs on HCP internal pages), so they must be declared
+   on a scope those elements can see, not on .hero-hcp-internal. */
+main:has(.hero-hcp-internal) {
+  --hero-hcp-internal-intro-size: 14px;
+  --hero-hcp-internal-intro-line-height: 20px;            /* mobile <768px */
+  --hero-hcp-internal-intro-line-height-desktop: 30px;    /* ≥768px */
+  --hero-hcp-internal-intro-margin-bottom-desktop: 10px;
+  --hero-hcp-internal-heading-padding: 40px 0 30px;
+
+  /* body/reference paragraphs (source: 18px Gotham-Medium #58595B, margin 0 0 10px) */
+  --hero-hcp-internal-body-margin: 0 0 10px;
 }

@@ -2,54 +2,76 @@
 
 /* ══════════════════════════════════════════════════════════════
    hero-hcp-internal — internal-page icon banner.
-   Mobile (default): the sky banner image on top, with an overlaid icon +
-   white H1 + yellow CTA button on the lower-left (absolute, over the image).
-   Desktop (≥768px): full-width banner background art with an overlaid icon +
-   large white H1 on the lower-left; the CTA button is hidden (as in source).
-   Source measurements: title Gotham-Bold 17.55px/24px (mobile) → 50px/50px
-   (desktop); icon 60px; CTA bg #f6af1a, white bold 14px, padding 10px 50px
-   10px 12px; container padding 10px 20px 20px, absolute lower-left.
+   Structure only — all tunable values live in hero-hcp-internal-tokens.css.
+   Mobile (default): navy-gradient-over-sky banner, icon + white H1 near the top,
+   full-bleed. Desktop (≥768px): wider/shorter bright-sky banner, icon + large
+   H1 centered, inset from the page edges. Same sky image at all breakpoints.
    ══════════════════════════════════════════════════════════════ */
 
+/* mobile + tablet: banner is full-bleed (edge-to-edge), only a gap below it */
 main .section:has(.hero-hcp-internal) {
-  padding: 0;
+  padding: var(--hero-hcp-internal-section-padding);
 }
 
-main .section:has(.hero-hcp-internal) .default-content-wrapper > h2 {
-padding: 40px 0 30px;
+/* HCP internal-page subsection headings (source: 40px top / 30px bottom).
+   Scoped to pages that use this hero, so global h2 spacing is untouched. */
+main:has(.hero-hcp-internal) .default-content-wrapper > h2 {
+  padding: var(--hero-hcp-internal-heading-padding);
 }
 
 main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
- font-size: 14px;
- line-height: 22px;
+  font-size: var(--hero-hcp-internal-intro-size);
+  line-height: var(--hero-hcp-internal-intro-line-height);
 }
 
+/* body + reference paragraphs across HCP internal-page sections share a tight
+   uniform margin + line-height (source: margin 0 0 10px, line-height 30px) so
+   all "References:" lists match. */
+main:has(.hero-hcp-internal) .default-content-wrapper > p {
+  margin: var(--hero-hcp-internal-body-margin);
+  line-height: var(--hero-hcp-internal-intro-line-height);
+}
+
+/* mobile (source): fixed 100px banner, content absolutely pinned to the top-left */
 .hero-hcp-internal {
   position: relative;
-  margin:0;
-}
-
-/* mobile banner image */
-.hero-hcp-internal .hero-hcp-internal-image picture,
-.hero-hcp-internal .hero-hcp-internal-image img {
-  display: block;
+  margin: var(--hero-hcp-internal-margin);
   width: 100%;
-  height: 200px;
+  height: var(--hero-hcp-internal-height-mobile);
+  overflow: hidden;
+  background-image: var(--hero-hcp-internal-bg-desktop);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
 }
 
-/* overlaid content, lower-left of the banner */
+/* the inline banner image is replaced by the CSS background art at all sizes */
+.hero-hcp-internal .hero-hcp-internal-image {
+  display: none;
+}
+
+/* overlaid content, icon + title on one line, pinned to the top of the banner */
 .hero-hcp-internal .hero-hcp-internal-content {
-  bottom: 8px;
-  position:absolute;
-  display:table;
-  top:10%;
-  left:7%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--hero-hcp-internal-content-gap);
+  padding: var(--hero-hcp-internal-content-padding);
+}
+
+.hero-hcp-internal .hero-hcp-internal-icon {
+  margin: 0;
+  flex: 0 0 auto;
 }
 
 .hero-hcp-internal .hero-hcp-internal-icon img {
   width: var(--hero-hcp-internal-icon-size);
   height: auto;
   display: block;
+  opacity: var(--hero-hcp-internal-icon-opacity);
 }
 
 .hero-hcp-internal h1 {
@@ -57,76 +79,67 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   font-family: var(--hero-hcp-internal-title-font-family);
   font-size: var(--hero-hcp-internal-title-size);
   line-height: var(--hero-hcp-internal-title-line-height);
-  font-weight: 700;
+  font-weight: var(--hero-hcp-internal-title-weight);
   text-align: left;
-  display: table-cell;
-  vertical-align: middle;
   float: none;
-  padding: 20px 0 30px 30px;
+  margin: 0;
+  padding: var(--hero-hcp-internal-title-padding);
+  text-shadow: var(--hero-hcp-internal-title-shadow);
 }
 
-/* mobile CTA button (yellow) */
+/* the breadcrumb-style "For Healthcare Professionals" link is not part of the
+   hero design at any breakpoint in the source — hide it (was rendering as a
+   stray yellow button on mobile and crowding the title). */
 .hero-hcp-internal .hero-hcp-internal-content a {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 50px 10px 12px;
-  background-color: var(--hero-hcp-internal-cta-bg);
-  color: var(--hero-hcp-internal-cta-color);
-  font-family: var(--hero-hcp-internal-cta-font-family);
-  font-size: var(--hero-hcp-internal-cta-size);
-  line-height: var(--hero-hcp-internal-cta-line-height);
-  font-weight: 700;
-  text-decoration: none;
+  display: none;
 }
 
-/* desktop: CSS background art, larger title, CTA hidden */
+/* desktop: full-width banner (aspect-ratio), icon + large title centered */
 @media (width >= 768px) {
   .hero-hcp-internal {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
+    max-width: var(--hero-hcp-internal-max-width);
+    height: auto;
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
-    background-image: var(--hero-hcp-internal-bg-desktop);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     display: flex;
-    align-items: flex-end;
-    box-sizing: border-box;
-  }
-
-  .hero-hcp-internal .hero-hcp-internal-image {
-    display: none;
+    align-items: center;
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {
-    top: 17%;
-    left: 2%;
-    bottom: auto;
-    padding: 10px 20px 38px;
+    position: static;
+    gap: var(--hero-hcp-internal-content-gap-desktop);
+    padding: var(--hero-hcp-internal-content-padding-desktop);
   }
 
   .hero-hcp-internal h1 {
     font-size: var(--hero-hcp-internal-title-size-desktop);
     line-height: var(--hero-hcp-internal-title-line-height-desktop);
-  }
-
-  /* CTA button hidden on desktop (matches source) */
-  .hero-hcp-internal .hero-hcp-internal-content a {
-    display: none;
+    padding: 0;
   }
 
   .hero-hcp-internal .hero-hcp-internal-icon img {
     width: var(--hero-hcp-internal-icon-size-desktop);
+    opacity: 1;
   }
 
+  main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
+    margin-bottom: var(--hero-hcp-internal-intro-margin-bottom-desktop);
+  }
 
-main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
- margin-bottom: 10px;
-}
+  /* body/reference paragraphs get the taller 30px line at ≥768px */
+  main:has(.hero-hcp-internal) .default-content-wrapper > p {
+    line-height: var(--hero-hcp-internal-intro-line-height-desktop);
+  }
 }
 
-/* ≥1400px: banner fills the full content column (no 1200px cap) */
+/* desktop: banner is inset from the page edges with a gap above it
+   (tablet keeps it full-bleed) */
+@media (width >= 900px) {
+  main .section:has(.hero-hcp-internal) {
+    padding: var(--hero-hcp-internal-section-padding-desktop);
+  }
+}
+
+/* ≥1400px: banner fills the full content column (no cap) */
 @media (width >= 1400px) {
   .hero-hcp-internal {
     max-width: none;
