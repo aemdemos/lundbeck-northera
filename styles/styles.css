@@ -957,8 +957,14 @@ main .section.support-band .columns-wrapper h4 {
   font-family: gotham-bold;
 }
 
-main .section.section.support-band .columns-wrapper div {
+main .section.support-band .columns-wrapper div {
   border: 0;
+}
+
+main .section.section.support-band .columns-wrapper div > div:not(.columns-img.col) li {
+  font-size: 18px;
+  line-height: 30px;
+  margin-bottom: 30px;
 }
 
 
