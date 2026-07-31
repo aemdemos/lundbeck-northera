@@ -1074,31 +1074,29 @@ main .section.wmy-intro a.button u {
 }
 
 /* section metadata - sitemap (/site-map page).
-   A nested link list rendered as default content. Source: top-level links are
-   cyan Gotham-Bold 18px (each row padded, divided); sub-links are brand-blue
-   Gotham-Medium 16px, indented. Single column at all breakpoints. */
-main .section.sitemap .default-content-wrapper > ul {
+   A nested link list rendered inside a Columns block (2 cells authored
+   side-by-side). Top-level links are brand-blue Gotham-Bold; sub-links are
+   brand-blue Gotham-Medium 16px, indented under their parent. No dividers. */
+main .section.sitemap .columns > div > div > ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
 /* top-level rows */
-main .section.sitemap .default-content-wrapper > ul > li {
-  margin: 0;
+main .section.sitemap .columns > div > div > ul > li {
+  margin: 0 0 20px;
   padding: 0;
-  border-bottom: 1px solid var(--section-divider-color, #e5e5e5);
 }
 
 /* top-level link (the row's own <p><a>) */
-main .section.sitemap .default-content-wrapper > ul > li > p {
+main .section.sitemap .columns > div > div > ul > li > p {
   margin: 0;
 }
 
-main .section.sitemap .default-content-wrapper > ul > li > p > a {
-  display: block;
-  padding: 22px 15px;
-  color: var(--brand-cyan);
+main .section.sitemap .columns > div > div > ul > li > p > a {
+  display: inline-block;
+  color: var(--brand-blue);
   font-family: var(--heading-font-family);
   font-size: 18px;
   line-height: 22px;
@@ -1107,29 +1105,39 @@ main .section.sitemap .default-content-wrapper > ul > li > p > a {
 }
 
 /* sub-link list, indented under its top-level row */
-main .section.sitemap .default-content-wrapper > ul > li > ul {
+main .section.sitemap .columns > div > div > ul > li > ul {
   list-style: none;
-  margin: 0;
-  padding: 0 0 10px;
+  margin: 8px 0 0;
+  padding: 0 0 0 10px;
 }
 
-main .section.sitemap .default-content-wrapper > ul > li > ul > li {
-  margin: 0;
+main .section.sitemap .columns > div > div > ul > li > ul > li {
+  margin: 0 0 8px;
 }
 
-main .section.sitemap .default-content-wrapper > ul > li > ul > li > a {
-  display: block;
-  padding: 15px 25px;
+main .section.sitemap .columns > div > div > ul > li > ul > li > a {
+  display: inline-block;
   color: var(--brand-blue);
   font-family: var(--body-font-family);
   font-size: 16px;
-  line-height: 22px;
+  line-height: 36px;
   font-weight: 400;
   text-decoration: none;
 }
 
-main .section.sitemap .default-content-wrapper > ul > li > ul > li > a:hover {
+main .section.sitemap .columns > div > div > ul > li > ul > li > a:hover {
   text-decoration: underline;
+}
+
+/* center the two-column block itself on the page; text inside stays left-aligned */
+main .section.sitemap .columns {
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom:40px;
+}
+
+main .section.sitemap .columns > div {
+  gap: 10%;
 }
 
 /* section metadata - find-specialist (find-a-nOH-specialist page).
@@ -1404,6 +1412,11 @@ align-items: stretch;
 main .flex-group > .section.flex {
 flex: 1 1 0;
 min-width: 0;
+}
+
+main .section.sitemap .columns > div > div > ul > li > p > a {
+  font-size: 24px;
+  line-height: 29px;
 }
 }
 
