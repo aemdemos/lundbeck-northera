@@ -6,7 +6,7 @@
   --hero-hcp-internal-bg-desktop: url("/icons/northera-hcp-bg-internal-pages.png");
   --hero-hcp-internal-ratio-desktop: 1534 / 200;
   --hero-hcp-internal-height-mobile: 100px;               /* source: fixed 100px */
-  --hero-hcp-internal-margin-desktop: 15px 0;             /* source: 15px top/bottom ≥768px */
+  --hero-hcp-internal-margin: 15px 0;                     /* source: 15px top/bottom (all sizes) */
   --hero-hcp-internal-max-width: 1200px;
 
   /* content layout — mobile: content absolute at top-left, padding 10px 20px 20px */

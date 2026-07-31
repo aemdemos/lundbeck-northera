@@ -35,7 +35,7 @@ main:has(.hero-hcp-internal) .default-content-wrapper > p {
 /* mobile (source): fixed 100px banner, content absolutely pinned to the top-left */
 .hero-hcp-internal {
   position: relative;
-  margin: 0;
+  margin: var(--hero-hcp-internal-margin);
   width: 100%;
   height: var(--hero-hcp-internal-height-mobile);
   overflow: hidden;
@@ -100,7 +100,6 @@ main:has(.hero-hcp-internal) .default-content-wrapper > p {
     max-width: var(--hero-hcp-internal-max-width);
     height: auto;
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
-    margin: var(--hero-hcp-internal-margin-desktop);
     display: flex;
     align-items: center;
   }
