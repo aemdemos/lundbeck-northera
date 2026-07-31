@@ -71,26 +71,20 @@
   margin-bottom: 0;
 }
 
-/* modal-footer */
-.modal dialog .leaving-site-footer {
-  display: grid;
-  padding: 0 15px 10px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.modal dialog .leaving-site-footer .button-wrapper {
+/* modal-footer — buttons are plain sibling paragraphs, no wrapping element */
+.modal dialog .leaving-site .button-wrapper {
   display: block;
+  box-sizing: border-box;
   width: 100%;
+  padding: 0 15px;
   margin: 0 0 20px;
-  flex: 0 0 auto;
 }
 
-.modal dialog .leaving-site-footer .button-wrapper:last-child {
-  margin-bottom: 0;
+.modal dialog .leaving-site .button-wrapper:last-child {
+  margin-bottom: 10px;
 }
 
-.modal dialog .leaving-site-footer .button {
+.modal dialog .leaving-site .button-wrapper .button {
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
@@ -98,11 +92,30 @@
   padding: 0 55px;
   line-height: 55px;
   text-align: center;
+  box-shadow: var(--button-shadow);
 }
 
-.modal dialog .leaving-site-footer .button:hover,
-.modal dialog .leaving-site-footer .button:focus {
+.modal dialog .leaving-site .button-wrapper .button:hover {
   opacity: 1;
+  background-color: var(--button-primary-hover-background);
+  border-color: var(--button-primary-hover-border-color);
+  color: var(--button-primary-hover-color);
+  box-shadow: var(--button-hover-shadow);
+}
+
+.modal dialog .leaving-site .button-wrapper .button:hover:focus {
+  opacity: 1;
+  background-color: var(--button-primary-hover-background);
+  border-color: var(--button-primary-hover-border-color);
+  color: var(--button-primary-hover-color);
+  box-shadow: var(--button-hover-shadow);
+}
+
+.modal dialog .leaving-site .button-wrapper .button:focus {
+  opacity: 1;
+  background-color: var(--button-primary-background);
+  border-color: var(--button-primary-border-color);
+  color: var(--button-primary-color);
 }
 
 @media (width >= 768px) {
@@ -126,26 +139,23 @@
     line-height: 30px;
   }
 
-  .modal dialog .leaving-site-footer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    gap: 30px;
-    padding: 30px 75px 50px;
+  .modal dialog .leaving-site .button-wrapper {
+    display: inline-flex;
     width: auto;
+    padding: 10px 0 50px;
+    margin: 0 30px 0 0;
   }
 
-  .modal dialog .leaving-site-footer .button-wrapper {
-    display: block;
-    width: auto;
-    margin: 0;
+  .modal dialog .leaving-site p:not(.button-wrapper) + .button-wrapper {
+    padding-left: 104px;
   }
 
-  .modal dialog .leaving-site-footer .button-wrapper:last-child {
-    margin-bottom: 0;
+  .modal dialog .leaving-site .button-wrapper:last-child {
+    padding-right: 75px;
+    margin-right: 0;
   }
 
-  .modal dialog .leaving-site-footer .button {
+  .modal dialog .leaving-site .button-wrapper .button {
     min-width: 172px;
     width: auto;
   }
