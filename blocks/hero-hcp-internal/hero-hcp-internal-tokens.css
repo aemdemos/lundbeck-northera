@@ -47,7 +47,8 @@
    on a scope those elements can see, not on .hero-hcp-internal. */
 main:has(.hero-hcp-internal) {
   --hero-hcp-internal-intro-size: 14px;
-  --hero-hcp-internal-intro-line-height: 30px;
+  --hero-hcp-internal-intro-line-height: 20px;            /* mobile <768px */
+  --hero-hcp-internal-intro-line-height-desktop: 30px;    /* ≥768px */
   --hero-hcp-internal-intro-margin-bottom-desktop: 10px;
   --hero-hcp-internal-heading-padding: 40px 0 30px;
 

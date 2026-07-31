@@ -124,6 +124,11 @@ main:has(.hero-hcp-internal) .default-content-wrapper > p {
   main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
     margin-bottom: var(--hero-hcp-internal-intro-margin-bottom-desktop);
   }
+
+  /* body/reference paragraphs get the taller 30px line at ≥768px */
+  main:has(.hero-hcp-internal) .default-content-wrapper > p {
+    line-height: var(--hero-hcp-internal-intro-line-height-desktop);
+  }
 }
 
 /* desktop: banner is inset from the page edges with a gap above it
