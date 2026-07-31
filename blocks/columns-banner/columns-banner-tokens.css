@@ -3,11 +3,12 @@
   --columns-banner-gap: 32px;
 
   /* plain columns-banner (paying-for-northera copay-card banner): the source is
-     a 12-col grid — the image column spans 5/12 on tablet and 4/12 on desktop
-     (text takes the rest), and the image is capped at its source size. The
-     source teaser also carries 50px top/bottom padding inside the banner. */
-  --columns-banner-img-col-basis-tablet: 41.666%; /* 5/12 */
-  --columns-banner-img-col-basis-desktop: 33.333%; /* 4/12 */
+     a 10-col grid — the image column spans 5/10 (half the banner) through the
+     tablet/desktop range, and the image itself is capped at its source size so
+     it never gets oversized on very wide screens. The source teaser also
+     carries 50px top/bottom padding inside the banner. */
+  --columns-banner-img-col-basis-tablet: 50%; /* 5/10 */
+  --columns-banner-img-col-basis-desktop: 55%;
   --columns-banner-img-col-max-width: 440px;
   --columns-banner-vertical-padding: 50px;
 
@@ -91,13 +92,5 @@ main > .section.columns-banner-container > .columns-banner-wrapper {
 
   .columns-banner:not(.daw, .daw-light) > div > .columns-banner-img-col img {
     max-width: var(--columns-banner-img-col-max-width);
-  }
-}
-
-/* Desktop (≥900px): the image column narrows to 4/12 of the grid (source), so
-   the text gets the extra room — matching the source's tablet→desktop shift. */
-@media (width >= 900px) {
-  .columns-banner:not(.daw, .daw-light) > div > .columns-banner-img-col {
-    flex-basis: var(--columns-banner-img-col-basis-desktop);
   }
 }
