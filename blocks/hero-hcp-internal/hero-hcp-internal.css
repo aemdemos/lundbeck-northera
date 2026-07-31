@@ -11,8 +11,9 @@
    10px 12px; container padding 10px 20px 20px, absolute lower-left.
    ══════════════════════════════════════════════════════════════ */
 
+/* mobile + tablet: banner is full-bleed (edge-to-edge), only a gap below it */
 main .section:has(.hero-hcp-internal) {
-  padding: 20px 15px 30px;
+  padding: 0 0 30px;
 }
 
 main .section:has(.hero-hcp-internal) .default-content-wrapper > h2 {
@@ -26,26 +27,30 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
 
 .hero-hcp-internal {
   position: relative;
-  margin:0;
-}
-
-/* mobile banner image */
-.hero-hcp-internal .hero-hcp-internal-image picture,
-.hero-hcp-internal .hero-hcp-internal-image img {
-  display: block;
+  margin: 0;
   width: 100%;
-  height: 200px;
+  aspect-ratio: var(--hero-hcp-internal-ratio-mobile);
+  background-image: var(--hero-hcp-internal-overlay), var(--hero-hcp-internal-bg-desktop);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
-/* overlaid content, lower-left of the banner — icon + title on one line */
+/* the inline banner image is replaced by the CSS background art at all sizes */
+.hero-hcp-internal .hero-hcp-internal-image {
+  display: none;
+}
+
+/* overlaid content, icon + title on one line, vertically centered */
 .hero-hcp-internal .hero-hcp-internal-content {
-  bottom: 8px;
-  position: absolute;
+  position: static;
   display: flex;
   align-items: center;
   gap: 16px;
-  top: 10%;
-  left: 7%;
+  padding: 0 20px;
 }
 
 .hero-hcp-internal .hero-hcp-internal-icon {
@@ -78,33 +83,15 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
   display: none;
 }
 
-/* desktop: CSS background art, larger title, CTA hidden */
+/* desktop: wider (shorter) banner ratio, larger title */
 @media (width >= 768px) {
   .hero-hcp-internal {
-    position: relative;
-    width: 100%;
     max-width: 1200px;
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
-    background-image: var(--hero-hcp-internal-bg-desktop);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    align-items: flex-end;
-    box-sizing: border-box;
-  }
-
-  .hero-hcp-internal .hero-hcp-internal-image {
-    display: none;
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {
-    top: 50%;
-    left: 2%;
-    bottom: auto;
-    transform: translateY(-50%);
     gap: 24px;
-    padding: 0 20px;
   }
 
   .hero-hcp-internal h1 {
@@ -120,6 +107,14 @@ main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
 main .section:has(.hero-hcp-internal) .default-content-wrapper > p {
  margin-bottom: 10px;
 }
+}
+
+/* desktop: banner is inset from the page edges with a gap above it
+   (tablet keeps it full-bleed) */
+@media (width >= 900px) {
+  main .section:has(.hero-hcp-internal) {
+    padding: 20px 15px 30px;
+  }
 }
 
 /* ≥1400px: banner fills the full content column (no 1200px cap) */

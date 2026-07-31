@@ -5,6 +5,14 @@
 .hero-hcp-internal {
   --hero-hcp-internal-bg-desktop: url("/icons/northera-hcp-bg-internal-pages.png");
   --hero-hcp-internal-ratio-desktop: 1534 / 200;
+  --hero-hcp-internal-ratio-mobile: 390 / 150;
+
+  /* dark overlay on the sky art so the white title stays legible (source darkens
+     the banner this way — a gradient over the image, not a background-color) */
+  --hero-hcp-internal-overlay: linear-gradient(
+    rgb(36 71 93 / 45%),
+    rgb(36 71 93 / 45%)
+  );
 
   /* icon */
   --hero-hcp-internal-icon-size: 70px;
