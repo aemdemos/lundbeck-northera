@@ -32,17 +32,17 @@ main:has(.hero-hcp-internal) .default-content-wrapper > p {
   line-height: var(--hero-hcp-internal-intro-line-height);
 }
 
+/* mobile (source): fixed 100px banner, content absolutely pinned to the top-left */
 .hero-hcp-internal {
   position: relative;
   margin: 0;
   width: 100%;
-  aspect-ratio: var(--hero-hcp-internal-ratio-mobile);
+  height: var(--hero-hcp-internal-height-mobile);
+  overflow: hidden;
   background-image: var(--hero-hcp-internal-bg-desktop);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
-  align-items: center;
   box-sizing: border-box;
 }
 
@@ -51,9 +51,11 @@ main:has(.hero-hcp-internal) .default-content-wrapper > p {
   display: none;
 }
 
-/* overlaid content, icon + title on one line, near the top of the banner */
+/* overlaid content, icon + title on one line, pinned to the top of the banner */
 .hero-hcp-internal .hero-hcp-internal-content {
-  position: static;
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   align-items: center;
   gap: var(--hero-hcp-internal-content-gap);
@@ -69,6 +71,7 @@ main:has(.hero-hcp-internal) .default-content-wrapper > p {
   width: var(--hero-hcp-internal-icon-size);
   height: auto;
   display: block;
+  opacity: var(--hero-hcp-internal-icon-opacity);
 }
 
 .hero-hcp-internal h1 {
@@ -80,7 +83,7 @@ main:has(.hero-hcp-internal) .default-content-wrapper > p {
   text-align: left;
   float: none;
   margin: 0;
-  padding: 0;
+  padding: var(--hero-hcp-internal-title-padding);
   text-shadow: var(--hero-hcp-internal-title-shadow);
 }
 
@@ -91,24 +94,32 @@ main:has(.hero-hcp-internal) .default-content-wrapper > p {
   display: none;
 }
 
-/* desktop: wider (shorter) banner ratio, larger title */
+/* desktop: full-width banner (aspect-ratio), icon + large title centered */
 @media (width >= 768px) {
   .hero-hcp-internal {
     max-width: var(--hero-hcp-internal-max-width);
+    height: auto;
     aspect-ratio: var(--hero-hcp-internal-ratio-desktop);
+    margin: var(--hero-hcp-internal-margin-desktop);
+    display: flex;
+    align-items: center;
   }
 
   .hero-hcp-internal .hero-hcp-internal-content {
+    position: static;
     gap: var(--hero-hcp-internal-content-gap-desktop);
+    padding: var(--hero-hcp-internal-content-padding-desktop);
   }
 
   .hero-hcp-internal h1 {
     font-size: var(--hero-hcp-internal-title-size-desktop);
     line-height: var(--hero-hcp-internal-title-line-height-desktop);
+    padding: 0;
   }
 
   .hero-hcp-internal .hero-hcp-internal-icon img {
     width: var(--hero-hcp-internal-icon-size-desktop);
+    opacity: 1;
   }
 
   main .section:has(.hero-hcp-internal) .default-content-wrapper > p {

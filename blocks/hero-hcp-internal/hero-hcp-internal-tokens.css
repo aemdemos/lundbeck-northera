@@ -5,26 +5,31 @@
   /* banner art + shape */
   --hero-hcp-internal-bg-desktop: url("/icons/northera-hcp-bg-internal-pages.png");
   --hero-hcp-internal-ratio-desktop: 1534 / 200;
-  --hero-hcp-internal-ratio-mobile: 390 / 150;
+  --hero-hcp-internal-height-mobile: 100px;               /* source: fixed 100px */
+  --hero-hcp-internal-margin-desktop: 15px 0;             /* source: 15px top/bottom ≥768px */
   --hero-hcp-internal-max-width: 1200px;
 
-  /* content layout */
+  /* content layout — mobile: content absolute at top-left, padding 10px 20px 20px */
   --hero-hcp-internal-content-gap: 16px;
   --hero-hcp-internal-content-gap-desktop: 24px;
-  --hero-hcp-internal-content-padding: 20px;
+  --hero-hcp-internal-content-padding: 10px 20px 20px;
+  --hero-hcp-internal-content-padding-desktop: 0 20px;
   --hero-hcp-internal-section-padding: 0 0 30px;          /* mobile/tablet */
   --hero-hcp-internal-section-padding-desktop: 20px 15px 30px;
 
-  /* icon */
-  --hero-hcp-internal-icon-size: 70px;
+  /* icon — source: 60px, 0.8 opacity on mobile */
+  --hero-hcp-internal-icon-size: 60px;
+  --hero-hcp-internal-icon-opacity: 0.8;
   --hero-hcp-internal-icon-size-desktop: 112px;
 
-  /* title — white on the banner at every breakpoint */
+  /* title — white on the banner at every breakpoint (source mobile: 4.5vw/24px,
+     padding 15px 0 15px 15px; desktop: 50px/50px) */
   --hero-hcp-internal-title-color: #fff;
   --hero-hcp-internal-title-font-family: var(--heading-font-family);
   --hero-hcp-internal-title-weight: 700;
-  --hero-hcp-internal-title-size: 20px;
+  --hero-hcp-internal-title-size: 4.5vw;
   --hero-hcp-internal-title-line-height: 24px;
+  --hero-hcp-internal-title-padding: 15px 0 15px 15px;
   --hero-hcp-internal-title-size-desktop: 50px;
   --hero-hcp-internal-title-line-height-desktop: 50px;
   --hero-hcp-internal-title-shadow: 0 1px 3px rgb(0 0 0 / 35%);
