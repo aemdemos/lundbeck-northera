@@ -2,6 +2,15 @@
 :root {
   --columns-banner-gap: 32px;
 
+  /* plain columns-banner (paying-for-northera copay-card banner): the source is
+     a 12-col grid — the image column spans 5/12 on tablet and 4/12 on desktop
+     (text takes the rest), and the image is capped at its source size. The
+     source teaser also carries 50px top/bottom padding inside the banner. */
+  --columns-banner-img-col-basis-tablet: 41.666%; /* 5/12 */
+  --columns-banner-img-col-basis-desktop: 33.333%; /* 4/12 */
+  --columns-banner-img-col-max-width: 440px;
+  --columns-banner-vertical-padding: 50px;
+
   /* daw variant (HCP landing "Dispense as written" callout): blue banner with
      Rx icon + white heading/text. Background-color is set on the section in the
      document (data-background-color). */
@@ -45,6 +54,11 @@ main > .section.columns-banner-container > .columns-banner-wrapper {
   padding: 0;
 }
 
+/* plain copay-card banner: source teaser carries 50px top/bottom padding */
+.columns-banner:not(.daw, .daw-light) {
+  padding: var(--columns-banner-vertical-padding) 0;
+}
+
 /* Desktop DAW band padding (source side padding) — applied at the lg
    breakpoint (992px), matching where the source DAW goes side-by-side. Below
    992 the block keeps its mobile padding (10px 15px 20px). */
@@ -67,5 +81,23 @@ main > .section.columns-banner-container > .columns-banner-wrapper {
   .columns-banner:not(.daw, .daw-light) > div > div {
     flex: 1;
     order: unset;
+  }
+
+  /* the copay-card image column spans 5/12 of the grid on tablet (source), and
+     the image itself is capped so it never exceeds the source size. */
+  .columns-banner:not(.daw, .daw-light) > div > .columns-banner-img-col {
+    flex: 0 1 var(--columns-banner-img-col-basis-tablet);
+  }
+
+  .columns-banner:not(.daw, .daw-light) > div > .columns-banner-img-col img {
+    max-width: var(--columns-banner-img-col-max-width);
+  }
+}
+
+/* Desktop (≥900px): the image column narrows to 4/12 of the grid (source), so
+   the text gets the extra room — matching the source's tablet→desktop shift. */
+@media (width >= 900px) {
+  .columns-banner:not(.daw, .daw-light) > div > .columns-banner-img-col {
+    flex-basis: var(--columns-banner-img-col-basis-desktop);
   }
 }
