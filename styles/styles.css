@@ -62,6 +62,7 @@
   --section-padding: 24px;
 
   /* fonts — Gotham (cloud.typography), Arial-metric fallback */
+  --light-font-family: gotham-book, gotham-fallback, arial, sans-serif;
   --body-font-family: gotham-medium, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
   --heading-font-family: gotham-bold, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
   --heading-heavy-font-family: gotham-black, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
@@ -199,8 +200,11 @@ body.appear { /* @libs */
    block-level paragraph rules (e.g. columns' 22px line-height) wherever
    an author or block explicitly opts in. */
 .small-text {
-  font-size: var(--body-font-size-xs) !important;
-  line-height: 1.3 !important;
+  font-size: 13px !important;
+  line-height: 1.2 !important;
+  font-family: var(--light-font-family) !important;
+  font-weight: 200 !important;
+  display: inline-block;
 }
 
 
@@ -246,7 +250,7 @@ h2 {
   line-height: 22px;
   color: var(--brand-primary);
   margin:0;
-  padding-bottom: 20px;
+  padding: 20px 0 0;
 }
 
 h3 {
@@ -279,6 +283,11 @@ h6 {
   color: var(--text-color);
 }
 
+/* bold inline text uses Gotham-Bold (source parity) */
+strong {
+  font-family: var(--heading-font-family);
+}
+
 p,
 dl,
 ol,
@@ -292,8 +301,7 @@ blockquote {
 /* body copy on white uses brand blue on the source */
 main p {
   font-size: var(--body-font-size-m);
-  line-height: 20px;
-  color: var(--brand-grey);
+  color: var(--text-color);
   margin-bottom: 30px;
 }
 
@@ -1264,6 +1272,7 @@ main .section.accent h6 {
    font-size: 30px;
    line-height: 36px;
    margin: 0;
+   padding: 50px 0 0;
   }
 
   /* ==== START alignment + display for desktop ==== */
