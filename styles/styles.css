@@ -938,10 +938,23 @@ main .section.support-band {
 }
 
 main .section.support-band .default-content-wrapper > h2 {
+  font-size: 50px;
+  line-height: 60px;
   color: var(--brand-blue);
-  text-align: center;
-  margin: 0 0 20px;
+  text-align: left;
+  margin: 0 0 0 150px;
 }
+
+main .section.support-band .default-content-wrapper > h3 {
+  font-size: 30px;
+  line-height: 36px;
+}
+
+main .section.support-band .default-content-wrapper > h4 {
+  font-size: 30px;
+  line-height: 36px;
+}
+
 
 /* let the section's grey show through the icon-text blocks (their default
    light-blue band + borders are for the white-section usage elsewhere) */
