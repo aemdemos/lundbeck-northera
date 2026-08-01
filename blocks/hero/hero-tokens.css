@@ -1,33 +1,24 @@
 /* hero design tokens */
 :root {
+  --hero-panel-height: 100px;
+
   /* display font */
   --hero-font-family-display: "nunito", sans-serif;
   --hero-single-font-family: "proxima-nova";
 
   /* colors */
   --hero-text-color-light: #fff;
-  --hero-text-shadow: 0 1px 3px rgb(0 0 0 / 60%)
-
-  /* eyebrow (h3) */
-  --hero-eyebrow-font-size: 20px;
-  --hero-eyebrow-font-size-desktop: 24px;
-  --hero-eyebrow-line-height: 1.33;
-  --hero-eyebrow-gap: 4px;
+  --hero-text-shadow: 0 1px 3px rgb(0 0 0 / 60%);
 
   /* heading (h1) */
-  --hero-heading-line-height: 1.07;
-  --hero-heading-gap: 12px;
+  --hero-heading-gap: 16px;
+  --hero-heading-line-height: 1;
 
   /* body copy */
   --hero-body-line-height: 1.25;
   --hero-body-gap: 16px;
   --hero-body-line-height-m: 26px;
   --hero-body-line-height-l: 40px;
-
-
-
-  /* dual-panel layout */
-  --hero-panel-min-height: 336px;
 
   /* dark panel type scale */
   --hero-dark-font-size: 18px;
@@ -56,17 +47,17 @@
 
   /* legacy single-panel (.hero.single) layout */
   --hero-aspect-ratio: 2880 / 1116;
-  --hero-single-min-height: 350px;
-  --hero-single-min-height-tablet: 400px;
+  --hero-single-min-height: unset;
+  --hero-single-min-height-tablet: unset;
 
   /* single-light / single-dark variants */
   --hero-single-content-width: 46%;
   --hero-single-padding-x: 24px;
   --hero-single-padding-x-desktop: 40px;
-  --hero-single-heading-font-size-xs: 24px;
+  --hero-single-heading-font-size-xs: 4.5vw;
   --hero-single-heading-font-size-s: 28px;
   --hero-single-heading-font-size-m: 32px;
-  --hero-single-heading-font-size-desktop: 56px;
+  --hero-single-heading-font-size-desktop: 50px;
   --hero-single-body-font-size: 18px;
   --hero-single-cta-bg: var(--brand-secondary);
   --hero-single-cta-bg-hover: var(--brand-secondary-dark);
@@ -77,4 +68,10 @@
   --hero-z-bg: 0;
   --hero-z-content: 1;
   --hero-z-caption: 2;
+}
+
+@media (width >= 768px) {
+  :root {
+  --hero-panel-height: 160px;
+  }
 }

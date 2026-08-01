@@ -2,29 +2,33 @@
 
 /* ══════════════════════════════════════════════════════════════
    columns-oh-types — three "blue card" columns of OH types.
-   Each column: an H5/heading on a dark-blue band, then a list of causes on a
-   light-blue card. Base block: columns.
-   Mobile (default, source ≤767px): cards stacked full-width; body items
-   14px/20px. Desktop (≥768px): three cards side-by-side with a 40px gap; body
-   items 14px/30px.
-   Container padding matches source .cmp-layout_blue-table (10px 15px).
+   Each column: an H5/heading on a dark-blue band, then a list of causes.
+   Structure only — all tunable values live in columns-oh-types-tokens.css.
+   Mobile (default): cards stacked full-width, contiguous.
+   Desktop (≥768px): three cards side-by-side, borders collapsed into a grid.
    ══════════════════════════════════════════════════════════════ */
 
 .columns-oh-types {
-  padding: 10px 15px;
+  padding: var(--oh-table-padding);
 }
 
-/* mobile-first: stack columns */
+/* mobile-first: stack columns contiguously */
 .columns-oh-types > div {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--oh-gap-mobile);
 }
 
 .columns-oh-types > div > div {
-  background-color: var(--oh-card-bg);
-  padding: 0 0 30px;
+  background-color: var(--oh-card-bg-plain);
+  padding: var(--oh-card-padding);
   margin: 0;
+  border: 1px solid var(--oh-card-border);
+}
+
+/* only the first column body is light-blue; others stay white (source parity) */
+.columns-oh-types > div > div:first-child {
+  background-color: var(--oh-card-bg);
 }
 
 /* heading band */
@@ -34,30 +38,30 @@
 .columns-oh-types h4,
 .columns-oh-types h5,
 .columns-oh-types h6 {
-  margin: 0 0 10px;
+  margin: var(--oh-head-margin);
   padding: var(--oh-head-padding);
   background-color: var(--oh-head-bg);
   color: var(--oh-head-color);
   font-family: var(--oh-head-font-family);
   font-size: var(--oh-head-size);
   line-height: var(--oh-head-line-height);
-  font-weight: 500;
+  font-weight: var(--oh-head-weight);
   text-align: left;
 }
 
 /* body items (each cause is a paragraph in the source) */
 .columns-oh-types p {
-  margin: 0;
-  padding: 0 20px;
+  margin: var(--oh-body-margin);
+  padding: var(--oh-body-padding);
   color: var(--oh-card-text-color);
   font-family: var(--oh-body-font-family);
   font-size: var(--oh-body-size);
-  line-height: var(--oh-body-line-height-mobile);
-  font-weight: 400;
+  line-height: var(--oh-body-line-height);
+  font-weight: var(--oh-body-weight);
 }
 
 .columns-oh-types sup {
-  font-size: 0.7em;
+  font-size: var(--oh-sup-size);
 }
 
 @media (width >= 768px) {
@@ -71,7 +75,21 @@
     flex: 1;
   }
 
+  /* collapse adjacent column borders into a single grid line */
+  .columns-oh-types > div > div + div {
+    margin-left: -1px;
+  }
+
   .columns-oh-types p {
     line-height: var(--oh-body-line-height-desktop);
+  }
+}
+
+/* Tablet only: the global 11% content gutter over-narrows the table so the
+   "Non-neurogenic" header wraps. Pull the table section back toward full width
+   (source keeps the blue table wider than the body copy at this size). */
+@media (width >= 768px) and (width < 900px) {
+  main > .section.columns-oh-types-container > div.columns-oh-types-wrapper {
+    padding-inline: var(--oh-tablet-inset);
   }
 }

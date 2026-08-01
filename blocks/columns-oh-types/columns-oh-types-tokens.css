@@ -1,9 +1,12 @@
 /* columns-oh-types design tokens — blue OH-types cards.
+   All tunable values live here; columns-oh-types.css holds only structure.
    Values extracted from the northera-stage source (About Northera,
    .cmp-layout_blue-table). */
 .columns-oh-types {
-  /* card body: light-blue background, dark-blue text */
-  --oh-card-bg: #c6e4f1;               /* rgb(198, 228, 241) */
+  /* card body: only the first column is light-blue; the rest are white */
+  --oh-card-bg: #c6e4f1;               /* rgb(198, 228, 241) — first column */
+  --oh-card-bg-plain: #fff;            /* remaining columns */
+  --oh-card-border: #d9e1e6;           /* thin divider/outline around cells */
   --oh-card-text-color: #24475d;       /* rgb(36, 71, 93) */
 
   /* heading band: dark-blue background, white text */
@@ -12,12 +15,25 @@
   --oh-head-font-family: var(--body-font-family);
   --oh-head-size: 18px;
   --oh-head-line-height: 19.8px;
+  --oh-head-weight: 500;
   --oh-head-padding: 20px;
+  --oh-head-margin: 0 0 10px;
 
-  /* body items */
+  /* body items — source: 14px Gotham-Medium, margin 0 0 10px, padding 0 20px,
+     line 30px */
   --oh-body-font-family: var(--body-font-family);
   --oh-body-size: 14px;
-  --oh-body-line-height-mobile: 20px;
-  --oh-body-line-height-desktop: 30px;
-  --oh-gap: 40px;
+  --oh-body-weight: 500;               /* source: Gotham-Medium */
+  --oh-body-padding: 0 20px;
+  --oh-body-margin: 0 0 10px;
+  --oh-body-line-height: 20px;           /* mobile <768px */
+  --oh-body-line-height-desktop: 30px;   /* ≥768px */
+  --oh-sup-size: 0.7em;
+
+  /* card + layout */
+  --oh-card-padding: 0 0 20px;
+  --oh-table-padding: 10px 15px;
+  --oh-gap: 0px;                       /* between columns (desktop) */
+  --oh-gap-mobile: 0px;                /* between stacked cards (mobile) */
+  --oh-tablet-inset: 15px;             /* section side padding at tablet */
 }
