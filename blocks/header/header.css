@@ -8,13 +8,6 @@
    accordion. Desktop (≥1201px) is layered on via a min-width media query.
    ══════════════════════════════════════════════════════════════ */
 
-/* Keep initial header height stable to prevent CLS on mobile and desktop.
-   JS adjusts this in open states. */
-header {
-  height: calc(var(--header-mobile-utility-height) + var(--header-mobile-main-height));
-  transition: height 0.3s ease;
-}
-
 header .nav-wrapper {
   background: var(--header-gradient);
   width: 100%;
