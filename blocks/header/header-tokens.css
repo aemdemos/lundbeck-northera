@@ -3,7 +3,6 @@
    where the source uses a header-only value. */
 :root {
   /* layout */
-  --header-height: 143px;
   --header-utility-height: 41px;
   --header-main-height: 102px;
   --header-max-width: var(--max-width-site, 1200px);

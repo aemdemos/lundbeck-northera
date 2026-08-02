@@ -100,7 +100,6 @@
   --section-margin-top:30px;
 
   /* nav heights */
-  --nav-height: 200px;
   --nav-brand-row-height-mobile: 97px;
   --breadcrumbs-height: 34px;
   --header-height: var(--nav-height);

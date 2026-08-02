@@ -2,12 +2,6 @@ import { getMetadata, decorateIcons } from '../../scripts/aem.js';
 
 const DESKTOP_MQ = window.matchMedia('(min-width: 1201px)');
 
-function getClosedHeaderHeight() {
-  return DESKTOP_MQ.matches
-    ? 'var(--header-height)'
-    : 'calc(var(--header-mobile-utility-height) + var(--header-mobile-main-height))';
-}
-
 function normalizePath(pathname) {
   if (!pathname) return '/';
   let normalized = pathname.toLowerCase();
@@ -60,13 +54,6 @@ function setExpandedHeight(element, expanded) {
   element.style.maxHeight = expanded ? `${element.scrollHeight}px` : '0px';
 }
 
-function updateMobileHeaderHeight(wrapper) {
-  if (!wrapper) return;
-  const header = wrapper.closest('header');
-  if (!header) return;
-  header.style.height = getClosedHeaderHeight();
-}
-
 function closeDropdowns(scope = document) {
   scope.querySelectorAll('.nav-link-item.open').forEach((item) => {
     item.classList.remove('open');
@@ -84,7 +71,7 @@ function closeDropdowns(scope = document) {
 async function fetchNav() {
   const navMeta = getMetadata('nav');
   const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  let resp = await fetch('/content/nav.plain.html');
+  let resp = await fetch('/nav.plain.html');
   if (!resp.ok) resp = await fetch(`${navPath}.plain.html`);
   if (!resp.ok) return null;
   const html = await resp.text();
@@ -274,9 +261,6 @@ function decorateMain(brandSection, navSection, withSearch) {
         item.classList.toggle('open', open);
         chevron.setAttribute('aria-expanded', open ? 'true' : 'false');
         setExpandedHeight(panel, open);
-        requestAnimationFrame(() =>
-          updateMobileHeaderHeight(bar.closest('.nav-wrapper')),
-        );
       });
       item.append(chevron, panel);
 
@@ -302,7 +286,6 @@ function decorateMain(brandSection, navSection, withSearch) {
     if (!wrapper || !wrapper.classList.contains('nav-mobile-open')) return;
     navLinks.classList.add('is-open-complete');
     navLinks.style.maxHeight = 'none';
-    updateMobileHeaderHeight(wrapper);
   });
 
   // Search — only when ":search:" is authored in the nav.
@@ -328,7 +311,6 @@ function decorateMain(brandSection, navSection, withSearch) {
     if (!nextOpen) {
       closeDropdowns(wrapper);
     }
-    requestAnimationFrame(() => updateMobileHeaderHeight(wrapper));
   });
 
   return bar;
@@ -384,13 +366,11 @@ export default async function decorate(block) {
   window.addEventListener('keydown', (e) => {
     if (e.code === 'Escape') {
       closeDropdowns(wrapper);
-      updateMobileHeaderHeight(wrapper);
     }
   });
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.nav-link-item')) {
       closeDropdowns(wrapper);
-      updateMobileHeaderHeight(wrapper);
     }
   });
 
@@ -399,7 +379,6 @@ export default async function decorate(block) {
     closeDropdowns(wrapper);
     wrapper.classList.remove('nav-mobile-open');
     setExpandedHeight(wrapper.querySelector('.nav-links'), false);
-    updateMobileHeaderHeight(wrapper);
     const hb = wrapper.querySelector('.nav-hamburger');
     if (hb) {
       hb.setAttribute('aria-expanded', 'false');
@@ -410,6 +389,4 @@ export default async function decorate(block) {
       st.closest('.nav-search').classList.remove('nav-search-open');
     }
   });
-
-  window.addEventListener('resize', () => updateMobileHeaderHeight(wrapper));
 }
