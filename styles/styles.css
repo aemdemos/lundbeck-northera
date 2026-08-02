@@ -100,6 +100,7 @@
   --section-margin-top:30px;
 
   /* nav heights */
+  --nav-height: 163px;
   --nav-brand-row-height-mobile: 97px;
   --breadcrumbs-height: 34px;
   --header-height: var(--nav-height);
@@ -1272,6 +1273,10 @@ main .section.accent h6 {
 }
 
 @media (width >= 768px) {
+  :root {
+    --nav-height: 143px;
+  }
+
   h1 {
     font-size:50px;
     line-height: 60px;
@@ -1485,7 +1490,7 @@ main .section.sitemap .columns > div > div > ul > li > p > a {
 }
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) { /* @libs */
   :root {
     /* heading sizes scale up on desktop (source: h1 50/60, h2 30/36) */
     --body-font-size-m: 18px;
@@ -1503,13 +1508,6 @@ main .section.sitemap .columns > div > div > ul > li > p > a {
     main .section.stats-callout {
       padding: var(--section-padding-vertical) 0;
     }
-  
-    main .section.stats-callout > div:not(.bg-image) {
-      max-width: 720px;
-    }
-  }
-
-@media (width > 991px) { /* @libs */
 
   body[data-breadcrumbs] { /* @libs */
     --header-height: calc(var(--nav-height) + var(--breadcrumbs-height)); /* @libs */
