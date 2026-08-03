@@ -27,12 +27,14 @@ function extractLabeledRow(rows, label) {
 // hurt LCP, so its image can't wait for aem.js's waitForFirstImage(), which
 // only checks the first <img> in the first section — it misses this one
 // whenever an earlier block in the same section has an image (e.g. an icon).
+// Prioritize every <picture> image, not just the first: art-directed blocks
+// (e.g. hero-patient) author separate mobile/desktop variants and only one
+// is ever visible per viewport via CSS, so either could be the real LCP image.
 function prioritizeLcpImage(scope) {
-  const img = scope.querySelector('img');
-  if (img) {
+  scope.querySelectorAll('img').forEach((img) => {
     img.loading = 'eager';
     img.setAttribute('fetchpriority', 'high');
-  }
+  });
 }
 
 /**
