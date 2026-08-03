@@ -809,39 +809,18 @@ main .section.highlight { /* @libs */
   padding: var(--section-padding-vertical) 0; /* @libs */
 }
 
-/* paying-for-northera hero (source: .cmp-heading__center / .cmp-layout__text-center) */
-main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) {
-  text-align: center;
-}
-
-main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) h1 {
-  text-align: center;
-  margin: 0 auto;
-  max-width: 36ch;
-  padding: 30px 14px 10px;
-}
-
-main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) .button-wrapper {
-  text-align: center;
-  margin: 0 0 25px;
-}
-
 /* Stage .cmp-button has no trailing icon */
 main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) .button {
   --button-icon-width: 0;
   --button-icon-height: 0;
   --button-icon-gap: 0;
+
+  margin-bottom: 24px;
 }
 
 main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) .button:hover,
 main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) .button:focus {
   opacity: 1;
-}
-
-main > .section:first-of-type:has(#financial-assistance-for-eligible-patients) > div {
-  max-width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
 }
 
 /* section metadata - patient-story (every-patient-story-matters intro).
@@ -935,6 +914,11 @@ main .section.nsc-prescription blockquote {
   }
 }
 
+main .section.light-blue {
+  background-color: var(--page-bg-muted);
+  padding: 24px 0;
+}
+
 /* icon-text blocks in this section: white card, smaller h3 (mobile default) */
 main .section.nsc-prescription .columns.icon-text {
   background-color: #fff;
@@ -999,13 +983,6 @@ main .section.daw-blue > div {
 
 main .section.dark a { /* @libs */
   color: var(--background-color); /* @libs */
-}
-
-@media (width >= 768px) {
-  main .section.noh-symptoms h2 {
-    font-size: 40px;
-    line-height: 48px;
-  }
 }
 
 main .section.dark a:hover { /* @libs */
@@ -1412,13 +1389,14 @@ main .section.accent h6 {
     
     /* ==== End widths ==== */
 
-  main p.img-pair-mobile {
-    display: none;
-  }
+    main .section.light-blue {
+      padding: 48px 0 1px;
+    }
 
-  main p.img-pair-desktop {
-    display: block;
-  }
+    main .section.noh-symptoms h2 {
+      font-size: 40px;
+      line-height: 48px;
+    }
 
   main .section.wmy-intro h1 {
     text-align: left;
