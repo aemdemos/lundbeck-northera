@@ -21,23 +21,19 @@
       "id": "randomizer",
       "fields": [
         {
-          "component": "select",
+          "component": "text",
           "valueType": "string",
-          "name": "type",
-          "label": "Type",
-          "value": "",
-          "description": "Renders the default-content rows below using another block's own layout (author those rows exactly as you would in that block's own table). Leave blank for plain content.",
-          "options": [
-            { "name": "None (plain content)", "value": "" },
-            { "name": "Hero Patient", "value": "hero-patient" }
-          ]
+          "name": "default",
+          "label": "Default (section reference)",
+          "description": "The default variant, authored as its own section elsewhere on the page with a section-metadata id, pulled in here via [#id] (e.g. [#bob]).",
+          "value": ""
         },
         {
           "component": "aem-content",
           "valueType": "string",
           "name": "urls",
-          "label": "Randomizer URLs",
-          "description": "Alternate fragments to swap in at random. Do not include the default variant — author that directly as this block's own content rows.",
+          "label": "URLs",
+          "description": "Alternate fragments to swap in at random. Do not include the default variant — that's referenced above via [#id].",
           "multi": true
         }
       ]
