@@ -96,6 +96,31 @@ export function moveInstrumentation(from, to) {
 }
 
 /**
+ * True when a transcript toggle's label reads "Read the transcript" (source
+ * parity: the label authors use to trigger a video transcript accordion).
+ * @param {string} text
+ */
+export function isTranscriptLabel(text) {
+  return /read the transcript/i.test((text || '').trim());
+}
+
+/**
+ * Builds a "Close the transcript" control, appended inside an expanded
+ * transcript panel to mirror the toggle that opened it (source parity).
+ * @param {() => void} onClose called when the control is activated
+ */
+export function buildTranscriptClose(onClose) {
+  const close = document.createElement('div');
+  close.className = 'transcript-close';
+  close.textContent = 'Close the transcript';
+  close.addEventListener('click', (e) => {
+    e.stopPropagation();
+    onClose();
+  });
+  return close;
+}
+
+/**
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element */
 
