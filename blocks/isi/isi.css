@@ -452,6 +452,19 @@ main .isi-please-see-section
 }
 }
 
+body.hcp main .isi-please-see-section {
+  padding: 0;
+  margin: 0;
+}
+
+/* The disclaimer paragraph immediately before the please-see blurb inherits
+   the global 30px bottom margin (main p), which collapses through its empty
+   wrapper divs and shows up as a gap ahead of the ISI section. Zero it, but
+   only for the section directly adjacent to the blurb, on hcp pages. */
+body.hcp main > .section:has(+ .isi-please-see-section) p:last-child {
+  margin-bottom: 0;
+}
+
 /* ══════════════════════════════════════════════════════════════
    Wide ≥ 1200px — the ISI section becomes a right-hand rail.
    Source renders main content at ~83% (10 cols) and the full ISI
