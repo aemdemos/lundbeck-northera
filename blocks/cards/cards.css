@@ -87,41 +87,28 @@ padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 0;
-}
+  border-bottom: 1px solid #fff;
 
-.cards.reminders > ul > li + li {
-  border-top: 1px solid #fff;
+  &:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
 }
 
 .cards.reminders > ul > li img {
-  height: auto;
   aspect-ratio: unset;
   object-fit: contain;
   display: inline-block;
-  margin-bottom: 20px;
-  width: 115px;
+  margin-bottom: 10px;
+  height: 115px;
   max-width: none;
 }
 
 .cards.reminders .cards-card-body {
   color: #fff;
-  text-align: left;
-  margin-left: 0;
-  font-weight: 400;
+  margin: 0 0 24px;
   min-width: 0;
   width: 100%;
-}
-
-.cards.reminders .cards-card-body p {
-  color: #fff;
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 400;
-  margin: 0;
-  text-align: left;
-  padding: 0 15px;
 }
 
 /* Source highlights ("taken by mouth 3 times per day", "If you miss a dose:")
@@ -134,16 +121,19 @@ padding: 0;
 
 .cards.reminders .cards-card-body ul {
   padding-left: 20px;
-  margin: 0;
+  margin: 10px 0 0;
+  list-style-type: disc;
 }
 
 .cards.reminders .cards-card-body li {
   color: #fff;
   font-family: var(--body-font-family);
-  font-size: 16px;
-  line-height: 20px;
   text-align: left;
-  list-style-type: none;
+  margin-bottom: 16px;
+
+  &::marker {
+    color: #fff;
+  }
 }
 
 .cards.reminders .cards-card-image {
@@ -173,15 +163,15 @@ padding: 0;
 .cards.benefit > ul > li {
   border: 0;
   background-color: transparent;
-  display: block;
-  text-align: center;
+  display: flex;
   padding: 5px 15px;
   margin-bottom: 0;
+  gap: 60px;
 }
 
 .cards.benefit .cards-card-image {
   line-height: 0;
-  text-align: center;
+  padding-top: 20px;
 }
 
 .cards.benefit > ul > li img {
@@ -191,20 +181,20 @@ padding: 0;
   object-fit: contain;
   display: inline-block;
   margin: 0 auto;
+  max-width: unset;
 }
 
 .cards.benefit .cards-card-body {
   margin: 0;
 }
 
-.cards.benefit .cards-card-body h2 {
+.cards.benefit .cards-card-body h3,
+.cards.pharmacy .cards-card-body h3 {
   color: #3a6f8f;
   font-family: var(--heading-font-family);
   font-size: 20px;
   font-weight: 500;
-  line-height: 36px;
   margin: 10px 0;
-  text-align: center;
   text-transform: none;
 }
 
@@ -215,7 +205,6 @@ padding: 0;
   font-weight: 400;
   line-height: 20px;
   margin: 0;
-  text-align: center;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -243,7 +232,7 @@ padding: 0;
 }
 
 .cards.pharmacy .cards-card-image {
-  flex: 0 0 200px;
+  flex: 0 0 170px;
   line-height: 0;
 }
 
@@ -512,81 +501,13 @@ padding: 0;
     padding-top: 25px;
   }
 
-  /* stats + symptoms ≥768px rules live in cards-tokens.css */
+  .cards.benefit > ul > li {
+    gap:16px;
+}
 
-  main > .section:has(.cards.contact) {
-    padding: 0 7%;
-  }
-
-  main > .section:has(.cards.contact)>div {
-    padding: 0 15px;
-  }
-
-  main > .section:has(.cards.contact) h1 {
- padding-bottom: 30px;
- font-weight: 500;
-  }
-
-  main > .section:has(.cards.contact) p {
-    font-size: 18px;
-        color: #58595b;
-        line-height: 30px
-  }
-
-    main > .section:has(.cards.contact) p strong {
-    font-weight: 700;
-    font-family: var(--heading-font-family);
-  }
-  
-  .cards.contact > ul {
-    flex-direction: row;
-    align-items: stretch;
-    padding:0;
-  }
-
-  /* each card becomes icon-left + text-right (source 25%/75% table cells,
-     vertically centered), left-aligned. */
-  .cards.contact > ul > li {
-    flex: 1;
-    max-width: 50%;
-    margin-bottom: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-align: left;
-  }
-
-  .cards.contact .cards-card-image {
-    flex: 0 0 35%;
-    text-align: left;
-  }
-
-  .cards.contact .cards-card-body {
-    flex: 1;
-    padding-left: 20px;
-  }
-
-  .cards.contact .cards-card-body p {
-    text-align: left;
-  }
-
-  .cards.contact .cards-card-body a {
-    font-size: 18px;
-  }
-
-  /* on desktop the divider is the vertical line between the two columns */
-  .cards.contact > ul > li:first-child {
-    border-right: 1px solid #58595b;
-  }
-
-  .cards.contact > ul > li:first-child .cards-card-body {
-    border-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .cards.contact > ul > li:nth-child(2) {
-    padding-left: 25px;
-  }
+.cards.pharmacy .cards-card-image {
+  flex: 0 0 100px;
+}
 }
 
 /* Desktop (≥992px): the thumbnail grows to its full 138px width. */
@@ -598,17 +519,18 @@ padding: 0;
 
   .cards.cards-3-cols > ul {
     grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
+    
+    /* justify-items: center; */
   }
 
-  /* 200%/300% resolves against the 50%/33% grid cell to match the 4-column card width */
+  /* 200%/300% resolves against the 50%/33% grid cell to match the 4-column card width 
   .cards.cards-2-cols > ul > li {
     width: calc((200% - 3 * var(--cards-grid-gap)) / 4);
-  }
+  } 
 
   .cards.cards-3-cols > ul > li {
     width: calc((300% - 3 * var(--cards-grid-gap)) / 4);
-  }
+  } */
 
   /* stats .cards-3-cols override lives in cards-tokens.css */
 
