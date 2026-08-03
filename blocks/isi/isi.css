@@ -17,14 +17,13 @@ main .isi-please-see-section {
   margin: 0;
 }
 
-main .isi-please-see p {
+main .isi-please-see p,
+main .isi-please-see strong {
   margin: 0;
   text-align: center;
-  font-family: var(--isi-heading-font);
-  font-size: 18px;
-  line-height: 20px;
-  font-weight: 400;
-  color: #58595b;
+  font-family: var(--heading-heavy-font-family);
+  font-size: 16px;
+  line-height: 1.2;
 }
 
 main .isi-please-see a {
@@ -440,6 +439,18 @@ body.isi-bar-open-lock {
   overflow-wrap: anywhere;
 }
 
+@media (width >= 768px) {
+  main .isi-please-see p,
+main .isi-please-see strong {
+  font-size: 18px
+}
+
+main .isi-please-see-section
+ {
+    padding: 30px 13px 50px;
+    margin: 0;
+}
+}
 
 /* ══════════════════════════════════════════════════════════════
    Wide ≥ 1200px — the ISI section becomes a right-hand rail.

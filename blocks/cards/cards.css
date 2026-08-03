@@ -81,13 +81,14 @@ padding: 0;
 
 /* Mobile default (source < 768px): each row stacks — icon centered on top,
    text left-aligned full-width below. */
+
 .cards.reminders > ul > li {
   border: 0;
   background-color: transparent;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid var(--text-color);
 
   &:last-child {
     border-bottom: 0;
@@ -95,28 +96,38 @@ padding: 0;
   }
 }
 
+.cards.reminders.dark > ul > li {
+  border-bottom: 1px solid #fff;
+  color: #fff;
+ }
+
 .cards.reminders > ul > li img {
   aspect-ratio: unset;
   object-fit: contain;
   display: inline-block;
   margin-bottom: 10px;
-  height: 115px;
+  height: 164px;
   max-width: none;
 }
 
+.cards.reminders.dark > ul > li img {
+  height: 115px;
+}
+
 .cards.reminders .cards-card-body {
-  color: #fff;
   margin: 0 0 24px;
   min-width: 0;
   width: 100%;
+
+  p {
+      font-size: 16px;
+      line-height: 20px;
+      font-weight: 400;
+    }
 }
 
-/* Source highlights ("taken by mouth 3 times per day", "If you miss a dose:")
-   are gold Gotham-Bold. Parser converts the source color spans to <strong>. */
-.cards.reminders .cards-card-body strong {
-  color: #f6af1a;
-  font-family: var(--heading-font-family);
-  font-weight: 400;
+.cards.reminders.dark p {
+    color: #fff;
 }
 
 .cards.reminders .cards-card-body ul {
@@ -126,17 +137,24 @@ padding: 0;
 }
 
 .cards.reminders .cards-card-body li {
-  color: #fff;
   font-family: var(--body-font-family);
   text-align: left;
   margin-bottom: 16px;
-
-  &::marker {
-    color: #fff;
-  }
+  font-size: 16px;
+  line-height: 1.2;
 }
 
+.cards.reminders.dark .cards-card-body li::marker {
+  color: #fff;
+}
+
+
 .cards.reminders .cards-card-image {
+  text-align: center;
+  width: 164px;
+}
+
+.cards.reminders.dark .cards-card-image {
   text-align: center;
   width: 115px;
 }
@@ -231,8 +249,12 @@ padding: 0;
   padding: 5px 15px;
 }
 
-.cards.pharmacy .cards-card-image {
+body.hcp .cards.pharmacy .cards-card-image {
   flex: 0 0 170px;
+  line-height: 0;
+}
+
+.cards.pharmacy .cards-card-image {
   line-height: 0;
 }
 
@@ -416,6 +438,21 @@ padding: 0;
 @media (width >= 768px) {
   .cards.reminders > ul > li {
     flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 0;
+
+    h2 {
+      padding-bottom: 0}
+    }
+
+  .cards.reminders:not(.dark) > ul > li:first-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+  .cards.reminders.dark > ul > li {
+    flex-direction: row;
     align-items: center;
     padding: 25px 0;
   }
@@ -427,6 +464,9 @@ padding: 0;
 
   .cards.reminders .cards-card-image {
     flex: 0 0 100px;
+  }
+
+  .cards.reminders.dark .cards-card-image {
     margin: auto;
   }
 
@@ -434,6 +474,11 @@ padding: 0;
     margin-left: 50px;
     width: auto;
     flex: 1;
+
+    p, li {
+      font-size: 18px;
+      line-height: unset;
+    }
   }
 
       main > .section:has(.cards.resource) {
@@ -505,7 +550,7 @@ padding: 0;
     gap:16px;
 }
 
-.cards.pharmacy .cards-card-image {
+body.hcp .cards.pharmacy .cards-card-image {
   flex: 0 0 100px;
 }
 }
