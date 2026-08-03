@@ -124,3 +124,9 @@ main .columns.supine p {
 }
   }
 }
+
+@media (width > 1200px) {
+  .columns.options > div > .columns-img-col:first-of-type {
+    width: unset;
+  }
+}

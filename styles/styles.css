@@ -36,6 +36,7 @@
   --brand-cyan: #02bded;
   --brand-cyan-shadow: #19527f;
   --brand-grey: #58595b;
+  --brand-orange: #f6af1a;
 
   /* semantic brand aliases */
   --brand-primary: var(--brand-blue);
@@ -184,16 +185,20 @@ body.appear { /* @libs */
   display: block; /* @libs */
 }
 
-.color-primary, .brand-primary, .teal {
+.color-primary, .brand-primary {
   color: var(--brand-primary);
 
   --link-color: var(--brand-primary);
 }
 
-.color-secondary, .brand-secondary, .rose {
+.color-secondary, .brand-secondary {
   color: var(--brand-secondary);
 
   --link-color: var(--brand-secondary);
+}
+
+.brand-orange, .color-orange, .orange {
+  color: var(--brand-orange);
 }
 
 /* single-purpose text utility; !important so it reliably wins over
@@ -258,6 +263,7 @@ h2 {
    specificity where the source left-aligns. */
 main .default-content-wrapper h2 {
   text-align: center;
+  font-family: var(--body-font-family);
 }
 
 h3 {
@@ -308,7 +314,7 @@ blockquote {
 /* body copy on white uses brand blue on the source */
 main p {
   font-size: var(--body-font-size-m);
-  line-height: 30px;
+  line-height: 1.65;
   color: var(--text-color);
   margin-bottom: 30px;
 }
@@ -340,18 +346,14 @@ main ul li p {
   margin-bottom: 0;
 }
 
-/*
-main ul li:last-child {
-  margin-bottom: 0;
-}
-  */
-
 main ul ul {
   padding-inline-start: 2.5em;
   margin-top: 0;
 }
 
-main ul li::marker {
+main ul li::marker,
+main .cards ul li::marker,
+main .cards ul ul li::marker {
   color: var(--brand-cyan);
 }
 
@@ -891,23 +893,19 @@ main .section.reminders > div {
 }
 
 main .section.reminders h2 {
-  color: #fff;
   text-align: center;
   margin: 0;
   font-size: var(--heading-font-size-s);
   padding-top: 30px;
 }
 
+main .section.reminders p {
+  color: #fff;
+}
+
 main .section.reminders {
   margin-top: 60px;
   padding-bottom: 16px;
-  
-  p {
-  color: #fff;
-    font-size: 16px;
-    line-height: 20px;
-    font-weight: 400;
-  }
 }
 
 /* section metadata - nsc-prescription (Your NORTHERA Prescription first section).
@@ -916,25 +914,25 @@ main .section.reminders {
    pair sharing a subtle divider; here each is an independent rounded box. They
    are the 2nd and 3rd paragraphs of the section content (1st = "Call the NSC
    toll-free…", 4th = "Support along the way" h2). */
-main .section.nsc-prescription > .default-content-wrapper > p:nth-of-type(2),
-main .section.nsc-prescription > .default-content-wrapper > p:nth-of-type(3) {
-  margin: 20px 0 0;
-  padding: 25px 30px;
+  
+   main .section.nsc-prescription ul li > h3 {
+    font-size: 24px;
+    color: var(--text-color);
+  }
+
+main .section.nsc-prescription blockquote {
+  margin: 20px 0 30px;;
+  padding: 5px 30px 24px;
   border-radius: 6px;
   background-color: var(--page-bg-muted);
   color: var(--brand-blue-dark);
   font-weight: 400;
-}
 
-main .section.nsc-prescription > .default-content-wrapper > p:nth-of-type(3) {
-  margin-top: 15px;
-}
-
-/* first paragraph ("Call the NSC toll-free…") — larger emphasis lead line */
-main .section.nsc-prescription > .default-content-wrapper > p:nth-of-type(1) {
-  font-size: 22px;
-  line-height: 22px;
-  font-weight: 500;
+  p {
+    line-height: 1;
+    font-size: 20px;
+    margin-bottom: 0;
+  }
 }
 
 /* icon-text blocks in this section: white card, smaller h3 (mobile default) */
@@ -951,23 +949,12 @@ main .section.nsc-prescription .columns.icon-text h3 {
    Prescription). Muted-grey band with a centered heading; the icon-text blocks
    inside drop their own light-blue band so the section grey shows through. */
 main .section.support-band {
-  background-color: var(--page-bg-muted);
-  margin-top: 0;
-  padding: 40px 0;
+  margin: 40px auto 0;
 }
 
 main .section.support-band .default-content-wrapper > h2 {
   color: var(--brand-blue);
-  text-align: center;
   margin: 0 0 20px;
-}
-
-/* let the section's grey show through the icon-text blocks (their default
-   light-blue band + borders are for the white-section usage elsewhere) */
-main .section.support-band .columns.icon-text {
-  background-color: transparent;
-  border: 0;
-  margin-bottom: 0;
 }
 
 /* section metadata - noh-symptoms (source .cmp-carousel_bghdarkblue: brand-blue
@@ -1473,7 +1460,6 @@ main .section.accent h6 {
     margin-bottom:0;
   }
 
-
   
   main > .section > div:not(.bg-image, .hero-wrapper, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal), :has(.search-results),:has(.hero-patient)) {
     padding: 0 7%;
@@ -1484,11 +1470,6 @@ main .section.accent h6 {
    at the 11% gutter, so the map paragraph fills the column (matches the banner). */
 main > .section.find-specialist > .default-content-wrapper > :not(p:has(> picture)) {
   padding-inline: 11%;
-}
-
-main > .section:first-of-type > div > p {
-  font-size: var(--body-font-size-m);
-  line-height: 30px;
 }
 
 /* flex sections — equal-width columns side-by-side; section-level only.
@@ -1523,6 +1504,22 @@ main .section.reminders {
 
   h2 {
     font-size: 30px;
+  }
+}
+
+main .section.nsc-prescription .default-content-wrapper:last-child {
+  margin-left: 11%;
+
+  > p {
+    margin-left: 14%;
+  }
+}
+
+main .section.nsc-prescription blockquote {
+  p {
+      line-height: unset;
+      font-size: 20px;
+      margin-bottom: 0;
   }
 }
 }
