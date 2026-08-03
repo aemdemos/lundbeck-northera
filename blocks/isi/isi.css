@@ -590,6 +590,19 @@ main .isi-please-see-section {
     margin-bottom: 10px;
   }
 
+  /* the rail's compact 16px above is for the narrow rail; source's expanded
+     overlay uses 18px body text — a fixed 19px line-height on paragraphs, but
+     list items keep the normal 1.3 ratio (18 × 1.3 = 23.4px, source-matched
+     without a separate override). */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi p {
+    font-size: 18px;
+    line-height: 19px;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi li {
+    font-size: 18px;
+  }
+
   /* ── "Use" block: label + fixed-height 250px inner-scroll body ──
      (source: .cmp-isi__use .text:last-child { height:250px; overflow-y:scroll }) */
   main:has(> .section.isi-container) .isi.isi-use {
