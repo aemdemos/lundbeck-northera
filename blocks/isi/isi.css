@@ -86,8 +86,8 @@ main .isi.isi-use p:first-child strong {
   font-weight: var(--isi-font-weight-bold);
 }
 
-main .isi.isi-important p:first-child b,
-main .isi.isi-important p:first-child strong {
+main .isi.isi-important .isi-full > div > p:first-child b,
+main .isi.isi-important .isi-full > div > p:first-child strong {
   font-size: var(--isi-important-heading-font-size);
   font-weight: var(--isi-font-weight-bold);
 }
@@ -143,14 +143,22 @@ main .isi .isi-warningbox {
 
 main .isi .isi-warningbox p:first-child {
   margin-bottom: 10px;
+  text-align: center;
 }
 
 main .isi .isi-warningbox p b,
 main .isi .isi-warningbox p strong {
   color: var(--isi-body-color);
   font-family: var(--isi-heading-font);
-  font-size: var(--isi-warningbox-font-size);
-  font-weight: 700;
+  font-size: var(--isi-warningbox-heading-font-size);
+  font-weight: var(--isi-font-weight-bold);
+}
+
+/* source gives the list right after the warning box extra breathing room
+   (25px on top of the box's own 10px margin-bottom); sibling margins collapse
+   here, so the combined value is set directly to land on the same 35px gap. */
+main .isi .isi-warningbox + ul {
+  margin-top: 35px;
 }
 
 /* ── Links ──────────────────────────────────────────────────── */
@@ -452,6 +460,19 @@ main .isi-please-see-section
 }
 }
 
+body.hcp main .isi-please-see-section {
+  padding: 0;
+  margin: 0;
+}
+
+/* The disclaimer paragraph immediately before the please-see blurb inherits
+   the global 30px bottom margin (main p), which collapses through its empty
+   wrapper divs and shows up as a gap ahead of the ISI section. Zero it, but
+   only for the section directly adjacent to the blurb, on hcp pages. */
+body.hcp main > .section:has(+ .isi-please-see-section) p:last-child {
+  margin-bottom: 0;
+}
+
 /* ══════════════════════════════════════════════════════════════
    Wide ≥ 1200px — the ISI section becomes a right-hand rail.
    Source renders main content at ~83% (10 cols) and the full ISI
@@ -548,7 +569,6 @@ main .isi-please-see-section
   main:has(> .section.isi-container.isi-desktop-expanded) > .section.isi-container > div {
     max-width: var(--max-width-site);
     margin: 0 auto;
-    padding: 0 25px;
   }
 
   /* the trailing abbreviated "Please see…" default content is for the
@@ -568,6 +588,19 @@ main .isi-please-see-section {
     line-height: var(--isi-body-line-height);
     margin-top:0;
     margin-bottom: 10px;
+  }
+
+  /* the rail's compact 16px above is for the narrow rail; source's expanded
+     overlay uses 18px body text — a fixed 19px line-height on paragraphs, but
+     list items keep the normal 1.3 ratio (18 × 1.3 = 23.4px, source-matched
+     without a separate override). */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi p {
+    font-size: 18px;
+    line-height: 19px;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi li {
+    font-size: 18px;
   }
 
   /* ── "Use" block: label + fixed-height 250px inner-scroll body ──
@@ -611,6 +644,17 @@ main .isi-please-see-section {
     box-shadow: none;
   }
 
+  /* the rail's compact 20px/15px padding above is for the narrow 280px rail;
+     the expanded overlay already gets its inset from the container's own
+     50px/15%/30px/50px padding, so drop the block-level padding to avoid
+     stacking a second inset on top of it. Source draws the Use/Important
+     divider as a border-top on the Important block (below), not a
+     border-bottom here, so drop that too. */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi.isi-use {
+    padding: 0;
+    border-bottom: 0;
+  }
+
   /* ── "Important Safety" block: fixed-height scroll body in desktop rail ── */
   main:has(> .section.isi-container) .isi.isi-important {
     margin-top: 20px;
@@ -643,9 +687,15 @@ main .isi-please-see-section {
     border-radius: 4px;
   }
 
+  /* source: .cmp-isi__importantsafety { margin-top:15px; padding:25px 0 0;
+     border-top:1px solid #e7e7e7 } — the divider between Use and Important
+     lives here, lighter than the rail's own #a2a2a2 divider. */
   main:has(> .section.isi-container.isi-desktop-expanded) .isi.isi-important {
     height: auto;
-    padding-right: 15px;
+    width: 100%;
+    margin-top: 15px;
+    padding: 25px 0 0;
+    border-top: 1px solid #e7e7e7;
     overflow-y: visible;
     box-shadow: none;
   }
@@ -722,8 +772,20 @@ main .isi-please-see-section {
   main .isi .isi-warningbox {
     padding: 10px 5px 0;
   }
- 
+
   main .isi .isi-warningbox p b, main .isi .isi-warningbox p strong {
     line-height: 19px;
+  }
+
+  /* the compact rail padding/line-height above is for the narrow 280px rail;
+     the expanded overlay uses source's own warningbox padding, and drops the
+     hardcoded line-height so it falls back to the natural 1.3 body ratio. */
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi .isi-warningbox {
+    padding: 15px 15px 5px;
+  }
+
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi .isi-warningbox p b,
+  main:has(> .section.isi-container.isi-desktop-expanded) .isi .isi-warningbox p strong {
+    line-height: var(--isi-body-line-height);
   }
 }
