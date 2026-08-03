@@ -144,6 +144,42 @@
   text-align: center;
 }
 
+.cards.divider {
+  grid-template-columns: unset;
+
+  > ul {
+    grid-template-columns: unset;
+    width: 99%;
+    margin: auto;
+    gap: unset;
+
+  > li {
+    border-bottom: 1px solid;
+
+    &:last-child {
+      border-bottom: 0 solid;
+    }
+    }
+
+    img {
+      max-width: 122px;
+    }
+  }
+
+p {
+  font-size: var(--body-font-size-xs);
+
+  strong {
+    font-size: 22px;
+  }
+}
+
+a {
+  font-size: 16px;
+  word-break: break-all;
+}
+}
+
 @media (width >= 768px) {
   /* symptoms: 3-up row */
   .cards.symptoms > ul {
@@ -200,7 +236,33 @@
   .cards.stats .cards-card-body {
     margin-top: 10px;
   }
-}
+
+  .cards.divider > ul {
+    grid-template-columns: repeat(auto-fill, minmax(var(--cards-grid-min-width), 1fr));
+    justify-items: unset;
+    gap: var(--cards-grid-gap);
+
+    > li {
+      display: flex;
+      border-bottom: 0;
+      border-right: 1px solid;
+      gap: 16px;
+      align-items: center;
+
+      &:last-child {
+        border-right: 0;
+       }
+      }
+
+      p {
+        font-size: 16px;
+      }
+
+      .cards-card-image {
+        margin: var(--cards-card-body-margin) 0;
+      }
+    }
+  }
 
 @media (width >= 992px) {
   /* stats columns fill their full 1/3 cell (not the 3/4 resource-card width) so

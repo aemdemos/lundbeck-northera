@@ -54,6 +54,33 @@ main .columns.supine p {
   margin: 10px 0 0;
 }
 
+.columns.options > div > .columns-img-col {
+  order: 1;
+}
+
+.columns.options > div > div {
+  &:first-child {
+    border-bottom: 2px solid #0188bf;
+    margin-bottom: -25px;
+    padding-bottom: 25px;
+  }
+
+  &:nth-child(2) p {
+      color: #fff;
+      height: 45px;
+      width: 45px;
+      line-height: 40px;
+      border-radius: 28px;
+      font-size: 23px;
+      font-weight: bold;
+      font-style: italic;
+      text-align: center;
+      background: #0188bf;
+      border: 5px solid #fff;
+      margin: auto;
+  }
+}
+
 @media (width > 768px) {
   /* side-by-side at desktop with a vertical divider between the two items;
      replaces the mobile bottom border with a right border on the first item. */
@@ -64,5 +91,36 @@ main .columns.supine p {
   main .columns.supine > div > :first-child {
     border-bottom: 0;
     border-right: 2px solid var(--brand-grey);
+  }
+
+  .columns.options > div > .columns-img-col:first-of-type {
+    order: 0;
+    width: 47%;
+  }
+
+  .columns.options > div {
+    align-items: unset;
+
+  > div {
+    flex: auto;
+
+    &:first-child {
+      border-right: 2px solid #0188bf;
+      margin-right: -40px;
+      padding-right: 80px;
+      border-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    &:nth-child(2) {
+      width: 60px;
+      align-self: center;
+
+     p {
+        position: absolute;
+        margin-left: -10px;
+    }
+  }
+}
   }
 }
