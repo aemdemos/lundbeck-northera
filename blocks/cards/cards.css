@@ -101,6 +101,10 @@ padding: 0;
   color: #fff;
  }
 
+ .cards.reminders.dark > ul > li:last-child {
+    border-bottom: 0;
+ }
+
 .cards.reminders > ul > li img {
   aspect-ratio: unset;
   object-fit: contain;
@@ -317,6 +321,7 @@ body.hcp .cards.pharmacy .cards-card-image {
   padding: var(--cards-resource-box-padding);
   display: flex;
   flex-direction: column;
+  margin-bottom: 0;
 }
 
 /* thumbnail: centered on top (mobile) */

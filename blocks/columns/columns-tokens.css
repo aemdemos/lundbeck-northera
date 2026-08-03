@@ -91,6 +91,7 @@ main .columns.supine p {
   main .columns.supine > div > :first-child {
     border-bottom: 0;
     border-right: 2px solid var(--brand-grey);
+    padding-right: 16px;
   }
 
   .columns.options > div > .columns-img-col:first-of-type {

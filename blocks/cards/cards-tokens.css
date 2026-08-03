@@ -72,11 +72,12 @@
   border: 0;
   background-color: transparent;
   text-align: center;
-  padding: 20px 0;
+  padding: 30px 0 10px;
+  margin-bottom: 0;
 }
 
 .cards.stats > ul > li + li {
-  border-top: 1px solid #000;
+  border-top: 2px solid #000;
 }
 
 .cards.stats .cards-card-image {
@@ -269,5 +270,12 @@ a {
      the infographics render at their intended size, matching the source. */
   .cards.stats.cards-3-cols > ul > li {
     width: 100%;
+  }
+
+  
+  main .cards.divider > ul {
+    justify-items: unset;
+    gap: 90px;
+
   }
 }

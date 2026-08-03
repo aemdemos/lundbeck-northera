@@ -4,20 +4,47 @@
   margin: 0 auto; /* @boilerplate */
   padding: var(--quote-padding); /* @boilerplate */
   max-width: var(--quote-max-width); /* @boilerplate */
+
+  p {
+  color: var(--brand-blue);
+  font-size: 16px;
+  line-height: 1.2;
+  margin-bottom: 48px;
+  }
+
+  .quote-attribution {
+    margin-left: 36px;
+  }
+}
+
+@media (width >= 768px) {
+  .quote blockquote { /* @boilerplate */
+    margin: 0 auto; /* @boilerplate */
+    padding: var(--quote-padding); /* @boilerplate */
+    max-width: var(--quote-max-width); /* @boilerplate */
+  
+    p {
+    color: var(--brand-blue);
+    font-size: 18px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    }
+
+    .quote-quotation {
+      font-family: var(--heading-font-family);
+    }
+  
+    .quote-attribution {
+      margin-left: 36px;
+    }
+  }
 }
 
 @media (width >= 900px) { /* @boilerplate */
   .quote blockquote { /* @boilerplate */
     padding: var(--quote-padding-desktop); /* @boilerplate */
+    font-size: 18px; 
   }
-}
-
-.quote blockquote .quote-quotation { /* @boilerplate */
-  font-size: var(--quote-quotation-font-size); /* @boilerplate */
-}
-
-.quote blockquote .quote-quotation > :first-child { /* @boilerplate */
-  text-indent: -0.5ch; /* @boilerplate */
 }
 
 .quote blockquote .quote-quotation p:first-child::before,
@@ -31,10 +58,6 @@
 
 .quote blockquote .quote-quotation p:last-child::after { /* @boilerplate */
   content: '”'; /* @boilerplate */
-}
-
-.quote blockquote .quote-attribution { /* @boilerplate */
-  text-align: right; /* @boilerplate */
 }
 
 .quote blockquote .quote-attribution p:first-child::before { /* @boilerplate */

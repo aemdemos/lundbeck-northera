@@ -62,7 +62,7 @@
   /* desktop content box — source text is flush-left (~15px in) and spans most of
      the banner width, NOT the base .css 12.2% left inset + 66% cap */
   --hero-hcp-content-padding-desktop: 0 0 44px 15px;
-  --hero-hcp-content-max-width-desktop: 66%;
+  --hero-hcp-content-max-width-desktop: 75%;
 }
 
 /* The global `main > .section > div:not(…, :has(.columns.teaser))` rule insets
@@ -81,11 +81,6 @@ main > div.section.hero-hcp-container > div.hero-hcp-wrapper {
    `main` keeps this above the base rule that the @import loads first. Matches the
    source, which switches to the overlay layout at 768px. */
 @media (width >= 768px) {
-  main .hero-hcp p {
-    font-size: var(--hero-hcp-body-size-desktop);
-    line-height: var(--hero-hcp-body-line-height-desktop);
-  }
-
   /* Fill the content-column wrapper (100%), aligned with the DAW + quote bands.
      Drop the base aspect-ratio and set a min-height so the banner is ~380px but
      grows when the overlaid text wraps taller (avoids the flex-end content
@@ -112,4 +107,11 @@ main > div.section.hero-hcp-container > div.hero-hcp-wrapper {
     padding: var(--hero-hcp-content-padding-desktop);
     max-width: var(--hero-hcp-content-max-width-desktop);
   }
+}
+
+@media (width >= 992px) {
+   main .hero-hcp p {
+      font-size: var(--hero-hcp-body-size-desktop);
+      line-height: var(--hero-hcp-body-line-height-desktop);
+    }
 }

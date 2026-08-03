@@ -2,8 +2,8 @@
    Real Experiences page. Thumbnail image (16:9-ish, ratio ~1.735) + heading. */
 .cards-video {
   --cards-video-gap-col: 20px;
-  --cards-video-gap-row: 40px;
-  --cards-video-gap-row-desktop: 80px;
+  --cards-video-gap-row: 0;
+  --cards-video-gap-row-desktop: 60px;
   --cards-video-thumb-ratio: 446 / 257;
   --cards-video-title-color: var(--brand-blue);
   --cards-video-title-font-family: var(--heading-font-family);

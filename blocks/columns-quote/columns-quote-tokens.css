@@ -13,6 +13,12 @@
   --columns-quote-quotation-line-height: 31.5px;
   --columns-quote-attribution-color: var(--brand-grey);
   --columns-quote-attribution-font-family: var(--body-font-family);
+  --columns-quote-attribution-size: 14px;
+  --columns-quote-attribution-line-height: 1.2;
+}
+
+@media (width >= 992px){
+  .columns-quote {
   --columns-quote-attribution-size: 16px;
-  --columns-quote-attribution-line-height: 24px;
+}
 }
