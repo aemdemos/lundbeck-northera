@@ -219,7 +219,7 @@ main .isi a:hover {
 }
 
 .isi-bar-title {
-  font-family: var(--isi-important-heading-font-size);
+  font-family: var(--isi-heading-font);
   font-weight: 700;
   font-size: var(--isi-use-heading-font-size);
   color: var(--isi-heading-color);
