@@ -149,7 +149,7 @@ main .isi .isi-warningbox p:first-child {
 main .isi .isi-warningbox p b,
 main .isi .isi-warningbox p strong {
   color: var(--isi-body-color);
-  font-family: var(--isi-text-bold-font);
+  font-family: var(--isi-heading-font);
   font-size: var(--isi-warningbox-heading-font-size);
   font-weight: var(--isi-font-weight-bold);
 }
