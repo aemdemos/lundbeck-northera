@@ -23,6 +23,18 @@ function extractLabeledRow(rows, label) {
   return index === -1 ? null : rows.splice(index, 1)[0];
 }
 
+// This block's whole reason for existing is to avoid the fetch that used to
+// hurt LCP, so its image can't wait for aem.js's waitForFirstImage(), which
+// only checks the first <img> in the first section — it misses this one
+// whenever an earlier block in the same section has an image (e.g. an icon).
+function prioritizeLcpImage(scope) {
+  const img = scope.querySelector('img');
+  if (img) {
+    img.loading = 'eager';
+    img.setAttribute('fetchpriority', 'high');
+  }
+}
+
 /**
  * @param {Element} block
  */
@@ -44,6 +56,7 @@ export default async function decorate(block) {
     const fragment = await loadFragment(altUrls[pick - 1]);
     if (fragment) {
       block.replaceChildren(...fragment.childNodes);
+      prioritizeLcpImage(block);
       return;
     }
   }
@@ -66,6 +79,7 @@ export default async function decorate(block) {
     block.replaceChildren(typed);
     decorateBlock(typed);
     await loadBlock(typed);
+    prioritizeLcpImage(block);
     return;
   }
 
@@ -77,4 +91,5 @@ export default async function decorate(block) {
     });
     row.remove();
   });
+  prioritizeLcpImage(block);
 }
