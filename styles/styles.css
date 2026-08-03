@@ -316,7 +316,6 @@ main p {
   font-size: var(--body-font-size-m);
   line-height: 1.65;
   color: var(--text-color);
-  margin-bottom: 30px;
 }
 
 /* global bullet lists: brand-cyan markers (matching inline links) at normal
@@ -675,7 +674,7 @@ main .icon.icon-bullet { /* @libs */
 }
 
 .left, .left-mobile {
-  text-align: left;
+  text-align: left !important;
 
   &.columns .columns-img-col img {
     display: inline-block;
@@ -878,6 +877,10 @@ main .section.reminders h2 {
   padding-top: 30px;
 }
 
+main .section.reminders:has(.reminders.dark) h2 {
+  color: #fff;
+}
+
 main .section.reminders p {
   color: #fff;
 }
@@ -948,7 +951,17 @@ main .section.noh-symptoms {
   background-color: var(--brand-blue);
   margin-top: 20px;
   padding: 0 25px 40px;
-}
+
+  .cards {
+    margin-top: 36px;
+  }
+    
+   .cards > ul {
+      gap: 0;
+      grid-template-columns: unset;
+    }
+  }
+
 
 main .section.noh-symptoms > div {
   max-width: var(--max-width-site);
@@ -960,6 +973,7 @@ main .section.noh-symptoms h2 {
   margin: 0;
   font-size: 20px;
   line-height: 24px;
+  text-align: left;
 }
 
 main .section.noh-symptoms p {
@@ -1393,10 +1407,17 @@ main .section.accent h6 {
       padding: 48px 0 1px;
     }
 
-    main .section.noh-symptoms h2 {
+    main .section.noh-symptoms {
+    .cards ul {
+      grid-template-columns: repeat(auto-fill, minmax(33%, 1fr));
+    }
+    
+    h2 {
       font-size: 40px;
       line-height: 48px;
+      text-align: center;
     }
+  }
 
   main .section.wmy-intro h1 {
     text-align: left;

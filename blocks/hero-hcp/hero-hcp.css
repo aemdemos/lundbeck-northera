@@ -10,7 +10,7 @@
    ══════════════════════════════════════════════════════════════ */
 
 main .section:has(.hero-hcp) {
-  padding: 0;
+  padding: 16px 0 0;
 }
 
 /* mobile image (banner behind the card). The source art is low-res (360×251);
@@ -54,7 +54,7 @@ main .section:has(.hero-hcp) {
 }
 
 /* source h5: margin 10px 0, padding 0 */
-.hero-hcp h5 {
+.hero-hcp h2 {
   margin: 10px 0;
   padding: 0;
   color: var(--hero-hcp-subhead-color);
@@ -99,6 +99,10 @@ main .section:has(.hero-hcp) {
     display: none;
   }
 
+  main .section:has(.hero-hcp) {
+    padding: 0;
+}
+
   .hero-hcp .hero-hcp-content {
     position: static;
     top: auto;
@@ -117,7 +121,7 @@ main .section:has(.hero-hcp) {
     text-shadow: var(--hero-hcp-text-shadow-desktop);
   }
 
-  .hero-hcp h5 {
+  .hero-hcp h2 {
     color: var(--hero-hcp-subhead-color-desktop);
     font-size: var(--hero-hcp-subhead-size-desktop);
     line-height: var(--hero-hcp-subhead-line-height-desktop);

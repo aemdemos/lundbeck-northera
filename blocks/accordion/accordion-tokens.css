@@ -51,11 +51,17 @@ main .accordion { /* @libs */
   box-sizing: border-box; /* @libs */
 }
 
-/* transcript band — full content width, no white section gutters */
+main .section.video-container.accordion-container .video-wrapper {
+  padding: 0;
+  margin-top:16px;
+}
+
+/* 
 main > .section:has(.accordion) > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper) {
   padding-left: 0;
   padding-right: 0;
 }
+  */
 
 main > .section:has(.accordion) > div:not(.bg-image, .isi-wrapper, embed.wrapper, .cards-cta-wrapper):has(.accordion) {
   padding: 0;
