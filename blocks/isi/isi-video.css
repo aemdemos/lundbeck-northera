@@ -1,0 +1,239 @@
+@import url('./isi-tokens.css');
+
+/* ══════════════════════════════════════════════════════════════
+   ISI-video — styles the /fragments/video-isi content embedded inline in a
+   video transcript (accordion body or video-card modal panel). Forked from
+   isi.css's typography/warningbox/list/link rules, re-scoped from `.isi` to
+   `.isi-video`, reusing the same design tokens. Deliberately excludes the
+   real .isi block's rail/bar/modal layout rules — this is static flowing
+   content, not a fixed rail/bar. Do not edit isi.css/isi-tokens.css/isi.js
+   for isi-video changes — add them here instead.
+
+   Pure CSS, no JS decoration step — loaded globally via lazy-styles.css.
+   Because CSS can't match on text content, the "USE" / "IMPORTANT SAFETY
+   INFORMATION" headings are targeted by paragraph POSITION (:nth-of-type)
+   rather than by reading the words, matching the fragment's current
+   authored order:
+     1 USE heading · 2 USE body · 3 Effectiveness line · 4 IMPORTANT heading
+     · <blockquote> (warning box, see below) · (11 lists) ·
+     5 "For more information" · 6 "You are encouraged"
+   ("For more information"/"You are encouraged" are targeted via
+   :nth-last-of-type instead, so they stay correct regardless of count.)
+   This is intentionally accepted as a trade-off for having no JS at all —
+   if a paragraph is ever added/removed in the USE section (positions 1-3),
+   the position-4 rule below will silently target the wrong paragraph.
+   Re-count and update the :nth-of-type value here if that content changes.
+
+   The warning box itself is NOT positional — the source content already
+   wraps it in a real <blockquote>, so it's targeted directly and stays
+   correct regardless of surrounding paragraph count.
+   ══════════════════════════════════════════════════════════════ */
+
+.isi-video {
+  color: var(--isi-body-color);
+  font-family: var(--isi-body-font);
+}
+
+/* video-tokens.css gives the whole transcript accordion an ambient 8% side
+   margin at ≥768px (.video-wrapper + .accordion-wrapper .accordion) — right
+   for the transcript's own dialogue text, but the real .isi block never
+   scales its side inset with viewport width (isi-tokens.css's
+   --isi-section-padding-x is a flat 25px at every breakpoint, unconditional
+   in isi.css). Cancel the ambient margin here so isi-video matches. The
+   negative margin is a child of the already-narrowed accordion box, so the
+   outer 8% must be re-expressed as a % of that narrowed 84% box: -100%*8/84
+   (same cancel-an-ambient-gutter technique as blocks/quote/quote.css).
+   Scoped to .accordion .isi-video — a no-op in the video-card modal, which
+   has no such ambient margin to begin with.
+   Threshold is ≥769px, not ≥768px, to line up with accordion-tokens.css's
+   own cutover (its native 25px .accordion-item-body padding runs through
+   ≤768px, then drops to 0 at ≥769px) — matching video-tokens.css's ≥768px
+   exactly would double up with that native padding for one pixel-width. */
+@media (width >= 769px) {
+  .accordion .isi-video {
+    margin-left: calc(-1 * 100% * 8 / 84);
+    margin-right: calc(-1 * 100% * 8 / 84);
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+}
+
+/* ── Typography ─────────────────────────────────────────────── */
+
+/* margin-bottom is !important: the host page's own paragraph-spacing rules
+   (e.g. the accordion body's, which vary this value by breakpoint) reach
+   paragraphs nested this deep via a plain descendant selector and beat this
+   on specificity, so without !important the spacing silently drifts to
+   whatever the host happens to set rather than this component's own value. */
+.isi-video p {
+  font-family: var(--isi-body-font);
+  font-size: var(--isi-body-font-size);
+  line-height: var(--isi-body-line-height);
+  color: var(--isi-body-color);
+  margin-bottom: var(--isi-block-padding-y) !important;
+}
+
+/* section labels ("USE", "IMPORTANT SAFETY INFORMATION") */
+.isi-video p b,
+.isi-video p strong {
+  color: var(--isi-heading-color);
+  font-family: var(--isi-heading-font);
+  font-weight: 400;
+}
+
+/* "USE" heading — always the first paragraph, regardless of what follows.
+   Excludes blockquote's own paragraphs — :first-of-type is also evaluated
+   per-parent, so the warning box's own first <p> would otherwise match too. */
+.isi-video p:not(blockquote p):first-of-type b,
+.isi-video p:not(blockquote p):first-of-type strong {
+  font-size: var(--isi-use-heading-font-size);
+  line-height: 22px;
+  display: inline-block;
+  font-weight: var(--isi-font-weight-bold);
+}
+
+/* "IMPORTANT SAFETY INFORMATION" heading — see positional note above */
+.isi-video p:nth-of-type(4) b,
+.isi-video p:nth-of-type(4) strong {
+  font-size: var(--isi-important-heading-font-size);
+  font-weight: var(--isi-font-weight-bold);
+}
+
+/* extra breathing room between the "USE" section's last line ("Effectiveness
+   beyond 2 weeks…", the 3rd paragraph) and the "IMPORTANT SAFETY
+   INFORMATION" heading that follows it */
+.isi-video p:nth-of-type(3) {
+  margin-bottom: 42px !important;
+}
+
+/* closing regulatory lines: always the last two paragraphs. Excludes the
+   warning box's own two paragraphs, which would otherwise also match this
+   (the blockquote has exactly 2 <p> children, so :nth-last-of-type(-n+2)
+   matches both of THEM too, relative to their own parent).
+   font-size/line-height have no matching token (isi.css's own analogous
+   rule for this same content — its .isi-important closing lines — hardcodes
+   these same two literals too, rather than tokenizing them). */
+.isi-video p:not(blockquote p):nth-last-of-type(-n + 2) b,
+.isi-video p:not(blockquote p):nth-last-of-type(-n + 2) strong {
+  color: var(--isi-body-color);
+  font-size: 17px;
+  line-height: 19px;
+  font-family: var(--isi-text-bold-font);
+  font-weight: var(--isi-font-weight-bold);
+}
+
+/* tighter gap between the two closing lines themselves ("For more
+   information…" / "You are encouraged…") — verified against stage */
+.isi-video p:not(blockquote p):nth-last-of-type(2) {
+  margin-bottom: 0 !important;
+}
+
+/* ── Lists ──────────────────────────────────────────────────── */
+
+/* same !important rationale as the paragraph rule above — the host's own
+   list-spacing resets (e.g. the accordion body's) otherwise win here too */
+.isi-video ul {
+  padding-left: 15px !important;
+  margin-top: 10px !important;
+}
+
+/* font-size uses --isi-warningbox-font-size (18px), not the shared
+   --isi-list-font-size token (16px, for the real .isi block's own list
+   items) — verified directly against stage for this specific
+   embedded-in-transcript context, and matches .isi-bar-panel li in isi.css,
+   which reuses this same token for its own alternate-context list items;
+   the 1.3 line-height ratio then resolves to 23.4px, also stage-matched */
+.isi-video li {
+  position: relative;
+  list-style-type: none;
+  font-family: var(--isi-body-font);
+  font-size: var(--isi-warningbox-font-size);
+  color: var(--isi-body-color);
+  line-height: var(--isi-list-line-height);
+  margin-bottom: var(--isi-list-item-margin-bottom) !important;
+}
+
+/* "USE" section: dash bullets (default) */
+.isi-video li::before {
+  content: '-';
+  text-indent: -10px;
+  position: absolute;
+}
+
+/* "IMPORTANT SAFETY INFORMATION" section: round bullets — any list after the
+   warning box. Uses --isi-link-color (rgb(2 189 237), already reused below
+   for .isi-video a), not the shared --isi-bullet-color token — that one
+   resolves to --brand-blue, a darker shade that doesn't match this context. */
+.isi-video blockquote ~ ul li::before {
+  content: '\2022';
+  color: var(--isi-link-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-left: -1em;
+  text-indent: 0;
+  position: static;
+}
+
+/* ── Boxed supine-hypertension warning ──────────────────────── */
+
+/* source content already wraps this in a real <blockquote> — a semantic,
+   non-positional anchor, so this stays correct regardless of how much
+   content precedes it. The host page's own paragraph-spacing rules (e.g.
+   the accordion body's) can still reach paragraphs nested this deep via a
+   plain descendant selector and tie with these on specificity, so margins
+   are marked !important to guarantee this box's internal spacing wins
+   regardless of where `.isi-video` is embedded. */
+.isi-video blockquote {
+  border: var(--isi-warningbox-border);
+  padding: 15px 15px 30px;
+  margin: 0 0 var(--isi-warningbox-margin-bottom) !important;
+}
+
+.isi-video blockquote p {
+  margin-bottom: 0 !important;
+}
+
+/* left-aligned, unlike main .isi .isi-warningbox p:first-child (which centers
+   this line) — verified against stage that this embedded-in-transcript
+   context keeps it left-aligned instead */
+.isi-video blockquote p:first-child {
+  margin-bottom: 20px !important;
+  text-align: left;
+}
+
+/* font-size uses --isi-warningbox-font-size (18px), not the shared
+   --isi-warningbox-heading-font-size token (17px, for the real .isi
+   block's warning box) — verified directly against stage for this
+   specific embedded-in-transcript context, and matches
+   .isi-bar-panel .isi-warningbox in isi.css, which reuses this same
+   token for its own alternate-context warning box */
+.isi-video blockquote p b,
+.isi-video blockquote p strong {
+  color: var(--isi-body-color);
+  font-family: var(--isi-heading-font);
+  font-size: var(--isi-warningbox-font-size);
+  font-weight: var(--isi-font-weight-bold);
+}
+
+.isi-video blockquote + ul {
+  margin-top: 35px !important;
+}
+
+/* ── Links ──────────────────────────────────────────────────── */
+
+/* color is !important — same rationale as the spacing rules above: the
+   host's own link color (e.g. the accordion body's `a { color: ... }`)
+   otherwise wins here too. font-size is 18px even though the closing
+   lines' surrounding bold text is 17px — matches source, which does the
+   same (links a point size larger than their enclosing text). */
+.isi-video a {
+  color: var(--isi-link-color) !important;
+  font-size: 18px;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.isi-video a:hover {
+  text-decoration: none;
+}

@@ -31,19 +31,28 @@ function buildPlayer(href) {
   return wrapper;
 }
 
-// Loads the transcript's ISI fragment into the panel. The modal is built after
-// page load, so it never passes through the page-level buildAutoBlocks().
-async function appendTranscriptFragment(panel, fragmentPath) {
+/**
+ * Fetches the video-isi fragment fresh (styling is handled entirely by
+ * isi-video.css, loaded globally — no decoration step needed here). The
+ * page's own generic fragment auto-loader (scripts.js) resolves this same
+ * link too, but that resolution is async and targets the original authored
+ * paragraph — by the time this block replaces its content, that reference
+ * would be stale, so this fetches its own fresh copy instead.
+ * @param {string} isiFragmentHref the fragment link's href (e.g. /fragments/video-isi)
+ */
+async function loadIsiVideo(isiFragmentHref) {
   try {
-    const fragment = await loadFragment(fragmentPath);
-    if (fragment) panel.append(...fragment.childNodes);
+    const { pathname } = new URL(isiFragmentHref, window.location.href);
+    const frag = await loadFragment(pathname);
+    return frag?.querySelector('.isi-video') || null;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Transcript fragment loading failed', error);
+    console.error('ISI fragment loading failed', error);
+    return null;
   }
 }
 
-function buildTranscript(paragraphs, fragmentPath) {
+async function buildTranscript(paragraphs, isiFragmentHref) {
   const details = document.createElement('div');
   details.className = 'cards-video-transcript-accordion';
 
@@ -57,7 +66,11 @@ function buildTranscript(paragraphs, fragmentPath) {
   panel.className = 'cards-video-transcript-panel';
   panel.hidden = true;
   paragraphs.forEach((p) => panel.append(p.cloneNode(true)));
-  if (fragmentPath) appendTranscriptFragment(panel, fragmentPath);
+
+  if (isiFragmentHref) {
+    const isiVideo = await loadIsiVideo(isiFragmentHref);
+    if (isiVideo) panel.append(isiVideo);
+  }
 
   button.addEventListener('click', () => {
     const open = button.getAttribute('aria-expanded') === 'true';
@@ -107,31 +120,24 @@ function getTranscriptParas(bodyCell, link) {
   ));
 }
 
-// Safe same-origin pathname of the transcript's `/fragments/…` link (ISI),
-// mirroring any `/content` prefix like scripts.js does. Returns '' if none.
-function getFragmentPath(bodyCell) {
-  if (!bodyCell) return '';
-
-  const fragmentLink = bodyCell.querySelector('a[href*="/fragments/"]');
-  if (!fragmentLink) return '';
-
-  try {
-    const { pathname } = new URL(fragmentLink.getAttribute('href'), window.location.href);
-    if (!/^\/(content\/)?fragments\/[a-z0-9/-]+$/i.test(pathname)) return '';
-    const contentPrefix = window.location.pathname.startsWith('/content/')
-      && !pathname.startsWith('/content/') ? '/content' : '';
-    return `${contentPrefix}${pathname}`;
-  } catch {
-    return '';
-  }
+/**
+ * A transcript's ISI text is authored as a bare fragment link (e.g.
+ * /fragments/video-isi), same paragraph shape as the video's own link, so
+ * getTranscriptParas already excludes it from the display paragraphs above.
+ * @param {Element} bodyCell
+ */
+function getIsiFragmentHref(bodyCell) {
+  if (!bodyCell) return null;
+  const isiLink = bodyCell.querySelector(':scope > p > a[href*="/fragments/"]');
+  return isiLink ? isiLink.getAttribute('href') : null;
 }
 
-async function openVideoModal(href, hash, transcriptParas, fragmentPath) {
+async function openVideoModal(href, hash, transcriptParas, isiFragmentHref) {
   const content = document.createElement('div');
   content.className = 'cards-video-modal-content';
   content.append(buildPlayer(href));
-  if ((transcriptParas && transcriptParas.length) || fragmentPath) {
-    content.append(buildTranscript(transcriptParas || [], fragmentPath));
+  if ((transcriptParas && transcriptParas.length) || isiFragmentHref) {
+    content.append(await buildTranscript(transcriptParas, isiFragmentHref));
   }
 
   const { showModal } = await createModal([content]);
@@ -176,7 +182,7 @@ function getSafeHash() {
   return rawHash;
 }
 
-function createCard(imageCell, href, hash, headingText, headingTag, transcriptParas, isVideo, fragmentPath) {
+function createCard(imageCell, href, hash, headingText, headingTag, transcriptParas, isiFragmentHref, isVideo) {
   const li = document.createElement('li');
   const trigger = document.createElement('a');
   trigger.className = 'cards-video-link';
@@ -203,7 +209,7 @@ function createCard(imageCell, href, hash, headingText, headingTag, transcriptPa
     if (hash) trigger.dataset.hash = hash;
     trigger.addEventListener('click', (e) => {
       e.preventDefault();
-      openVideoModal(href, hash, transcriptParas, fragmentPath);
+      openVideoModal(href, hash, transcriptParas, isiFragmentHref);
     });
   }
 
@@ -222,15 +228,15 @@ function buildCardFromRow(row) {
   const hash = isVideo ? hashFromHref(href) : null;
   const { text: headingText, tag: headingTag } = getHeadingInfo(bodyCell, link);
   const transcriptParas = getTranscriptParas(bodyCell, link);
-  const fragmentPath = getFragmentPath(bodyCell);
+  const isiFragmentHref = getIsiFragmentHref(bodyCell);
 
   return {
     hash,
     href,
     isVideo,
     transcriptParas,
-    fragmentPath,
-    li: createCard(imageCell, href, hash, headingText, headingTag, transcriptParas, isVideo, fragmentPath),
+    isiFragmentHref,
+    li: createCard(imageCell, href, hash, headingText, headingTag, transcriptParas, isiFragmentHref, isVideo),
   };
 }
 
@@ -243,7 +249,7 @@ export default function decorate(block) {
     ul.append(card.li);
     if (card.isVideo && card.hash && card.href) {
       videoEntries.set(card.hash, {
-        open: () => openVideoModal(card.href, card.hash, card.transcriptParas, card.fragmentPath),
+        open: () => openVideoModal(card.href, card.hash, card.transcriptParas, card.isiFragmentHref),
       });
     }
   });
