@@ -498,6 +498,10 @@ header {
     flex-wrap: nowrap;
   }
 
+  header .nav-brand {
+    margin-top: -38px;
+  }
+
   header .nav-brand img {
     width: var(--header-logo-width);
     margin: 0;
@@ -534,6 +538,7 @@ header {
     gap: 0;
     display: flex;
     justify-content: space-between;
+    width: 100%;
   }
 
   /* source applies margin-left:30px to EVERY item, including the first (the
@@ -569,8 +574,6 @@ header {
     display: block;
     min-height: 0;
     color: var(--header-nav-link-color);
-    font-size: var(--header-nav-link-size);
-    font-weight: var(--header-nav-link-weight);
     line-height: 22px;
     white-space: normal;
     text-align: center;
@@ -603,7 +606,7 @@ header {
     display: inline;
     margin: 0;
     padding-left: 5px;
-    font-size: 10px;
+    font-size: 16px;
     line-height: 22px;
     vertical-align: baseline;
     border: 0;
@@ -639,9 +642,9 @@ header {
 
   header .nav-dropdown a {
     justify-content: space-between;
-    color: var(--header-dropdown-link-color);
     font-size: var(--header-dropdown-link-size);
     padding: var(--header-dropdown-item-padding);
+    border-bottom: 1px solid #fff;
   }
 
   /* right chevron per dropdown item */
