@@ -219,7 +219,7 @@ main .isi a:hover {
 }
 
 .isi-bar-title {
-  font-family: var(--isi-important-heading-font-size);
+  font-family: var(--isi-heading-font);
   font-weight: 700;
   font-size: var(--isi-use-heading-font-size);
   color: var(--isi-heading-color);
@@ -373,6 +373,7 @@ main .isi a:hover {
   height: 100vh;
   height: 100dvh;
   max-height: none;
+  margin-top: var(--header-height);
 }
 
 /* Source parity: lock the page behind the full-screen bar overlay so only the
@@ -391,7 +392,7 @@ body.isi-bar-open-lock {
 }
 
 .isi-bar-panel p {
-  font-family: var(--isi-heading-font);
+  font-family: var(--isi-body-font);
   line-height: 19px;
   color: var(--isi-body-color);
   margin: 0 0 10px;

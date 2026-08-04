@@ -171,6 +171,42 @@
   --button-on-dark-secondary-hover-color: var(--brand-blue);
 }
 
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 400;
+  size-adjust: 96%;
+  ascent-override: 95%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 500;
+  size-adjust: 96%;
+  ascent-override: 95%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 700;
+  size-adjust: 98%;
+  ascent-override: 95%;
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 900;
+  size-adjust: 100%;
+  ascent-override: 95%;
+  src: local('Arial Black'), local('Arial-Black'), local('Arial Bold'), local('Arial');
+}
+
 body {
   display: none;
   margin: 0;
