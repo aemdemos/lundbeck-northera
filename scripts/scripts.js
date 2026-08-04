@@ -189,11 +189,10 @@ async function buildLazyAutoBlocks() {
  */
 function buildAutoBlocks(main) {
   try {
-    // auto load `*/fragments/*` references — excludes links already inside a
-    // .fragment block, and inside .randomizer, which stores fragment URLs as
-    // configuration for its own JS to read, not content to auto-expand.
+    // auto load `*/fragments/*` references. Skip blocks that read fragment
+    // links as their own config/content: .fragment, .randomizer, .cards-video.
     const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')]
-      .filter((f) => !f.closest('.fragment') && !f.closest('.randomizer'));
+      .filter((f) => !f.closest('.fragment') && !f.closest('.randomizer') && !f.closest('.cards-video'));
     if (fragments.length > 0) {
       // eslint-disable-next-line import/no-cycle
       import('../blocks/fragment/fragment.js').then(({ loadFragment }) => {

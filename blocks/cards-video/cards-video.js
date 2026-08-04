@@ -1,6 +1,7 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 import { isTranscriptLabel, buildTranscriptClose } from '../../scripts/scripts.js';
 import { createModal } from '../modal/modal.js';
+import { loadFragment } from '../fragment/fragment.js';
 
 /**
  * cards-video — a grid of video thumbnail cards (source: .cmp-videothumbnail).
@@ -16,28 +17,33 @@ import { createModal } from '../modal/modal.js';
  * @param {Element} block
  */
 
-function buildAutoplaySrc(playerHref) {
-  if (playerHref.includes('autoplay')) return playerHref;
-
-  const separator = playerHref.includes('?') ? '&' : '?';
-  return `${playerHref}${separator}autoplay=true`;
-}
-
 function buildPlayer(href) {
   const wrapper = document.createElement('div');
   wrapper.className = 'cards-video-player';
-  // Strip any deep-link fragment (e.g. #howiuse) before building the player src.
+  // No autoplay: open paused on the play overlay. Strip any deep-link fragment.
   const playerHref = href.split('#')[0];
   const iframe = document.createElement('iframe');
-  iframe.src = buildAutoplaySrc(playerHref);
-  iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
+  iframe.src = playerHref;
+  iframe.setAttribute('allow', 'encrypted-media; picture-in-picture; fullscreen');
   iframe.setAttribute('allowfullscreen', '');
   iframe.setAttribute('title', 'Video player');
   wrapper.append(iframe);
   return wrapper;
 }
 
-function buildTranscript(paragraphs) {
+// Loads the transcript's ISI fragment into the panel. The modal is built after
+// page load, so it never passes through the page-level buildAutoBlocks().
+async function appendTranscriptFragment(panel, fragmentPath) {
+  try {
+    const fragment = await loadFragment(fragmentPath);
+    if (fragment) panel.append(...fragment.childNodes);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Transcript fragment loading failed', error);
+  }
+}
+
+function buildTranscript(paragraphs, fragmentPath) {
   const details = document.createElement('div');
   details.className = 'cards-video-transcript-accordion';
 
@@ -51,6 +57,7 @@ function buildTranscript(paragraphs) {
   panel.className = 'cards-video-transcript-panel';
   panel.hidden = true;
   paragraphs.forEach((p) => panel.append(p.cloneNode(true)));
+  if (fragmentPath) appendTranscriptFragment(panel, fragmentPath);
 
   button.addEventListener('click', () => {
     const open = button.getAttribute('aria-expanded') === 'true';
@@ -101,12 +108,31 @@ function getTranscriptParas(bodyCell, link) {
   ));
 }
 
-async function openVideoModal(href, hash, transcriptParas) {
+// Safe same-origin pathname of the transcript's `/fragments/…` link (ISI),
+// mirroring any `/content` prefix like scripts.js does. Returns '' if none.
+function getFragmentPath(bodyCell) {
+  if (!bodyCell) return '';
+
+  const fragmentLink = bodyCell.querySelector('a[href*="/fragments/"]');
+  if (!fragmentLink) return '';
+
+  try {
+    const { pathname } = new URL(fragmentLink.getAttribute('href'), window.location.href);
+    if (!/^\/(content\/)?fragments\/[a-z0-9/-]+$/i.test(pathname)) return '';
+    const contentPrefix = window.location.pathname.startsWith('/content/')
+      && !pathname.startsWith('/content/') ? '/content' : '';
+    return `${contentPrefix}${pathname}`;
+  } catch {
+    return '';
+  }
+}
+
+async function openVideoModal(href, hash, transcriptParas, fragmentPath) {
   const content = document.createElement('div');
   content.className = 'cards-video-modal-content';
   content.append(buildPlayer(href));
-  if (transcriptParas && transcriptParas.length) {
-    content.append(buildTranscript(transcriptParas));
+  if ((transcriptParas && transcriptParas.length) || fragmentPath) {
+    content.append(buildTranscript(transcriptParas || [], fragmentPath));
   }
 
   const { showModal } = await createModal([content]);
@@ -151,7 +177,7 @@ function getSafeHash() {
   return rawHash;
 }
 
-function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo) {
+function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo, fragmentPath) {
   const li = document.createElement('li');
   const trigger = document.createElement('a');
   trigger.className = 'cards-video-link';
@@ -178,7 +204,7 @@ function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo
     if (hash) trigger.dataset.hash = hash;
     trigger.addEventListener('click', (e) => {
       e.preventDefault();
-      openVideoModal(href, hash, transcriptParas);
+      openVideoModal(href, hash, transcriptParas, fragmentPath);
     });
   }
 
@@ -197,13 +223,15 @@ function buildCardFromRow(row) {
   const hash = isVideo ? hashFromHref(href) : null;
   const headingText = getHeadingText(bodyCell, link);
   const transcriptParas = getTranscriptParas(bodyCell, link);
+  const fragmentPath = getFragmentPath(bodyCell);
 
   return {
     hash,
     href,
     isVideo,
     transcriptParas,
-    li: createCard(imageCell, href, hash, headingText, transcriptParas, isVideo),
+    fragmentPath,
+    li: createCard(imageCell, href, hash, headingText, transcriptParas, isVideo, fragmentPath),
   };
 }
 
@@ -216,7 +244,7 @@ export default function decorate(block) {
     ul.append(card.li);
     if (card.isVideo && card.hash && card.href) {
       videoEntries.set(card.hash, {
-        open: () => openVideoModal(card.href, card.hash, card.transcriptParas),
+        open: () => openVideoModal(card.href, card.hash, card.transcriptParas, card.fragmentPath),
       });
     }
   });
