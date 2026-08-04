@@ -109,15 +109,39 @@ main > .section.home-intro:has(.cards-cta) {
   border-radius: 0;
   box-shadow: var(--cards-cta-button-shadow);
   text-decoration: none;
-  transition: box-shadow var(--button-transition, 0.2s ease-in-out);
+  /* Swap instantly so the shadow, background, and text colors all change at
+     the same time — a timed transition on the offset shadow reads as lag. */
+  transition: none;
 }
 
 /* source: hovering the card flips the teal banner to a solid light-blue fill
    (background image removed) and recolors the heading + description to dark
-   blue. The bg lives on the <ul>, so recolor it on li:hover. */
-.cards-cta > ul:has(> li:hover) {
+   blue. Single-card banner: the bg lives on the <ul>, so flip the whole ul. */
+.cards-cta > ul:not(:has(> li:nth-child(2))):has(> li:hover) {
   background-color: var(--cards-cta-hover-bg-color);
   background-image: none;
+}
+
+/* Two-card banner: the teal bg image spans the whole shared <ul>, so flipping
+   the ul would highlight both halves at once. Instead, paint the light-blue
+   hover fill on the hovered <li> alone so only that card flips. Move the ul's
+   vertical padding onto the cards and stretch them to equal full height, so a
+   card's fill covers its entire half of the banner (no teal strips top/bottom)
+   and both halves stay level. */
+.cards-cta > ul:has(> li:nth-child(2)) {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.cards-cta > ul:has(> li:nth-child(2)) > li {
+  box-sizing: border-box;
+  height: 100%;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.cards-cta > ul:has(> li:nth-child(2)) > li:hover {
+  background-color: var(--cards-cta-hover-bg-color);
 }
 
 .cards-cta > ul > li:hover .cards-card-body h3,.cards-cta > ul > li:hover .cards-card-body h2,
