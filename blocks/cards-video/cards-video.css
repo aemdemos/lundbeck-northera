@@ -86,7 +86,22 @@
 
 /* ── video modal (opened on card click) ─────────────────────────────
    Brightcove player in a 16:9 responsive frame + a "Read the transcript"
-   accordion below it, matching the source's video popup. */
+   accordion below it, matching the source's video popup.
+
+   Mobile: the source renders this modal full-viewport-width with the video
+   bleeding edge-to-edge. Override the boilerplate's inset dialog + content
+   padding, scoped to the video modal only. */
+.modal dialog:has(.cards-video-modal-content) {
+  width: 100vw;
+  max-width: 100vw;
+  border: 0;
+}
+
+.modal dialog:has(.cards-video-modal-content) .modal-content {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .cards-video-modal-content .cards-video-player {
   position: relative;
   width: 100%;
@@ -104,6 +119,9 @@
 
 .cards-video-modal-content .cards-video-transcript-accordion {
   border-top: 1px solid var(--section-divider-color, #e5e5e5);
+
+  /* mobile: video is full-bleed, so the transcript row is inset on its own */
+  padding: 0 16px;
 }
 
 .cards-video-modal-content .cards-video-transcript-toggle {
@@ -114,7 +132,10 @@
   padding: 20px 0;
   border: 0;
   background: none;
-  color: var(--brand-cyan);
+
+  /* the global stepped cyan --button-shadow leaks onto <button>; suppress it */
+  box-shadow: none;
+  color: var(--brand-blue);
   font-family: var(--heading-font-family);
   font-size: 18px;
   font-weight: 700;
@@ -123,13 +144,14 @@
 }
 
 .cards-video-modal-content .cards-video-transcript-toggle::after {
-  content: '\25BC';
+  content: '\25B6';
+  color: var(--brand-cyan);
   font-size: 12px;
   transition: transform 0.2s ease-in-out;
 }
 
 .cards-video-modal-content .cards-video-transcript-toggle[aria-expanded='true']::after {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 
 .cards-video-modal-content .cards-video-transcript-panel {
@@ -148,5 +170,35 @@
   .cards-video ul {
     list-style: none;
     margin:36px 0;
+  }
+}
+
+/* Desktop (≥992px) — the source renders this modal borderless and much wider
+   (~66% of the viewport, up to ~1200px), with the video edge-to-edge and the
+   transcript label in brand cyan (vs. navy on mobile). The dialog stays
+   borderless via the base rule above. */
+@media (width >= 992px) {
+  .modal dialog:has(.cards-video-modal-content) {
+    width: calc(100vw - 80px);
+    max-width: 1200px;
+
+    /* the boilerplate reserves 2× the 143px header height, leaving too little
+       room for the tall 16:9 video (≈675px at 1200px wide) — it would clip and
+       scroll. Give this modal most of the viewport height so the whole video
+       and the transcript toggle are visible without scrolling. */
+    max-height: calc(100dvh - 32px);
+  }
+
+  .modal dialog:has(.cards-video-modal-content) .modal-content {
+    max-height: calc(100dvh - 32px - var(--modal-content-margin-top));
+  }
+
+  /* keep the video edge-to-edge; only the transcript row is inset */
+  .cards-video-modal-content .cards-video-transcript-accordion {
+    padding: 0 30px;
+  }
+
+  .cards-video-modal-content .cards-video-transcript-toggle {
+    color: var(--brand-cyan);
   }
 }
