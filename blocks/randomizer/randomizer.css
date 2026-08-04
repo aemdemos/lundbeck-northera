@@ -17,3 +17,10 @@
 .randomizer > .section:last-of-type {
   padding-bottom: 0;
 }
+
+/* The site's [#id] section-embed mechanism can leave a stray <p> wrapping the
+   embedded default variant (from the placeholder's original paragraph) —
+   drop its top margin so it doesn't add spacing above the embedded content. */
+.randomizer > p:has(> div) {
+  margin-top: 0;
+}
