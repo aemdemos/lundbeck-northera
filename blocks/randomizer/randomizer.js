@@ -4,6 +4,8 @@
  * (with a section-metadata id) and pulled in here via the site's [#id] nested
  * section syntax (see decorateNestedSections in scripts.js) — by the time this
  * block decorates, that row already holds the real, already-decorated content.
+ * The default row is optional: with no default authored, the block picks
+ * uniformly among just the "urls" alternates instead of (default + alternates).
  * A "urls" row holds alternate fragment URLs; on load, one of (default +
  * alternates) is picked with equal probability, so every variant — including
  * the default — gets roughly equal visibility over time.
@@ -43,16 +45,24 @@ export default async function decorate(block) {
   const rows = [...block.children];
   const urlsRow = extractLabeledRow(rows, 'urls');
   const defaultRows = rows;
+  const hasDefault = defaultRows.length > 0;
   const altUrls = urlsRow
     ? [...urlsRow.querySelectorAll('a')].map((a) => a.getAttribute('href')).filter(Boolean)
     : [];
 
+  // With a default row, index 0 means "keep it"; with no default, every pick
+  // maps directly to an alternate (there's nothing to keep).
+  const optionCount = altUrls.length + (hasDefault ? 1 : 0);
   // Not security-sensitive: only picks which variant to display, not a token/secret.
   // eslint-disable-next-line sonarjs/pseudo-random
-  const pick = Math.floor(Math.random() * (altUrls.length + 1));
+  const pick = optionCount > 0 ? Math.floor(Math.random() * optionCount) : -1;
+  const altIndex = hasDefault ? pick - 1 : pick;
 
-  if (pick > 0) {
-    const fragment = await loadFragment(altUrls[pick - 1]);
+  if (altIndex >= 0) {
+    // altIndex is a numeric index derived only from Math.random() and array
+    // length, never from external input — not an object-injection risk.
+    // eslint-disable-next-line secure-coding/detect-object-injection
+    const fragment = await loadFragment(altUrls[altIndex]);
     if (fragment) {
       block.replaceChildren(...fragment.childNodes);
       prioritizeLcpImage(block);
