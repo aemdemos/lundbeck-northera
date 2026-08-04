@@ -109,6 +109,7 @@ main > .section.home-intro:has(.cards-cta) {
   border-radius: 0;
   box-shadow: var(--cards-cta-button-shadow);
   text-decoration: none;
+
   /* Swap instantly so the shadow, background, and text colors all change at
      the same time — a timed transition on the offset shadow reads as lag. */
   transition: none;
