@@ -32,14 +32,17 @@ function buildPlayer(href) {
 }
 
 // Loads the transcript's ISI fragment into the panel. The modal is built after
-// page load, so it never passes through the page-level buildAutoBlocks().
-async function appendTranscriptFragment(panel, fragmentPath) {
+// page load, so it never passes through the page-level buildAutoBlocks(). The
+// optional closeEl is re-appended last so it stays at the very bottom.
+async function appendTranscriptFragment(panel, fragmentPath, closeEl) {
   try {
     const fragment = await loadFragment(fragmentPath);
     if (fragment) panel.append(...fragment.childNodes);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Transcript fragment loading failed', error);
+  } finally {
+    if (closeEl) panel.append(closeEl);
   }
 }
 
@@ -57,7 +60,6 @@ function buildTranscript(paragraphs, fragmentPath) {
   panel.className = 'cards-video-transcript-panel';
   panel.hidden = true;
   paragraphs.forEach((p) => panel.append(p.cloneNode(true)));
-  if (fragmentPath) appendTranscriptFragment(panel, fragmentPath);
 
   button.addEventListener('click', () => {
     const open = button.getAttribute('aria-expanded') === 'true';
@@ -65,14 +67,21 @@ function buildTranscript(paragraphs, fragmentPath) {
     panel.hidden = open;
   });
 
-  // Source parity: a "Close the transcript" control at the end of the panel
-  // mirrors the toggle button that opened it.
-  if (isTranscriptLabel(button.textContent)) {
-    panel.append(buildTranscriptClose(() => {
+  // Source parity: a "Close the transcript" control mirrors the toggle. It sits
+  // at the very end of the panel — below the ISI fragment, so it is appended
+  // after the fragment loads (see appendTranscriptFragment).
+  const close = isTranscriptLabel(button.textContent)
+    ? buildTranscriptClose(() => {
       button.setAttribute('aria-expanded', 'false');
       panel.hidden = true;
       button.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }));
+    })
+    : null;
+
+  if (fragmentPath) {
+    appendTranscriptFragment(panel, fragmentPath, close);
+  } else if (close) {
+    panel.append(close);
   }
 
   details.append(button, panel);
