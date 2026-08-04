@@ -164,8 +164,10 @@ async function buildLazyAutoBlocks() {
  */
 function buildAutoBlocks(main) {
   try {
-    // auto load `*/fragments/*` references
-    const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')].filter((f) => !f.closest('.fragment'));
+    // auto load `*/fragments/*` references. Skip .cards-video — it loads its
+    // own ISI fragment into the modal; auto-loading would consume the link first.
+    const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')]
+      .filter((f) => !f.closest('.fragment') && !f.closest('.cards-video'));
     if (fragments.length > 0) {
       // eslint-disable-next-line import/no-cycle
       import('../blocks/fragment/fragment.js').then(({ loadFragment }) => {
