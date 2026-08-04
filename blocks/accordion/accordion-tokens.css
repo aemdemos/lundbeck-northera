@@ -187,6 +187,34 @@ main .accordion .accordion-item-body p { /* @libs */
   line-height: var(--accordion-body-line-height); /* @libs */
 }
 
+/* "Close the transcript" — mirrors the active label's presentation, with a
+   trailing up-triangle glyph (the label's own glyph points down while open)
+   and source's 50px breathing room before the card's bottom edge. */
+main .accordion .transcript-close {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--accordion-label-gap);
+  padding-bottom: 50px;
+  color: var(--accordion-label-active-color);
+  font-family: var(--body-font-family);
+  font-size: var(--accordion-label-font-size);
+  font-weight: var(--accordion-label-font-weight);
+  cursor: pointer;
+}
+
+main .accordion .transcript-close::after {
+  content: '\e253'; /* @libs — glyphicon-triangle-top */
+  display: inline-block;
+  padding: var(--accordion-icon-padding);
+  font-family: var(--accordion-icon-font-family);
+  font-style: normal;
+  font-weight: 400;
+  font-size: var(--accordion-icon-font-size);
+  line-height: 1;
+  color: var(--accordion-label-active-color);
+  -webkit-font-smoothing: antialiased;
+}
+
 @media (width <= 768px) {
   main .accordion .accordion-item-body {
     padding: 0 25px; /* @libs — source .cmp-accordion__panel .cmp-text */

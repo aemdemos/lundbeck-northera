@@ -1,4 +1,5 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
+import { isTranscriptLabel, buildTranscriptClose } from '../../scripts/scripts.js';
 import { createModal } from '../modal/modal.js';
 
 /**
@@ -56,6 +57,16 @@ function buildTranscript(paragraphs) {
     button.setAttribute('aria-expanded', String(!open));
     panel.hidden = open;
   });
+
+  // Source parity: a "Close the transcript" control at the end of the panel
+  // mirrors the toggle button that opened it.
+  if (isTranscriptLabel(button.textContent)) {
+    panel.append(buildTranscriptClose(() => {
+      button.setAttribute('aria-expanded', 'false');
+      panel.hidden = true;
+      button.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }));
+  }
 
   details.append(button, panel);
   return details;

@@ -1,4 +1,14 @@
-import { moveInstrumentation } from '../../scripts/scripts.js';
+import { moveInstrumentation, isTranscriptLabel, buildTranscriptClose } from '../../scripts/scripts.js';
+
+// Source parity: a transcript accordion gets a "Close the transcript" control
+// at the end of its body, mirroring the label that opened it.
+function addTranscriptClose(li, label, body) {
+  if (!label || !isTranscriptLabel(label.textContent)) return;
+  body.append(buildTranscriptClose(() => {
+    li.classList.remove('active');
+    li.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }));
+}
 
 export default function decorate(block) {
   const ul = document.createElement('ul');
@@ -28,7 +38,10 @@ export default function decorate(block) {
         if (detail.textContent.trim()) labelText.append(detail);
       }
     }
-    if (body !== null && body !== undefined) body.className = 'accordion-item-body';
+    if (body !== null && body !== undefined) {
+      body.className = 'accordion-item-body';
+      addTranscriptClose(li, label, body);
+    }
 
     // The whole card toggles the item; clicks inside the open body are ignored
     // so links stay clickable and body text stays selectable.
