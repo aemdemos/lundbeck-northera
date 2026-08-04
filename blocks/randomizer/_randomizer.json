@@ -21,10 +21,19 @@
       "id": "randomizer",
       "fields": [
         {
+          "component": "text",
+          "valueType": "string",
+          "name": "default",
+          "label": "Default (section reference)",
+          "description": "The default variant, authored as its own section elsewhere on the page with a section-metadata id, pulled in here via [#id] (e.g. [#bob]).",
+          "value": ""
+        },
+        {
           "component": "aem-content",
           "valueType": "string",
           "name": "urls",
           "label": "URLs",
+          "description": "Alternate fragments to swap in at random. Do not include the default variant — that's referenced above via [#id].",
           "multi": true
         }
       ]

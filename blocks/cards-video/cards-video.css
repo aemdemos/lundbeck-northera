@@ -173,6 +173,25 @@
   line-height: 22px;
 }
 
+/* "Close the transcript" — mirrors the toggle button's presentation, with a
+   trailing up-triangle (the toggle's own arrow already points up while open,
+   via its 180deg rotation, so this uses the same glyph in its resting state) */
+.cards-video-modal-content .cards-video-transcript-panel .transcript-close {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--brand-cyan);
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cards-video-modal-content .cards-video-transcript-panel .transcript-close::after {
+  content: '\25B2';
+  font-size: 12px;
+}
+
 @media (width >= 768px) {
   .cards-video ul {
     list-style: none;

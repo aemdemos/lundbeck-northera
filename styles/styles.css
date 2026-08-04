@@ -67,7 +67,7 @@
   --body-font-family: gotham-medium, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
   --heading-font-family: gotham-bold, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
   --heading-heavy-font-family: gotham-black, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
-  --body-line-height: 1.43;
+  --body-line-height: 1.25;
   --heading-font-weight: 700;
   --heading-line-height: 1.2;
   --font-weight-bold: 700;
@@ -169,6 +169,42 @@
   --button-on-dark-secondary-hover-background: #fff;
   --button-on-dark-secondary-hover-border-color: #fff;
   --button-on-dark-secondary-hover-color: var(--brand-blue);
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 400;
+  size-adjust: 96%;
+  ascent-override: 95%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 500;
+  size-adjust: 96%;
+  ascent-override: 95%;
+  src: local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 700;
+  size-adjust: 98%;
+  ascent-override: 95%;
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Arial');
+}
+
+@font-face {
+  font-family: gotham-fallback;
+  font-style: normal;
+  font-weight: 900;
+  size-adjust: 100%;
+  ascent-override: 95%;
+  src: local('Arial Black'), local('Arial-Black'), local('Arial Bold'), local('Arial');
 }
 
 body {
@@ -313,9 +349,10 @@ blockquote {
 
 /* body copy on white uses brand blue on the source */
 main p {
-  font-size: var(--body-font-size-m);
-  line-height: 1.65;
+  font-size: var(--body-font-size-s);
+  line-height: var(--body-line-height);
   color: var(--text-color);
+  margin-bottom: .61em; /* is 10px for 16px font */
 }
 
 /* global bullet lists: brand-cyan markers (matching inline links) at normal
@@ -327,7 +364,7 @@ main ul {
   padding-inline-start: 0.9em;
 }
 
-/* list text matches the source's 18px body size with open 1.6 line-height
+/* list text matches the source's /about-northera 18px body size with open 1.6 line-height
    (top-level items wrap their text in <p>; nested items hold text in <li>) */
 main ul li,
 main ul li p {
@@ -338,7 +375,7 @@ main ul li p {
 /* even vertical rhythm between every item — drive spacing from the <li> so
    nested items (no inner <p>) get the same gap as top-level ones */
 main ul li {
-  margin-bottom: 28px;
+  margin-bottom: 1.1em;
 }
 
 main ul li p {
@@ -350,9 +387,16 @@ main ul ul {
   margin-top: 0;
 }
 
+main .cards ul ul,
+main .accordion ul ul {
+  list-style-type: disc;
+}
+
 main ul li::marker,
 main .cards ul li::marker,
-main .cards ul ul li::marker {
+main .cards ul ul li::marker,
+main .accordion ul li::marker,
+main .accordion ul ul li::marker {
   color: var(--brand-cyan);
 }
 
@@ -1300,6 +1344,11 @@ main .section.accent h6 {
    line-height: 36px;
    margin: 0;
    padding: 40px 0 30px;
+  }
+
+  main p {
+    font-size: var(--body-font-size-m);
+    line-height: 1.66;
   }
 
   /* ==== START alignment + display for desktop ==== */
