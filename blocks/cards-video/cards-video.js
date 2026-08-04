@@ -31,6 +31,22 @@ function buildPlayer(href) {
   return wrapper;
 }
 
+/**
+ * Positions the video modal's <dialog> vertically: centered in the viewport
+ * when it fits, else pinned near the top so it stays fully reachable and the
+ * page scrolls (source parity). A showModal() dialog is in the top layer, so
+ * this can't be done in CSS alone. Safe to call whenever the height changes.
+ * @param {HTMLElement} el any element inside the modal content
+ */
+function positionVideoModal(el) {
+  const dialog = el.closest('dialog');
+  if (!dialog) return;
+  const minTop = window.innerWidth >= 992 ? 0 : 30;
+  dialog.style.top = `${minTop}px`; // reset before measuring natural height
+  const { height } = dialog.getBoundingClientRect();
+  dialog.style.top = `${Math.max(minTop, (window.innerHeight - height) / 2)}px`;
+}
+
 // Loads the transcript's ISI fragment into the panel. The modal is built after
 // page load, so it never passes through the page-level buildAutoBlocks(). The
 // optional closeEl is re-appended last so it stays at the very bottom.
@@ -43,6 +59,8 @@ async function appendTranscriptFragment(panel, fragmentPath, closeEl) {
     console.error('Transcript fragment loading failed', error);
   } finally {
     if (closeEl) panel.append(closeEl);
+    // fragment/close change the panel height; re-center if the panel is open
+    if (!panel.hidden) positionVideoModal(panel);
   }
 }
 
@@ -65,6 +83,7 @@ function buildTranscript(paragraphs, fragmentPath) {
     const open = button.getAttribute('aria-expanded') === 'true';
     button.setAttribute('aria-expanded', String(!open));
     panel.hidden = open;
+    positionVideoModal(button); // height changed — re-center/re-pin
   });
 
   // Source parity: a "Close the transcript" control mirrors the toggle. It sits
@@ -149,6 +168,13 @@ async function openVideoModal(href, hash, transcriptParas, fragmentPath) {
     window.history.replaceState(null, '', `#${hash}`);
   }
   showModal();
+
+  // Center/pin the dialog now and on resize (removed when the modal closes).
+  positionVideoModal(content);
+  const dialog = content.closest('dialog');
+  const reposition = () => positionVideoModal(content);
+  window.addEventListener('resize', reposition);
+  dialog?.addEventListener('close', () => window.removeEventListener('resize', reposition), { once: true });
 }
 
 function resolveCardHref(href, isVideo, hash) {
