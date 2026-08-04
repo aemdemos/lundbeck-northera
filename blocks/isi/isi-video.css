@@ -194,9 +194,12 @@
   margin-bottom: 0 !important;
 }
 
+/* left-aligned, unlike main .isi .isi-warningbox p:first-child (which centers
+   this line) — verified against stage that this embedded-in-transcript
+   context keeps it left-aligned instead */
 .isi-video blockquote p:first-child {
   margin-bottom: 20px !important;
-  text-align: center;
+  text-align: left;
 }
 
 /* font-size uses --isi-warningbox-font-size (18px), not the shared
