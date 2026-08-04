@@ -32,19 +32,25 @@ function buildPlayer(href) {
 }
 
 /**
- * Positions the video modal's <dialog> vertically: centered in the viewport
- * when it fits, else pinned near the top so it stays fully reachable and the
- * page scrolls (source parity). A showModal() dialog is in the top layer, so
- * this can't be done in CSS alone. Safe to call whenever the height changes.
+ * Positions the video modal's <dialog> vertically. Desktop centers in the
+ * viewport when it fits; mobile rests partway down (not fully centered).
+ * Either way, a modal taller than the viewport is pinned near the top so it
+ * stays fully reachable and the page scrolls (source parity). A showModal()
+ * dialog is in the top layer, so this can't be done in CSS alone.
  * @param {HTMLElement} el any element inside the modal content
  */
 function positionVideoModal(el) {
   const dialog = el.closest('dialog');
   if (!dialog) return;
-  const minTop = window.innerWidth >= 992 ? 0 : 30;
+  const isDesktop = window.innerWidth >= 992;
+  const minTop = isDesktop ? 0 : 30;
   dialog.style.top = `${minTop}px`; // reset before measuring natural height
   const { height } = dialog.getBoundingClientRect();
-  dialog.style.top = `${Math.max(minTop, (window.innerHeight - height) / 2)}px`;
+  const centered = (window.innerHeight - height) / 2;
+  // desktop: fully centered; mobile: split the difference between the top
+  // offset and centered so a short modal sits a bit lower, not mid-screen.
+  const resting = isDesktop ? centered : (minTop + centered) / 2;
+  dialog.style.top = `${Math.max(minTop, resting)}px`;
 }
 
 // Loads the transcript's ISI fragment into the panel. The modal is built after
