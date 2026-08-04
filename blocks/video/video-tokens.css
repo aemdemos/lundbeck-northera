@@ -62,6 +62,10 @@
       margin-right: 8%;
     }
 
+    .accordion .accordion-item-body p {
+      font-size: 18px;
+  }
+
     .accordion .accordion-item-label {
       font-size: 25px;
     }
