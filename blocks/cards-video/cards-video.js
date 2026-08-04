@@ -17,21 +17,14 @@ import { loadFragment } from '../fragment/fragment.js';
  * @param {Element} block
  */
 
-function buildAutoplaySrc(playerHref) {
-  if (playerHref.includes('autoplay')) return playerHref;
-
-  const separator = playerHref.includes('?') ? '&' : '?';
-  return `${playerHref}${separator}autoplay=true`;
-}
-
 function buildPlayer(href) {
   const wrapper = document.createElement('div');
   wrapper.className = 'cards-video-player';
-  // Strip any deep-link fragment (e.g. #howiuse) before building the player src.
+  // No autoplay: open paused on the play overlay. Strip any deep-link fragment.
   const playerHref = href.split('#')[0];
   const iframe = document.createElement('iframe');
-  iframe.src = buildAutoplaySrc(playerHref);
-  iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
+  iframe.src = playerHref;
+  iframe.setAttribute('allow', 'encrypted-media; picture-in-picture; fullscreen');
   iframe.setAttribute('allowfullscreen', '');
   iframe.setAttribute('title', 'Video player');
   wrapper.append(iframe);

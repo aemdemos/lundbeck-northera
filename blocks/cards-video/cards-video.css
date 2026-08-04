@@ -84,9 +84,33 @@
   }
 }
 
-/* ── video modal (opened on card click) ─────────────────────────────
-   Brightcove player in a 16:9 responsive frame + a "Read the transcript"
-   accordion below it, matching the source's video popup. */
+/* ── video modal ─────────────────────────────────────────────────────
+   16:9 player + "Read the transcript" accordion. Mobile: full-bleed,
+   edge-to-edge video, transparent top strip (shows the dimmed page). */
+.modal dialog:has(.cards-video-modal-content) {
+  width: 100vw;
+  max-width: 100vw;
+  border: 0;
+  background: transparent;
+}
+
+.modal dialog:has(.cards-video-modal-content) .modal-content {
+  padding-left: 0;
+  padding-right: 0;
+  background: var(--background-color);
+}
+
+/* close button (source): a brand-cyan square with a thicker white X */
+.modal dialog:has(.cards-video-modal-content) .close-button {
+  background-color: var(--brand-cyan);
+  color: #fff;
+}
+
+.modal dialog:has(.cards-video-modal-content) .close-button .icon.icon-close::before,
+.modal dialog:has(.cards-video-modal-content) .close-button .icon.icon-close::after {
+  height: 3px;
+}
+
 .cards-video-modal-content .cards-video-player {
   position: relative;
   width: 100%;
@@ -104,6 +128,9 @@
 
 .cards-video-modal-content .cards-video-transcript-accordion {
   border-top: 1px solid var(--section-divider-color, #e5e5e5);
+
+  /* mobile: video is full-bleed, so the transcript row is inset on its own */
+  padding: 0 16px;
 }
 
 .cards-video-modal-content .cards-video-transcript-toggle {
@@ -114,7 +141,8 @@
   padding: 20px 0;
   border: 0;
   background: none;
-  color: var(--brand-cyan);
+  box-shadow: none; /* suppress the global stepped --button-shadow */
+  color: var(--brand-blue);
   font-family: var(--heading-font-family);
   font-size: 18px;
   font-weight: 700;
@@ -123,13 +151,14 @@
 }
 
 .cards-video-modal-content .cards-video-transcript-toggle::after {
-  content: '\25BC';
+  content: '\25B6';
+  color: var(--brand-cyan);
   font-size: 12px;
   transition: transform 0.2s ease-in-out;
 }
 
 .cards-video-modal-content .cards-video-transcript-toggle[aria-expanded='true']::after {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
 }
 
 .cards-video-modal-content .cards-video-transcript-panel {
@@ -167,5 +196,28 @@
   .cards-video ul {
     list-style: none;
     margin:36px 0;
+  }
+}
+
+/* Desktop (≥992px) — wider (up to 1200px), transcript label in cyan (navy on
+   mobile). Raise max-height so the tall 16:9 video fits without scrolling. */
+@media (width >= 992px) {
+  .modal dialog:has(.cards-video-modal-content) {
+    width: calc(100vw - 80px);
+    max-width: 1200px;
+    max-height: calc(100dvh - 32px);
+  }
+
+  .modal dialog:has(.cards-video-modal-content) .modal-content {
+    max-height: calc(100dvh - 32px - var(--modal-content-margin-top));
+  }
+
+  /* keep the video edge-to-edge; only the transcript row is inset */
+  .cards-video-modal-content .cards-video-transcript-accordion {
+    padding: 0 30px;
+  }
+
+  .cards-video-modal-content .cards-video-transcript-toggle {
+    color: var(--brand-cyan);
   }
 }

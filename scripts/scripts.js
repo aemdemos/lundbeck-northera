@@ -189,11 +189,10 @@ async function buildLazyAutoBlocks() {
  */
 function buildAutoBlocks(main) {
   try {
-    // auto load `*/fragments/*` references — excludes links already inside a
-    // .fragment block, and inside .randomizer, which stores fragment URLs as
-    // configuration for its own JS to read, not content to auto-expand.
+    // auto load `*/fragments/*` references. Skip blocks that read fragment
+    // links as their own config/content: .fragment, .randomizer, .cards-video.
     const fragments = [...main.querySelectorAll('a[href*="/fragments/"]')]
-      .filter((f) => !f.closest('.fragment') && !f.closest('.randomizer'));
+      .filter((f) => !f.closest('.fragment') && !f.closest('.randomizer') && !f.closest('.cards-video'));
     if (fragments.length > 0) {
       // eslint-disable-next-line import/no-cycle
       import('../blocks/fragment/fragment.js').then(({ loadFragment }) => {
@@ -1193,6 +1192,21 @@ function decorateNestedSections(main) {
 
 /* === END BRACKET TAGS === */
 
+/**
+ * The ISI fragment resolves asynchronously and, once loaded, is hoisted to a
+ * direct child of <main> so the desktop rail layout can size the content
+ * column. Marking `has-isi-rail` here — from the fragment reference already
+ * present in the raw markup — lets styles.css apply that width split from the
+ * first paint instead of reflowing everything once the fetch resolves later
+ * (see styles/styles.css, ≥1200px `main.has-isi-rail` rules).
+ * @param {Element} main The container element
+ */
+function markIsiRailHost(main) {
+  const isiLink = [...main.querySelectorAll('.fragment a[href^="/fragments/"]')]
+    .find((a) => /isi/i.test(a.getAttribute('href')));
+  if (isiLink) main.classList.add('has-isi-rail');
+}
+
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateIconsAndBullets(main);
@@ -1222,6 +1236,7 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     decorateMain(main);
+    markIsiRailHost(main);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
