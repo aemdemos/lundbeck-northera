@@ -92,11 +92,10 @@ function hashFromHref(href) {
   return m ? `video-${m[1]}` : '';
 }
 
-function getHeadingText(bodyCell, link) {
+function getHeadingInfo(bodyCell, link) {
   const heading = bodyCell ? bodyCell.querySelector('h2, h3, h4') : null;
-  if (heading) return heading.textContent.trim();
-  if (link) return link.textContent.trim();
-  return '';
+  if (heading) return { text: heading.textContent.trim(), tag: heading.tagName.toLowerCase() };
+  return { text: link ? link.textContent.trim() : '', tag: 'h3' };
 }
 
 function getTranscriptParas(bodyCell, link) {
@@ -177,7 +176,7 @@ function getSafeHash() {
   return rawHash;
 }
 
-function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo, fragmentPath) {
+function createCard(imageCell, href, hash, headingText, headingTag, transcriptParas, isVideo, fragmentPath) {
   const li = document.createElement('li');
   const trigger = document.createElement('a');
   trigger.className = 'cards-video-link';
@@ -195,7 +194,7 @@ function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo
 
   const desc = document.createElement('div');
   desc.className = 'cards-video-body';
-  const heading = document.createElement('h3');
+  const heading = document.createElement(headingTag);
   heading.textContent = headingText;
   desc.append(heading);
   trigger.append(desc);
@@ -221,7 +220,7 @@ function buildCardFromRow(row) {
   const href = getSafeVideoHref(rawHref);
   const isVideo = Boolean(href);
   const hash = isVideo ? hashFromHref(href) : null;
-  const headingText = getHeadingText(bodyCell, link);
+  const { text: headingText, tag: headingTag } = getHeadingInfo(bodyCell, link);
   const transcriptParas = getTranscriptParas(bodyCell, link);
   const fragmentPath = getFragmentPath(bodyCell);
 
@@ -231,7 +230,7 @@ function buildCardFromRow(row) {
     isVideo,
     transcriptParas,
     fragmentPath,
-    li: createCard(imageCell, href, hash, headingText, transcriptParas, isVideo, fragmentPath),
+    li: createCard(imageCell, href, hash, headingText, headingTag, transcriptParas, isVideo, fragmentPath),
   };
 }
 
