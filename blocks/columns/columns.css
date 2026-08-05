@@ -5,6 +5,28 @@ main > .section:first-of-type:has(.columns.icon-text) {
   padding: 0;
 }
 
+/* hero variant — full-bleed image row (e.g. every-patient-story-matters).
+   Side-padding is already excluded via styles.css's full-bleed exclusion
+   lists (.columns.hero alongside .hero-wrapper, .cards-cta-wrapper, etc.).
+   The wrapper's own max-width cap (main > .section > div: 540px mobile,
+   var(--max-width-site) desktop) has no :not() exclusion, so it's lifted
+   here instead, at higher specificity via :has() — mirrors hero.css's own
+   `.hero-container .hero-wrapper { max-width: unset; }` for the same
+   reason. The merged art-direction picture (see columns.js) still requests
+   its desktop-tier asset at a fixed 992px regardless of viewport (a
+   limitation of createArtDirectionPicture in scripts/utils.js, shared by
+   every 2-image art-direction cell sitewide) — stretching it to 100% here
+   fixes the layout gap but will look slightly soft at very wide viewports;
+   fixing the resolution itself would mean changing that shared utility. */
+.columns-wrapper:has(.columns.hero) {
+  max-width: unset;
+}
+
+.columns.hero > div > .columns-img-col img {
+  width: 100%;
+  height: auto;
+}
+
 /* base override — only the columns wrapper goes full-bleed (the cyan NSC band);
    the hero H1 wrapper keeps normal flow so it can be inset like the source. A
    sibling block in the same section (e.g. .cards-wrapper) keeps its own padding. */
