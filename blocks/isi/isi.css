@@ -264,15 +264,15 @@ main .isi a:hover {
   content: '';
   top: 50%;
   left: 50%;
-  width: 12px;
-  height: 2px;
+  width: 16px;
+  height: 4px;
   transform: translate(-50%, -50%);
 }
 
 /* vertical stroke → makes the "+" ; removed when open → "−" */
 .isi-bar-toggle-icon::after {
-  width: 2px;
-  height: 12px;
+  width: 4px;
+  height: 16px;
 }
 
 .isi-desktop-toggle {
@@ -309,6 +309,7 @@ main .isi a:hover {
   font-family: var(--isi-heading-font);
   font-size: 18px;
   line-height: 22px;
+  color: var(--isi-body-color);
   margin: 0;
 }
 
@@ -488,32 +489,14 @@ body.hcp main > .section:has(+ .isi-please-see-section) p:last-child {
      (no grid row-stretch → no empty gap). */
 
   /* the content+rail unit is capped at 1680px and centered (source:
-     .cmp-layout-main-section is 1680 wide, margin auto — content 1400 / rail 280). */
-  main:has(> .section.isi-container) {
-    display: block;
-    position: relative;
-    max-width: var(--isi-layout-max-width);
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  main:has(> .section.isi-container) > .section:not(.isi-container) {
-    width: 83.3333%;
-    margin-left: 0;
-    margin-right: 0;
-    box-sizing: border-box;
-  }
-
-  main:has(> .section.isi-container) > .section.isi-container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 16.6667%;
-    margin: 0;
-    padding: 0;
-    border-left: 1px solid var(--isi-rail-border-color);
-    box-sizing: border-box;
-  }
+     .cmp-layout-main-section is 1680 wide, margin auto — content 1400 / rail 280).
+     The main/section/rail WIDTH split itself lives in styles/styles.css (same
+     ≥1200px breakpoint, `main.has-isi-rail` rules) instead of here: this
+     stylesheet is only fetched once the isi block decorates (async, often
+     after the ISI's own fragment fetch resolves), so a width rule living here
+     would apply well after first paint and reflow the already-painted content
+     column from 100% down to 83.3% — a CLS regression. Keep the two in sync if
+     the rail proportions ever change. */
 
   /* Source parity: on expand the left content, please-see blurb and site header
      stay visible but dim to 0.2 opacity (jQuery sets opacity 0.2); the model
