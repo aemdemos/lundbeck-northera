@@ -69,9 +69,9 @@
   --heading-font-family: gotham-bold, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
   --heading-heavy-font-family: gotham-black, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
   --body-line-height: 1.25;
-  --heading-font-weight: 700;
+  --heading-font-weight: unset;
   --heading-line-height: 1.2;
-  --font-weight-bold: 700;
+  --font-weight-bold: unset;
   --block-margin-top: 0.8em;
   --block-margin-bottom: 0.25em;
 
@@ -318,6 +318,7 @@ h3 {
 
 h4 {
   font-size: var(--heading-font-size-m);
+  font-family: var(--body-font-family);
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
   color: var(--brand-primary);
@@ -338,8 +339,9 @@ h6 {
 }
 
 /* bold inline text uses Gotham-Bold (source parity) */
-strong {
+b, strong {
   font-family: var(--heading-font-family);
+  font-weight: unset;
 }
 
 p,

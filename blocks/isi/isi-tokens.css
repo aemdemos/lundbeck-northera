@@ -12,7 +12,7 @@
   --isi-list-line-height: 1.3;
   --isi-list-item-margin-bottom: 10px;
   --isi-title-line-height: 22px;
-  --isi-font-weight-bold: 700;
+  --isi-font-weight-bold: unset;
   --isi-link-color: #02bded;
 
   /* headings ("Use", "IMPORTANT SAFETY INFORMATION") */
