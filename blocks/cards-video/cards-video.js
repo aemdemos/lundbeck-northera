@@ -31,15 +31,28 @@ function buildPlayer(href) {
   return wrapper;
 }
 
-/**
- * Fetches the video-isi fragment fresh (styling is handled entirely by
- * isi-video.css, loaded globally — no decoration step needed here). The
- * page's own generic fragment auto-loader (scripts.js) resolves this same
- * link too, but that resolution is async and targets the original authored
- * paragraph — by the time this block replaces its content, that reference
- * would be stale, so this fetches its own fresh copy instead.
- * @param {string} isiFragmentHref the fragment link's href (e.g. /fragments/video-isi)
- */
+// Sets the modal's top once from its collapsed height (panel measured hidden),
+// so expanding the transcript grows it downward with no upward shift. Desktop
+// centers; mobile rests just below the top. Top-layer dialog — can't be CSS.
+function positionVideoModal(el) {
+  const dialog = el.closest('dialog');
+  if (!dialog) return;
+  const panel = dialog.querySelector('.cards-video-transcript-panel');
+  const wasOpen = panel && !panel.hidden;
+  if (panel) panel.hidden = true; // measure collapsed height
+  const isDesktop = window.innerWidth >= 992;
+  const minTop = isDesktop ? 0 : 30;
+  dialog.style.top = `${minTop}px`; // reset before measuring
+  const collapsedHeight = dialog.getBoundingClientRect().height;
+  if (panel) panel.hidden = !wasOpen; // restore prior state
+  const centered = (window.innerHeight - collapsedHeight) / 2;
+  // desktop: center the collapsed modal; mobile: rest just below the top
+  const resting = isDesktop ? centered : minTop + Math.max(0, (centered - minTop) * 0.35);
+  dialog.style.top = `${Math.max(minTop, resting)}px`;
+}
+
+// Fetches a fresh copy of the ISI fragment's .isi-video (styled by the global
+// isi-video.css). Own copy because the page's auto-loader would leave a stale ref.
 async function loadIsiVideo(isiFragmentHref) {
   try {
     const { pathname } = new URL(isiFragmentHref, window.location.href);
@@ -76,10 +89,10 @@ async function buildTranscript(paragraphs, isiFragmentHref) {
     const open = button.getAttribute('aria-expanded') === 'true';
     button.setAttribute('aria-expanded', String(!open));
     panel.hidden = open;
+    // no reposition here: the modal keeps its resting top and grows downward
   });
 
-  // Source parity: a "Close the transcript" control at the end of the panel
-  // mirrors the toggle button that opened it.
+  // "Close the transcript" control at the end of the panel, mirroring the toggle.
   if (isTranscriptLabel(button.textContent)) {
     panel.append(buildTranscriptClose(() => {
       button.setAttribute('aria-expanded', 'false');
@@ -92,11 +105,8 @@ async function buildTranscript(paragraphs, isiFragmentHref) {
   return details;
 }
 
-/**
- * Read the deep-link anchor for a video card. The parser appends the source
- * anchor (e.g. #howiuse) as a fragment on the player URL; fall back to a
- * videoId-derived hash if none is present.
- */
+// Deep-link anchor for a card: the #fragment on the player URL (e.g. #howiuse),
+// falling back to a videoId-derived hash.
 function hashFromHref(href) {
   if (!href) return '';
   const frag = href.split('#')[1];
@@ -120,12 +130,8 @@ function getTranscriptParas(bodyCell, link) {
   ));
 }
 
-/**
- * A transcript's ISI text is authored as a bare fragment link (e.g.
- * /fragments/video-isi), same paragraph shape as the video's own link, so
- * getTranscriptParas already excludes it from the display paragraphs above.
- * @param {Element} bodyCell
- */
+// The ISI is authored as a bare /fragments/ link; getTranscriptParas already
+// excludes it from the display paragraphs.
 function getIsiFragmentHref(bodyCell) {
   if (!bodyCell) return null;
   const isiLink = bodyCell.querySelector(':scope > p > a[href*="/fragments/"]');
@@ -145,6 +151,13 @@ async function openVideoModal(href, hash, transcriptParas, isiFragmentHref) {
     window.history.replaceState(null, '', `#${hash}`);
   }
   showModal();
+
+  // Center/pin the dialog now and on resize (removed when the modal closes).
+  positionVideoModal(content);
+  const dialog = content.closest('dialog');
+  const reposition = () => positionVideoModal(content);
+  window.addEventListener('resize', reposition);
+  dialog?.addEventListener('close', () => window.removeEventListener('resize', reposition), { once: true });
 }
 
 function resolveCardHref(href, isVideo, hash) {
@@ -262,8 +275,7 @@ export default function decorate(block) {
   block.textContent = '';
   block.append(ul);
 
-  // Deep-link support: opening the page with a matching hash (e.g. #howiuse)
-  // opens that video, matching the source's deep-linkable behavior.
+  // Deep-link: a matching hash (e.g. #howiuse) opens that video on load.
   const openFromHash = () => {
     const hash = getSafeHash();
     if (!hash) return;
