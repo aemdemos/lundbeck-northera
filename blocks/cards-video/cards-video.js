@@ -32,24 +32,28 @@ function buildPlayer(href) {
 }
 
 /**
- * Positions the video modal's <dialog> vertically. Desktop centers in the
- * viewport when it fits; mobile rests partway down (not fully centered).
- * Either way, a modal taller than the viewport is pinned near the top so it
- * stays fully reachable and the page scrolls (source parity). A showModal()
- * dialog is in the top layer, so this can't be done in CSS alone.
+ * Positions the video modal's <dialog> vertically ONCE, based on its collapsed
+ * height (player + toggle) — the transcript panel is measured while hidden so
+ * the resting position never depends on it. Expanding the transcript then just
+ * grows the modal downward from this fixed top (source parity: no upward shift).
+ * Desktop centers the collapsed modal; mobile rests a little below the top.
+ * A showModal() dialog is in the top layer, so this can't be done in CSS alone.
  * @param {HTMLElement} el any element inside the modal content
  */
 function positionVideoModal(el) {
   const dialog = el.closest('dialog');
   if (!dialog) return;
+  const panel = dialog.querySelector('.cards-video-transcript-panel');
+  const wasOpen = panel && !panel.hidden;
+  if (panel) panel.hidden = true; // measure collapsed height
   const isDesktop = window.innerWidth >= 992;
   const minTop = isDesktop ? 0 : 30;
-  dialog.style.top = `${minTop}px`; // reset before measuring natural height
-  const { height } = dialog.getBoundingClientRect();
-  const centered = (window.innerHeight - height) / 2;
-  // desktop: fully centered; mobile: split the difference between the top
-  // offset and centered so a short modal sits a bit lower, not mid-screen.
-  const resting = isDesktop ? centered : (minTop + centered) / 2;
+  dialog.style.top = `${minTop}px`; // reset before measuring
+  const collapsedHeight = dialog.getBoundingClientRect().height;
+  if (panel) panel.hidden = !wasOpen; // restore prior state
+  const centered = (window.innerHeight - collapsedHeight) / 2;
+  // desktop: center the collapsed modal; mobile: rest just below the top
+  const resting = isDesktop ? centered : minTop + Math.max(0, (centered - minTop) * 0.35);
   dialog.style.top = `${Math.max(minTop, resting)}px`;
 }
 
@@ -65,8 +69,6 @@ async function appendTranscriptFragment(panel, fragmentPath, closeEl) {
     console.error('Transcript fragment loading failed', error);
   } finally {
     if (closeEl) panel.append(closeEl);
-    // fragment/close change the panel height; re-center if the panel is open
-    if (!panel.hidden) positionVideoModal(panel);
   }
 }
 
@@ -89,7 +91,7 @@ function buildTranscript(paragraphs, fragmentPath) {
     const open = button.getAttribute('aria-expanded') === 'true';
     button.setAttribute('aria-expanded', String(!open));
     panel.hidden = open;
-    positionVideoModal(button); // height changed — re-center/re-pin
+    // no reposition here: the modal keeps its resting top and grows downward
   });
 
   // Source parity: a "Close the transcript" control mirrors the toggle. It sits
