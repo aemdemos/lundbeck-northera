@@ -29,33 +29,24 @@
    correct regardless of surrounding paragraph count.
    ══════════════════════════════════════════════════════════════ */
 
+/* No side margin/padding of its own at any breakpoint — deliberately. This
+   lets isi-video inherit whichever inset its host container happens to use
+   (accordion-item-body's own 25px at ≤768px, the transcript accordion's
+   ambient 8% margin at ≥769px, the modal's own inset, etc.), so it always
+   lines up with the plain transcript paragraphs immediately around it
+   (verified against stage — the ISI text and the surrounding dialogue share
+   one common left/right edge at every width, not a fixed inset of its own).
+   An earlier version of this file added an explicit ≥769px override to
+   match the real .isi block's own flat 25px padding — that made isi-video's
+   own edge correct in isolation, but it no longer moved together with the
+   ambient inset the surrounding transcript text uses, so the two drifted
+   apart above 769px. Removed for that reason; do not reintroduce a
+   viewport-width-based override here without re-checking alignment against
+   the transcript text at every breakpoint, not just against the standalone
+   .isi block's own convention. */
 .isi-video {
   color: var(--isi-body-color);
   font-family: var(--isi-body-font);
-}
-
-/* video-tokens.css gives the whole transcript accordion an ambient 8% side
-   margin at ≥768px (.video-wrapper + .accordion-wrapper .accordion) — right
-   for the transcript's own dialogue text, but the real .isi block never
-   scales its side inset with viewport width (isi-tokens.css's
-   --isi-section-padding-x is a flat 25px at every breakpoint, unconditional
-   in isi.css). Cancel the ambient margin here so isi-video matches. The
-   negative margin is a child of the already-narrowed accordion box, so the
-   outer 8% must be re-expressed as a % of that narrowed 84% box: -100%*8/84
-   (same cancel-an-ambient-gutter technique as blocks/quote/quote.css).
-   Scoped to .accordion .isi-video — a no-op in the video-card modal, which
-   has no such ambient margin to begin with.
-   Threshold is ≥769px, not ≥768px, to line up with accordion-tokens.css's
-   own cutover (its native 25px .accordion-item-body padding runs through
-   ≤768px, then drops to 0 at ≥769px) — matching video-tokens.css's ≥768px
-   exactly would double up with that native padding for one pixel-width. */
-@media (width >= 769px) {
-  .accordion .isi-video {
-    margin-left: calc(-1 * 100% * 8 / 84);
-    margin-right: calc(-1 * 100% * 8 / 84);
-    padding-left: 25px;
-    padding-right: 25px;
-  }
 }
 
 /* ── Typography ─────────────────────────────────────────────── */
