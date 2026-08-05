@@ -75,7 +75,7 @@ main .isi p b,
 main .isi p strong {
   color: var(--isi-heading-color);
   font-family: var(--isi-heading-font);
-  font-weight: 400;
+  font-weight: unset;
 }
 
 main .isi.isi-use p:first-child b,

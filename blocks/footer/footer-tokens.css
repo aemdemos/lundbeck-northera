@@ -68,7 +68,7 @@
     --footer-link-hover-decoration: none; /* set to underline for plain-list sites */ /* @boilerplate */
     --footer-link-font-size: 14px; /* mobile */ /* @boilerplate */
     --footer-link-font-size-desktop: 16px; /* @boilerplate */
-    --footer-link-font-weight: 600; /* @boilerplate */
+    --footer-link-font-weight: unset; /* @boilerplate */
     --footer-link-line-height: 22px; /* @boilerplate */
     --footer-link-gap: 40px; /* horizontal space between links (desktop row) */ /* @boilerplate */
     --footer-link-mobile-gap: 10px; /* vertical gap when stacked on mobile */ /* @boilerplate */
