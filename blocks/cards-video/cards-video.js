@@ -31,15 +31,9 @@ function buildPlayer(href) {
   return wrapper;
 }
 
-/**
- * Positions the video modal's <dialog> vertically ONCE, based on its collapsed
- * height (player + toggle) — the transcript panel is measured while hidden so
- * the resting position never depends on it. Expanding the transcript then just
- * grows the modal downward from this fixed top (source parity: no upward shift).
- * Desktop centers the collapsed modal; mobile rests a little below the top.
- * A showModal() dialog is in the top layer, so this can't be done in CSS alone.
- * @param {HTMLElement} el any element inside the modal content
- */
+// Sets the modal's top once from its collapsed height (panel measured hidden),
+// so expanding the transcript grows it downward with no upward shift. Desktop
+// centers; mobile rests just below the top. Top-layer dialog — can't be CSS.
 function positionVideoModal(el) {
   const dialog = el.closest('dialog');
   if (!dialog) return;
@@ -57,22 +51,21 @@ function positionVideoModal(el) {
   dialog.style.top = `${Math.max(minTop, resting)}px`;
 }
 
-// Loads the transcript's ISI fragment into the panel. The modal is built after
-// page load, so it never passes through the page-level buildAutoBlocks(). The
-// optional closeEl is re-appended last so it stays at the very bottom.
-async function appendTranscriptFragment(panel, fragmentPath, closeEl) {
+// Fetches a fresh copy of the ISI fragment's .isi-video (styled by the global
+// isi-video.css). Own copy because the page's auto-loader would leave a stale ref.
+async function loadIsiVideo(isiFragmentHref) {
   try {
-    const fragment = await loadFragment(fragmentPath);
-    if (fragment) panel.append(...fragment.childNodes);
+    const { pathname } = new URL(isiFragmentHref, window.location.href);
+    const frag = await loadFragment(pathname);
+    return frag?.querySelector('.isi-video') || null;
   } catch (error) {
     // eslint-disable-next-line no-console
-    console.error('Transcript fragment loading failed', error);
-  } finally {
-    if (closeEl) panel.append(closeEl);
+    console.error('ISI fragment loading failed', error);
+    return null;
   }
 }
 
-function buildTranscript(paragraphs, fragmentPath) {
+async function buildTranscript(paragraphs, isiFragmentHref) {
   const details = document.createElement('div');
   details.className = 'cards-video-transcript-accordion';
 
@@ -87,6 +80,11 @@ function buildTranscript(paragraphs, fragmentPath) {
   panel.hidden = true;
   paragraphs.forEach((p) => panel.append(p.cloneNode(true)));
 
+  if (isiFragmentHref) {
+    const isiVideo = await loadIsiVideo(isiFragmentHref);
+    if (isiVideo) panel.append(isiVideo);
+  }
+
   button.addEventListener('click', () => {
     const open = button.getAttribute('aria-expanded') === 'true';
     button.setAttribute('aria-expanded', String(!open));
@@ -94,32 +92,21 @@ function buildTranscript(paragraphs, fragmentPath) {
     // no reposition here: the modal keeps its resting top and grows downward
   });
 
-  // Source parity: a "Close the transcript" control mirrors the toggle. It sits
-  // at the very end of the panel — below the ISI fragment, so it is appended
-  // after the fragment loads (see appendTranscriptFragment).
-  const close = isTranscriptLabel(button.textContent)
-    ? buildTranscriptClose(() => {
+  // "Close the transcript" control at the end of the panel, mirroring the toggle.
+  if (isTranscriptLabel(button.textContent)) {
+    panel.append(buildTranscriptClose(() => {
       button.setAttribute('aria-expanded', 'false');
       panel.hidden = true;
       button.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    })
-    : null;
-
-  if (fragmentPath) {
-    appendTranscriptFragment(panel, fragmentPath, close);
-  } else if (close) {
-    panel.append(close);
+    }));
   }
 
   details.append(button, panel);
   return details;
 }
 
-/**
- * Read the deep-link anchor for a video card. The parser appends the source
- * anchor (e.g. #howiuse) as a fragment on the player URL; fall back to a
- * videoId-derived hash if none is present.
- */
+// Deep-link anchor for a card: the #fragment on the player URL (e.g. #howiuse),
+// falling back to a videoId-derived hash.
 function hashFromHref(href) {
   if (!href) return '';
   const frag = href.split('#')[1];
@@ -128,11 +115,10 @@ function hashFromHref(href) {
   return m ? `video-${m[1]}` : '';
 }
 
-function getHeadingText(bodyCell, link) {
+function getHeadingInfo(bodyCell, link) {
   const heading = bodyCell ? bodyCell.querySelector('h2, h3, h4') : null;
-  if (heading) return heading.textContent.trim();
-  if (link) return link.textContent.trim();
-  return '';
+  if (heading) return { text: heading.textContent.trim(), tag: heading.tagName.toLowerCase() };
+  return { text: link ? link.textContent.trim() : '', tag: 'h3' };
 }
 
 function getTranscriptParas(bodyCell, link) {
@@ -144,31 +130,20 @@ function getTranscriptParas(bodyCell, link) {
   ));
 }
 
-// Safe same-origin pathname of the transcript's `/fragments/…` link (ISI),
-// mirroring any `/content` prefix like scripts.js does. Returns '' if none.
-function getFragmentPath(bodyCell) {
-  if (!bodyCell) return '';
-
-  const fragmentLink = bodyCell.querySelector('a[href*="/fragments/"]');
-  if (!fragmentLink) return '';
-
-  try {
-    const { pathname } = new URL(fragmentLink.getAttribute('href'), window.location.href);
-    if (!/^\/(content\/)?fragments\/[a-z0-9/-]+$/i.test(pathname)) return '';
-    const contentPrefix = window.location.pathname.startsWith('/content/')
-      && !pathname.startsWith('/content/') ? '/content' : '';
-    return `${contentPrefix}${pathname}`;
-  } catch {
-    return '';
-  }
+// The ISI is authored as a bare /fragments/ link; getTranscriptParas already
+// excludes it from the display paragraphs.
+function getIsiFragmentHref(bodyCell) {
+  if (!bodyCell) return null;
+  const isiLink = bodyCell.querySelector(':scope > p > a[href*="/fragments/"]');
+  return isiLink ? isiLink.getAttribute('href') : null;
 }
 
-async function openVideoModal(href, hash, transcriptParas, fragmentPath) {
+async function openVideoModal(href, hash, transcriptParas, isiFragmentHref) {
   const content = document.createElement('div');
   content.className = 'cards-video-modal-content';
   content.append(buildPlayer(href));
-  if ((transcriptParas && transcriptParas.length) || fragmentPath) {
-    content.append(buildTranscript(transcriptParas || [], fragmentPath));
+  if ((transcriptParas && transcriptParas.length) || isiFragmentHref) {
+    content.append(await buildTranscript(transcriptParas, isiFragmentHref));
   }
 
   const { showModal } = await createModal([content]);
@@ -220,7 +195,7 @@ function getSafeHash() {
   return rawHash;
 }
 
-function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo, fragmentPath) {
+function createCard(imageCell, href, hash, headingText, headingTag, transcriptParas, isiFragmentHref, isVideo) {
   const li = document.createElement('li');
   const trigger = document.createElement('a');
   trigger.className = 'cards-video-link';
@@ -238,7 +213,7 @@ function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo
 
   const desc = document.createElement('div');
   desc.className = 'cards-video-body';
-  const heading = document.createElement('h3');
+  const heading = document.createElement(headingTag);
   heading.textContent = headingText;
   desc.append(heading);
   trigger.append(desc);
@@ -247,7 +222,7 @@ function createCard(imageCell, href, hash, headingText, transcriptParas, isVideo
     if (hash) trigger.dataset.hash = hash;
     trigger.addEventListener('click', (e) => {
       e.preventDefault();
-      openVideoModal(href, hash, transcriptParas, fragmentPath);
+      openVideoModal(href, hash, transcriptParas, isiFragmentHref);
     });
   }
 
@@ -264,17 +239,17 @@ function buildCardFromRow(row) {
   const href = getSafeVideoHref(rawHref);
   const isVideo = Boolean(href);
   const hash = isVideo ? hashFromHref(href) : null;
-  const headingText = getHeadingText(bodyCell, link);
+  const { text: headingText, tag: headingTag } = getHeadingInfo(bodyCell, link);
   const transcriptParas = getTranscriptParas(bodyCell, link);
-  const fragmentPath = getFragmentPath(bodyCell);
+  const isiFragmentHref = getIsiFragmentHref(bodyCell);
 
   return {
     hash,
     href,
     isVideo,
     transcriptParas,
-    fragmentPath,
-    li: createCard(imageCell, href, hash, headingText, transcriptParas, isVideo, fragmentPath),
+    isiFragmentHref,
+    li: createCard(imageCell, href, hash, headingText, headingTag, transcriptParas, isiFragmentHref, isVideo),
   };
 }
 
@@ -287,7 +262,7 @@ export default function decorate(block) {
     ul.append(card.li);
     if (card.isVideo && card.hash && card.href) {
       videoEntries.set(card.hash, {
-        open: () => openVideoModal(card.href, card.hash, card.transcriptParas, card.fragmentPath),
+        open: () => openVideoModal(card.href, card.hash, card.transcriptParas, card.isiFragmentHref),
       });
     }
   });
@@ -300,8 +275,7 @@ export default function decorate(block) {
   block.textContent = '';
   block.append(ul);
 
-  // Deep-link support: opening the page with a matching hash (e.g. #howiuse)
-  // opens that video, matching the source's deep-linkable behavior.
+  // Deep-link: a matching hash (e.g. #howiuse) opens that video on load.
   const openFromHash = () => {
     const hash = getSafeHash();
     if (!hash) return;
