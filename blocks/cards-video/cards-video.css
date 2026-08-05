@@ -184,12 +184,14 @@ body.modal-open:has(.cards-video-modal-content) {
   padding-bottom: 20px;
 }
 
-.cards-video-modal-content .cards-video-transcript-panel p {
-  margin: 0 0 12px;
+/* transcript dialogue only (direct children) — the ISI fragment's nested
+   paragraphs are styled separately and left untouched here */
+.cards-video-modal-content .cards-video-transcript-panel > p {
+  margin: 0 0 25px;
   color: var(--brand-grey);
   font-family: var(--body-font-family);
   font-size: 16px;
-  line-height: 22px;
+  line-height: 20px;
 }
 
 /* "Close the transcript" — mirrors the toggle button's presentation, with a
