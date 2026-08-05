@@ -164,7 +164,6 @@ body.modal-open:has(.cards-video-modal-content) {
   color: var(--brand-cyan);
   font-family: var(--body-font-family); /* gotham-medium (~500) */
   font-size: 18px;
-  font-weight: 500;
   text-align: left;
   cursor: pointer;
 }
@@ -206,7 +205,6 @@ body.modal-open:has(.cards-video-modal-content) {
   font-family: var(--body-font-family); /* gotham-medium (~500) */
   font-size: 24px;
   line-height: 34.29px;
-  font-weight: 500;
   cursor: pointer;
 }
 
