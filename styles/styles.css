@@ -1222,7 +1222,7 @@ main .section.sitemap .columns > div > div > ul > li > p > a {
   font-family: var(--heading-font-family);
   font-size: 18px;
   line-height: 22px;
-  font-weight: 700;
+  font-weight: unset;
   text-decoration: none;
 }
 
