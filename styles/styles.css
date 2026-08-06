@@ -69,9 +69,9 @@
   --heading-font-family: gotham-bold, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
   --heading-heavy-font-family: gotham-black, gotham-fallback, arial, "helvetica neue", helvetica, sans-serif;
   --body-line-height: 1.25;
-  --heading-font-weight: 700;
+  --heading-font-weight: unset;
   --heading-line-height: 1.2;
-  --font-weight-bold: 700;
+  --font-weight-bold: unset;
   --block-margin-top: 0.8em;
   --block-margin-bottom: 0.25em;
 
@@ -281,7 +281,7 @@ h6 {
   color: var(--brand-primary);
 }
 
-h1 {
+h1, .size-h1 {
   font-size: var(--heading-font-size-xxl);
   line-height: 24px;
   color: var(--brand-primary);
@@ -291,7 +291,7 @@ h1 {
   text-align: center;
 }
 
-h2 {
+h2, .size-h2 {
   font-size: 18px;
   line-height: 22px;
   color: var(--brand-primary);
@@ -307,7 +307,7 @@ main .default-content-wrapper h2 {
   font-family: var(--body-font-family);
 }
 
-h3 {
+h3, .size-h3 {
   font-size: var(--heading-font-size-xl);
   font-family: var(--body-font-family);
   font-weight: 500;
@@ -316,14 +316,15 @@ h3 {
   margin-bottom: 0;
 }
 
-h4 {
+h4, .size-h4 {
   font-size: var(--heading-font-size-m);
+  font-family: var(--body-font-family);
   font-weight: var(--font-weight-bold);
   line-height: 1.2;
   color: var(--brand-primary);
 }
 
-h5 {
+h5, .size-h5 {
   font-size: var(--heading-font-size-s);
   font-family: var(--body-font-family);
   font-weight: 500;
@@ -331,15 +332,16 @@ h5 {
   color: var(--text-color);
 }
 
-h6 {
+h6, .size-h6 {
   font-size: var(--heading-font-size-xs);
   font-weight: var(--font-weight-bold);
   color: var(--text-color);
 }
 
 /* bold inline text uses Gotham-Bold (source parity) */
-strong {
+b, strong {
   font-family: var(--heading-font-family);
+  font-weight: unset;
 }
 
 p,
@@ -347,9 +349,11 @@ dl,
 ol,
 ul,
 pre,
-blockquote {
+blockquote,
+.size-p {
   margin-top: var(--block-margin-top);
   margin-bottom: var(--block-margin-bottom);
+  font-size: var(--body-font-size-s);
 }
 
 /* body copy on white uses brand blue on the source */
@@ -826,7 +830,7 @@ main > .section > div { /* @libs */
    inset 15px on phones; full-bleed wrappers (bg images, ISI, embeds, CTA cards,
    columns-banner) manage their own spacing and are excluded so images/bands
    still go edge-to-edge. Desktop applies the ~11% gutter (see ≥900px block). */
-main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .hero-wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal, .search-results), :has(.quote.patient),:has(.hero-patient)) {
+main > .section > div:not(.bg-image, .isi-wrapper, embed.wrapper, .hero-wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.columns.hero), :has(.hero-hcp-internal, .search-results), :has(.quote.patient),:has(.hero-patient)) {
   padding: 0 15px;
 }
 
@@ -1220,7 +1224,7 @@ main .section.sitemap .columns > div > div > ul > li > p > a {
   font-family: var(--heading-font-family);
   font-size: 18px;
   line-height: 22px;
-  font-weight: 700;
+  font-weight: unset;
   text-decoration: none;
 }
 
@@ -1513,7 +1517,7 @@ main .section.accent h6 {
   }
 
   
-  main > .section > div:not(.bg-image, .hero-wrapper, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal), :has(.search-results),:has(.hero-patient), :has(.quote.patient)) {
+  main > .section > div:not(.bg-image, .hero-wrapper, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.columns.hero), :has(.hero-hcp-internal), :has(.search-results),:has(.hero-patient)) {
     padding: 0 7%;
   }
 
