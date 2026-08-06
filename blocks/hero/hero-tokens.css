@@ -75,3 +75,29 @@
   --hero-panel-height: 160px;
   }
 }
+
+.hero.treatment .hero-panel {
+  height: auto;
+  aspect-ratio: 1280 / 360;
+}
+
+.hero.treatment .hero-panel-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.hero.treatment .hero-panel-bg img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero.treatment .hero-panel-content img {
+  opacity: 1;
+}
+
+/* Fluid heading that tracks the banner height (source has no drop shadow) */
+.hero.treatment h1 {
+  font-size: clamp(24px, 4vw, 50px);
+  text-shadow: none;
+}
