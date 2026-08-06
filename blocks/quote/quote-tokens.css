@@ -23,7 +23,6 @@
   /* grey banner fills the (un-guttered) wrapper edge-to-edge */
   margin: 0;
   width: 100%;
-  background-color: var(--page-bg-muted);
   padding: 0 0 30px;
 }
 
