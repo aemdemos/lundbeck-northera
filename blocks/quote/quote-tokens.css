@@ -23,7 +23,7 @@
   /* grey banner fills the (un-guttered) wrapper edge-to-edge */
   margin: 0;
   width: 100%;
-  background-color: #f3f5f8;
+  background-color: var(--page-bg-muted);
   padding: 0 0 30px;
 }
 
@@ -51,10 +51,9 @@
 .quote.patient .quote-quotation p {
   order: 1;
   color: var(--brand-blue);
-  font-family: var(--body-font-family-quote);
+  font-family: var(--heading-font-family);
   font-size: 16px;
   line-height: 20px;
-  font-weight: 400;
 }
 
 .quote.patient .quote-quotation {
@@ -68,7 +67,6 @@
   font-family: var(--body-font-family);
   font-size: 16px;
   line-height: 20px;
-  font-weight: 500;
   text-align: left;
 }
 
@@ -112,12 +110,14 @@
 
     /* un-guttered wrapper → banner fills the content column, clear of the ISI
        rail. Height tracks the wide crop's aspect ratio; the floor guarantees
-       room for the overlaid quote + attribution at narrow tablet widths. */
+       room for the overlaid quote + attribution. At tablet the source banner is
+       ~925px tall (taller image, more breathing room around the text); the wider
+       desktop breakpoint below relaxes this back to the crop's natural ratio. */
     width: 100%;
     max-width: none;
     margin: 0;
     aspect-ratio: 1325 / 521;
-    min-height: 420px;
+    min-height: 925px;
   }
 
   .quote.patient .quote-photo-mobile {
@@ -177,7 +177,14 @@
 }
 
 @media (width >= 992px) {
-.quote.patient .quote-overlay {
-padding: 24px 0 24px 10%;
-}
+  .quote.patient .quote-overlay {
+    padding: 24px 0 24px 10%;
+  }
+
+  /* desktop: the wide crop has room to breathe, so drop the tall tablet floor
+     and let the crop's natural aspect ratio govern the banner height (source
+     desktop banner ≈ 522px). */
+  .quote.patient blockquote {
+    min-height: 420px;
+  }
 }
