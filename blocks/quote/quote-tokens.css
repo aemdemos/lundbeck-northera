@@ -4,3 +4,175 @@
   --quote-padding: 0 var(--spacing-m); /* @boilerplate */
   --quote-padding-desktop: 0 var(--spacing-l); /* @boilerplate */
 }
+
+/* ══════════════════════════════════════════════════════════════
+   quote-patient — patient story banner (Bob). Measured from source.
+   Mobile (default): light-grey banner (#f3f5f8) — patient photo (Bob_m.png)
+   on TOP, then the pull-quote and attribution below (both Gotham-Medium
+   16px/20 brand-blue; quote wrapped in curly quotes).
+   Tablet+ (≥768px): the wide crop fills a cover banner and the quote +
+   attribution (18px/23 brand-blue) overlay it on the left in a ~415px column.
+   Scoped with the extra .patient class so these rules outrank the base .quote
+   boilerplate regardless of this file being imported first.
+   ══════════════════════════════════════════════════════════════ */
+.quote.patient blockquote {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--max-width-site);
+
+  /* grey banner fills the (un-guttered) wrapper edge-to-edge */
+  margin: 0;
+  width: 100%;
+  background-color: #f3f5f8;
+  padding: 0 0 30px;
+}
+
+/* mobile: photo on top (source order), text below */
+.quote.patient .quote-photo {
+  order: 0;
+  text-align: center;
+  margin: 0 0 20px;
+  width: 100%;
+  max-width: none;
+}
+
+.quote.patient .quote-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* mobile shows the portrait crop; the wide desktop crop is hidden */
+.quote.patient .quote-photo-desktop {
+  display: none;
+}
+
+.quote.patient .quote-quotation,
+.quote.patient .quote-quotation p {
+  order: 1;
+  color: var(--brand-blue);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.quote.patient .quote-quotation {
+  padding: 0 15px;
+}
+
+.quote.patient .quote-attribution,
+.quote.patient .quote-attribution p {
+  order: 2;
+  color: var(--brand-blue);
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.quote.patient .quote-attribution {
+  /* reset the base quote's 36px left indent so the attribution aligns to the
+     quotation's left edge (source), not stepped in from it */
+  margin-left: 0;
+  padding: 10px 15px 0;
+}
+
+/* source wraps the pull-quote in curly quotes; our parsed text has none, so
+   add them via CSS (matches the base quote block, which the variant reset). */
+.quote.patient .quote-quotation p:first-child::before {
+  content: '“';
+}
+
+.quote.patient .quote-quotation p:last-child::after {
+  content: '”';
+}
+
+.quote.patient .quote-attribution p:first-child::before {
+  /* source sets the em-dash flush against the name ("—BOB"); override the base
+     quote rule's 0.5ch gap */
+  content: '—';
+  padding-right: 0;
+}
+
+/* tablet+ (≥768px): match the source's #patient-banner — the wide
+   farmers-market crop fills the banner (background-size: cover) with the quote +
+   attribution overlaid on the left. The banner height follows the image's
+   natural aspect ratio (no cropping when the column is wide enough), with a
+   min-height floor so the overlaid text always fits without collision; when the
+   floor forces the banner taller than the natural ratio, object-fit: cover fills
+   it — the same behaviour as the source. */
+@media (width >= 768px) {
+  .quote.patient blockquote {
+    position: relative;
+    padding: 0;
+    background-color: transparent;
+    overflow: hidden;
+
+    /* un-guttered wrapper → banner fills the content column, clear of the ISI
+       rail. Height tracks the wide crop's aspect ratio; the floor guarantees
+       room for the overlaid quote + attribution at narrow tablet widths. */
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    aspect-ratio: 1325 / 521;
+    min-height: 420px;
+  }
+
+  .quote.patient .quote-photo-mobile {
+    display: none;
+  }
+
+  /* wide crop fills the banner as a cover layer behind the overlaid text */
+  .quote.patient .quote-photo-desktop {
+    display: block;
+    order: 0;
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .quote.patient .quote-photo-desktop img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* overlay column on the left (source: ~415px, ~12% left inset). It fills the
+     banner height and the quote + attribution flow within it (quote pinned to
+     the top, attribution to the bottom via space-between) so they never collide
+     regardless of the banner's height. Fixed vertical insets (not percentages,
+     which resolve against width and would overrun a short banner). */
+  .quote.patient .quote-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 415px;
+    max-width: 45%;
+    padding: 24px 0 24px 12%;
+    z-index: 1;
+  }
+
+  .quote.patient .quote-overlay .quote-quotation,
+  .quote.patient .quote-overlay .quote-attribution {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* quote + attribution both brand-blue 18px/23 (source desktop text) */
+  .quote.patient .quote-quotation,
+  .quote.patient .quote-quotation p,
+  .quote.patient .quote-attribution,
+  .quote.patient .quote-attribution p {
+    font-size: 18px;
+    line-height: 23px;
+    color: var(--brand-blue);
+  }
+}

@@ -1513,7 +1513,7 @@ main .section.accent h6 {
   }
 
   
-  main > .section > div:not(.bg-image, .hero-wrapper, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal), :has(.search-results),:has(.hero-patient)) {
+  main > .section > div:not(.bg-image, .hero-wrapper, .isi-wrapper, embed.wrapper, .cards-cta-wrapper, .specialist-search-wrapper, :has(.columns-banner), :has(.columns.teaser), :has(.hero-hcp-internal), :has(.search-results),:has(.hero-patient), :has(.quote.patient)) {
     padding: 0 7%;
   }
 
