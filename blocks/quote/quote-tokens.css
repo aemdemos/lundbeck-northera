@@ -27,6 +27,11 @@
   padding: 0 0 30px;
 }
 
+.quote-container .default-content-wrapper p{
+  margin-bottom: 50px;
+  padding: 0 40px;
+}
+
 /* mobile: photo on top (source order), text below */
 .quote.patient .quote-photo {
   order: 0;
@@ -116,8 +121,7 @@
     width: 100%;
     max-width: none;
     margin: 0;
-    aspect-ratio: 1325 / 521;
-    min-height: 925px;
+    min-height: 600px;
   }
 
   .quote.patient .quote-photo-mobile {
@@ -140,7 +144,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center top;
   }
 
   /* overlay column on the left (source: ~415px, ~12% left inset). It fills the
@@ -185,6 +189,6 @@
      and let the crop's natural aspect ratio govern the banner height (source
      desktop banner ≈ 522px). */
   .quote.patient blockquote {
-    min-height: 420px;
+    min-height: 480px;
   }
 }
