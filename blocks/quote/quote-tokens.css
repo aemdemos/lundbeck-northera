@@ -23,12 +23,11 @@
   /* grey banner fills the (un-guttered) wrapper edge-to-edge */
   margin: 0;
   width: 100%;
-  padding: 0 0 30px;
+  padding: 0;
 }
 
-.quote-container .default-content-wrapper p{
-  margin-bottom: 50px;
-  padding: 0 40px;
+.quote-overlay {
+background-color: var(--page-bg-muted); 
 }
 
 /* mobile: photo on top (source order), text below */
@@ -72,13 +71,14 @@
   font-size: 16px;
   line-height: 20px;
   text-align: left;
+  margin-bottom: 0;
 }
 
 .quote.patient .quote-attribution {
   /* reset the base quote's 36px left indent so the attribution aligns to the
      quotation's left edge (source), not stepped in from it */
   margin-left: 0;
-  padding: 10px 15px 0;
+  padding: 10px 15px 30px;
 }
 
 /* source wraps the pull-quote in curly quotes; our parsed text has none, so
@@ -98,6 +98,14 @@
   padding-right: 0;
 }
 
+ .quote.patient .quote-photo-mobile {
+    margin: unset;
+  }
+
+  .quote-container .default-content-wrapper p {
+    margin-bottom: 50px;
+  }
+
 /* tablet+ (≥768px): match the source's #patient-banner — the wide
    farmers-market crop fills the banner (background-size: cover) with the quote +
    attribution overlaid on the left. The banner height follows the image's
@@ -106,6 +114,14 @@
    floor forces the banner taller than the natural ratio, object-fit: cover fills
    it — the same behaviour as the source. */
 @media (width >= 768px) {
+ .quote-container .default-content-wrapper p {
+    padding: 0 40px;
+  }
+
+  .quote-overlay {
+   background-color: unset; 
+  }
+
   .quote.patient blockquote {
     position: relative;
     padding: 0;
