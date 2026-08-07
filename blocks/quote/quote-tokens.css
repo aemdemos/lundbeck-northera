@@ -34,7 +34,6 @@ background-color: var(--page-bg-muted);
 .quote.patient .quote-photo {
   order: 0;
   text-align: center;
-  margin: 0 0 20px;
   width: 100%;
   max-width: none;
 }
@@ -103,7 +102,15 @@ background-color: var(--page-bg-muted);
   }
 
   .quote-container .default-content-wrapper p {
-    margin-bottom: 50px;
+    margin-top: 30px;
+  }
+
+  .quote.patient .quote-quotation p{
+  padding-top: 10px;
+}
+
+ .quote-container .default-content-wrapper:first-of-type p {
+    margin-bottom: 30px;
   }
 
 /* tablet+ (≥768px): match the source's #patient-banner — the wide
@@ -117,6 +124,10 @@ background-color: var(--page-bg-muted);
  .quote-container .default-content-wrapper p {
     padding: 0 40px;
   }
+
+.quote-container .default-content-wrapper:first-of-type p {
+    margin-bottom: 50px;
+ }
 
   .quote-overlay {
    background-color: unset; 
