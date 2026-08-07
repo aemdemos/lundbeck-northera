@@ -48,6 +48,16 @@ export default async function decorate(block) {
       em.replaceWith(cite);
     });
   }
+  // patient variant: group the quotation + attribution into one overlay column
+  // so they flow together over the photo (never collide) regardless of the
+  // banner's height at narrow desktop widths. CSS positions .quote-overlay.
+  if (block.classList.contains('patient') && attribution) {
+    const overlay = document.createElement('div');
+    overlay.className = 'quote-overlay';
+    quotation.before(overlay);
+    overlay.append(quotation, attribution);
+  }
+
   block.innerHTML = '';
   block.append(blockquote);
 }
