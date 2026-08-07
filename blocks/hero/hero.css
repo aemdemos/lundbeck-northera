@@ -26,6 +26,10 @@ main > .section.hero-container {
   padding-top: 16px;
 }
 
+.hero.treatment .hero-panels {
+  padding-top: 0;
+}
+
 .hero-panel {
   position: relative;
   overflow: hidden;
@@ -208,6 +212,31 @@ main > .section.hero-container {
   width: 80%;
   margin: 0 auto;
   padding-top: 0;
+}
+
+.hero.treatment .hero-panel-content {
+  inset: auto;
+  top: 10%;
+  left: 7%;
+  padding: 0;
+  display: table;
+}
+
+.hero.treatment .hero-panel-description {
+  display: table;
+  margin: 0;
+}
+
+.hero.treatment .hero-panel-description > p:first-child {
+  display: table-cell;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.hero.treatment h1 {
+  display: table-cell;
+  vertical-align: middle;
+  padding-left: 30px;
 }
 
 
@@ -416,6 +445,12 @@ main > .section.hero-container {
 
   .hero .hero-panel-cta-wrap {
     bottom: 50px;
+  }
+
+  .hero.treatment .hero-panel-content {
+    top: 17%;
+    left: 2%;
+    padding: 0;
   }
 
   .hero .hero-panel-dark .hero-panel-description > p {
