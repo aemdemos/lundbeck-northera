@@ -72,24 +72,17 @@ export function focusProviderOnMap(providerId) {
 }
 
 
-export function showLocationOnMap(lat,lng,zoom = 12) {
+export function showLocationOnMap(lat, lng, zoom = 12) {
   // Remove existing marker
   if (activeMarker) {
     activeMarker.setMap(null);
   }
 
-  activeMarker = new google.maps.Marker({
-    position: {
-      lat: Number(lat),
-      lng: Number(lng),
-    },
-    map,
-  });
+  const position = { lat: Number(lat), lng: Number(lng) };
 
-  map.panTo({
-    lat: Number(lat),
-    lng: Number(lng),
-  });
+  activeMarker = new google.maps.Marker({ position, map });
+
+  map.panTo(position);
 
   map.setZoom(zoom);
 }
