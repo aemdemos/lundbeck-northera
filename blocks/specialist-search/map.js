@@ -40,7 +40,11 @@ export async function getCoordsAsync(zipCode) {
 
 
 // NOTE: `markers` is never populated (nothing calls markers.set(...) in this
-
+// file) — per-provider pin markers were never wired up as a feature, so
+// registerProviderMarkers/focusProviderOnMap are currently no-ops. Sonar
+// correctly flags this as dead code. Suppressing rather than implementing
+// marker population here, since that would be a functional addition, not a
+// lint fix — flag if per-provider markers should actually be built out.
 export function registerProviderMarkers() {
   // eslint-disable-next-line sonarjs/no-empty-collection
   markers.forEach((marker) => {
