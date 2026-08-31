@@ -40,11 +40,7 @@ export async function getCoordsAsync(zipCode) {
 
 
 // NOTE: `markers` is never populated (nothing calls markers.set(...) in this
-// file) — per-provider pin markers were never wired up as a feature, so
-// registerProviderMarkers/focusProviderOnMap are currently no-ops. Sonar
-// correctly flags this as dead code. Suppressing rather than implementing
-// marker population here, since that would be a functional addition, not a
-// lint fix — flag if per-provider markers should actually be built out.
+
 export function registerProviderMarkers() {
   // eslint-disable-next-line sonarjs/no-empty-collection
   markers.forEach((marker) => {
@@ -72,24 +68,17 @@ export function focusProviderOnMap(providerId) {
 }
 
 
-export function showLocationOnMap(lat,lng,zoom = 12) {
+export function showLocationOnMap(lat, lng, zoom = 12) {
   // Remove existing marker
   if (activeMarker) {
     activeMarker.setMap(null);
   }
 
-  activeMarker = new google.maps.Marker({
-    position: {
-      lat: Number(lat),
-      lng: Number(lng),
-    },
-    map,
-  });
+  const position = { lat: Number(lat), lng: Number(lng) };
 
-  map.panTo({
-    lat: Number(lat),
-    lng: Number(lng),
-  });
+  activeMarker = new google.maps.Marker({ position, map });
+
+  map.panTo(position);
 
   map.setZoom(zoom);
 }

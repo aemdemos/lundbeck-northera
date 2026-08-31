@@ -52,6 +52,10 @@ function getErrorElement(field, config) {
     return errorElement;
 }
 
+function getPreviewContainer(field) {
+    return field.closest(".ugc-upload-row")?.querySelector(".ugc-preview-container");
+}
+
 function showError(field, message, errorConfig) {
     const errorElement = getErrorElement(field, errorConfig);
     errorElement.textContent = message;
@@ -60,7 +64,7 @@ function showError(field, message, errorConfig) {
 
     // Highlight upload preview box
     if (field.type === "file") {
-        const previewContainer = field.closest(".ugc-upload-row")?.querySelector(".ugc-preview-container");
+        const previewContainer = getPreviewContainer(field);
         if (previewContainer) {
             previewContainer.classList.add("fv-file-error");
         }
@@ -74,7 +78,7 @@ function clearError(field, errorConfig) {
     field.classList.remove("fv-error");
     // Remove upload preview box highlight
     if (field.type === "file") {
-        const previewContainer = field.closest(".ugc-upload-row")?.querySelector(".ugc-preview-container");
+        const previewContainer = getPreviewContainer(field);
         if (previewContainer) {
             previewContainer.classList.remove("fv-file-error");
         }
@@ -184,6 +188,12 @@ function validateRule(ruleName, ruleValue, field, value, ruleConfig) {
     }
 }
 
+function resolveField(fieldName, ruleConfig, form) {
+    return ruleConfig.selector
+        ? document.querySelector(ruleConfig.selector)
+        : form.querySelector(`[name="${fieldName}"]`);
+}
+
 export async function initFormValidation(formSelector,config) {
     await waitForElement(formSelector);
     const form = document.querySelector(formSelector);
@@ -195,13 +205,7 @@ export async function initFormValidation(formSelector,config) {
     const validateField = (fieldName) => {
         // eslint-disable-next-line secure-coding/detect-object-injection -- ruleConfig is trusted, editor-authored validation config, not user input
         const ruleConfig = config.rules[fieldName];
-        let field;
-
-        if (ruleConfig.selector) {
-            field = document.querySelector(ruleConfig.selector);
-        } else {
-            field = form.querySelector(`[name="${fieldName}"]`);
-        }
+        const field = resolveField(fieldName, ruleConfig, form);
 
         if (!field) {
             return true;
@@ -281,7 +285,7 @@ export async function initFormValidation(formSelector,config) {
             if (!fieldValid && !firstInvalidField) {
                 // eslint-disable-next-line secure-coding/detect-object-injection -- trusted, editor-authored config
                 const ruleConfig = config.rules[fieldName];
-                firstInvalidField = ruleConfig.selector? document.querySelector(ruleConfig.selector): form.querySelector(`[name="${fieldName}"]`);
+                firstInvalidField = resolveField(fieldName, ruleConfig, form);
             }
 
             valid = valid && fieldValid;

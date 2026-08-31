@@ -55,9 +55,7 @@
 
 .specialist-search-helper p {
   margin: 0;
-  font-size: var(--body-font-size-ms);
-  line-height: 1.4;
-  font-family: var(--body-font-family);
+  font: var(--body-font-size-ms)/1.4 var(--body-font-family);
   color: var(--brand-grey);
 }
 
@@ -77,9 +75,7 @@
   border: 0;
   height: 46px;
   text-align: left;
-  font-size: 18px;
-  line-height: 22px !important;
-  font-family: var(--body-font-family); /* fontMedium */
+  font: 18px/22px var(--body-font-family) !important; /* fontMedium */
   color: #000; /* Black */
   border-radius: 0;
   box-sizing: border-box;
@@ -87,15 +83,12 @@
 
 .specialist-search-zip::before {
   content: "\e003";
-  font-family: glyphicons-halflings, sans-serif;
   position: absolute;
   left: 24px;
   top: 50%;
   transform: translateY(-50%) scaleX(-1);
-  font-size: 16px;
-  line-height: 1;
+  font: 400 16px/1 glyphicons-halflings, sans-serif;
   color: #969696;
-  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   pointer-events: none;
 }
@@ -168,10 +161,8 @@ img {
 .specialist-search-checkbox label {
   pointer-events: none;
   cursor: default;
-  font-size: var(--body-font-size-ms);
-  line-height: 1.5;
+  font: var(--body-font-size-ms)/1.5 var(--body-font-family);
   color: var(--brand-grey);
-  font-family: var(--body-font-family);
 }
 
 .specialist-search-checkbox label a {
@@ -205,10 +196,8 @@ img {
   cursor: pointer;
   background: #02bded;
   position: relative;
-  font-weight: 700;
   box-shadow: 1px 1px 0 #19527f, 2px 2px 0 #19527f, 3px 3px 0 #19527f, 4px 4px 0 #19527f, 5px 5px 0 #19527f;  margin-bottom: 15px;
-  font-size: var(--body-font-size-m);
-  font-family: var(--heading-heavy-font-family);
+  font: 700 var(--body-font-size-m) var(--heading-heavy-font-family);
   color: var(--brand-blue-dark);
   transition: background 0.2s ease, box-shadow 0.2s ease;
 }
@@ -243,9 +232,7 @@ img {
 /* Erros Messages */
 .form-error{
   color: #000;
-  font-size: 14px;
-  font-weight: bold;
-  font-family: var(--body-font-family);
+  font: bold 14px var(--body-font-family);
   display: block;
   padding-bottom: 10px;
 }
