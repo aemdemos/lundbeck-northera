@@ -273,8 +273,11 @@ function wrapWarningBox(contentRow) {
   if (!warningStart || warningStart.closest('.isi-warningbox')) return;
 
   const boxItems = [warningStart];
+  const siblings = [...contentRow.children];
+  const maxIterations = siblings.length;
   let next = warningStart.nextElementSibling;
-  while (next && next.tagName === 'P' && !/IMPORTANT SAFETY INFORMATION/i.test(next.textContent)) {
+  for (let i = 0; i < maxIterations && next; i += 1) {
+    if (next.tagName !== 'P' || /IMPORTANT SAFETY INFORMATION/i.test(next.textContent)) break;
     boxItems.push(next);
     next = next.nextElementSibling;
   }
